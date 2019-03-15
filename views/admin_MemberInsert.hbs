@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Insert Member</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+        crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
+        crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+                <div class="sidebar-header">
+                    <h3>COE REWARD</h3>
+                </div>
+    
+                <ul class="list-unstyled components">
+                    <p>All Functions</p>
+                    <li>
+                        <a href="#MemberSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Member</a>
+                        <ul class="collapse list-unstyled" id="MemberSubmenu">
+                            <li>
+                                <a href="http://localhost:3000/MemberInsert">Insert Member</a>
+                            </li>
+                            <li>
+                                <a href="http://localhost:3000/MemberAll">All Member</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#HouseSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">House</a>
+                        <ul class="collapse list-unstyled" id="HouseSubmenu">
+                            <li>
+                                <a href="http://localhost:3000/Bill">Bill Gates</a>
+                            </li>
+                            <li>
+                                <a href="http://localhost:3000/Larry">Larry Page</a>
+                            </li>
+                            <li>
+                                <a href="http://localhost:3000/Elon">Elon Mask</a>
+                            </li>
+                            <li>
+                                <a href="http://localhost:3000/Mark">Mark Zuckerberg</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#EventSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Event</a>
+                        <ul class="collapse list-unstyled" id="EventSubmenu">
+                            <li>
+                                <a href="#">Insert Event Content</a>
+                            </li>
+                            <li>
+                                <a href="#">Edit Event Content</a>
+                            </li>
+                            <li>
+                                <a href="#">Open/Close Event</a>
+                            </li>
+                            <li>
+                                <a href="#">Event Type</a>
+                            </li>
+                            <li>
+                                <a href="#">Created By</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#BehaviorSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Behavior</a>
+                        <ul class="collapse list-unstyled" id="BehaviorSubmenu">
+                            <li>
+                                <a href="#">Insert Behavior Content</a>
+                            </li>
+                            <li>
+                                <a href="#">Edit Behavior</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#PointSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Point</a>
+                        <ul class="collapse list-unstyled" id="PointSubmenu">
+                            <li>
+                                <a href="#">Increase By Group</a>
+                            </li>
+                            <li>
+                                <a href="#">Increase By Individual</a>
+                            </li>
+                            <li>
+                                <a href="#">Decrease</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#PointSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Rewards</a>
+                        <ul class="collapse list-unstyled" id="PointSubmenu">
+                            <li>
+                                <a href="#">Insert Reward content</a>
+                            </li>
+                            <li>
+                                <a href="#">Edit content</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Report</a>
+                    </li>
+    
+                </ul>
+    
+                <ul class="list-unstyled CTAs">
+                    <li>
+                        <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
+                    </li>
+                    <li>
+                        <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
+                    </li>
+                </ul>
+            </nav>
+
+        <!-- Page Content  -->
+        <div id="content">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                        <span>Menu</span>
+                    </button>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#">Log Out</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <h2>Insert Member</h2>
+            <div class="container">
+                <form action="http://localhost:3000/save" method="POST" enctype="multipart/form-data">
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="StudentID">Student ID</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="text" class="form-control" id="Member_ID" name="Member_ID" placeholder="Student ID">
+                        </div>
+                        <div class="col-2">
+                            <label for="Password">Password</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="password" class="form-control" id="Member_Password" name="Member_Password" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="FirstName">First Name</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="text" class="form-control" id="Member_Name" name="Member_Name" placeholder="First Name">
+                        </div>
+                        <div class="col-2">
+                            <label for="LastName">Last Name</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="text" class="form-control" id="Member_Lastname" name="Member_Lastname" placeholder="Last Name">
+                        </div>
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="House">House</label>
+                        </div>
+                        <div class="col-3">
+                            <select class="form-control" id="Member_House" name="Member_House">
+                                <option disabled selected>Please Select</option>
+                                <option value="Bill Gates">Bill Gates</option>
+                                <option value="Larry Page">Larry Page</option>
+                                <option value="Elon Mask">Elon Mask</option>
+                                <option value="Mark Zuckerberg">Mark Zuckerberg</option>
+                            </select>
+                        </div>
+                        <div class="col-2">
+                            <label for="House">Tel</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="number" class="form-control" id="Member_Tel" name="Member_Tel" placeholder="Telephone">
+                        </div>
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="House">Profile</label>
+                        </div>
+                        <div class="col-2">
+                            <input type="file" name="photos" multiple>
+                            {{!-- <input type="submit" value="upload"> --}}
+                        </div>
+                       
+                    </div>
+                    <div class="row m-4">
+                         <div class="col-2">
+                            <label for="House">Status</label>
+                        </div>
+                        <div class="col-3">
+                            <select class="form-control" id="Member_Status" name="Member_Status">
+                                <option disabled selected>Please Select</option>
+                                <option value="Active">Active</option>
+                                <option value="Non Active">Non Active</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row-4 text-center ">
+                            <button type="submit" value="upload" class="btn btn-primary btn-lg">SAVE</button>
+                    </div>
+                </form>
+            </div>
+            <div class="line"></div>
+
+        </div>
+    </div>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+        crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
+</body>
+
+</html>
