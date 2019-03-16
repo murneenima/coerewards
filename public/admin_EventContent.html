@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Insert Member</title>
+    <title>Event Content</title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
@@ -35,10 +35,10 @@
                         <a href="#MemberSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Member</a>
                         <ul class="collapse list-unstyled" id="MemberSubmenu">
                             <li>
-                                <a href="http://localhost:3000/MemberInsert">Insert Member</a>
+                                <a href="admin_MemberInsert.html">Insert Member</a>
                             </li>
                             <li>
-                                <a href="http://localhost:3000/MemberAll">All Member</a>
+                                <a href="admin_MemberAll.html">All Member</a>
                             </li>
                         </ul>
                     </li>
@@ -46,16 +46,16 @@
                         <a href="#HouseSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">House</a>
                         <ul class="collapse list-unstyled" id="HouseSubmenu">
                             <li>
-                                <a href="http://localhost:3000/Bill">Bill Gates</a>
+                                <a href="#">Bill Gates</a>
                             </li>
                             <li>
-                                <a href="http://localhost:3000/Larry">Larry Page</a>
+                                <a href="#">Larry Page</a>
                             </li>
                             <li>
-                                <a href="http://localhost:3000/Elon">Elon Mask</a>
+                                <a href="#">Elon Mas</a>
                             </li>
                             <li>
-                                <a href="http://localhost:3000/Mark">Mark Zuckerberg</a>
+                                <a href="#">Mark Zuckerberg</a>
                             </li>
                         </ul>
                     </li>
@@ -72,10 +72,10 @@
                                 <a href="#">Open/Close Event</a>
                             </li>
                             <li>
-                                <a href="http://localhost:3000/EventTypeDisplay">Event Type</a>
+                                <a href="#">Event Type</a>
                             </li>
                             <li>
-                                <a href="http://localhost:3000/CreatedByDisplay">Created By</a>
+                                <a href="#">Created By</a>
                             </li>
                         </ul>
                     </li>
@@ -156,43 +156,29 @@
                 </div>
             </nav>
 
-            <h2>Insert Member</h2>
+            <h2>Event Content</h2>
             <div class="container">
-                <form action="http://localhost:3000/save" method="POST" enctype="multipart/form-data">
+                <form>
                     <div class="row m-4">
                         <div class="col-2">
-                            <label for="StudentID">Student ID</label>
+                            <label for="StudentID">Event ID</label>
                         </div>
                         <div class="col-3">
-                            <input type="text" class="form-control" id="Member_ID" name="Member_ID" placeholder="Student ID">
+                            <input type="text" class="form-control" id="Event_ID" name="Event_ID" placeholder="Event ID">
                         </div>
                         <div class="col-2">
-                            <label for="Password">Password</label>
+                            <label for="Password">Event Name</label>
                         </div>
                         <div class="col-3">
-                            <input type="password" class="form-control" id="Member_Password" name="Member_Password" placeholder="Password">
+                            <input type="text" class="form-control" id="Event_Name" name="Event_Name" placeholder="Event_Name">
                         </div>
                     </div>
                     <div class="row m-4">
                         <div class="col-2">
-                            <label for="FirstName">First Name</label>
+                            <label for="House">Event Type</label>
                         </div>
                         <div class="col-3">
-                            <input type="text" class="form-control" id="Member_Name" name="Member_Name" placeholder="First Name">
-                        </div>
-                        <div class="col-2">
-                            <label for="LastName">Last Name</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="text" class="form-control" id="Member_Lastname" name="Member_Lastname" placeholder="Last Name">
-                        </div>
-                    </div>
-                    <div class="row m-4">
-                        <div class="col-2">
-                            <label for="House">House</label>
-                        </div>
-                        <div class="col-3">
-                            <select class="form-control" id="Member_House" name="Member_House">
+                            <select class="form-control" id="Event_Type" name="Event_Type">
                                 <option disabled selected>Please Select</option>
                                 <option value="Bill Gates">Bill Gates</option>
                                 <option value="Larry Page">Larry Page</option>
@@ -200,37 +186,9 @@
                                 <option value="Mark Zuckerberg">Mark Zuckerberg</option>
                             </select>
                         </div>
-                        <div class="col-2">
-                            <label for="House">Tel</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="tel" class="form-control" id="Member_Tel" name="Member_Tel" placeholder="Telephone">
-                        </div>
-                    </div>
-                    <div class="row m-4">
-                        <div class="col-2">
-                            <label for="House">Profile</label>
-                        </div>
-                        <div class="col-2">
-                            <input type="file" name="photos" multiple>
-                            {{!-- <input type="submit" value="upload"> --}}
-                        </div>
-                       
-                    </div>
-                    <div class="row m-4">
-                         <div class="col-2">
-                            <label for="House">Status</label>
-                        </div>
-                        <div class="col-3">
-                            <select class="form-control" id="Member_Status" name="Member_Status">
-                                <option disabled selected>Please Select</option>
-                                <option value="Active">Active</option>
-                                <option value="Non Active">Non Active</option>
-                            </select>
-                        </div>
                     </div>
                     <div class="row-4 text-center ">
-                            <button type="submit" value="upload" class="btn btn-primary btn-lg">SAVE</button>
+                            <button type="button" class="btn btn-primary btn-lg">SAVE</button>
                     </div>
                 </form>
             </div>

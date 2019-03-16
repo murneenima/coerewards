@@ -5,6 +5,8 @@ const request = require('request');
 const bcrypt = require('bcryptjs');
 const app = express()
 const multer  = require('multer')
+autoIncrement = require('mongoose-auto-increment');
+
 
 // =========== image===========
 const storage = multer.diskStorage({
@@ -49,6 +51,8 @@ mongoose.connect('mongodb://localhost:27017/DBcoe').then((doc) => {
 }, (err) => {
     console.log('!!!!!!!!!! error to connect with database !!!!!!!!!')
 })
+// var connection = mongoose.createConnection("mongodb://localhost/DBcoe");
+autoIncrement.initialize(mongoose.createConnection('mongodb://localhost:27017/DBcoe'));
 
 //app.use(express.static('public'))
 app.use("/", express.static(__dirname + "/public"));
@@ -205,7 +209,7 @@ app.get('/Mark',(req,res)=>{
 
 // ============== Event Type ===================
 app.get('/EventTypeDisplay',(req,res)=>{
-    res.render('admin_EventTypeInsert.hbs',{})
+    res.render('admin_EventTypeDisplay.hbs',{})
 })
 
 app.get('/EventTypeInsert',(req,res)=>{
@@ -213,13 +217,11 @@ app.get('/EventTypeInsert',(req,res)=>{
 })
 
 app.post('/saveEventType',(req,res)=>{
-
     let newEventType = new EventType({
         EventType_Name:req.body.EventType_Name,
-        EventType_ID:req.body.EventType_ID
     })
     newEventType.save().then((doc)=>{
-        console.log(doc)
+        //console.log(doc)
         res.render('admin_EventTypeInsert.hbs',{})
     },(err)=>{
         res.status(400).send(err)
@@ -227,20 +229,20 @@ app.post('/saveEventType',(req,res)=>{
     
 })
 
+
 // ============== Created By ===================
 app.get('/CreatedByDisplay',(req,res)=>{
     res.render('admin_CreatedByDisplay.hbs',{})
 })
 
 app.get('/CreatedByInsert',(req,res)=>{
-    res.render('CreatedByInsert.hbs',{})
+    res.render('admin_CreatedByInsert.hbs',{})
 })
 
 app.post('/saveCreatedBy',(req,res)=>{
 
     let newCreatedBy = new CreatedBy({
-        CreatedBy_Name:req.body.CreatedBy_Name,
-        CreatedBy_ID:req.body.CreatedBy_ID
+        CreatedBy_Name:req.body.CreatedBy_Name
     })
     newCreatedBy.save().then((doc)=>{
         console.log(doc)
