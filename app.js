@@ -39,7 +39,8 @@ const MemberRounter = require('./member')
 // ===========================================
 var Member = require('./Model/MemberModel')
 var House = require('./Model/HouseModel')
-
+var EventType = require('./Model/EvenTypeModel')
+var CreatedBy = require('./Model/CreatedByModel')
 
 
 //=========================================
@@ -48,7 +49,6 @@ mongoose.connect('mongodb://localhost:27017/DBcoe').then((doc) => {
 }, (err) => {
     console.log('!!!!!!!!!! error to connect with database !!!!!!!!!')
 })
-
 
 //app.use(express.static('public'))
 app.use("/", express.static(__dirname + "/public"));
@@ -60,7 +60,6 @@ app.use(bodyParser.json()) // ส่งข้อมูลแบบ JSon
 app.use(bodyParser.urlencoded({
     extended: true
 }));
-
 
 
 app.use((req, res, next) => { // allow the other to connect
@@ -202,6 +201,54 @@ app.get('/Mark',(req,res)=>{
                 dataHouse:encodeURI(JSON.stringify(dataHouse))
             })
         })
+})
+
+// ============== Event Type ===================
+app.get('/EventTypeDisplay',(req,res)=>{
+    res.render('admin_EventTypeInsert.hbs',{})
+})
+
+app.get('/EventTypeInsert',(req,res)=>{
+    res.render('admin_EventTypeInsert.hbs',{})
+})
+
+app.post('/saveEventType',(req,res)=>{
+
+    let newEventType = new EventType({
+        EventType_Name:req.body.EventType_Name,
+        EventType_ID:req.body.EventType_ID
+    })
+    newEventType.save().then((doc)=>{
+        console.log(doc)
+        res.render('admin_EventTypeInsert.hbs',{})
+    },(err)=>{
+        res.status(400).send(err)
+    })
+    
+})
+
+// ============== Created By ===================
+app.get('/CreatedByDisplay',(req,res)=>{
+    res.render('admin_CreatedByDisplay.hbs',{})
+})
+
+app.get('/CreatedByInsert',(req,res)=>{
+    res.render('CreatedByInsert.hbs',{})
+})
+
+app.post('/saveCreatedBy',(req,res)=>{
+
+    let newCreatedBy = new CreatedBy({
+        CreatedBy_Name:req.body.CreatedBy_Name,
+        CreatedBy_ID:req.body.CreatedBy_ID
+    })
+    newCreatedBy.save().then((doc)=>{
+        console.log(doc)
+        res.render('admin_CreatedByInsert.hbs',{})
+    },(err)=>{
+        res.status(400).send(err)
+    })
+    
 })
 
 //===================================================

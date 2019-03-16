@@ -4,12 +4,12 @@ var Schema = mongoose.Schema
 //===========================
 var EventTypeSchema = new Schema({
     EventType_ID:{
-        type:String,
-        required:true
+        type:Number,
+        unique:true,
+        default:"0"
     },
     EventType_Name:{
         type:String,
-        unique:true,
         required:true
     }
 })
