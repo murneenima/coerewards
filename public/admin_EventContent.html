@@ -161,21 +161,50 @@
                 <form>
                     <div class="row m-4">
                         <div class="col-2">
-                            <label for="StudentID">Event ID</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="text" class="form-control" id="Event_ID" name="Event_ID" placeholder="Event ID">
-                        </div>
-                        <div class="col-2">
                             <label for="Password">Event Name</label>
                         </div>
-                        <div class="col-3">
-                            <input type="text" class="form-control" id="Event_Name" name="Event_Name" placeholder="Event_Name">
+                        <div class="col-8">
+                            <input type="text" class="form-control" id="Event_Name" name="Event_Name" placeholder="ชื่อกิจกรรม">
                         </div>
                     </div>
                     <div class="row m-4">
                         <div class="col-2">
-                            <label for="House">Event Type</label>
+                            <label for="Password">Point</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="number" class="form-control" id="Event_Point" name="Event_Point" placeholder="คะแนน">
+                        </div>
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="Password">Start Date</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="date" class="form-control" id="Event_StartDate" name="Event_StartDate" placeholder="สถานที่">
+                        </div>
+                        <div class="col-2">
+                            <label for="Password">End Date</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="date" class="form-control" id="Event_EndDate" name="Event_EndDate" placeholder="สถานที่">
+                        </div>
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="Password">Semester</label>
+                        </div>
+                        <div class="col-3">
+                            <select class="form-control" id="Event_Semester" name="Event_Semester">
+                                <option disabled selected>Please Select</option>
+                                <option value="1">Semester 1</option>
+                                <option value="2">Semester 2</option>
+                                <option value="3">Semester 3</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="House">ประเภทของกิจกรรม</label>
                         </div>
                         <div class="col-3">
                             <select class="form-control" id="Event_Type" name="Event_Type">
@@ -185,6 +214,42 @@
                                 <option value="Elon Mask">Elon Mask</option>
                                 <option value="Mark Zuckerberg">Mark Zuckerberg</option>
                             </select>
+                        </div>
+                        <div class="col-2">
+                            <label for="House">จัดโดย</label>
+                        </div>
+                        <div class="col-3">
+                            <select class="form-control" id="Event_Type" name="Event_Type">
+                                <option disabled selected>Please Select</option>
+                                <option value="Bill Gates">Bill Gates</option>
+                                <option value="Larry Page">Larry Page</option>
+                                <option value="Elon Mask">Elon Mask</option>
+                                <option value="Mark Zuckerberg">Mark Zuckerberg</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="Password">Location</label>
+                        </div>
+                        <div class="col-3">
+                            <textarea type="text" class="form-control" id="Event_Location" name="Event_Location" rows="2" placeholder="สถานที่"></textarea>
+                        </div>
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="House">Picture</label>
+                        </div>
+                        <div class="col-2">
+                            <input type="file" name="photos" multiple>
+                        </div>
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="Password">Description</label>
+                        </div>
+                        <div class="col-3">
+                            <textarea class="form-control" id="Event_Description" name="Event_Description" rows="3"></textarea>
                         </div>
                     </div>
                     <div class="row-4 text-center ">

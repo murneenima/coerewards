@@ -32,6 +32,7 @@ const upload = multer({ storage: storage,
     },
     fileFilter:fileFilter
 })
+
 //var upload = multer({ dest: 'uploads/' })
 
 
@@ -43,6 +44,7 @@ var Member = require('./Model/MemberModel')
 var House = require('./Model/HouseModel')
 var EventType = require('./Model/EvenTypeModel')
 var CreatedBy = require('./Model/CreatedByModel')
+var AllEvent = require('./Model/AllEventModel')
 
 
 //=========================================
@@ -104,7 +106,6 @@ app.get('/MemberAll',(req,res)=>{
 })
 
 // ==================== save data and upload photo =====================
-
 app.post('/save', upload.single('photos'), function (req, res) {
     console.log(req.file)
     let newMember = new Member({
@@ -129,8 +130,8 @@ app.post('/save', upload.single('photos'), function (req, res) {
         })
 
     },(err)=>{
-        res.render('admin_error.hbs',{})
-        // res.status(400).send(err)
+        //res.render('admin_error.hbs',{})
+         res.status(400).send(err)
     })
 })
 
@@ -207,9 +208,16 @@ app.get('/Mark',(req,res)=>{
         })
 })
 
+
 // ============== Event Type ===================
 app.get('/EventTypeDisplay',(req,res)=>{
-    res.render('admin_EventTypeDisplay.hbs',{})
+    EventType.find({},(err,data)=>{
+        if(err) console.log(err)
+    }).then((dataEV)=>{
+        res.render('admin_EventTypeDisplay.hbs',{
+            dataEV:encodeURI(JSON.stringify(dataEV))
+        })
+    })
 })
 
 app.get('/EventTypeInsert',(req,res)=>{
@@ -229,10 +237,25 @@ app.post('/saveEventType',(req,res)=>{
     
 })
 
+app.post('/removeEventType',(req,res)=>{
+    console.log('dataIn :', req.body.id)
+    EventType.remove({ EventType_ID: req.body.id }).then((data) => {
+        console.log('Event Type deleted success')
+    }, (err) => {
+        res.status(400).send(err)
+    })
+})
+
 
 // ============== Created By ===================
 app.get('/CreatedByDisplay',(req,res)=>{
-    res.render('admin_CreatedByDisplay.hbs',{})
+    CreatedBy.find({},(err,data)=>{
+        if(err) console.log(err)
+    }).then((dataCB)=>{
+        res.render('admin_CreatedByDisplay.hbs',{
+            dataCB:encodeURI(JSON.stringify(dataCB))
+        })
+    })
 })
 
 app.get('/CreatedByInsert',(req,res)=>{
@@ -240,7 +263,6 @@ app.get('/CreatedByInsert',(req,res)=>{
 })
 
 app.post('/saveCreatedBy',(req,res)=>{
-
     let newCreatedBy = new CreatedBy({
         CreatedBy_Name:req.body.CreatedBy_Name
     })
@@ -250,7 +272,75 @@ app.post('/saveCreatedBy',(req,res)=>{
     },(err)=>{
         res.status(400).send(err)
     })
-    
+})
+
+app.post('/removeCreatedBy',(req,res)=>{
+    console.log('dataIn :', req.body.id)
+    CreatedBy.remove({ CreatedBy_ID: req.body.id }).then((data) => {
+        console.log('Created By deleted success')
+    }, (err) => {
+        res.status(400).send(err)
+    })
+})
+
+// ============= All Event ===================
+
+app.get('/EventContent',(req,res)=>{
+    let data ={}
+    EventType.find({},(err,data)=>{
+        if(err) console.log(err)
+    }).then((dataEV)=>{
+        data.EventType = dataEV
+
+        CreatedBy.find({},(err,data)=>{
+            if(err) console.log(err)
+        }).then((dataCB)=>{
+            data.CreatedBy = dataCB
+
+            res.render('admin_EventContent.hbs',{
+                data:encodeURI(JSON.stringify(data))
+            })
+        })
+    })
+
+})
+
+
+app.post('/saveEvent',upload.single('photos'),function(req,res){
+    console.log(req.file)
+    let newAllEvent = new AllEvent({
+        AllEvent_Name:req.body.Event_Name,
+        AllEvent_Point:req.body.Event_Point,
+        AllEvent_StartDate:req.body.Event_StartDate,
+        AllEvent_EndDate:req.body.Event_EndDate,
+        AllEvent_Semeter:req.body.Event_Semester,
+        EventType_ID:req.body.Event_Type,
+        CreatedBy_ID:req.body.Event_CreatedBy,
+        AllEvent_Location:req.body.Event_Location,
+        AllEvent_Picture:req.file.path,
+        AllEvent_Descrip:req.body.Event_Description
+    })
+    newAllEvent.save().then((doc)=>{
+        let data ={}
+        EventType.find({},(err,data)=>{
+            if(err) console.log(err)
+        }).then((dataEV)=>{
+            data.EventType = dataEV
+
+            CreatedBy.find({},(err,data)=>{
+                if(err) console.log(err)
+            }).then((dataCB)=>{
+                data.CreatedBy = dataCB
+
+                res.render('admin_EventContent.hbs',{
+                    data:encodeURI(JSON.stringify(data))
+                })
+            })
+        })
+    },(err)=>{
+        //res.render('admin_error.hbs',{})
+         res.status(400).send(err)
+    })
 })
 
 //===================================================

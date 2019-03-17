@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Elon Mask</title>
+    <title>Event Content</title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
@@ -19,25 +19,18 @@
         crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
         crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-        
-        
-
-        
 </head>
 
 <body>
     <div class="wrapper">
         <!-- Sidebar  -->
         <nav id="sidebar">
-            <div class="sidebar-header">
-                <h3>COE REWARD</h3>
-            </div>
-
-            <ul class="list-unstyled components">
-                <p>All Functions</p>
+                <div class="sidebar-header">
+                    <h3>COE REWARD</h3>
+                </div>
+    
+                 <ul class="list-unstyled components">
+                    <p>All Functions</p>
                 <li>
                     <a href="#MemberSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Member</a>
                     <ul class="collapse list-unstyled" id="MemberSubmenu">
@@ -127,16 +120,16 @@
                 </li>
 
             </ul>
-
-            <ul class="list-unstyled CTAs">
-                <li>
-                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
-                </li>
-                <li>
-                    <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-                </li>
-            </ul>
-        </nav>
+    
+                <ul class="list-unstyled CTAs">
+                    <li>
+                        <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
+                    </li>
+                    <li>
+                        <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
+                    </li>
+                </ul>
+            </nav>
 
         <!-- Page Content  -->
         <div id="content">
@@ -163,45 +156,108 @@
                 </div>
             </nav>
 
-            <div class="row">
-                <div class="col-6">
-                    <h2>Elon Mask</h2>
-                </div>
-                <div class="col-6">
-                    <div class="container">
-                        <form action="">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="input-group">
-                                        <input class="form-control border-secondary py-2" type="search" id="filter" placeholder="Search By Id">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary" type="button" >
-                                                <i class="fa fa-search"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-
+            <h2>Event Content</h2>
+            <div class="container">
+                <form action="http://localhost:3000/saveEvent" method="POST" enctype="multipart/form-data">
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="Event_Name">Event Name</label>
+                        </div>
+                        <div class="col-8">
+                            <input type="text" class="form-control" id="Event_Name" name="Event_Name" placeholder="ชื่อกิจกรรม">
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="row mt-3">
-                <div class="container">
-                    <div class="table-responsive">
-                        <table id="member_elon" class="table table-bordred table-striped justify-content-center text-center text-center">
-                        </table>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="Event_Point">Point</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="number" class="form-control" id="Event_Point" name="Event_Point" placeholder="คะแนน">
+                        </div>
                     </div>
-                </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="Event_StartDate">Start Date</label>
+                        </div>
+                        <div class="col-3">
+                        
+                            <input type="date" class="form-control" id="Event_StartDate" name="Event_StartDate" placeholder="สถานที่">
+                        </div>
+                        <div class="col-2">
+                            <label for="Event_EndDate">End Date</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="date" class="form-control" id="Event_EndDate" name="Event_EndDate" placeholder="สถานที่">
+                        </div>
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="Event_Semester">Semester</label>
+                        </div>
+                        <div class="col-3">
+                            <select class="form-control" id="Event_Semester" name="Event_Semester">
+                                <option disabled selected>-Please Select-</option>
+                                <option value="1">Semester 1</option>
+                                <option value="2">Semester 2</option>
+                                <option value="3">Semester 3</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="Event_Type">ประเภทของกิจกรรม</label>
+                        </div>
+                        <div class="col-3">
+                            <select class="form-control" id="Event_Type" name="Event_Type">
+                            
+                            </select>
+                        </div>
+                        <div class="col-2">
+                            <label for="Event_CreatedBy">จัดโดย</label>
+                        </div>
+                        <div class="col-3">
+                            <select class="form-control" id="Event_CreatedBy" name="Event_CreatedBy">
+                                
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="Event_Location">Location</label>
+                        </div>
+                        <div class="col-3">
+                            <textarea type="text" class="form-control" id="Event_Location" name="Event_Location" rows="2" placeholder="สถานที่"></textarea>
+                        </div>
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="Picture">Picture</label>
+                        </div>
+                        <div class="col-2">
+                            <input type="file" name="photos" multiple>
+                        </div>
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="Event_Description">Description</label>
+                        </div>
+                        <div class="col-3">
+                            <textarea class="form-control" id="Event_Description" name="Event_Description" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="row-4 text-center ">
+                            <button type="submit" class="btn btn-primary btn-lg">Save</button>
+                    </div>
+                </form>
             </div>
-
-
-
-
+            <div class="line"></div>
 
         </div>
     </div>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
     <!-- Popper.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
         crossorigin="anonymous"></script>
@@ -215,33 +271,31 @@
                 $('#sidebar').toggleClass('active');
             });
         });
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementsByName("Event_StartDate")[0].setAttribute('min', today);
+        document.getElementsByName("Event_EndDate")[0].setAttribute('min', today);
 
+        var data = "{{data}}"
+        var dataAll = JSON.parse(decodeURI(data))
+        var EventType = [];
+        var CreatedBy = [];
+        var Select_EventType = '<option disabled selected>-Please Select-</option>'
+        var Select_CreatedBy = '<option disabled selected>-Please Select-</option>'
 
-        var dataHouse = "{{dataHouse}}"
-        var data_Elon = JSON.parse(decodeURI(dataHouse))
-        var House_Elon = [];
-        console.log(data_Elon)
-        let display_MemberAll = "<thead><th>No</th><th>Member ID</th><th>Name</th><th>Last Name</th><th>Activities's Point</th><th>Behavior's Point</th></thead>";
-
-        console.log(data_Elon.length)
-        for (let i = 0; i < data_Elon.length; i++) {
-            House_Elon.push(data_Elon[i])
-            myFunction()
-            //display_MemberAll += "<tbody><tr><td>" + (i + 1) + "</td><td>" + Member[i].Member_ID + "</td><td>" + Member[i].Member_Name + "</td><td>" + Member[i].Member_Lastname + "</td><td>" + Member[i].Member_House + "</td></td><td><p data-placement='top' data-toggle='tooltip' title='Edit'><button class='btn btn-primary btn-xs'  onclick='ShowModal_Edit(" + i + ")' data-title='Edit' data-toggle='modal' data-target='#edit' ><i class='fas fa-edit'></i></button></p></td><td><p data-placement='top' data-toggle='tooltip' title='Delete'><button onclick='ShowModal_delete(" + i + ")' class='btn btn-danger btn-xs' data-title='Delete' data-toggle='modal'><i class='fas fa-trash-alt'></i></button></p></td></tr></tbody>"
+        for(let i=0;i<dataAll.EventType.length;i++){
+            EventType.push(dataAll.EventType[i])
         }
-
-        for (let i = 0; i < House_Elon.length; i++) {
-            display_MemberAll += "<tbody><tr><td>" + (i + 1) + "</td><td>" + House_Elon[i].Member_ID + "</td><td>" + House_Elon[i].Member_Name + "</td><td>" + House_Elon[i].Member_Lastname + "</td><td>"+"+"+House_Elon[i].Member_Point+"</td><td>"+"-"+House_Elon[i].Member_MinusPoint+"</td></tr></tbody>"
+        for(let i=0;i<dataAll.CreatedBy.length;i++){
+            CreatedBy.push(dataAll.CreatedBy[i])
         }
-
-        document.getElementById("member_elon").innerHTML = display_MemberAll
-
-        function myFunction() {
-            House_Elon.sort(function (a, b) { return a.Member_Point - b.Member_Point });
-            //console.log(Member)
+        for(let i=0;i<EventType.length;i++){
+            Select_EventType += '<option value="'+EventType[i].EventType_ID+'">'+EventType[i].EventType_Name+'</option>'
         }
-        
-
+        for(let i=0;i<CreatedBy.length;i++){
+            Select_CreatedBy += '<option value="'+CreatedBy[i].CreatedBy_ID+'">'+CreatedBy[i].CreatedBy_Name+'</option>'
+        }
+        document.getElementById("Event_Type").innerHTML = Select_EventType
+        document.getElementById("Event_CreatedBy").innerHTML = Select_CreatedBy
     </script>
 </body>
 
