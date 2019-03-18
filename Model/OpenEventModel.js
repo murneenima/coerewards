@@ -5,32 +5,32 @@ autoIncrement = require('mongoose-auto-increment');
 var connection = mongoose.createConnection("mongodb://localhost/DBcoe");
 autoIncrement.initialize(connection);
 //===========================
-var AllEventSchema = new Schema({
-    AllEvent_Name:{
+var OpenEventSchema = new Schema({
+    OpenEvent_Name:{
         type:String,
         required:true
     },
-    AllEvent_Point:{
+    OpenEvent_Point:{
         type:String,
         required:true
     },
-    AllEvent_StartDate:{
+    OpenEvent_StartDate:{
         type:Date,
         required:true
     },
-    AllEvent_EndDate:{
+    OpenEvent_EndDate:{
         type:Date,
         required:true
     },
-    AllEvent_StartTime:{
+    OpenEvent_StartTime:{
         type:String,
         required:true
     },
-    AllEvent_EndTime:{
+    OpenEvent_EndTime:{
         type:String,
         required:true
     },
-    AllEvent_Semeter:{
+    OpenEvent_Semeter:{
         type:Number,
         required:true
     },
@@ -42,27 +42,27 @@ var AllEventSchema = new Schema({
         type:String,
         required:true
     },
-    AllEvent_Location:{
+    OpenEvent_Location:{
         type:String,
         required:true
     },
-    AllEvent_Picture:{
+    OpenEvent_Picture:{
         type:String
     },
-    AllEvent_Descrip:{
+    OpenEvent_Descrip:{
         type:String
     },
-    AllEvent_Count:{
+    OpenEvent_Count:{
         type:Number,
         default:"0"
     }
 })
-AllEventSchema.plugin(autoIncrement.plugin, {
-    model: 'AllEvent',
-    field: 'AllEvent_ID',
+OpenEventSchema.plugin(autoIncrement.plugin, {
+    model: 'OpenEvent',
+    field: 'OpenEvent_ID',
     startAt:100,
     incrementBy: 1
 });
 
-var AllEvent = mongoose.model('AllEvent',AllEventSchema)
-module.exports = AllEvent
+var OpenEvent = mongoose.model('OpenEvent',OpenEventSchema)
+module.exports = OpenEvent

@@ -67,10 +67,10 @@
                     <a href="#EventSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Event</a>
                     <ul class="collapse list-unstyled" id="EventSubmenu">
                             <li>
-                                <a href="http://localhost:3000/EventContent">Insert Event Content</a>
+                                <a href="http://localhost:3000/EventContent">New Event</a>
                             </li>
                             <li>
-                                <a href="#">Edit Event Content</a>
+                                <a href="http://localhost:3000/AllEvent">All Event</a>
                             </li>
                             <li>
                                 <a href="#">Open/Close Event</a>
@@ -250,7 +250,7 @@
         function POST_RemoveCreatedBy() {
             let index = $('#delete_CreatedBy').data('curid')
             let id = CreatedBy[index].CreatedBy_ID
-            console.log('Created By will delete at ' + id)
+            //console.log('Created By will delete at ' + id)
             $.ajax('http://localhost:3000/removeCreatedBy', {
                 data: JSON.stringify({ id }),
                 contentType: 'application/json',

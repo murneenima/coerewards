@@ -5,6 +5,7 @@ const rounter = express.Router();
 
 var Member = require('./Model/MemberModel')
 var House = require('./Model/HouseModel')
+var AllEvent = require('./Model/AllEventModel')
 
 rounter.use(express.static('public'))
 rounter.use(express.static('uploads'));
@@ -21,8 +22,6 @@ rounter.post('/:edit',(req,res,next)=>{
         })
     })
 })
-
-
 
 rounter.post('/edit/data',(req,res)=>{
    let id = req.body.Member_ID
@@ -50,6 +49,8 @@ rounter.post('/edit/data',(req,res)=>{
         })
     })    
 })
+
+
 
 
 

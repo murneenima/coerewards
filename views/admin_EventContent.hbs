@@ -19,18 +19,20 @@
         crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
         crossorigin="anonymous"></script>
+    <style>
+    </style>
 </head>
 
 <body>
     <div class="wrapper">
         <!-- Sidebar  -->
         <nav id="sidebar">
-                <div class="sidebar-header">
-                    <h3>COE REWARD</h3>
-                </div>
-    
-                 <ul class="list-unstyled components">
-                    <p>All Functions</p>
+            <div class="sidebar-header">
+                <h3>COE REWARD</h3>
+            </div>
+
+            <ul class="list-unstyled components">
+                <p>All Functions</p>
                 <li>
                     <a href="#MemberSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Member</a>
                     <ul class="collapse list-unstyled" id="MemberSubmenu">
@@ -45,39 +47,39 @@
                 <li>
                     <a href="#HouseSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">House</a>
                     <ul class="collapse list-unstyled" id="HouseSubmenu">
-                            <li>
-                                <a href="http://localhost:3000/Bill">Bill Gates</a>
-                            </li>
-                            <li>
-                                <a href="http://localhost:3000/Larry">Larry Page</a>
-                            </li>
-                            <li>
-                                <a href="http://localhost:3000/Elon">Elon Mask</a>
-                            </li>
-                            <li>
-                                <a href="http://localhost:3000/Mark">Mark Zuckerberg</a>
-                            </li>
+                        <li>
+                            <a href="http://localhost:3000/Bill">Bill Gates</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/Larry">Larry Page</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/Elon">Elon Mask</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/Mark">Mark Zuckerberg</a>
+                        </li>
                     </ul>
                 </li>
                 <li>
                     <a href="#EventSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Event</a>
                     <ul class="collapse list-unstyled" id="EventSubmenu">
-                            <li>
-                                <a href="http://localhost:3000/EventContent">Insert Event Content</a>
-                            </li>
-                            <li>
-                                <a href="#">Edit Event Content</a>
-                            </li>
-                            <li>
-                                <a href="#">Open/Close Event</a>
-                            </li>
-                            <li>
-                                <a href="http://localhost:3000/EventTypeDisplay">Event Type</a>
-                            </li>
-                            <li>
-                                <a href="http://localhost:3000/CreatedByDisplay">Created By</a>
-                            </li>
-                        </ul>
+                        <li>
+                            <a href="http://localhost:3000/EventContent">New Event</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/AllEvent">All Event</a>
+                        </li>
+                        <li>
+                            <a href="#">Open/Close Event</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/EventTypeDisplay">Event Type</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/CreatedByDisplay">Created By</a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
                     <a href="#BehaviorSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Behavior</a>
@@ -120,16 +122,16 @@
                 </li>
 
             </ul>
-    
-                <ul class="list-unstyled CTAs">
-                    <li>
-                        <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
-                    </li>
-                    <li>
-                        <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-                    </li>
-                </ul>
-            </nav>
+
+            <ul class="list-unstyled CTAs">
+                <li>
+                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
+                </li>
+                <li>
+                    <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
+                </li>
+            </ul>
+        </nav>
 
         <!-- Page Content  -->
         <div id="content">
@@ -159,43 +161,66 @@
             <h2>Event Content</h2>
             <div class="container">
                 <form action="http://localhost:3000/saveEvent" method="POST" enctype="multipart/form-data">
-                    <div class="row m-4">
+                    <div class="row m-4 ">
                         <div class="col-2">
-                            <label for="Event_Name">Event Name</label>
+                            <label for="Event_Name" class="col-form-label">Event Name</label>
                         </div>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="Event_Name" name="Event_Name" placeholder="ชื่อกิจกรรม">
+                            <input type="text" class="form-control" id="Event_Name" name="Event_Name" placeholder="ชื่อกิจกรรม" required>
+                        </div>
+                    </div>
+                    <div class="row m-4 ">
+                        <div class="col-2">
+                            <label for="Event_Point" class="col-form-label">Point</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="number" class="form-control" id="Event_Point" name="Event_Point" placeholder="คะแนน" required>
                         </div>
                     </div>
                     <div class="row m-4">
                         <div class="col-2">
-                            <label for="Event_Point">Point</label>
+                            <label for="Event_StartDate" class="col-form-label">Start Date</label>
                         </div>
                         <div class="col-3">
-                            <input type="number" class="form-control" id="Event_Point" name="Event_Point" placeholder="คะแนน">
+
+                            <input type="date" class="form-control" id="Event_StartDate" name="Event_StartDate" required>
+                        </div>
+                        <div class="col-2">
+                            <label for="Event_EndDate" class="col-form-label">End Date</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="date" class="form-control" id="Event_EndDate" name="Event_EndDate" required>
+
                         </div>
                     </div>
                     <div class="row m-4">
                         <div class="col-2">
-                            <label for="Event_StartDate">Start Date</label>
+                            <label for="Event_EndDate" class="col-form-label">Time (24 hours)</label>
                         </div>
                         <div class="col-3">
-                        
-                            <input type="date" class="form-control" id="Event_StartDate" name="Event_StartDate" placeholder="สถานที่">
-                        </div>
-                        <div class="col-2">
-                            <label for="Event_EndDate">End Date</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="date" class="form-control" id="Event_EndDate" name="Event_EndDate" placeholder="สถานที่">
+                            <div class="row mt-2">
+                                <div class="col">
+                                    <input type="time" min="8:00" max="22:00" required class="form-control" id="Event_StartTime" name="Event_StartTime">
+                                </div>
+                            </div>
+                            <div class="row mt-1 text-center">
+                                <div class="col">
+                                    <span>to</span>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col">
+                                    <input type="time" min="8:00" max="22:00" required class="form-control" id="Event_EndTime" name="Event_EndTime">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row m-4">
                         <div class="col-2">
-                            <label for="Event_Semester">Semester</label>
+                            <label for="Event_Semester" class="col-form-label">Semester</label>
                         </div>
                         <div class="col-3">
-                            <select class="form-control" id="Event_Semester" name="Event_Semester">
+                            <select class="form-control" id="Event_Semester" name="Event_Semester" required>
                                 <option disabled selected>-Please Select-</option>
                                 <option value="1">Semester 1</option>
                                 <option value="2">Semester 2</option>
@@ -205,25 +230,25 @@
                     </div>
                     <div class="row m-4">
                         <div class="col-2">
-                            <label for="Event_Type">ประเภทของกิจกรรม</label>
+                            <label for="Event_Type" class="col-form-label">ประเภทของกิจกรรม</label>
                         </div>
                         <div class="col-3">
-                            <select class="form-control" id="Event_Type" name="Event_Type">
-                            
+                            <select class="form-control" id="Event_Type" name="Event_Type" required>
+
                             </select>
                         </div>
                         <div class="col-2">
-                            <label for="Event_CreatedBy">จัดโดย</label>
+                            <label for="Event_CreatedBy" class="col-form-label">จัดโดย</label>
                         </div>
                         <div class="col-3">
-                            <select class="form-control" id="Event_CreatedBy" name="Event_CreatedBy">
-                                
+                            <select class="form-control" id="Event_CreatedBy" name="Event_CreatedBy" required>
+
                             </select>
                         </div>
                     </div>
                     <div class="row m-4">
                         <div class="col-2">
-                            <label for="Event_Location">Location</label>
+                            <label for="Event_Location" class="col-form-label">Location</label>
                         </div>
                         <div class="col-3">
                             <textarea type="text" class="form-control" id="Event_Location" name="Event_Location" rows="2" placeholder="สถานที่"></textarea>
@@ -231,7 +256,7 @@
                     </div>
                     <div class="row m-4">
                         <div class="col-2">
-                            <label for="Picture">Picture</label>
+                            <label for="Picture" class="col-form-label">Picture</label>
                         </div>
                         <div class="col-2">
                             <input type="file" name="photos" multiple>
@@ -239,14 +264,14 @@
                     </div>
                     <div class="row m-4">
                         <div class="col-2">
-                            <label for="Event_Description">Description</label>
+                            <label for="Event_Description" class="col-form-label">Description</label>
                         </div>
                         <div class="col-3">
                             <textarea class="form-control" id="Event_Description" name="Event_Description" rows="3"></textarea>
                         </div>
                     </div>
                     <div class="row-4 text-center ">
-                            <button type="submit" class="btn btn-primary btn-lg">Save</button>
+                        <button type="submit" class="btn btn-primary btn-lg">Save</button>
                     </div>
                 </form>
             </div>
@@ -282,17 +307,17 @@
         var Select_EventType = '<option disabled selected>-Please Select-</option>'
         var Select_CreatedBy = '<option disabled selected>-Please Select-</option>'
 
-        for(let i=0;i<dataAll.EventType.length;i++){
+        for (let i = 0; i < dataAll.EventType.length; i++) {
             EventType.push(dataAll.EventType[i])
         }
-        for(let i=0;i<dataAll.CreatedBy.length;i++){
+        for (let i = 0; i < dataAll.CreatedBy.length; i++) {
             CreatedBy.push(dataAll.CreatedBy[i])
         }
-        for(let i=0;i<EventType.length;i++){
-            Select_EventType += '<option value="'+EventType[i].EventType_ID+'">'+EventType[i].EventType_Name+'</option>'
+        for (let i = 0; i < EventType.length; i++) {
+            Select_EventType += '<option value="' + EventType[i].EventType_Name + '">' + EventType[i].EventType_Name + '</option>'
         }
-        for(let i=0;i<CreatedBy.length;i++){
-            Select_CreatedBy += '<option value="'+CreatedBy[i].CreatedBy_ID+'">'+CreatedBy[i].CreatedBy_Name+'</option>'
+        for (let i = 0; i < CreatedBy.length; i++) {
+            Select_CreatedBy += '<option value="' + CreatedBy[i].CreatedBy_Name + '">' + CreatedBy[i].CreatedBy_Name + '</option>'
         }
         document.getElementById("Event_Type").innerHTML = Select_EventType
         document.getElementById("Event_CreatedBy").innerHTML = Select_CreatedBy

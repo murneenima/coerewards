@@ -35,7 +35,6 @@ const upload = multer({ storage: storage,
 
 //var upload = multer({ dest: 'uploads/' })
 
-
 //===================================
 const MemberRounter = require('./member')
 
@@ -45,6 +44,7 @@ var House = require('./Model/HouseModel')
 var EventType = require('./Model/EvenTypeModel')
 var CreatedBy = require('./Model/CreatedByModel')
 var AllEvent = require('./Model/AllEventModel')
+var OpenEvent = require('./Model/OpenEventModel')
 
 
 //=========================================
@@ -59,7 +59,7 @@ autoIncrement.initialize(mongoose.createConnection('mongodb://localhost:27017/DB
 //app.use(express.static('public'))
 app.use("/", express.static(__dirname + "/public"));
 app.use("/views", express.static(__dirname + "/views"));
-//app.use(express.static('uploads'));
+app.use(express.static('uploads'));
 app.use("/uploads", express.static(__dirname + "/uploads"));
 app.set('view engine', 'hbs')
 app.use(bodyParser.json()) // ส่งข้อมูลแบบ JSon
@@ -162,6 +162,21 @@ app.post('/edit',(req,res)=>{
          })
      })    
  })
+
+ app.post('/removeMember',(req,res)=>{
+    console.log('dataIn :', req.body.id)
+    Member.remove({ Member_ID: req.body.id }).then((data) => {
+        console.log('Member deleted success')
+
+        House.remove({ House_MemberID: req.body.id }).then((data) => {
+            console.log('Member In House deleted success')
+        }, (err) => {
+            res.status(400).send(err)
+        })
+    }, (err) => {
+        res.status(400).send(err)
+    })
+})
 
 //======================== HOUSE ====================
 app.get('/Bill',(req,res)=>{
@@ -296,23 +311,25 @@ app.get('/EventContent',(req,res)=>{
             if(err) console.log(err)
         }).then((dataCB)=>{
             data.CreatedBy = dataCB
-
             res.render('admin_EventContent.hbs',{
                 data:encodeURI(JSON.stringify(data))
             })
+        }, (err) => {
+            res.status(400).send(err)
         })
     })
 
 })
 
-
 app.post('/saveEvent',upload.single('photos'),function(req,res){
-    console.log(req.file)
+    //console.log(req.file)
     let newAllEvent = new AllEvent({
         AllEvent_Name:req.body.Event_Name,
         AllEvent_Point:req.body.Event_Point,
         AllEvent_StartDate:req.body.Event_StartDate,
         AllEvent_EndDate:req.body.Event_EndDate,
+        AllEvent_StartTime:req.body.Event_StartTime,
+        AllEvent_EndTime:req.body.Event_EndTime,
         AllEvent_Semeter:req.body.Event_Semester,
         EventType_ID:req.body.Event_Type,
         CreatedBy_ID:req.body.Event_CreatedBy,
@@ -320,28 +337,78 @@ app.post('/saveEvent',upload.single('photos'),function(req,res){
         AllEvent_Picture:req.file.path,
         AllEvent_Descrip:req.body.Event_Description
     })
-    newAllEvent.save().then((doc)=>{
-        let data ={}
-        EventType.find({},(err,data)=>{
-            if(err) console.log(err)
-        }).then((dataEV)=>{
-            data.EventType = dataEV
-
-            CreatedBy.find({},(err,data)=>{
+    newAllEvent.save().then((doc)=>{  
+        let newOpenEvent = new OpenEvent({
+            OpenEvent_Name:req.body.Event_Name,
+            OpenEvent_Point:req.body.Event_Point,
+            OpenEvent_StartDate:req.body.Event_StartDate,
+            OpenEvent_EndDate:req.body.Event_EndDate,
+            OpenEvent_StartTime:req.body.Event_StartTime,
+            OpenEvent_EndTime:req.body.Event_EndTime,
+            OpenEvent_Semeter:req.body.Event_Semester,
+            EventType_ID:req.body.Event_Type,
+            CreatedBy_ID:req.body.Event_CreatedBy,
+            OpenEvent_Location:req.body.Event_Location,
+            OpenEvent_Picture:req.file.path,
+            OpenEvent_Descrip:req.body.Event_Description
+        })
+        newOpenEvent.save().then((doc)=>{
+            let data ={}
+            EventType.find({},(err,data)=>{
                 if(err) console.log(err)
-            }).then((dataCB)=>{
-                data.CreatedBy = dataCB
-
-                res.render('admin_EventContent.hbs',{
-                    data:encodeURI(JSON.stringify(data))
+            }).then((dataEV)=>{
+                data.EventType = dataEV
+    
+                CreatedBy.find({},(err,data)=>{
+                    if(err) console.log(err)
+                }).then((dataCB)=>{
+                    data.CreatedBy = dataCB
+    
+                    res.render('admin_EventContent.hbs',{
+                        data:encodeURI(JSON.stringify(data))
+                    })
                 })
             })
+        },(err)=>{
+            //res.render('admin_error.hbs',{})
+             res.status(400).send(err)
         })
-    },(err)=>{
-        //res.render('admin_error.hbs',{})
-         res.status(400).send(err)
     })
 })
+
+app.get('/AllEvent',(req,res)=>{
+    let data ={}
+    AllEvent.find({},(err,event)=>{
+        if(err) console.log(err)
+    }).then((event)=>{
+        data.event = event 
+        
+        CreatedBy.find({},(err,data)=>{
+            if(err) console.log(err)
+        }).then((CB)=>{
+            data.createdby = CB
+            res.render('admin_EventAll.hbs',{
+                data:encodeURI(JSON.stringify(data))
+            })
+        }, (err) => {
+            res.status(400).send(err)
+        })
+    })
+})
+
+app.post('/event/:id',(req,res)=>{
+    let id = req.params.id
+    AllEvent.find({AllEvent_ID:id},(err,data)=>{
+        if(err) console.log(err) 
+    }).then((event)=>{
+        res.render('admin_EventOpen.hbs',{
+            data:encodeURI(JSON.stringify(event))
+        })
+    }, (err) => {
+        res.status(400).send(err)
+    })
+})
+
 
 //===================================================
 app.listen(3000, () => {
