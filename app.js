@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const request = require('request');
 const bcrypt = require('bcryptjs');
 const app = express()
-const multer  = require('multer')
+const multer = require('multer')
 autoIncrement = require('mongoose-auto-increment');
 
 
@@ -18,19 +18,20 @@ const storage = multer.diskStorage({
         cb(null, file.originalname)
     }
 })
-const fileFilter = (req,file,cb)=>{
+const fileFilter = (req, file, cb) => {
     // reject file
-    if(file.mimetype === 'image/jpeg'){
-        cb(null,true);
-    }else{
-        cb(null,false);
+    if (file.mimetype === 'image/jpeg') {
+        cb(null, true);
+    } else {
+        cb(null, false);
     }
 }
-const upload = multer({ storage: storage, 
-    limits :{
-        fileSize:1024 * 1024 * 5
+const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 1024 * 1024 * 5
     },
-    fileFilter:fileFilter
+    fileFilter: fileFilter
 })
 
 //var upload = multer({ dest: 'uploads/' })
@@ -56,7 +57,7 @@ mongoose.connect('mongodb://localhost:27017/DBcoe').then((doc) => {
 // var connection = mongoose.createConnection("mongodb://localhost/DBcoe");
 autoIncrement.initialize(mongoose.createConnection('mongodb://localhost:27017/DBcoe'));
 
-//app.use(express.static('public'))
+app.use(express.static('public'))
 app.use("/", express.static(__dirname + "/public"));
 app.use("/views", express.static(__dirname + "/views"));
 app.use(express.static('uploads'));
@@ -77,30 +78,35 @@ app.use((req, res, next) => { // allow the other to connect
     next();
 })
 
-app.use('/member',MemberRounter)
+app.use('/member', MemberRounter)
 
 //==================================================================
-app.get('/MemberInsert',(req,res)=>{
-    res.render('admin_MemberInsert.hbs',{})
+app.get('/MemberInsert', (req, res) => {
+    res.render('admin_MemberInsert.hbs', {})
     //console.log('hello')
 })
 
-app.get('/error',(req,res)=>{
-    res.render('admin_error.hbs',{})
+app.get('/error', (req, res) => {
+    res.render('admin_error.hbs', {})
     //console.log('hello')
 })
 
-app.get('/edit',(req,res)=>{
-    res.render('admin_edit.hbs',{})
+app.get('/Main', (req, res) => {
+    res.render('admin_Main.hbs', {})
     //console.log('hello')
 })
 
-app.get('/MemberAll',(req,res)=>{
-    Member.find({},(err,dataMember)=>{
-        if(err) console.log(err)
-    }).then((dataMember)=>{
-        res.render('admin_MemberAll.hbs',{
-            dataMember:encodeURI(JSON.stringify(dataMember))
+app.get('/edit', (req, res) => {
+    res.render('admin_edit.hbs', {})
+    //console.log('hello')
+})
+
+app.get('/MemberAll', (req, res) => {
+    Member.find({}, (err, dataMember) => {
+        if (err) console.log(err)
+    }).then((dataMember) => {
+        res.render('admin_MemberAll.hbs', {
+            dataMember: encodeURI(JSON.stringify(dataMember))
         })
     })
 })
@@ -109,61 +115,61 @@ app.get('/MemberAll',(req,res)=>{
 app.post('/save', upload.single('photos'), function (req, res) {
     console.log(req.file)
     let newMember = new Member({
-        Member_ID : req.body.Member_ID,
-        Member_Password:req.body.Member_Password,
-        Member_Name:req.body.Member_Name,
-        Member_Lastname:req.body.Member_Lastname,
-        Member_House:req.body.Member_House,
-        Member_Profile :req.file.path,
-        Member_Status:req.body.Member_Status,
-        Member_Tel : req.body.Member_Tel
+        Member_ID: req.body.Member_ID,
+        Member_Password: req.body.Member_Password,
+        Member_Name: req.body.Member_Name,
+        Member_Lastname: req.body.Member_Lastname,
+        Member_House: req.body.Member_House,
+        Member_Profile: req.file.path,
+        Member_Status: req.body.Member_Status,
+        Member_Tel: req.body.Member_Tel
     })
-    newMember.save().then((doc)=>{
-        
+    newMember.save().then((doc) => {
+
         let newHouse = new House({
-            House_name:req.body.Member_House,
-            House_MemberID:req.body.Member_ID
+            House_name: req.body.Member_House,
+            House_MemberID: req.body.Member_ID
         })
 
-        newHouse.save().then((doc)=>{
-            res.render('admin_MemberInsert.hbs',{})
+        newHouse.save().then((doc) => {
+            res.render('admin_MemberInsert.hbs', {})
         })
 
-    },(err)=>{
+    }, (err) => {
         //res.render('admin_error.hbs',{})
-         res.status(400).send(err)
+        res.status(400).send(err)
     })
 })
 
-app.post('/edit',(req,res)=>{
+app.post('/edit', (req, res) => {
     let id = req.body.Member_ID
-     Member.findOne({Member_ID:id}).then((d)=>{
-         d.Member_ID = id
-         d.Member_Name = req.body.Member_Name
-         d.Member_Lastname = req.body.Member_Lastname
-         d.Member_House = req.body.Member_House
-         d.Member_Status = req.body.Member_Status
-         d.Member_Name = req.body.Member_Name
-         d.Member_Tel = req.body.Member_Tel
- 
-         d.save().then((success)=>{
-             console.log(' **** Success to edit Member ****')
-             Member.find({},(err,dataMember)=>{
-                 if(err) console.log(err)
-             }).then((dataMember)=>{
-                 res.render('admin_MemberAll.hbs',{
-                     dataMember:encodeURI(JSON.stringify(dataMember))
-                 })
-             })
-         },(e)=>{
-             res.status(400).send(e)
-         },(err)=>{
-             res.status(400).send(err)
-         })
-     })    
- })
+    Member.findOne({ Member_ID: id }).then((d) => {
+        d.Member_ID = id
+        d.Member_Name = req.body.Member_Name
+        d.Member_Lastname = req.body.Member_Lastname
+        d.Member_House = req.body.Member_House
+        d.Member_Status = req.body.Member_Status
+        d.Member_Name = req.body.Member_Name
+        d.Member_Tel = req.body.Member_Tel
 
- app.post('/removeMember',(req,res)=>{
+        d.save().then((success) => {
+            console.log(' **** Success to edit Member ****')
+            Member.find({}, (err, dataMember) => {
+                if (err) console.log(err)
+            }).then((dataMember) => {
+                res.render('admin_MemberAll.hbs', {
+                    dataMember: encodeURI(JSON.stringify(dataMember))
+                })
+            })
+        }, (e) => {
+            res.status(400).send(e)
+        }, (err) => {
+            res.status(400).send(err)
+        })
+    })
+})
+
+app.post('/removeMember', (req, res) => {
     console.log('dataIn :', req.body.id)
     Member.remove({ Member_ID: req.body.id }).then((data) => {
         console.log('Member deleted success')
@@ -179,80 +185,80 @@ app.post('/edit',(req,res)=>{
 })
 
 //======================== HOUSE ====================
-app.get('/Bill',(req,res)=>{
+app.get('/Bill', (req, res) => {
     let bill = 'Bill Gates'
-        Member.find({Member_House:bill},(err,dataHouse)=>{
-            if(err) console.log(err)
-        }).then((dataHouse)=>{
-            res.render('admin_HouseBill.hbs',{
-                dataHouse:encodeURI(JSON.stringify(dataHouse))
-            })
+    Member.find({ Member_House: bill }, (err, dataHouse) => {
+        if (err) console.log(err)
+    }).then((dataHouse) => {
+        res.render('admin_HouseBill.hbs', {
+            dataHouse: encodeURI(JSON.stringify(dataHouse))
         })
+    })
 })
 
-app.get('/Larry',(req,res)=>{
+app.get('/Larry', (req, res) => {
     let bill = 'Larry Page'
-        Member.find({Member_House:bill},(err,dataHouse)=>{
-            if(err) console.log(err)
-        }).then((dataHouse)=>{
-            res.render('admin_HouseLarry.hbs',{
-                dataHouse:encodeURI(JSON.stringify(dataHouse))
-            })
+    Member.find({ Member_House: bill }, (err, dataHouse) => {
+        if (err) console.log(err)
+    }).then((dataHouse) => {
+        res.render('admin_HouseLarry.hbs', {
+            dataHouse: encodeURI(JSON.stringify(dataHouse))
         })
+    })
 })
 
-app.get('/Elon',(req,res)=>{
+app.get('/Elon', (req, res) => {
     let bill = 'Elon Mask'
-        Member.find({Member_House:bill},(err,dataHouse)=>{
-            if(err) console.log(err)
-        }).then((dataHouse)=>{
-            res.render('admin_HouseElon.hbs',{
-                dataHouse:encodeURI(JSON.stringify(dataHouse))
-            })
+    Member.find({ Member_House: bill }, (err, dataHouse) => {
+        if (err) console.log(err)
+    }).then((dataHouse) => {
+        res.render('admin_HouseElon.hbs', {
+            dataHouse: encodeURI(JSON.stringify(dataHouse))
         })
+    })
 })
 
-app.get('/Mark',(req,res)=>{
+app.get('/Mark', (req, res) => {
     let bill = 'Mark Zuckerberg'
-        Member.find({Member_House:bill},(err,dataHouse)=>{
-            if(err) console.log(err)
-        }).then((dataHouse)=>{
-            res.render('admin_HouseMark.hbs',{
-                dataHouse:encodeURI(JSON.stringify(dataHouse))
-            })
+    Member.find({ Member_House: bill }, (err, dataHouse) => {
+        if (err) console.log(err)
+    }).then((dataHouse) => {
+        res.render('admin_HouseMark.hbs', {
+            dataHouse: encodeURI(JSON.stringify(dataHouse))
         })
+    })
 })
 
 
 // ============== Event Type ===================
-app.get('/EventTypeDisplay',(req,res)=>{
-    EventType.find({},(err,data)=>{
-        if(err) console.log(err)
-    }).then((dataEV)=>{
-        res.render('admin_EventTypeDisplay.hbs',{
-            dataEV:encodeURI(JSON.stringify(dataEV))
+app.get('/EventTypeDisplay', (req, res) => {
+    EventType.find({}, (err, data) => {
+        if (err) console.log(err)
+    }).then((dataEV) => {
+        res.render('admin_EventTypeDisplay.hbs', {
+            dataEV: encodeURI(JSON.stringify(dataEV))
         })
     })
 })
 
-app.get('/EventTypeInsert',(req,res)=>{
-    res.render('admin_EventTypeInsert.hbs',{})
+app.get('/EventTypeInsert', (req, res) => {
+    res.render('admin_EventTypeInsert.hbs', {})
 })
 
-app.post('/saveEventType',(req,res)=>{
+app.post('/saveEventType', (req, res) => {
     let newEventType = new EventType({
-        EventType_Name:req.body.EventType_Name,
+        EventType_Name: req.body.EventType_Name,
     })
-    newEventType.save().then((doc)=>{
+    newEventType.save().then((doc) => {
         //console.log(doc)
-        res.render('admin_EventTypeInsert.hbs',{})
-    },(err)=>{
+        res.render('admin_EventTypeInsert.hbs', {})
+    }, (err) => {
         res.status(400).send(err)
     })
-    
+
 })
 
-app.post('/removeEventType',(req,res)=>{
+app.post('/removeEventType', (req, res) => {
     console.log('dataIn :', req.body.id)
     EventType.remove({ EventType_ID: req.body.id }).then((data) => {
         console.log('Event Type deleted success')
@@ -263,33 +269,33 @@ app.post('/removeEventType',(req,res)=>{
 
 
 // ============== Created By ===================
-app.get('/CreatedByDisplay',(req,res)=>{
-    CreatedBy.find({},(err,data)=>{
-        if(err) console.log(err)
-    }).then((dataCB)=>{
-        res.render('admin_CreatedByDisplay.hbs',{
-            dataCB:encodeURI(JSON.stringify(dataCB))
+app.get('/CreatedByDisplay', (req, res) => {
+    CreatedBy.find({}, (err, data) => {
+        if (err) console.log(err)
+    }).then((dataCB) => {
+        res.render('admin_CreatedByDisplay.hbs', {
+            dataCB: encodeURI(JSON.stringify(dataCB))
         })
     })
 })
 
-app.get('/CreatedByInsert',(req,res)=>{
-    res.render('admin_CreatedByInsert.hbs',{})
+app.get('/CreatedByInsert', (req, res) => {
+    res.render('admin_CreatedByInsert.hbs', {})
 })
 
-app.post('/saveCreatedBy',(req,res)=>{
+app.post('/saveCreatedBy', (req, res) => {
     let newCreatedBy = new CreatedBy({
-        CreatedBy_Name:req.body.CreatedBy_Name
+        CreatedBy_Name: req.body.CreatedBy_Name
     })
-    newCreatedBy.save().then((doc)=>{
+    newCreatedBy.save().then((doc) => {
         console.log(doc)
-        res.render('admin_CreatedByInsert.hbs',{})
-    },(err)=>{
+        res.render('admin_CreatedByInsert.hbs', {})
+    }, (err) => {
         res.status(400).send(err)
     })
 })
 
-app.post('/removeCreatedBy',(req,res)=>{
+app.post('/removeCreatedBy', (req, res) => {
     console.log('dataIn :', req.body.id)
     CreatedBy.remove({ CreatedBy_ID: req.body.id }).then((data) => {
         console.log('Created By deleted success')
@@ -300,19 +306,19 @@ app.post('/removeCreatedBy',(req,res)=>{
 
 // ============= All Event ===================
 
-app.get('/EventContent',(req,res)=>{
-    let data ={}
-    EventType.find({},(err,data)=>{
-        if(err) console.log(err)
-    }).then((dataEV)=>{
+app.get('/EventContent', (req, res) => {
+    let data = {}
+    EventType.find({}, (err, data) => {
+        if (err) console.log(err)
+    }).then((dataEV) => {
         data.EventType = dataEV
 
-        CreatedBy.find({},(err,data)=>{
-            if(err) console.log(err)
-        }).then((dataCB)=>{
+        CreatedBy.find({}, (err, data) => {
+            if (err) console.log(err)
+        }).then((dataCB) => {
             data.CreatedBy = dataCB
-            res.render('admin_EventContent.hbs',{
-                data:encodeURI(JSON.stringify(data))
+            res.render('admin_EventContent.hbs', {
+                data: encodeURI(JSON.stringify(data))
             })
         }, (err) => {
             res.status(400).send(err)
@@ -321,74 +327,74 @@ app.get('/EventContent',(req,res)=>{
 
 })
 
-app.post('/saveEvent',upload.single('photos'),function(req,res){
+app.post('/saveEvent', upload.single('photos'), function (req, res) {
     //console.log(req.file)
     let newAllEvent = new AllEvent({
-        AllEvent_Name:req.body.Event_Name,
-        AllEvent_Point:req.body.Event_Point,
-        AllEvent_StartDate:req.body.Event_StartDate,
-        AllEvent_EndDate:req.body.Event_EndDate,
-        AllEvent_StartTime:req.body.Event_StartTime,
-        AllEvent_EndTime:req.body.Event_EndTime,
-        AllEvent_Semeter:req.body.Event_Semester,
-        EventType_ID:req.body.Event_Type,
-        CreatedBy_ID:req.body.Event_CreatedBy,
-        AllEvent_Location:req.body.Event_Location,
-        AllEvent_Picture:req.file.path,
-        AllEvent_Descrip:req.body.Event_Description
+        AllEvent_Name: req.body.Event_Name,
+        AllEvent_Point: req.body.Event_Point,
+        AllEvent_StartDate: req.body.Event_StartDate,
+        AllEvent_EndDate: req.body.Event_EndDate,
+        AllEvent_StartTime: req.body.Event_StartTime,
+        AllEvent_EndTime: req.body.Event_EndTime,
+        AllEvent_Semeter: req.body.Event_Semester,
+        EventType_ID: req.body.Event_Type,
+        CreatedBy_ID: req.body.Event_CreatedBy,
+        AllEvent_Location: req.body.Event_Location,
+        AllEvent_Picture: req.file.path,
+        AllEvent_Descrip: req.body.Event_Description
     })
-    newAllEvent.save().then((doc)=>{  
+    newAllEvent.save().then((doc) => {
         let newOpenEvent = new OpenEvent({
-            OpenEvent_Name:req.body.Event_Name,
-            OpenEvent_Point:req.body.Event_Point,
-            OpenEvent_StartDate:req.body.Event_StartDate,
-            OpenEvent_EndDate:req.body.Event_EndDate,
-            OpenEvent_StartTime:req.body.Event_StartTime,
-            OpenEvent_EndTime:req.body.Event_EndTime,
-            OpenEvent_Semeter:req.body.Event_Semester,
-            EventType_ID:req.body.Event_Type,
-            CreatedBy_ID:req.body.Event_CreatedBy,
-            OpenEvent_Location:req.body.Event_Location,
-            OpenEvent_Picture:req.file.path,
-            OpenEvent_Descrip:req.body.Event_Description
+            OpenEvent_Name: req.body.Event_Name,
+            OpenEvent_Point: req.body.Event_Point,
+            OpenEvent_StartDate: req.body.Event_StartDate,
+            OpenEvent_EndDate: req.body.Event_EndDate,
+            OpenEvent_StartTime: req.body.Event_StartTime,
+            OpenEvent_EndTime: req.body.Event_EndTime,
+            OpenEvent_Semeter: req.body.Event_Semester,
+            EventType_ID: req.body.Event_Type,
+            CreatedBy_ID: req.body.Event_CreatedBy,
+            OpenEvent_Location: req.body.Event_Location,
+            OpenEvent_Picture: req.file.path,
+            OpenEvent_Descrip: req.body.Event_Description
         })
-        newOpenEvent.save().then((doc)=>{
-            let data ={}
-            EventType.find({},(err,data)=>{
-                if(err) console.log(err)
-            }).then((dataEV)=>{
+        newOpenEvent.save().then((doc) => {
+            let data = {}
+            EventType.find({}, (err, data) => {
+                if (err) console.log(err)
+            }).then((dataEV) => {
                 data.EventType = dataEV
-    
-                CreatedBy.find({},(err,data)=>{
-                    if(err) console.log(err)
-                }).then((dataCB)=>{
+
+                CreatedBy.find({}, (err, data) => {
+                    if (err) console.log(err)
+                }).then((dataCB) => {
                     data.CreatedBy = dataCB
-    
-                    res.render('admin_EventContent.hbs',{
-                        data:encodeURI(JSON.stringify(data))
+
+                    res.render('admin_EventContent.hbs', {
+                        data: encodeURI(JSON.stringify(data))
                     })
                 })
             })
-        },(err)=>{
+        }, (err) => {
             //res.render('admin_error.hbs',{})
-             res.status(400).send(err)
+            res.status(400).send(err)
         })
     })
 })
 
-app.get('/AllEvent',(req,res)=>{
-    let data ={}
-    AllEvent.find({},(err,event)=>{
-        if(err) console.log(err)
-    }).then((event)=>{
-        data.event = event 
-        
-        CreatedBy.find({},(err,data)=>{
-            if(err) console.log(err)
-        }).then((CB)=>{
+app.get('/AllEvent', (req, res) => {
+    let data = {}
+    AllEvent.find({}, (err, event) => {
+        if (err) console.log(err)
+    }).then((event) => {
+        data.event = event
+
+        CreatedBy.find({}, (err, data) => {
+            if (err) console.log(err)
+        }).then((CB) => {
             data.createdby = CB
-            res.render('admin_EventAll.hbs',{
-                data:encodeURI(JSON.stringify(data))
+            res.render('admin_EventAll.hbs', {
+                data: encodeURI(JSON.stringify(data))
             })
         }, (err) => {
             res.status(400).send(err)
@@ -396,19 +402,75 @@ app.get('/AllEvent',(req,res)=>{
     })
 })
 
-app.post('/event/:id',(req,res)=>{
+app.post('/event/:id', (req, res) => {
     let id = req.params.id
-    AllEvent.find({AllEvent_ID:id},(err,data)=>{
-        if(err) console.log(err) 
-    }).then((event)=>{
-        res.render('admin_EventOpen.hbs',{
-            data:encodeURI(JSON.stringify(event))
+    let data = {}
+    AllEvent.find({ AllEvent_ID: id }, (err, data) => {
+        if (err) console.log(err)
+    }).then((event) => {
+        data.event = event
+
+        CreatedBy.find({}, (err, data) => {
+            if (err) console.log(err)
+        }).then((createdby) => {
+            data.createdby = createdby
+
+            EventType.find({}, (err, data) => {
+                if (err) console.log(err)
+            }).then((eventtype) => {
+                data.eventtype = eventtype
+
+                res.render('admin_EventOpen.hbs', {
+                    data: encodeURI(JSON.stringify(data))
+                })
+            }, (err) => {
+                res.status(400).send(err)
+            })
         })
-    }, (err) => {
-        res.status(400).send(err)
     })
 })
 
+// ============= เปิดกิจกรรม ====================
+app.post('/saveOpenEvent', upload.single('photos'), function (req, res) {
+
+    
+    //console.log(req.file)
+    // let newOpenEvent = new OpenEvent({
+    //     OpenEvent_Name: req.body.Event_Name,
+    //     OpenEvent_Point: req.body.Event_Point,
+    //     OpenEvent_StartDate: req.body.Event_StartDate,
+    //     OpenEvent_EndDate: req.body.Event_EndDate,
+    //     OpenEvent_StartTime: req.body.Event_StartTime,
+    //     OpenEvent_EndTime: req.body.Event_EndTime,
+    //     OpenEvent_Semeter: req.body.Event_Semester,
+    //     EventType_ID: req.body.Event_Type,
+    //     CreatedBy_ID: req.body.Event_CreatedBy,
+    //     OpenEvent_Location: req.body.Event_Location,
+    //     OpenEvent_Picture: req.file.path,
+    //     OpenEvent_Descrip: req.body.Event_Description
+    // })
+    // newOpenEvent.save().then((doc) => {
+    //     let data = {}
+    //     EventType.find({}, (err, data) => {
+    //         if (err) console.log(err)
+    //     }).then((dataEV) => {
+    //         data.EventType = dataEV
+
+    //         CreatedBy.find({}, (err, data) => {
+    //             if (err) console.log(err)
+    //         }).then((dataCB) => {
+    //             data.CreatedBy = dataCB
+
+    //             res.render('admin_EventContent.hbs', {
+    //                 data: encodeURI(JSON.stringify(data))
+    //             })
+    //         })
+    //     })
+    // }, (err) => {
+    //     //res.render('admin_error.hbs',{})
+    //     res.status(400).send(err)
+    // })
+})
 
 //===================================================
 app.listen(3000, () => {

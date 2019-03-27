@@ -19,6 +19,11 @@
         crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
         crossorigin="anonymous"></script>
+        <style>
+            h4{
+            color: crimson;
+        }
+        </style>
 </head>
 
 <body>
@@ -31,6 +36,9 @@
     
                 <ul class="list-unstyled components">
                     <p>All Functions</p>
+                    <li>
+                    <a href="http://localhost:3000/Main" >Main</a>
+                </li>
                     <li>
                         <a href="#MemberSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Member</a>
                         <ul class="collapse list-unstyled" id="MemberSubmenu">
@@ -67,9 +75,6 @@
                             </li>
                             <li>
                                 <a href="http://localhost:3000/AllEvent">All Event</a>
-                            </li>
-                            <li>
-                                <a href="#">Open/Close Event</a>
                             </li>
                             <li>
                                 <a href="http://localhost:3000/EventTypeDisplay">Event Type</a>
@@ -166,12 +171,18 @@
                         <div class="col-3">
                             <input type="text" class="form-control" id="Member_ID" name="Member_ID" placeholder="Student ID">
                         </div>
+                        <div class="col-1">
+                                    <h4>*</h4>
+                                </div>
                         <div class="col-2">
                             <label for="Password">Password</label>
                         </div>
                         <div class="col-3">
                             <input type="password" class="form-control" id="Member_Password" name="Member_Password" placeholder="Password">
                         </div>
+                        <div class="col-1">
+                                    <h4>*</h4>
+                                </div>
                     </div>
                     <div class="row m-4">
                         <div class="col-2">
@@ -180,12 +191,18 @@
                         <div class="col-3">
                             <input type="text" class="form-control" id="Member_Name" name="Member_Name" placeholder="First Name">
                         </div>
+                        <div class="col-1">
+                                    <h4>*</h4>
+                                </div>
                         <div class="col-2">
                             <label for="LastName">Last Name</label>
                         </div>
                         <div class="col-3">
                             <input type="text" class="form-control" id="Member_Lastname" name="Member_Lastname" placeholder="Last Name">
                         </div>
+                        <div class="col-1">
+                                    <h4>*</h4>
+                                </div>
                     </div>
                     <div class="row m-4">
                         <div class="col-2">
@@ -200,21 +217,30 @@
                                 <option value="Mark Zuckerberg">Mark Zuckerberg</option>
                             </select>
                         </div>
+                        <div class="col-1">
+                                    <h4>*</h4>
+                                </div>
                         <div class="col-2">
                             <label for="House">Tel</label>
                         </div>
                         <div class="col-3">
                             <input type="tel" class="form-control" id="Member_Tel" name="Member_Tel" placeholder="Telephone">
                         </div>
+                        <div class="col-1">
+                                    <h4>*</h4>
+                                </div>
                     </div>
                     <div class="row m-4">
                         <div class="col-2">
                             <label for="House">Profile</label>
                         </div>
-                        <div class="col-2">
+                        <div class="col-3">
                             <input type="file" name="photos" multiple>
                             {{!-- <input type="submit" value="upload"> --}}
                         </div>
+                        <div class="col-1">
+                                    <h4>*</h4>
+                                </div>
                        
                     </div>
                     <div class="row m-4">
@@ -228,6 +254,9 @@
                                 <option value="Non Active">Non Active</option>
                             </select>
                         </div>
+                        <div class="col-1">
+                                    <h4>*</h4>
+                                </div>
                     </div>
                     <div class="row-4 text-center ">
                             <button type="submit" value="upload" class="btn btn-primary btn-lg">SAVE</button>

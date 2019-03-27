@@ -39,12 +39,14 @@ var MemberSchema = new Schema({
     },
     Member_Status:{
         type:String,
-        required:true
+        required:true,
+        default:"Active"
     },
     Member_Tel:{
         type:String,
         required:true,
-        minlength:10
+        minlength:10,
+        unique:true
     }    
 })
 
