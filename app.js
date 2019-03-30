@@ -96,6 +96,11 @@ app.get('/Main', (req, res) => {
     //console.log('hello')
 })
 
+app.get('/SeeMoreEvent', (req, res) => {
+    res.render('admin_EventCard.hbs', {})
+    //console.log('hello')
+})
+
 app.get('/edit', (req, res) => {
     res.render('admin_edit.hbs', {})
     //console.log('hello')
