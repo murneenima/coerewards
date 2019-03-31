@@ -101,6 +101,16 @@ app.get('/SeeMoreEvent', (req, res) => {
     //console.log('hello')
 })
 
+app.get('/BehaviorContent', (req, res) => {
+    res.render('admin_BehaviorContent.hbs', {})
+    //console.log('hello')
+})
+
+app.get('/EditBehavior', (req, res) => {
+    res.render('admin_BehaviorEdit.hbs', {})
+    //console.log('hello')
+})
+
 app.get('/edit', (req, res) => {
     res.render('admin_edit.hbs', {})
     //console.log('hello')
