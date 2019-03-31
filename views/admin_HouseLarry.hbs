@@ -220,10 +220,10 @@
         var dataHouse = "{{dataHouse}}"
         var data_Larry = JSON.parse(decodeURI(dataHouse))
         var House_Larry = [];
-        console.log(data_Larry)
-        let display_MemberAll = "<thead><th>No</th><th>Member ID</th><th>Name</th><th>Last Name</th><th>Activities's Point</th><th>Behavior's Point</th></thead>";
+        //console.log(data_Larry)
+        let display_MemberAll = "<thead><th>No</th><th>Member ID</th><th>Name</th><th>Last Name</th><th>Total Point</th><th>Available Point</th></thead>";
 
-        console.log(data_Larry.length)
+        //console.log(data_Larry.length)
         for (let i = 0; i < data_Larry.length; i++) {
             House_Larry.push(data_Larry[i])
             myFunction()
@@ -231,13 +231,13 @@
         }
 
         for (let i = 0; i < House_Larry.length; i++) {
-            display_MemberAll += "<tbody><tr><td>" + (i + 1) + "</td><td>" + House_Larry[i].Member_ID + "</td><td>" + House_Larry[i].Member_Name + "</td><td>" + House_Larry[i].Member_Lastname + "</td><td>"+"+"+House_Larry[i].Member_Point+"</td><td>"+"-"+House_Larry[i].Member_MinusPoint+"</td></tr></tbody>"
+            display_MemberAll += "<tbody><tr><td>" + (i + 1) + "</td><td>" + House_Larry[i].Member_ID + "</td><td>" + House_Larry[i].Member_Name + "</td><td>" + House_Larry[i].Member_Lastname + "</td><td>"+"+"+House_Larry[i].Member_Total+"</td><td>"+"+"+House_Larry[i].Member_Available+"</td></tr></tbody>"
         }
 
         document.getElementById("member_larry").innerHTML = display_MemberAll
 
         function myFunction() {
-            House_Larry.sort(function (a, b) { return a.Member_Point - b.Member_Point });
+            House_Larry.sort(function (a, b) { return a.Member_Total - b.Member_Total });
             //console.log(Member)
         }
         

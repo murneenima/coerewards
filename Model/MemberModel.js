@@ -25,11 +25,11 @@ var MemberSchema = new Schema({
         type:String,
         required:true
     },
-    Member_Point:{
+    Member_Total:{
         type:String,
         default:"0"
     },
-    Member_MinusPoint:{
+    Member_Available:{
         type:String,
         default:"0"
     },
