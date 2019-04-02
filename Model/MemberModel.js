@@ -26,12 +26,12 @@ var MemberSchema = new Schema({
         required:true
     },
     Member_Total:{
-        type:String,
-        default:"0"
+        type:Number,
+        default:0
     },
     Member_Available:{
-        type:String,
-        default:"0"
+        type:Number,
+        default:0
     },
     Member_House:{
         type:String,

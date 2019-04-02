@@ -46,6 +46,7 @@ var EventType = require('./Model/EvenTypeModel')
 var CreatedBy = require('./Model/CreatedByModel')
 var AllEvent = require('./Model/AllEventModel')
 var OpenEvent = require('./Model/OpenEventModel')
+var Behavior = require('./Model/BehaviorModel')
 
 
 //=========================================
@@ -106,11 +107,6 @@ app.get('/BehaviorContent', (req, res) => {
     //console.log('hello')
 })
 
-app.get('/EditBehavior', (req, res) => {
-    res.render('admin_BehaviorEdit.hbs', {})
-    //console.log('hello')
-})
-
 app.get('/edit', (req, res) => {
     res.render('admin_edit.hbs', {})
     //console.log('hello')
@@ -125,7 +121,7 @@ app.get('/MemberAll', (req, res) => {
         })
     })
 })
-
+// ========================= Member ====================================
 // ==================== save data and upload photo =====================
 app.post('/save', upload.single('photos'), function (req, res) {
     console.log(req.file)
@@ -486,6 +482,73 @@ app.post('/saveOpenEvent', upload.single('photos'), function (req, res) {
     //     res.status(400).send(err)
     // })
 })
+
+// ===================== Behavior ==================
+app.post('/saveBehavior',(req,res)=>{
+    let newBehavior = new Behavior({
+        Behavior_Name :req.body.Behavior_Name,
+        Behavior_Point :req.body.Behavior_Point,
+        Behavior_Description :req.body.Behavior_Description
+    })
+
+    newBehavior.save().then((doc)=>{
+        console.log('Success to save BEHAVIOR data')
+        res.render('admin_BehaviorContent.hbs', {})
+    }, (err) => {
+        res.status(400).send(err)
+    })
+})
+
+app.get('/EditBehavior', (req, res) => {
+    Behavior.find({},(err,dataBehavior)=>{
+        if (err) console.log(err)
+    }).then((dataBehavior)=>{
+        res.render('admin_BehaviorAll.hbs', {
+            dataBehavior:encodeURI(JSON.stringify(dataBehavior))
+        })
+    })
+})
+
+app.post('/behavior/:id',(req,res)=>{
+    let id = req.params.id
+    Behavior.find({Behavior_ID:id},(err,data)=>{
+        if (err) console.log(err)
+    }).then((data)=>{
+        res.render('admin_BehaviorEdit.hbs', {
+            dataBehavior:encodeURI(JSON.stringify(data))
+        })
+    })
+})
+
+app.post('/saveEditBehavior',(req,res)=>{
+    Behavior.findOne({Behavior_ID:req.body.Behavior_ID}).then((d)=>{
+        //console.log(d)
+        // console.log('dataIn :', req.body.id)
+        // console.log('hello')
+        d.Behavior_Name = req.body.Behavior_Name,
+        d.Behavior_Point = req.body.Behavior_Point,
+        d.Behavior_Description = req.body.Behavior_Description
+
+        d.save().then((success)=>{
+            console.log('!! UPDATE data on BEHAVIOR success !!')
+            
+            Behavior.find({},(err,dataBehavior)=>{
+                if (err) console.log(err)
+            }).then((dataBehavior)=>{
+                res.render('admin_BehaviorAll.hbs', {
+                    dataBehavior:encodeURI(JSON.stringify(dataBehavior))
+                })
+            })
+        },(e) => {
+            res.status(400).send(e)
+        }, (err) => {
+            res.status(400).send(err)
+        })
+    })
+
+    
+})
+
 
 //===================================================
 app.listen(3000, () => {

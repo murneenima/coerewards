@@ -6,28 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Open Event</title>
+    <title>Behavior</title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
         crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="style.css">
 
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
         crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
         crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    {{!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> --}}
-    {{!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> --}}
-
     <style>
-        h4 {
+            h4{
             color: crimson;
         }
-    </style>
+        </style>
 </head>
 
 <body>
@@ -41,7 +37,7 @@
             <ul class="list-unstyled components">
                 <p>All Functions</p>
                 <li>
-                    <a href="http://localhost:3000/Main">Main</a>
+                    <a href="http://localhost:3000/Main" >Main</a>
                 </li>
                 <li>
                     <a href="#MemberSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Member</a>
@@ -165,81 +161,46 @@
                 </div>
             </nav>
 
-
-            <h2 class="m-2 p-3 mb-2 bg-info text-white">Edit Behavior</h2>
-            <form action="http://localhost:3000/saveEditBehavior" method="post">
-                <div class="container ">
-                        <div class="row mt-3">
-                            <div class="col-2">
-                                <label for="Behavior_Name" class="col-form-label">Behavior ID</label>
-                            </div>
-                            <div class="col-6">
-                                <input class="form-control" id="Behavior_ID" name="Behavior_ID" rows="2" placeholder="ID" readonly></input>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-2">
-                                <label for="Behavior_Name" class="col-form-label">Behavior Name</label>
-                            </div>
-                            <div class="col-6">
-                                <textarea class="form-control" id="Behavior_Name" name="Behavior_Name" rows="2" placeholder="ชื่อพฤติกรรม"></textarea>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-2">
-                                <label for="Behavior_Point" class="col-form-label">Point</label>
-                            </div>
-                            <div class="col-3">
-                                <input type="number" class="form-control" id="Behavior_Point" name="Behavior_Point" placeholder="คะแนน" required>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-2">
-                                <label for="Behavior_Description" class="col-form-label">Description</label>
-                            </div>
-                            <div class="col-6">
-                                <textarea class="form-control" id="Behavior_Description" name="Behavior_Description" rows="3" placeholder="คำอธิบาย"></textarea>
-                            </div>
-                        </div>
-                        <div class="row mt-3 ">
-                            <div class="col d-flex justify-content-end">
-                                <button type="button"  class="btn btn-primary m-2 btn-lg" data-toggle="modal" data-target="#exampleModal">Save</button>
-                                <button type="button" class="btn btn-danger m-2 btn-lg">Delete</button>
-                            </div>
-
-                        </div>
-                    
-
+            <div class="row">
+                <div class="col-6">
+                    <h2>Behavior</h2>
                 </div>
+                <div class="col-6">
+                    <div class="container">
+                        <form action="">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="input-group">
+                                        <input class="form-control border-secondary py-2" type="search" id="filter" placeholder="Search">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" type="button" >
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
 
-                <div class="line"></div>
-                <!-- Modal -->
-
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Edit Data</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                Do you want to save change ?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Save changes</button>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
-            </form>
-        
+            </div>
+            <div class="row mt-3">
+                <div class="container">
+                    <div class="table-responsive">
+                        <table id="behavior" class="table table-bordred table-striped justify-content-center text-center text-center">
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="line"></div>
 
         </div>
     </div>
 
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
     <!-- Popper.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
         crossorigin="anonymous"></script>
@@ -253,34 +214,25 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-
+        
         var data = "{{dataBehavior}}"
         var dataBehavior = JSON.parse(decodeURI(data))
         var Behavior = [];
+        //console.log(dataBehavior)
 
+        let display_Behavior = "<thead><th>No</th><th>ชื่อพฤติกรรม</th><th>คะแนน</th><th>รายละเอียด</th><th>Edit</th></thead>";
+
+        //console.log(dataBehavior.length)
         for (let i = 0; i < dataBehavior.length; i++) {
             Behavior.push(dataBehavior[i])
-        }
-        console.log(Behavior)
-        for (let i = 0; i < Behavior.length; i++) {
-            var index = Behavior[i].Behavior_ID
-            document.getElementById("Behavior_ID").value = Behavior[i].Behavior_ID
-            document.getElementById("Behavior_Name").value = Behavior[i].Behavior_Name
-            document.getElementById("Behavior_Point").value = Behavior[i].Behavior_Point
-            document.getElementById("Behavior_Description").value = Behavior[i].Behavior_Description
+            //display_Behavior += "<tbody><tr><td>" + (i + 1) + "</td><td>" + Member[i].Member_ID + "</td><td>" + Member[i].Member_Name + "</td><td>" + Member[i].Member_Lastname + "</td><td>" + Member[i].Member_House + "</td></td><td><p data-placement='top' data-toggle='tooltip' title='Edit'><button class='btn btn-primary btn-xs'  onclick='ShowModal_Edit(" + i + ")' data-title='Edit' data-toggle='modal' data-target='#edit' ><i class='fas fa-edit'></i></button></p></td><td><p data-placement='top' data-toggle='tooltip' title='Delete'><button onclick='ShowModal_delete(" + i + ")' class='btn btn-danger btn-xs' data-title='Delete' data-toggle='modal'><i class='fas fa-trash-alt'></i></button></p></td></tr></tbody>"
         }
 
-        {{!-- function Edit_Behavior(){
-            //let index = $('#delete').data('curid')
-            let id = index
-            console.log('id will delete at ' + id)
-            $.ajax('http://localhost:3000/saveEditBehavior', {
-                data: JSON.stringify({ id }),
-                contentType: 'application/json',
-                type: 'POST',
-            })
-            //location.reload();
-        } --}}
+        for (let i = 0; i < Behavior.length; i++) {
+            display_Behavior += "<tbody><tr><td>" + (i + 1) + "</td><td>" + Behavior[i].Behavior_Name + "</td><td>" + Behavior[i].Behavior_Point + "</td><td>" + Behavior[i].Behavior_Description + "</td><td><form action='http://localhost:3000/behavior/"+Behavior[i].Behavior_ID+"' method='POST'><p><button class='btn btn-primary btn-xs'><i class='fas fa-edit'></i> edit</button></p></form></td></tr></tbody>"
+        }
+
+        document.getElementById("behavior").innerHTML = display_Behavior
     </script>
 </body>
 

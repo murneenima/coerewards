@@ -20,10 +20,10 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
         crossorigin="anonymous"></script>
     <style>
-            h4{
+        h4 {
             color: crimson;
         }
-        </style>
+    </style>
 </head>
 
 <body>
@@ -37,7 +37,7 @@
             <ul class="list-unstyled components">
                 <p>All Functions</p>
                 <li>
-                    <a href="http://localhost:3000/Main" >Main</a>
+                    <a href="http://localhost:3000/Main">Main</a>
                 </li>
                 <li>
                     <a href="#MemberSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Member</a>
@@ -163,7 +163,44 @@
 
             <h2>Behavior Content</h2>
             <div class="container">
-                
+                <form action="http://localhost:3000/saveBehavior" method="POST" >
+                    <div class="row m-4 ">
+                        <div class="col-2">
+                            <label for="Behavior_Name" class="col-form-label">Behavior Name</label>
+                        </div>
+                        <div class="col-6">
+                            <textarea class="form-control" id="Behavior_Name" name="Behavior_Name" rows="2" placeholder="ชื่อพฤติกรรม"></textarea>
+                        </div>
+                        <div class="col-1">
+                            <h4>*</h4>
+                        </div>
+                   </div>
+                   <div class="row m-4">
+                        <div class="col-2">
+                            <label for="Behavior_Point" class="col-form-label">Point</label>
+                        </div>
+                        <div class="col-3">
+                             <input type="number" class="form-control" id="Behavior_Point" name="Behavior_Point" placeholder="คะแนน" required>
+                        </div>
+                        <div class="col-1">
+                                    <h4>*</h4>
+                                </div>
+                    </div>
+                   <div class="row m-4">
+                        <div class="col-2">
+                            <label for="Behavior_Description" class="col-form-label">Description</label>
+                        </div>
+                        <div class="col-3">
+                            <textarea class="form-control" id="Behavior_Description" name="Behavior_Description" rows="3" placeholder="คำอธิบาย"></textarea>
+                        </div>
+                        <div class="col-1">
+                                    <h4>*</h4>
+                                </div>
+                    </div>
+                    <div class="row-4 text-center ">
+                        <button type="submit" class="btn btn-primary btn-lg" >Save</button>
+                    </div>
+                </form>
             </div>
             <div class="line"></div>
 
@@ -186,7 +223,7 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-        
+
     </script>
 </body>
 
