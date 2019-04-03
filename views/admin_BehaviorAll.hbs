@@ -161,17 +161,16 @@
                 </div>
             </nav>
 
-            <div class="row">
-                <div class="col-6">
-                    <h2>Behavior</h2>
-                </div>
-                <div class="col-6">
+             <h2 class="m-2 p-3 mb-2 bg-info text-white">Behavior</h2>
+            
+            <div class="row d-flex justify-content-end">
+                <div class="col-5 ">
                     <div class="container">
                         <form action="">
                             <div class="row">
-                                <div class="col-12">
+                                <div class="col-12 mt-2">
                                     <div class="input-group">
-                                        <input class="form-control border-secondary py-2" type="search" id="filter" placeholder="Search">
+                                        <input class="form-control border-secondary py-2" type="search" id="filter" placeholder="Search By Id">
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-secondary" type="button" >
                                                 <i class="fa fa-search"></i>
@@ -220,7 +219,7 @@
         var Behavior = [];
         //console.log(dataBehavior)
 
-        let display_Behavior = "<thead><th>No</th><th>ชื่อพฤติกรรม</th><th>คะแนน</th><th>รายละเอียด</th><th>Edit</th></thead>";
+        let display_Behavior = "<thead ><th>No</th><th>ชื่อพฤติกรรม</th><th>คะแนน</th><th>รายละเอียด</th><th>Edit</th></thead>";
 
         //console.log(dataBehavior.length)
         for (let i = 0; i < dataBehavior.length; i++) {

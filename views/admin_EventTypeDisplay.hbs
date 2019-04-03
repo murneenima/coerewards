@@ -159,14 +159,10 @@
                 </div>
             </nav>
             <div class="container">
-                <div class="row">
-                    <div class="col-6">
-                        <h2>Event Type</h2>
-                    </div>
-                </div>
+                <h2 class="m-2 p-3 mb-2 bg-info text-white">Event Type</h2>
                 <div class="row mt-3">
                     <div class="container">
-                        <div class="table-responsive">
+                        <div class="table-responsive mt-3">
                                 <table id="table_EventType" class="table justify-content-center text-center text-center">
                                       </table>    
                         </div>
@@ -231,7 +227,7 @@
         var data = "{{dataEV}}"
         var dataEV = JSON.parse(decodeURI(data))
         var EventType = [];
-        var table_EventType = "<thead class='thead-dark'><th>No</th><th>Event Type</th><th>Delete</th></thead>"
+        var table_EventType = "<thead class='thead-light'><th>No</th><th>Event Type</th><th>Delete</th></thead>"
         for(let i=0;i<dataEV.length;i++){
             EventType.push(dataEV[i])
         }

@@ -159,15 +159,11 @@
                     </div>
                 </div>
             </nav>
+                        <h2 class="m-2 p-3 mb-2 bg-info text-white">All Event </h2>
             <div class="container">
-                <div class="row">
-                    <div class="col-6">
-                        <h2>All Event </h2>
-                    </div>
-                </div>
                 <div class="row mt-3">
                     <div class="container">
-                        <div class="table-responsive">
+                        <div class="table-responsive mt-3">
                                 <table id="event" class="table justify-content-center text-center ">
                                       </table>    
                         </div>
@@ -199,7 +195,7 @@
         var AllEvent = [];
         var CreatedBy = [];
         //console.log(dataAll.event)
-        let display_Event = "<thead><th>No</th><th>ชื่อกิจกรรม</th><th>คะแนน</th><th>จัดกิจกรรมโดย</th><th>สถานที่</th><th>เปิดกิจกรรม</th><th>Edit</th></thead>";
+        let display_Event = "<thead class='table-secondary'><th>No</th><th>ชื่อกิจกรรม</th><th>คะแนน</th><th>จัดกิจกรรมโดย</th><th>สถานที่</th><th>เปิดกิจกรรม</th><th>Edit</th></thead>";
 
         for(let i=0;i<dataAll.event.length;i++){
             AllEvent.push(dataAll.event[i])
