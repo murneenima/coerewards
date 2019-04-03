@@ -169,7 +169,7 @@
                             <label for="StudentID">Student ID</label>
                         </div>
                         <div class="col-3">
-                            <input type="text" class="form-control" id="Member_ID" name="Member_ID" placeholder="Student ID">
+                            <input type="text" class="form-control" id="Member_ID" name="Member_ID" placeholder="Student ID" required>
                         </div>
                         <div class="col-1">
                             <h4>*</h4>
@@ -178,7 +178,7 @@
                             <label for="Password">Password</label>
                         </div>
                         <div class="col-3">
-                            <input type="password" class="form-control" id="Member_Password" name="Member_Password" placeholder="Password">
+                            <input type="password" class="form-control" id="Member_Password" name="Member_Password" placeholder="Password" required>
                         </div>
                         <div class="col-1">
                             <h4>*</h4>
@@ -189,7 +189,7 @@
                             <label for="FirstName">First Name</label>
                         </div>
                         <div class="col-3">
-                            <input type="text" class="form-control" id="Member_Name" name="Member_Name" placeholder="First Name">
+                            <input type="text" class="form-control" id="Member_Name" name="Member_Name" placeholder="First Name" required>
                         </div>
                         <div class="col-1">
                             <h4>*</h4>
@@ -198,7 +198,7 @@
                             <label for="LastName">Last Name</label>
                         </div>
                         <div class="col-3">
-                            <input type="text" class="form-control" id="Member_Lastname" name="Member_Lastname" placeholder="Last Name">
+                            <input type="text" class="form-control" id="Member_Lastname" name="Member_Lastname" placeholder="Last Name" required>
                         </div>
                         <div class="col-1">
                             <h4>*</h4>
@@ -209,7 +209,7 @@
                             <label for="House">House</label>
                         </div>
                         <div class="col-3">
-                            <select class="form-control" id="Member_House" name="Member_House">
+                            <select class="form-control" id="Member_House" name="Member_House" required>
                                 <option disabled selected>Please Select</option>
                                 <option value="Bill Gates">Bill Gates</option>
                                 <option value="Larry Page">Larry Page</option>
@@ -224,7 +224,7 @@
                             <label for="House">Tel</label>
                         </div>
                         <div class="col-3">
-                            <input type="tel" class="form-control" id="Member_Tel" name="Member_Tel" placeholder="Telephone">
+                            <input type="tel" class="form-control" id="Member_Tel" name="Member_Tel" placeholder="Telephone" required>
                         </div>
                         <div class="col-1">
                             <h4>*</h4>
@@ -235,7 +235,7 @@
                             <label for="House">Profile</label>
                         </div>
                         <div class="col-3">
-                            <input type="file" name="photos" multiple> {{!--
+                            <input type="file" name="photos" multiple required> {{!--
                             <input type="submit" value="upload"> --}}
                         </div>
                         <div class="col-1">
@@ -248,7 +248,7 @@
                             <label for="House">Status</label>
                         </div>
                         <div class="col-3">
-                            <select class="form-control" id="Member_Status" name="Member_Status">
+                            <select class="form-control" id="Member_Status" name="Member_Status" required>
                                 <option disabled selected>Please Select</option>
                                 <option value="Active">Active</option>
                                 <option value="Non Active">Non Active</option>
