@@ -21,7 +21,7 @@
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    
+
     <style>
         p {
             font-size: 30px;
@@ -43,7 +43,7 @@
             <ul class="list-unstyled components">
                 <p>All Functions</p>
                 <li>
-                    <a href="http://localhost:3000/Main" >Main</a>
+                    <a href="http://localhost:3000/Main">Main</a>
                 </li>
                 <li>
                     <a href="#MemberSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Member</a>
@@ -168,8 +168,10 @@
             </nav>
 
             <div class="row">
-                <div class="col-6">
-                    <h1>Member Information</h1>
+                <div class="container">
+                <div>
+                    <h2 class="p-3 mb-2 bg-info text-white rounded" >Member Information</h2>
+                </div>
                 </div>
             </div>
             <div class="row">
@@ -179,27 +181,27 @@
                         {{!-- image --}}
                         <div class="col-md-3 well m-3" id="leftPanel">
                             <div class="row">
-                                <div class="col-md-12" >
-                                    <div id="img1"  >
-                                        <img id="img1" >
+                                <div class="col-md-12">
+                                    <div id="img1">
+                                        <img id="img1">
                                     </div>
                                 </div>
                             </div>
                             <div class="row mt-2 d-flex justify-content-center">
-                                <button type="button" class="btn btn-info btn-md btn-block">Edit Profile</button>
+                                <button type="button" class="btn btn-primary btn-sm btn-block">Edit Profile</button>
                             </div>
                             <div class="row mt-2 d-flex justify-content-center">
-                                <button type="button" class="btn btn-info btn-md btn-block">Reset Password</button>
+                                <button type="button" class="btn btn-primary btn-sm btn-block">Reset Password</button>
                             </div>
                             <div class="row mt-2 d-flex justify-content-center">
-                                <button type="button" class="btn btn-info btn-md btn-block">ย้ายบ้าน</button>
+                                <button type="button" class="btn btn-primary btn-sm btn-block">ย้ายบ้าน</button>
                             </div>
                         </div>
                         {{!-- data --}}
                         <div class="col-md-4 well ml-5" id="rightPanel">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <form  role="form" action="http://localhost:3000/edit" method="POST">
+                                    <form role="form" action="http://localhost:3000/edit" method="POST">
                                         <hr class="colorgraph">
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-6 col-md-4">
@@ -209,7 +211,7 @@
                                             </div>
                                             <div class="col-xs-12 col-sm-6 col-md-7">
                                                 <div class="form-group">
-                                                    <input type="text" name="Member_ID" id="Member_ID" class="form-control input-lg" tabindex="1" readonly>
+                                                    <label type="text" name="Member_ID" id="Member_ID" class="form-control input-lg" tabindex="1"></label>
                                                 </div>
                                             </div>
                                         </div>
@@ -221,20 +223,20 @@
                                             </div>
                                             <div class="col-xs-12 col-sm-6 col-md-7">
                                                 <div class="form-group">
-                                                    <input type="text" name="Member_Name" id="Member_Name" class="form-control input-lg" placeholder="First Name" tabindex="2">
+                                                    <label type="text" name="Member_Name" id="Member_Name" class="form-control input-lg" placeholder="First Name" tabindex="2"></label>
                                                 </div>
                                             </div>
-                                           
+
                                         </div>
                                         <div class="row">
-                                             <div class="col-xs-12 col-sm-6 col-md-4">
+                                            <div class="col-xs-12 col-sm-6 col-md-4">
                                                 <div class="form-group">
                                                     <label for="StudentID">Surname :</label>
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-6 col-md-7">
                                                 <div class="form-group">
-                                                    <input type="text" name="Member_Lastname" id="Member_Lastname" class="form-control input-lg" placeholder="Last Name" tabindex="3">
+                                                    <label type="text" name="Member_Lastname" id="Member_Lastname" class="form-control input-lg" placeholder="Last Name" tabindex="3"></label>
                                                 </div>
                                             </div>
                                         </div>
@@ -246,10 +248,10 @@
                                             </div>
                                             <div class="col-xs-12 col-sm-6 col-md-7">
                                                 <div class="form-group">
-                                                    <input type="text" name="Member_House" id="Member_House" class="form-control input-lg" placeholder="House" tabindex="4" >
+                                                    <label type="text" name="Member_House" id="Member_House" class="form-control input-lg" placeholder="House" tabindex="4"></label>
                                                 </div>
                                             </div>
-                                          
+
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-6 col-md-4">
@@ -257,25 +259,27 @@
                                                     <label for="StudentID">Tel :</label>
                                                 </div>
                                             </div>
-                                              <div class="col-xs-12 col-sm-6 col-md-7">
+                                            <div class="col-xs-12 col-sm-6 col-md-7">
                                                 <div class="form-group">
-                                                    <input type="number" name="Member_Tel" id="Member_Tel" class="form-control input-lg" tabindex="1" >
+                                                    <label type="number" name="Member_Tel" id="Member_Tel" class="form-control input-lg" tabindex="1"></label>
                                                 </div>
                                             </div>
                                         </div>
-                                         <div class="row">
+                                        <div class="row">
                                             <div class="col-xs-12 col-sm-6 col-md-4">
                                                 <div class="form-group">
                                                     <label for="StudentID">Status :</label>
                                                 </div>
                                             </div>
-                                              <div class="col-xs-12 col-sm-6 col-md-7">
+                                            <div class="col-xs-12 col-sm-6 col-md-7">
                                                 <div class="form-group">
+                                                    <label type="number" name="Member_Status" id="Member_Status" class="form-control input-lg" tabindex="1"></label>
+                                                    {{!--
                                                     <select class="form-control" id="Member_Status" name="Member_Status">
                                                         <option disabled selected>Please Select</option>
                                                         <option value="Active">Active</option>
                                                         <option value="Non Active">Non Active</option>
-                                                    </select>
+                                                    </select> --}}
                                                 </div>
                                             </div>
                                         </div>
@@ -289,17 +293,131 @@
                             <p class="text-center">Point</p>
                             <div class="row">
                                 <div class="col">
-                                    <h2 id="Member_Point" style="border: 2px solid rgb(20, 36, 109);padding: 20px;border-radius: 20px;"></h1>
-                                    <h6 style="color:darkorange" class="text-center">Total</h6>
+                                    <h2 id="Member_Point" style="border: 2px solid rgb(20, 36, 109);padding: 20px;border-radius: 20px;">
+                                        </h1>
+                                        <h6 style="color:darkorange" class="text-center">Total</h6>
                                 </div>
                                 <div class="col">
-                                    <h2 id="Member_MinusPoint" style="border: 2px solid rgb(20, 36, 109);padding: 20px;border-radius: 20px;"></h1>
-                                    <h6 style="color:rgb(99, 151, 20)" class="text-center">Available</h6>
+                                    <h2 id="Member_MinusPoint" style="border: 2px solid rgb(20, 36, 109);padding: 20px;border-radius: 20px;">
+                                        </h1>
+                                        <h6 style="color:rgb(99, 151, 20)" class="text-center">Available</h6>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <br>
                     <hr class="colorgraph">
+                </div>
+            </div>
+            <div class="row m-3">
+
+                {{!-- ===================== ประวัติการเข้าร่วมกิจกรรม ======================== --}}
+                <div class="col">
+                    <h4 class="p-3 mb-2 bg-info text-white rounded">Joined Event</h4>
+                    {{!-- <div class="row m-2">
+                        <div class="col d-flex justify-content-end">
+                            <h5> Select Year</h5>
+                        </div>
+                        <div class="col-4 d-flex justify-content-center">
+                            <select class="form-control" id="exampleFormControlSelect1">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                    </div> --}}
+                    <div class="row">
+                        <div class="container border border-dark m-2">
+                            <h5 class="m-2 d-flex justify-content-end"> ปีการศึกษา 2560</h5>
+                            <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">First</th>
+                                        <th scope="col">Last</th>
+                                        <th scope="col">Handle</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>@mdo</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>@fat</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Larry</td>
+                                        <td>the Bird</td>
+                                        <td>@twitter</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+                {{!-- ===================== ประวัติการแลกของรางวัล Rewards ======================== --}}
+                 <div class="col">
+                    <h4 class="p-3 mb-2 bg-info text-white rounded">Rewards</h4>
+                    {{!-- <div class="row m-2">
+                        <div class="col d-flex justify-content-end">
+                            <h5> Select Year</h5>
+                        </div>
+                        <div class="col-4 d-flex justify-content-center">
+                            <select class="form-control" id="exampleFormControlSelect1">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                    </div> --}}
+                    <div class="row">
+                        <div class="container border border-dark m-2">
+                            <h5 class="m-2 d-flex justify-content-end"> ปีการศึกษา 2560</h5>
+                            <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">First</th>
+                                        <th scope="col">Last</th>
+                                        <th scope="col">Handle</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>@mdo</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>@fat</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Larry</td>
+                                        <td>the Bird</td>
+                                        <td>@twitter</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -307,7 +425,7 @@
 
 
     {{!-- ############################################################################################################# --}}
- 
+
     <!-- Popper.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
         crossorigin="anonymous"></script>
@@ -343,7 +461,7 @@
             let point = ""
             let minus_point = ""
             let tel = ""
-            let image = "<img id='img1' src='../"+Member[0].Member_Profile+"' style='width: 200px;height: 200px;margin: 20px;object-fit: cover;object-position: center right'; class='img-circle img-thumbnail'>"
+            let image = "<img id='img1' src='../" + Member[0].Member_Profile + "' style='width: 200px;height: 200px;margin: 20px;object-fit: cover;object-position: center right'; class='img-circle img-thumbnail'>"
             for (let i = 0; i < Member.length; i++) {
                 console.log(Member[i])
                 id = Member[0].Member_ID
@@ -356,14 +474,14 @@
                 tel = Member[0].Member_Tel
             }
             console.log(Member[0].Member_MinusPoint)
-            document.getElementById("Member_ID").value = id
-            document.getElementById("Member_Name").value = name
-            document.getElementById("Member_Lastname").value = lastname
-            document.getElementById("Member_House").value = house
-            document.getElementById("Member_Status").value = status
-            document.getElementById("Member_Point").innerHTML = "+"+point
-            document.getElementById("Member_MinusPoint").innerHTML = "-"+minus_point
-            document.getElementById("Member_Tel").value = tel
+            document.getElementById("Member_ID").innerHTML = id
+            document.getElementById("Member_Name").innerHTML = name
+            document.getElementById("Member_Lastname").innerHTML = lastname
+            document.getElementById("Member_House").innerHTML = house
+            document.getElementById("Member_Status").innerHTML = status
+            document.getElementById("Member_Point").innerHTML = "+" + point
+            document.getElementById("Member_MinusPoint").innerHTML = "-" + minus_point
+            document.getElementById("Member_Tel").innerHTML = tel
             document.getElementById("img1").innerHTML = image
 
         }

@@ -98,7 +98,13 @@ app.get('/Main', (req, res) => {
 })
 
 app.get('/SeeMoreEvent', (req, res) => {
-    res.render('admin_EventCard.hbs', {})
+    OpenEvent.find({},(err,dataEvent)=>{
+        if (err) console.log(err)
+    }).then((dataEvent)=>{
+        res.render('admin_EventCard.hbs', {
+            dataEvent : encodeURI(JSON.stringify(dataEvent))
+        })
+    })
     //console.log('hello')
 })
 
