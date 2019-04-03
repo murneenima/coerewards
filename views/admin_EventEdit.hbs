@@ -41,7 +41,7 @@
             <ul class="list-unstyled components">
                 <p>All Functions</p>
                 <li>
-                    <a href="http://localhost:3000/Main">Main</a>
+                    <a href="http://localhost:3000/Main" >Main</a>
                 </li>
                 <li>
                     <a href="#MemberSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Member</a>
@@ -165,8 +165,7 @@
                 </div>
             </nav>
 
-
-            <h2 class="m-2 p-3 mb-2 bg-info text-white">Edit Event</h2>
+            <h2>Event Content</h2>
             <div class="container">
                 <form action="http://localhost:3000/saveEvent" method="POST" enctype="multipart/form-data">
                     <div class="row m-4 ">
@@ -177,8 +176,8 @@
                             <input type="text" class="form-control" id="Event_ID" name="Event_ID" placeholder="ID" readonly>
                         </div>
                         <div class="col-1">
-                            <h4>*</h4>
-                        </div>
+                                    <h4>*</h4>
+                                </div>
                     </div>
                     <div class="row m-4 ">
                         <div class="col-2">
@@ -188,8 +187,8 @@
                             <input type="text" class="form-control" id="Event_Name" name="Event_Name" placeholder="ชื่อกิจกรรม" required>
                         </div>
                         <div class="col-1">
-                            <h4>*</h4>
-                        </div>
+                                    <h4>*</h4>
+                                </div>
                     </div>
                     <div class="row m-4 ">
                         <div class="col-2">
@@ -199,8 +198,8 @@
                             <input type="number" class="form-control" id="Event_Point" name="Event_Point" placeholder="คะแนน" required>
                         </div>
                         <div class="col-1">
-                            <h4>*</h4>
-                        </div>
+                                    <h4>*</h4>
+                                </div>
                     </div>
                     <div class="row m-4">
                         <div class="col-2">
@@ -211,8 +210,8 @@
                             <input type="date" class="form-control" id="Event_StartDate" name="Event_StartDate" required>
                         </div>
                         <div class="col-1">
-                            <h4>*</h4>
-                        </div>
+                                    <h4>*</h4>
+                                </div>
                         <div class="col-2">
                             <label for="Event_EndDate" class="col-form-label">End Date</label>
                         </div>
@@ -220,8 +219,8 @@
                             <input type="date" class="form-control" id="Event_EndDate" name="Event_EndDate" required>
                         </div>
                         <div class="col-1">
-                            <h4>*</h4>
-                        </div>
+                                    <h4>*</h4>
+                                </div>
                     </div>
                     <div class="row m-4">
                         <div class="col-2">
@@ -255,7 +254,7 @@
                         <div class="col-2">
                             <label for="Event_Semester" class="col-form-label">Semester</label>
                         </div>
-                        <div class="col-3">
+                        <div class="col-4">
                             <select class="form-control" id="Event_Semester" name="Event_Semester" required>
                                 <option disabled selected>-Please Select-</option>
                                 <option value="1">Semester 1</option>
@@ -264,43 +263,45 @@
                             </select>
                         </div>
                         <div class="col-1">
-                            <h4>*</h4>
-                        </div>
+                                    <h4>*</h4>
+                                </div>
                     </div>
                     <div class="row m-4">
                         <div class="col-2">
                             <label for="Event_Type" class="col-form-label">ประเภทของกิจกรรม</label>
                         </div>
-                        <div class="col-3">
-                            <select class="form-control" id="Event_Type" name="Event_Type" required>
+                        <div class="col-4">
+                            <select class="form-control" id="Event_Type" name="Event_Type">
 
                             </select>
                         </div>
                         <div class="col-1">
-                            <h4>*</h4>
-                        </div>
+                                    <h4>*</h4>
+                                </div>
+                    </div>
+                    <div class="row m-4">
                         <div class="col-2">
                             <label for="Event_CreatedBy" class="col-form-label">จัดโดย</label>
                         </div>
-                        <div class="col-3">
+                        <div class="col-4">
                             <select class="form-control" id="Event_CreatedBy" name="Event_CreatedBy" required>
 
                             </select>
                         </div>
                         <div class="col-1">
-                            <h4>*</h4>
-                        </div>
+                                    <h4>*</h4>
+                                </div>
                     </div>
                     <div class="row m-4">
                         <div class="col-2">
                             <label for="Event_Location" class="col-form-label">Location</label>
                         </div>
-                        <div class="col-3">
+                        <div class="col-4">
                             <textarea type="text" class="form-control" id="Event_Location" name="Event_Location" rows="2" placeholder="สถานที่"></textarea>
                         </div>
                         <div class="col-1">
-                            <h4>*</h4>
-                        </div>
+                                    <h4>*</h4>
+                                </div>
                     </div>
                     <div class="row m-4">
                         <div class="col-2">
@@ -314,12 +315,12 @@
                         <div class="col-2">
                             <label for="Event_Description" class="col-form-label">Description</label>
                         </div>
-                        <div class="col-3">
+                        <div class="col-4">
                             <textarea class="form-control" id="Event_Description" name="Event_Description" rows="3"></textarea>
                         </div>
                         <div class="col-1">
-                            <h4>*</h4>
-                        </div>
+                                    <h4>*</h4>
+                                </div>
                     </div>
                     <div class="row-4 text-center ">
                         <button type="submit" class="btn btn-primary btn-lg">Save</button>
@@ -331,6 +332,9 @@
         </div>
     </div>
 
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
     <!-- Popper.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
         crossorigin="anonymous"></script>
@@ -344,13 +348,37 @@
                 $('#sidebar').toggleClass('active');
             });
         });
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementsByName("Event_StartDate")[0].setAttribute('min', today);
+        document.getElementsByName("Event_EndDate")[0].setAttribute('min', today);
 
-        var data = "{{dataEvent}}"
+        var data = "{{data}}"
         var dataEvent = JSON.parse(decodeURI(data))
         var Event = [];
+        var EventType=[];
+        var CreatedBy =[];
+        var select_eventtype = '<option disabled selected>-Please Select-</option>'
+        var select_createdby = '<option disabled selected>-Please Select-</option>'
 
-        for (let i = 0; i < dataEvent.length; i++) {
-            Event.push(dataEvent[i])
+        // ======= Event Type ========
+        console.log(dataEvent)
+        for(let i = 0; i < dataEvent.eventtype.length; i++){
+            EventType.push(dataEvent.eventtype[i])
+            select_eventtype += '<option>'+EventType[i].EventType_Name+'</option>'
+        }
+             document.getElementById("Event_Type").innerHTML = select_eventtype
+
+        // ======= Created By ========
+        for(let i = 0; i < dataEvent.createdby.length; i++){
+            CreatedBy.push(dataEvent.createdby[i])
+            select_createdby += '<option>'+CreatedBy[i].CreatedBy_Name+'</option>'
+        }
+            document.getElementById("Event_CreatedBy").innerHTML = select_createdby
+
+
+        // ======= Event =============
+        for (let i = 0; i < dataEvent.event.length; i++) {
+            Event.push(dataEvent.event[i])
             document.getElementById("Event_ID").value = Event[i].AllEvent_ID
             document.getElementById("Event_Name").value = Event[i].AllEvent_Name
             document.getElementById("Event_Point").value = Event[i].AllEvent_Point
@@ -362,24 +390,13 @@
             document.getElementById("Event_Type").value = Event[i].EventType_ID
             document.getElementById("Event_CreatedBy").value = Event[i].CreatedBy_ID
             document.getElementById("Event_Location").value = Event[i].AllEvent_Location
-            //document.getElementById("Event_Location").value = Event[i].AllEvent_Picture
             document.getElementById("Event_Description").value = Event[i].AllEvent_Descrip
+            //document.getElementById("Event_Location").value = Event[i].AllEvent_Picture
             
-        }
-        console.log(Event)
+        } 
         
-       // function Edit_Behavior() {
-            //let index = $('#delete').data('curid')
-        //    let id = index
-        //    console.log('id will delete at ' + id)
-        //    $.ajax('http://localhost:3000/saveEditBehavior', {
-        //        data: JSON.stringify({ id }),
-        //        contentType: 'application/json',
-       //         type: 'POST',
-        //    })
-            //location.reload();
 
-       // }
+        
     </script>
 </body>
 

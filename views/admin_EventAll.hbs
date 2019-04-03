@@ -199,7 +199,7 @@
         var AllEvent = [];
         var CreatedBy = [];
         //console.log(dataAll.event)
-        let display_Event = "<thead><th>No</th><th>ชื่อกิจกรรม</th><th>คะแนน</th><th>จัดกิจกรรมโดย</th><th>สถานที่</th><th>เปิดกิจกรรม</th><th>Edit</th><th>Delete</th></thead>";
+        let display_Event = "<thead><th>No</th><th>ชื่อกิจกรรม</th><th>คะแนน</th><th>จัดกิจกรรมโดย</th><th>สถานที่</th><th>เปิดกิจกรรม</th><th>Edit</th></thead>";
 
         for(let i=0;i<dataAll.event.length;i++){
             AllEvent.push(dataAll.event[i])
@@ -210,7 +210,7 @@
         console.log(AllEvent)
 
         for(let i=0;i<AllEvent.length;i++){
-            display_Event+= "<tbody><tr><td>" + (i + 1) + "</td><td>" + AllEvent[i].AllEvent_Name + "</td><td>" + AllEvent[i].AllEvent_Point + "</td><td>" + AllEvent[i].CreatedBy_ID + "</td><td>" + AllEvent[i].AllEvent_Location + "</td></td><td><form action='http://localhost:3000/event/"+AllEvent[i].AllEvent_ID+"' method='POST' enctype='multipart/form-data'><p><button class='btn btn-success btn-xs'>open</button></p></form></td><td><p data-placement='top' data-toggle='tooltip' title='Edit'><button class='btn btn-primary btn-xs'  onclick='ShowModal_Edit(" + i + ")' data-title='Edit' data-toggle='modal' data-target='#edit' ><i class='fas fa-user-edit'></i></button></p></td><td><p data-placement='top' data-toggle='tooltip' title='Delete'><button onclick='ShowModal_deleteMember(" + i + ")' class='btn btn-danger btn-xs' data-title='Delete' data-toggle='modal'><i class='fas fa-trash-alt'></i></button></p></td></tr></tbody>"
+            display_Event+= "<tbody><tr><td>" + (i + 1) + "</td><td>" + AllEvent[i].AllEvent_Name + "</td><td>" + AllEvent[i].AllEvent_Point + "</td><td>" + AllEvent[i].CreatedBy_ID + "</td><td>" + AllEvent[i].AllEvent_Location + "</td></td><td><form action='http://localhost:3000/event/"+AllEvent[i].AllEvent_ID+"' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'>เปิดกิจกรรม</button></p></form></td><td><form action='http://localhost:3000/event/edit/"+AllEvent[i].AllEvent_ID+"' method='POST'><p><button class='btn btn-info btn-xs'><i class='fas fa-edit'></i> edit</button></p></form></td></tr></tbody>"
         }
         document.getElementById("event").innerHTML = display_Event
 

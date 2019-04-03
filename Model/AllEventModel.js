@@ -11,7 +11,7 @@ var AllEventSchema = new Schema({
         required:true
     },
     AllEvent_Point:{
-        type:String,
+        type:Number,
         required:true
     },
     AllEvent_StartDate:{
@@ -52,9 +52,12 @@ var AllEventSchema = new Schema({
     AllEvent_Descrip:{
         type:String
     },
-    AllEvent_Count:{
+    AllEvent_Year:{
+        type:String
+    },
+    AllEvent_Count:{ // จำนวนครั้งที่จัด
         type:Number,
-        default:"0"
+        default:1
     }
 })
 AllEventSchema.plugin(autoIncrement.plugin, {

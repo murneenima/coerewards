@@ -339,6 +339,7 @@ app.get('/EventContent', (req, res) => {
 })
 
 app.post('/saveEvent', upload.single('photos'), function (req, res) {
+
     //console.log(req.file)
     let newAllEvent = new AllEvent({
         AllEvent_Name: req.body.Event_Name,
@@ -352,7 +353,8 @@ app.post('/saveEvent', upload.single('photos'), function (req, res) {
         CreatedBy_ID: req.body.Event_CreatedBy,
         AllEvent_Location: req.body.Event_Location,
         AllEvent_Picture: req.file.path,
-        AllEvent_Descrip: req.body.Event_Description
+        AllEvent_Descrip: req.body.Event_Description,
+        AllEvent_Year: req.body.Event_Year
     })
     newAllEvent.save().then((doc) => {
         let newOpenEvent = new OpenEvent({
@@ -367,7 +369,8 @@ app.post('/saveEvent', upload.single('photos'), function (req, res) {
             CreatedBy_ID: req.body.Event_CreatedBy,
             OpenEvent_Location: req.body.Event_Location,
             OpenEvent_Picture: req.file.path,
-            OpenEvent_Descrip: req.body.Event_Description
+            OpenEvent_Descrip: req.body.Event_Description,
+            OpenEvent_Year: req.body.Event_Year
         })
         newOpenEvent.save().then((doc) => {
             let data = {}
@@ -381,6 +384,7 @@ app.post('/saveEvent', upload.single('photos'), function (req, res) {
                 }).then((dataCB) => {
                     data.CreatedBy = dataCB
 
+                    console.log('Succes to save data on ALL EVENT and OPEN EVENT')
                     res.render('admin_EventContent.hbs', {
                         data: encodeURI(JSON.stringify(data))
                     })
@@ -441,57 +445,168 @@ app.post('/event/:id', (req, res) => {
     })
 })
 
+app.post('/event/edit/:id', (req, res) => {
+    let id = req.params.id
+    let data = {}
+    AllEvent.find({ AllEvent_ID: id }, (err, data) => {
+        if (err) console.log(err)
+    }).then((event) => {
+        data.event = event
+
+        CreatedBy.find({}, (err, data) => {
+            if (err) console.log(err)
+        }).then((createdby) => {
+            data.createdby = createdby
+
+            EventType.find({}, (err, data) => {
+                if (err) console.log(err)
+            }).then((eventtype) => {
+                data.eventtype = eventtype
+
+                res.render('admin_EventEdit.hbs', {
+                    data: encodeURI(JSON.stringify(data))
+                })
+            }, (err) => {
+                res.status(400).send(err)
+            })
+        })
+    })
+})
+
 // ============= เปิดกิจกรรม ====================
 app.post('/saveOpenEvent', upload.single('photos'), function (req, res) {
+    if (req.file == undefined) {
+        console.log('hello')
+        AllEvent.find({
+            AllEvent_ID: req.body.Event_ID
+        }).then((data) => {
+            console.log('data is' + data[0])
+            let newOpenEvent = new OpenEvent({
+                OpenEvent_Name: req.body.Event_Name,
+                OpenEvent_Point: req.body.Event_Point,
+                OpenEvent_StartDate: req.body.Event_StartDate,
+                OpenEvent_EndDate: req.body.Event_EndDate,
+                OpenEvent_StartTime: req.body.Event_StartTime,
+                OpenEvent_EndTime: req.body.Event_EndTime,
+                OpenEvent_Semeter: req.body.Event_Semester,
+                EventType_ID: req.body.Event_Type,
+                CreatedBy_ID: req.body.Event_CreatedBy,
+                OpenEvent_Location: req.body.Event_Location,
+                OpenEvent_Picture: data[0].AllEvent_Picture,
+                OpenEvent_Descrip: req.body.Event_Description,
+                OpenEvent_Count: data[0].AllEvent_Count + 1
+
+            })
+
+            newOpenEvent.save().then((doc) => {
+                AllEvent.findOne({ AllEvent_ID: req.body.Event_ID }, function (err, data) {
+                    if (data) {
+                        data.AllEvent_Count += 1
+                        data.save(function (err) {
+                            if (err) // do something
+                                console.log('is fail to update COUNT ON ALLEVENT')
+                            else
+                                console.log('is UPdated COUNT ALLEVENT')
+                        });
+                    } else {
+                        console.log(err);
+                    }
+                });
+
+                let data = {}
+                EventType.find({}, (err, data) => {
+                    if (err) console.log(err)
+                }).then((dataEV) => {
+                    data.EventType = dataEV
+
+                    CreatedBy.find({}, (err, data) => {
+                        if (err) console.log(err)
+                    }).then((dataCB) => {
+                        data.CreatedBy = dataCB
+
+                        res.render('admin_EventContent.hbs', {
+                            data: encodeURI(JSON.stringify(data))
+                        })
+                    })
+                })
+            }, (err) => {
+                //res.render('admin_error.hbs',{})
+                res.status(400).send(err)
+            })
+        })
+    }else{
+        AllEvent.find({
+        AllEvent_ID: req.body.Event_ID
+    }).then((data) => {
+        console.log('data is' + data[0])
+        let newOpenEvent = new OpenEvent({
+            OpenEvent_Name: req.body.Event_Name,
+            OpenEvent_Point: req.body.Event_Point,
+            OpenEvent_StartDate: req.body.Event_StartDate,
+            OpenEvent_EndDate: req.body.Event_EndDate,
+            OpenEvent_StartTime: req.body.Event_StartTime,
+            OpenEvent_EndTime: req.body.Event_EndTime,
+            OpenEvent_Semeter: req.body.Event_Semester,
+            EventType_ID: req.body.Event_Type,
+            CreatedBy_ID: req.body.Event_CreatedBy,
+            OpenEvent_Location: req.body.Event_Location,
+            OpenEvent_Picture: req.file.path,
+            OpenEvent_Descrip: req.body.Event_Description,
+            OpenEvent_Count: data[0].AllEvent_Count + 1
+
+        })
+
+        newOpenEvent.save().then((doc) => {
+
+            AllEvent.findOne({AllEvent_ID: req.body.Event_ID},function(err,data){
+                if(data){
+                    data.AllEvent_Count += 1
+                    data.save(function(err) {
+                        if (err) // do something
+                        console.log('is fail to update COUNT ON ALLEVENT')
+                        else 
+                        console.log('is UPdated COUNT ALLEVENT')
+                    });
+                }else{
+                    console.log(err);
+                }
+            });
+
+            let data = {}
+            EventType.find({}, (err, data) => {
+                if (err) console.log(err)
+            }).then((dataEV) => {
+                data.EventType = dataEV
+
+                CreatedBy.find({}, (err, data) => {
+                    if (err) console.log(err)
+                }).then((dataCB) => {
+                    data.CreatedBy = dataCB
+
+                    res.render('admin_EventContent.hbs', {
+                        data: encodeURI(JSON.stringify(data))
+                    })
+                })
+            })
+        }, (err) => {
+            //res.render('admin_error.hbs',{})
+            res.status(400).send(err)
+        })
+    })
+    }
 
     
-    //console.log(req.file)
-    // let newOpenEvent = new OpenEvent({
-    //     OpenEvent_Name: req.body.Event_Name,
-    //     OpenEvent_Point: req.body.Event_Point,
-    //     OpenEvent_StartDate: req.body.Event_StartDate,
-    //     OpenEvent_EndDate: req.body.Event_EndDate,
-    //     OpenEvent_StartTime: req.body.Event_StartTime,
-    //     OpenEvent_EndTime: req.body.Event_EndTime,
-    //     OpenEvent_Semeter: req.body.Event_Semester,
-    //     EventType_ID: req.body.Event_Type,
-    //     CreatedBy_ID: req.body.Event_CreatedBy,
-    //     OpenEvent_Location: req.body.Event_Location,
-    //     OpenEvent_Picture: req.file.path,
-    //     OpenEvent_Descrip: req.body.Event_Description
-    // })
-    // newOpenEvent.save().then((doc) => {
-    //     let data = {}
-    //     EventType.find({}, (err, data) => {
-    //         if (err) console.log(err)
-    //     }).then((dataEV) => {
-    //         data.EventType = dataEV
-
-    //         CreatedBy.find({}, (err, data) => {
-    //             if (err) console.log(err)
-    //         }).then((dataCB) => {
-    //             data.CreatedBy = dataCB
-
-    //             res.render('admin_EventContent.hbs', {
-    //                 data: encodeURI(JSON.stringify(data))
-    //             })
-    //         })
-    //     })
-    // }, (err) => {
-    //     //res.render('admin_error.hbs',{})
-    //     res.status(400).send(err)
-    // })
 })
 
 // ===================== Behavior ==================
-app.post('/saveBehavior',(req,res)=>{
+app.post('/saveBehavior', (req, res) => {
     let newBehavior = new Behavior({
-        Behavior_Name :req.body.Behavior_Name,
-        Behavior_Point :req.body.Behavior_Point,
-        Behavior_Description :req.body.Behavior_Description
+        Behavior_Name: req.body.Behavior_Name,
+        Behavior_Point: req.body.Behavior_Point,
+        Behavior_Description: req.body.Behavior_Description
     })
 
-    newBehavior.save().then((doc)=>{
+    newBehavior.save().then((doc) => {
         console.log('Success to save BEHAVIOR data')
         res.render('admin_BehaviorContent.hbs', {})
     }, (err) => {
@@ -500,53 +615,53 @@ app.post('/saveBehavior',(req,res)=>{
 })
 
 app.get('/EditBehavior', (req, res) => {
-    Behavior.find({},(err,dataBehavior)=>{
+    Behavior.find({}, (err, dataBehavior) => {
         if (err) console.log(err)
-    }).then((dataBehavior)=>{
+    }).then((dataBehavior) => {
         res.render('admin_BehaviorAll.hbs', {
-            dataBehavior:encodeURI(JSON.stringify(dataBehavior))
+            dataBehavior: encodeURI(JSON.stringify(dataBehavior))
         })
     })
 })
 
-app.post('/behavior/:id',(req,res)=>{
+app.post('/behavior/:id', (req, res) => {
     let id = req.params.id
-    Behavior.find({Behavior_ID:id},(err,data)=>{
+    Behavior.find({ Behavior_ID: id }, (err, data) => {
         if (err) console.log(err)
-    }).then((data)=>{
+    }).then((data) => {
         res.render('admin_BehaviorEdit.hbs', {
-            dataBehavior:encodeURI(JSON.stringify(data))
+            dataBehavior: encodeURI(JSON.stringify(data))
         })
     })
 })
 
-app.post('/saveEditBehavior',(req,res)=>{
-    Behavior.findOne({Behavior_ID:req.body.Behavior_ID}).then((d)=>{
+app.post('/saveEditBehavior', (req, res) => {
+    Behavior.findOne({ Behavior_ID: req.body.Behavior_ID }).then((d) => {
         //console.log(d)
         // console.log('dataIn :', req.body.id)
         // console.log('hello')
         d.Behavior_Name = req.body.Behavior_Name,
-        d.Behavior_Point = req.body.Behavior_Point,
-        d.Behavior_Description = req.body.Behavior_Description
+            d.Behavior_Point = req.body.Behavior_Point,
+            d.Behavior_Description = req.body.Behavior_Description
 
-        d.save().then((success)=>{
+        d.save().then((success) => {
             console.log('!! UPDATE data on BEHAVIOR success !!')
-            
-            Behavior.find({},(err,dataBehavior)=>{
+
+            Behavior.find({}, (err, dataBehavior) => {
                 if (err) console.log(err)
-            }).then((dataBehavior)=>{
+            }).then((dataBehavior) => {
                 res.render('admin_BehaviorAll.hbs', {
-                    dataBehavior:encodeURI(JSON.stringify(dataBehavior))
+                    dataBehavior: encodeURI(JSON.stringify(dataBehavior))
                 })
             })
-        },(e) => {
+        }, (e) => {
             res.status(400).send(e)
         }, (err) => {
             res.status(400).send(err)
         })
     })
 
-    
+
 })
 
 

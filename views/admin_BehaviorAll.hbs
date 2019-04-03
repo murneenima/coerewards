@@ -229,7 +229,7 @@
         }
 
         for (let i = 0; i < Behavior.length; i++) {
-            display_Behavior += "<tbody><tr><td>" + (i + 1) + "</td><td>" + Behavior[i].Behavior_Name + "</td><td>" + Behavior[i].Behavior_Point + "</td><td>" + Behavior[i].Behavior_Description + "</td><td><form action='http://localhost:3000/behavior/"+Behavior[i].Behavior_ID+"' method='POST'><p><button class='btn btn-primary btn-xs'><i class='fas fa-edit'></i> edit</button></p></form></td></tr></tbody>"
+            display_Behavior += "<tbody><tr><td>" + (i + 1) + "</td><td>" + Behavior[i].Behavior_Name + "</td><td>" + Behavior[i].Behavior_Point + "</td><td>" + Behavior[i].Behavior_Description + "</td><td><form action='http://localhost:3000/behavior/"+Behavior[i].Behavior_ID+"' method='POST'><p><button class='btn btn-info btn-xs'><i class='fas fa-edit'></i> Edit</button></p></form></td></tr></tbody>"
         }
 
         document.getElementById("behavior").innerHTML = display_Behavior

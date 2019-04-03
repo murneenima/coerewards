@@ -11,7 +11,7 @@ var OpenEventSchema = new Schema({
         required:true
     },
     OpenEvent_Point:{
-        type:String,
+        type:Number,
         required:true
     },
     OpenEvent_StartDate:{
@@ -52,9 +52,12 @@ var OpenEventSchema = new Schema({
     OpenEvent_Descrip:{
         type:String
     },
+    OpenEvent_Year:{
+        type:String
+    },
     OpenEvent_Count:{
         type:Number,
-        default:"0"
+        default:1
     }
 })
 OpenEventSchema.plugin(autoIncrement.plugin, {
