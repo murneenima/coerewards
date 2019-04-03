@@ -127,6 +127,19 @@ app.get('/MemberAll', (req, res) => {
         })
     })
 })
+
+// reward
+app.get('/rewardContent', (req, res) => {
+    res.render('admin_RewardContent.hbs', {})
+    //console.log('hello')
+})
+// edit reward
+app.get('/editReward', (req, res) => {
+    res.render('admin_RewardEdit.hbs', {})
+    //console.log('hello')
+})
+
+
 // ========================= Member ====================================
 // ==================== save data and upload photo =====================
 app.post('/save', upload.single('photos'), function (req, res) {

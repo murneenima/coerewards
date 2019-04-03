@@ -6,23 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Open Event</title>
+    <title>Reward Content</title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
         crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="style.css">
 
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
         crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
         crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    {{!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> --}}
-    {{!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> --}}
-
     <style>
         h4 {
             color: crimson;
@@ -41,7 +37,7 @@
             <ul class="list-unstyled components">
                 <p>All Functions</p>
                 <li>
-                    <a href="http://localhost:3000/Main">Main</a>
+                    <a href="http://localhost:3000/Main" >Main</a>
                 </li>
                 <li>
                     <a href="#MemberSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Member</a>
@@ -113,7 +109,7 @@
                         </li>
                     </ul>
                 </li>
-                <li>
+               <li>
                     <a href="#RewardSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Rewards</a>
                     <ul class="collapse list-unstyled" id="RewardSubmenu">
                         <li>
@@ -165,81 +161,116 @@
                 </div>
             </nav>
 
-
-            <h2 class="m-2 p-3 mb-2 bg-info text-white">Edit Behavior</h2>
-            <form action="http://localhost:3000/saveEditBehavior" method="post">
-                <div class="container ">
-                        <div class="row mt-3">
-                            <div class="col-2">
-                                <label for="Behavior_Name" class="col-form-label">Behavior ID</label>
-                            </div>
-                            <div class="col-6">
-                                <input class="form-control" id="Behavior_ID" name="Behavior_ID" rows="2" placeholder="ID" readonly></input>
-                            </div>
+            <h2 class="m-2 p-3 mb-2 bg-info text-white">Reward Content</h2>
+            <div class="container">
+                <form action="http://localhost:3000/save" method="POST" enctype="multipart/form-data">
+                    <div class="row m-4 mt-5">
+                        <div class="col-2">
+                            <label for="StudentID">Student ID</label>
                         </div>
-                        <div class="row mt-3">
-                            <div class="col-2">
-                                <label for="Behavior_Name" class="col-form-label">Behavior Name</label>
-                            </div>
-                            <div class="col-6">
-                                <textarea class="form-control" id="Behavior_Name" name="Behavior_Name" rows="2" placeholder="ชื่อพฤติกรรม"></textarea>
-                            </div>
+                        <div class="col-3">
+                            <input type="text" class="form-control" id="Member_ID" name="Member_ID" placeholder="Student ID" required>
                         </div>
-                        <div class="row mt-3">
-                            <div class="col-2">
-                                <label for="Behavior_Point" class="col-form-label">Point</label>
-                            </div>
-                            <div class="col-3">
-                                <input type="number" class="form-control" id="Behavior_Point" name="Behavior_Point" placeholder="คะแนน" required>
-                            </div>
+                        <div class="col-1">
+                            <h4>*</h4>
                         </div>
-                        <div class="row mt-3">
-                            <div class="col-2">
-                                <label for="Behavior_Description" class="col-form-label">Description</label>
-                            </div>
-                            <div class="col-6">
-                                <textarea class="form-control" id="Behavior_Description" name="Behavior_Description" rows="3" placeholder="คำอธิบาย"></textarea>
-                            </div>
+                        <div class="col-2">
+                            <label for="Password">Password</label>
                         </div>
-                        <div class="row mt-3 ">
-                            <div class="col d-flex justify-content-end">
-                                <button type="button"  class="btn btn-primary m-2 btn-lg" data-toggle="modal" data-target="#exampleModal">Save</button>
-                                {{!-- <button type="button" class="btn btn-danger m-2 btn-lg">Delete</button> --}}
-                            </div>
-
+                        <div class="col-3">
+                            <input type="password" class="form-control" id="Member_Password" name="Member_Password" placeholder="Password" required>
                         </div>
-                    
-
-                </div>
-
-                <div class="line"></div>
-                <!-- Modal -->
-
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Edit Data</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                Do you want to save change ?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Save changes</button>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
+                        <div class="col-1">
+                            <h4>*</h4>
                         </div>
                     </div>
-                </div>
-            </form>
-        
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="FirstName">First Name</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="text" class="form-control" id="Member_Name" name="Member_Name" placeholder="First Name" required>
+                        </div>
+                        <div class="col-1">
+                            <h4>*</h4>
+                        </div>
+                        <div class="col-2">
+                            <label for="LastName">Last Name</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="text" class="form-control" id="Member_Lastname" name="Member_Lastname" placeholder="Last Name" required>
+                        </div>
+                        <div class="col-1">
+                            <h4>*</h4>
+                        </div>
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="House">House</label>
+                        </div>
+                        <div class="col-3">
+                            <select class="form-control" id="Member_House" name="Member_House" required>
+                                <option value="">Please select</option>
+                                <option value="Bill Gates">Bill Gates</option>
+                                <option value="Larry Page">Larry Page</option>
+                                <option value="Elon Mask">Elon Mask</option>
+                                <option value="Mark Zuckerberg">Mark Zuckerberg</option>
+                            </select>
+                        </div>
+                        <div class="col-1">
+                            <h4>*</h4>
+                        </div>
+                        <div class="col-2">
+                            <label for="House">Tel</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="tel" class="form-control" id="Member_Tel" name="Member_Tel" placeholder="Telephone" required>
+                        </div>
+                        <div class="col-1">
+                            <h4>*</h4>
+                        </div>
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="House">Profile</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="file" name="photos" multiple required> {{!--
+                            <input type="submit" value="upload"> --}}
+                        </div>
+                        <div class="col-1">
+                            <h4>*</h4>
+                        </div>
+
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="House">Status</label>
+                        </div>
+                        <div class="col-3">
+                            <select class="form-control" id="Member_Status" name="Member_Status" required>
+                                <option value="">Please select</option>
+                                <option value="Active">Active</option>
+                                <option value="Non Active">Non Active</option>
+                            </select>
+                        </div>
+                        <div class="col-1">
+                            <h4>*</h4>
+                        </div>
+                    </div>
+                    <div class="row-4 text-center ">
+                        <button type="submit" value="upload" class="btn btn-primary btn-lg">SAVE</button>
+                    </div>
+                </form>
+            </div>
+            <div class="line"></div>
 
         </div>
     </div>
 
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
     <!-- Popper.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
         crossorigin="anonymous"></script>
@@ -253,34 +284,6 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-
-        var data = "{{dataBehavior}}"
-        var dataBehavior = JSON.parse(decodeURI(data))
-        var Behavior = [];
-
-        for (let i = 0; i < dataBehavior.length; i++) {
-            Behavior.push(dataBehavior[i])
-        }
-        console.log(Behavior)
-        for (let i = 0; i < Behavior.length; i++) {
-            var index = Behavior[i].Behavior_ID
-            document.getElementById("Behavior_ID").value = Behavior[i].Behavior_ID
-            document.getElementById("Behavior_Name").value = Behavior[i].Behavior_Name
-            document.getElementById("Behavior_Point").value = Behavior[i].Behavior_Point
-            document.getElementById("Behavior_Description").value = Behavior[i].Behavior_Description
-        }
-
-        {{!-- function Edit_Behavior(){
-            //let index = $('#delete').data('curid')
-            let id = index
-            console.log('id will delete at ' + id)
-            $.ajax('http://localhost:3000/saveEditBehavior', {
-                data: JSON.stringify({ id }),
-                contentType: 'application/json',
-                type: 'POST',
-            })
-            //location.reload();
-        } --}}
     </script>
 </body>
 
