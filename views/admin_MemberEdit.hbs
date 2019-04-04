@@ -147,7 +147,6 @@
 
         <!-- Page Content  -->
         <div id="content">
-
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 
@@ -172,9 +171,9 @@
 
             <div class="row">
                 <div class="container">
-                <div>
-                    <h2 class="p-3 mb-2 bg-info text-white rounded" >Member Information</h2>
-                </div>
+                    <div>
+                        <h2 class="p-3 mb-2 bg-info text-white rounded">Member Information</h2>
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -191,10 +190,17 @@
                                 </div>
                             </div>
                             <div class="row mt-2 d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary btn-sm btn-block">Edit Profile</button>
+                                <button data-placement='top' data-toggle='tooltip' title='Edit'>
+                                    <button class='btn btn-primary btn-sm btn-block' data-title='Edit' data-toggle='modal' data-target='#edit' onclick="ShowModal_Edit()">Edit Profile</button>
+                                </button>
+
                             </div>
                             <div class="row mt-2 d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary btn-sm btn-block">Reset Password</button>
+                                <button data-placement='top' data-toggle='tooltip' title='Delete'>
+                                    <button class='btn btn-primary btn-sm btn-block' data-title='Delete' data-toggle='modal'
+                                        data-target='#delete' onclick="ShowModal()">Reset Password</button>
+                                </button>
+
                             </div>
                             <div class="row mt-2 d-flex justify-content-center">
                                 <button type="button" class="btn btn-primary btn-sm btn-block">ย้ายบ้าน</button>
@@ -313,11 +319,11 @@
                 </div>
             </div>
             <div class="row m-3">
-
                 {{!-- ===================== ประวัติการเข้าร่วมกิจกรรม ======================== --}}
                 <div class="col">
                     <h4 class="p-3 mb-2 bg-info text-white rounded">Joined Event</h4>
-                    {{!-- <div class="row m-2">
+                    {{!--
+                    <div class="row m-2">
                         <div class="col d-flex justify-content-end">
                             <h5> Select Year</h5>
                         </div>
@@ -368,11 +374,11 @@
                     </div>
                 </div>
 
-
                 {{!-- ===================== ประวัติการแลกของรางวัล Rewards ======================== --}}
-                 <div class="col">
+                <div class="col">
                     <h4 class="p-3 mb-2 bg-info text-white rounded">Rewards</h4>
-                    {{!-- <div class="row m-2">
+                    {{!--
+                    <div class="row m-2">
                         <div class="col d-flex justify-content-end">
                             <h5> Select Year</h5>
                         </div>
@@ -423,73 +429,208 @@
                     </div>
                 </div>
             </div>
+
+            {{!-- ######### edit Profile ####################### --}}
+            <div class="modal fade" id="edit" data-curid="" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </button>
+                            <h4 class="modal-title custom_align" id="Heading">Edit Your Detail</h4>
+                        </div>
+                        <!--///////////////// Form Edit ///////////////////////////-->
+                        <div class="modal-body">
+                            <form action="http://localhost:3000/editMember" method="post">
+                                <div class="container">
+                                    <div class="row m-4 mt-5">
+                                        <div class="col">
+                                            <label for="StudentID">Student ID :</label>
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" class="form-control" id="Member_ID1" name="Member_ID1" placeholder="Student ID" required>
+                                        </div>
+
+                                    </div>
+                                    <div class="row m-4">
+                                        <div class="col">
+                                            <label for="FirstName">First Name :</label>
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" class="form-control" id="Member_Name1" name="Member_Name1" placeholder="First Name" required>
+                                        </div>
+                                    </div>
+                                    <div class="row m-4">
+                                        <div class="col">
+                                            <label for="LastName">Last Name :</label>
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" class="form-control" id="Member_Lastname1" name="Member_Lastname1" placeholder="Last Name" required>
+                                        </div>
+                                    </div>
+                                    <div class="row m-4">
+                                        <div class="col">
+                                            <label for="House">Tel :</label>
+                                        </div>
+                                        <div class="col">
+                                            <input type="tel" class="form-control" id="Member_Tel1" name="Member_Tel1" placeholder="Telephone" required>
+                                        </div>
+                                    </div>
+                                    <div class="row m-4">
+                                        <div class="col">
+                                            <label for="House">Status :</label>
+                                        </div>
+                                        <div class="col">
+                                            <select class="form-control" id="Member_Status1" name="Member_Status1" required>
+                                                <option value="">Please select</option>
+                                                <option value="Active">Active</option>
+                                                <option value="Alumni">Alumni</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="modal-footer ">
+                                        <button type="submit" class="btn btn-warning btn-lg" style="width: 100%;">
+                                            <span class="glyphicon glyphicon-ok-sign"></span> Update</button>
+                                    </div>
+
+                                </div>
+                            </form>
+
+                        </div>
+
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+
+            {{!-- ############################# reset password ################# --}}
+            <div class="modal fade" id="delete" data-curid="" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </button>
+                            <h4 class="modal-title custom_align" id="Heading">Reset Password</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="alert alert-danger">
+                                <span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to reset password for this member ?</div>
+
+                        </div>
+                        <div class="modal-footer ">
+
+                            <button onclick="POST_Reset()" type="submit" class="btn btn-success">
+                                <span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                <span class="glyphicon glyphicon-remove"></span> No</button>
+
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+
         </div>
-    </div>
 
 
-    {{!-- ############################################################################################################# --}}
 
-    <!-- Popper.JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
-        crossorigin="anonymous"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
-        crossorigin="anonymous"></script>
+        {{!-- ############################################################################################################# --}}
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar').toggleClass('active');
+        <!-- Popper.JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+            crossorigin="anonymous"></script>
+        <!-- Bootstrap JS -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+            crossorigin="anonymous"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#sidebarCollapse').on('click', function () {
+                    $('#sidebar').toggleClass('active');
+                });
             });
-        });
 
 
-        var data = "{{dataMember}}"
-        var data_Member = JSON.parse(decodeURI(data))
-        var Member = [];
+            var data = "{{dataMember}}"
+            var data_Member = JSON.parse(decodeURI(data))
+            var Member = [];
 
-        //console.log(data_Member)
+            //console.log(data_Member)
 
-        for (let j = 0; j < data_Member.length; j++) {
-            Member.push(data_Member[j])
-        }
-        mydata()
-
-        function mydata() {
-            let id = ""
-            let name = ""
-            let lastname = ""
-            let house = ""
-            let status = ""
-            let point = ""
-            let minus_point = ""
-            let tel = ""
-            let image = "<img id='img1' src='../" + Member[0].Member_Profile + "' style='width: 200px;height: 200px;margin: 20px;object-fit: cover;object-position: center right'; class='img-circle img-thumbnail'>"
-            for (let i = 0; i < Member.length; i++) {
-                console.log(Member[i])
-                id = Member[0].Member_ID
-                name = Member[0].Member_Name
-                lastname = Member[0].Member_Lastname
-                house = Member[0].Member_House
-                status = Member[0].Member_Status
-                point = Member[0].Member_Point
-                minus_point = Member[0].Member_MinusPoint
-                tel = Member[0].Member_Tel
+            for (let j = 0; j < data_Member.length; j++) {
+                Member.push(data_Member[j])
             }
-            console.log(Member[0].Member_MinusPoint)
-            document.getElementById("Member_ID").innerHTML = id
-            document.getElementById("Member_Name").innerHTML = name
-            document.getElementById("Member_Lastname").innerHTML = lastname
-            document.getElementById("Member_House").innerHTML = house
-            document.getElementById("Member_Status").innerHTML = status
-            document.getElementById("Member_Point").innerHTML = "+" + point
-            document.getElementById("Member_MinusPoint").innerHTML = "-" + minus_point
-            document.getElementById("Member_Tel").innerHTML = tel
-            document.getElementById("img1").innerHTML = image
+            mydata()
 
-        }
+            function mydata() {
+                let id = ""
+                let name = ""
+                let lastname = ""
+                let house = ""
+                let status = ""
+                let point = ""
+                let minus_point = ""
+                let tel = ""
+                let image = "<img id='img1' src='../" + Member[0].Member_Profile + "' style='width: 200px;height: 200px;margin: 20px;object-fit: cover;object-position: center right'; class='img-circle img-thumbnail'>"
+                for (let i = 0; i < Member.length; i++) {
+                    console.log(Member[i])
+                    id = Member[0].Member_ID
+                    name = Member[0].Member_Name
+                    lastname = Member[0].Member_Lastname
+                    house = Member[0].Member_House
+                    status = Member[0].Member_Status
+                    point = Member[0].Member_Point
+                    minus_point = Member[0].Member_MinusPoint
+                    tel = Member[0].Member_Tel
+                }
+                console.log(Member[0].Member_MinusPoint)
+                document.getElementById("Member_ID").innerHTML = id
+                document.getElementById("Member_Name").innerHTML = name
+                document.getElementById("Member_Lastname").innerHTML = lastname
+                document.getElementById("Member_House").innerHTML = house
+                document.getElementById("Member_Status").innerHTML = status
+                document.getElementById("Member_Point").innerHTML = "+" + point
+                document.getElementById("Member_MinusPoint").innerHTML = "-" + minus_point
+                document.getElementById("Member_Tel").innerHTML = tel
+                document.getElementById("img1").innerHTML = image
 
-    </script>
+            }
+
+            function ShowModal_Edit(index) {
+                $('#edit').data('curid', index); // curid = index
+                $('#edit').modal('show');
+                document.getElementById("Member_ID1").value = Member[0].Member_ID
+                document.getElementById("Member_Name1").value = Member[0].Member_Name
+                document.getElementById("Member_Lastname1").value = Member[0].Member_Lastname
+                document.getElementById("Member_Tel1").value = Member[0].Member_Tel
+                document.getElementById("Member_Status1").value = Member[0].Member_Status
+
+            }
+
+            function POST_Reset() {
+                let id = Member[0].Member_ID
+                console.log('id will delete at ' + id)
+                $.ajax('http://localhost:3000/resetPassword', {
+                    data: JSON.stringify({ id }),
+                    contentType: 'application/json',
+                    type: 'POST',
+                })
+                location.reload();
+            }
+            function ShowModal(index) {
+                $('#delete').data('curid', index); // curid = index
+                $('#delete').modal('show');
+            }
+
+
+        </script>
 </body>
 
 </html>

@@ -172,7 +172,6 @@ app.post('/save', upload.single('photos'), function (req, res) {
         Member_Lastname: req.body.Member_Lastname,
         Member_House: req.body.Member_House,
         Member_Profile: req.file.path,
-        Member_Status: req.body.Member_Status,
         Member_Tel: req.body.Member_Tel
     })
     newMember.save().then((doc) => {
@@ -192,16 +191,15 @@ app.post('/save', upload.single('photos'), function (req, res) {
     })
 })
 
-app.post('/edit', (req, res) => {
-    let id = req.body.Member_ID
+app.post('/editMember', (req, res) => {
+    console.log('Edit Member')
+    let id = req.body.Member_ID1
     Member.findOne({ Member_ID: id }).then((d) => {
         d.Member_ID = id
-        d.Member_Name = req.body.Member_Name
-        d.Member_Lastname = req.body.Member_Lastname
-        d.Member_House = req.body.Member_House
-        d.Member_Status = req.body.Member_Status
-        d.Member_Name = req.body.Member_Name
-        d.Member_Tel = req.body.Member_Tel
+        d.Member_Name = req.body.Member_Name1
+        d.Member_Lastname = req.body.Member_Lastname1
+        d.Member_Tel = req.body.Member_Tel1
+        d.Member_Status = req.body.Member_Status1
 
         d.save().then((success) => {
             console.log(' **** Success to edit Member ****')
@@ -220,18 +218,42 @@ app.post('/edit', (req, res) => {
     })
 })
 
-app.post('/removeMember', (req, res) => {
-    console.log('dataIn :', req.body.id)
-    Member.remove({ Member_ID: req.body.id }).then((data) => {
-        console.log('Member deleted success')
+// app.post('/removeMember', (req, res) => { 
+//     console.log('dataIn :', req.body.id)
+//     Member.remove({ Member_ID: req.body.id }).then((data) => {
+//         console.log('Member deleted success')
 
-        House.remove({ House_MemberID: req.body.id }).then((data) => {
-            console.log('Member In House deleted success')
+//         House.remove({ House_MemberID: req.body.id }).then((data) => {
+//             console.log('Member In House deleted success')
+//         }, (err) => {
+//             res.status(400).send(err)
+//         })
+//     }, (err) => {
+//         res.status(400).send(err)
+//     })
+// })
+
+app.post('/resetPassword', (req, res) => {
+    let password = "password"
+    console.log('dataIn :', req.body.id)
+    Member.findOne({ Member_ID: req.body.id }).then((d) => {
+        d.Member_Password = password
+
+        d.save().then((success) => {
+            console.log(' **** Success to reset password ****')
+            
+            Member.find({}, (err, dataMember) => {
+                if (err) console.log(err)
+            }).then((dataMember) => {
+                res.render('admin_MemberAll.hbs', {
+                    dataMember: encodeURI(JSON.stringify(dataMember))
+                })
+            })
+        }, (e) => {
+            res.status(400).send(e)
         }, (err) => {
             res.status(400).send(err)
         })
-    }, (err) => {
-        res.status(400).send(err)
     })
 })
 

@@ -39,7 +39,6 @@ var MemberSchema = new Schema({
     },
     Member_Status:{
         type:String,
-        required:true,
         default:"Active"
     },
     Member_Tel:{
