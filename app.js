@@ -47,6 +47,7 @@ var CreatedBy = require('./Model/CreatedByModel')
 var AllEvent = require('./Model/AllEventModel')
 var OpenEvent = require('./Model/OpenEventModel')
 var Behavior = require('./Model/BehaviorModel')
+var Reward = require('./Model/RewardModel')
 
 
 //=========================================
@@ -136,6 +137,26 @@ app.get('/rewardContent', (req, res) => {
 // edit reward
 app.get('/editReward', (req, res) => {
     res.render('admin_RewardEdit.hbs', {})
+    //console.log('hello')
+})
+// Inc by group
+app.get('/IncreaseByGroup', (req, res) => {
+    res.render('admin_Point_IncGroup.hbs', {})
+    //console.log('hello')
+})
+// Inc by indi
+app.get('/IncreaseByIndividual', (req, res) => {
+    res.render('admin_Point_IncIndi.hbs', {})
+    //console.log('hello')
+})
+// Dec by group
+app.get('/DecreaseByGroup', (req, res) => {
+    res.render('admin_Point_DecGroup.hbs', {})
+    //console.log('hello')
+})
+// Dec by indi
+app.get('/DecreaseByIndividual', (req, res) => {
+    res.render('admin_Point_DecIndi.hbs', {})
     //console.log('hello')
 })
 
@@ -683,6 +704,22 @@ app.post('/saveEditBehavior', (req, res) => {
 
 })
 
+// ====================== Reward ================
+app.post('/saveReward',upload.single('photos'), function (req, res){
+    let newReward = new Reward({
+        Reward_Name :req.body.Reward_Name,
+        Reward_Point : req.body.Reward_Point,
+        Reward_Photo : req.file.path,
+        Reward_Quantity : req.body.Reward_Quantity,
+    })
+
+    newReward.save().then((doc)=>{
+        console.log('@@@@ save REWARD data success @@@@')
+        res.render('admin_RewardContent.hbs',{})
+    },(err)=>{
+        res.status(400).send(err)
+    })
+})
 
 //===================================================
 app.listen(3000, () => {

@@ -98,13 +98,16 @@
                     <a href="#PointSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Point</a>
                     <ul class="collapse list-unstyled" id="PointSubmenu">
                         <li>
-                            <a href="#">Increase By Group</a>
+                            <a href="http://localhost:3000/IncreaseByGroup">Increase By Group</a>
                         </li>
                         <li>
-                            <a href="#">Increase By Individual</a>
+                            <a href="http://localhost:3000/IncreaseByIndividual">Increase By Individual</a>
                         </li>
                         <li>
-                            <a href="#">Decrease</a>
+                            <a href="http://localhost:3000/DecreaseByGroup">Decrease By Group</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/DecreaseByIndividual">Decrease By Individual</a>
                         </li>
                     </ul>
                 </li>
@@ -161,7 +164,10 @@
             </nav>
                         <h2 class="m-2 p-3 mb-2 bg-info text-white">All Event </h2>
             <div class="container">
-                <div class="row mt-3">
+                <div class="row mt-3 d-flex justify-content-end">
+                    <a class="btn btn-outline-primary btn-lg " href="http://localhost:3000/SeeMoreEvent" role="button">กิจกรรมที่เปิดแล้ว</a>
+                </div>
+                <div class="row mt-2">
                     <div class="container">
                         <div class="table-responsive mt-3">
                                 <table id="event" class="table justify-content-center text-center ">

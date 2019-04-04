@@ -99,13 +99,16 @@
                     <a href="#PointSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Point</a>
                     <ul class="collapse list-unstyled" id="PointSubmenu">
                         <li>
-                            <a href="#">Increase By Group</a>
+                            <a href="http://localhost:3000/IncreaseByGroup">Increase By Group</a>
                         </li>
                         <li>
-                            <a href="#">Increase By Individual</a>
+                            <a href="http://localhost:3000/IncreaseByIndividual">Increase By Individual</a>
                         </li>
                         <li>
-                            <a href="#">Decrease</a>
+                            <a href="http://localhost:3000/DecreaseByGroup">Decrease By Group</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/DecreaseByIndividual">Decrease By Individual</a>
                         </li>
                     </ul>
                 </li>
@@ -163,105 +166,7 @@
 
             <h2 class="m-2 p-3 mb-2 bg-info text-white">Edit Content</h2>
             <div class="container">
-                <form action="http://localhost:3000/save" method="POST" enctype="multipart/form-data">
-                    <div class="row m-4 mt-5">
-                        <div class="col-2">
-                            <label for="StudentID">Student ID</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="text" class="form-control" id="Member_ID" name="Member_ID" placeholder="Student ID" required>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                        <div class="col-2">
-                            <label for="Password">Password</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="password" class="form-control" id="Member_Password" name="Member_Password" placeholder="Password" required>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                    </div>
-                    <div class="row m-4">
-                        <div class="col-2">
-                            <label for="FirstName">First Name</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="text" class="form-control" id="Member_Name" name="Member_Name" placeholder="First Name" required>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                        <div class="col-2">
-                            <label for="LastName">Last Name</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="text" class="form-control" id="Member_Lastname" name="Member_Lastname" placeholder="Last Name" required>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                    </div>
-                    <div class="row m-4">
-                        <div class="col-2">
-                            <label for="House">House</label>
-                        </div>
-                        <div class="col-3">
-                            <select class="form-control" id="Member_House" name="Member_House" required>
-                                <option value="">Please select</option>
-                                <option value="Bill Gates">Bill Gates</option>
-                                <option value="Larry Page">Larry Page</option>
-                                <option value="Elon Mask">Elon Mask</option>
-                                <option value="Mark Zuckerberg">Mark Zuckerberg</option>
-                            </select>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                        <div class="col-2">
-                            <label for="House">Tel</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="tel" class="form-control" id="Member_Tel" name="Member_Tel" placeholder="Telephone" required>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                    </div>
-                    <div class="row m-4">
-                        <div class="col-2">
-                            <label for="House">Profile</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="file" name="photos" multiple required> {{!--
-                            <input type="submit" value="upload"> --}}
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-
-                    </div>
-                    <div class="row m-4">
-                        <div class="col-2">
-                            <label for="House">Status</label>
-                        </div>
-                        <div class="col-3">
-                            <select class="form-control" id="Member_Status" name="Member_Status" required>
-                                <option value="">Please select</option>
-                                <option value="Active">Active</option>
-                                <option value="Non Active">Non Active</option>
-                            </select>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                    </div>
-                    <div class="row-4 text-center ">
-                        <button type="submit" value="upload" class="btn btn-primary btn-lg">SAVE</button>
-                    </div>
-                </form>
+               
             </div>
             <div class="line"></div>
 

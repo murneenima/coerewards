@@ -101,13 +101,16 @@
                     <a href="#PointSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Point</a>
                     <ul class="collapse list-unstyled" id="PointSubmenu">
                         <li>
-                            <a href="#">Increase By Group</a>
+                            <a href="http://localhost:3000/IncreaseByGroup">Increase By Group</a>
                         </li>
                         <li>
-                            <a href="#">Increase By Individual</a>
+                            <a href="http://localhost:3000/IncreaseByIndividual">Increase By Individual</a>
                         </li>
                         <li>
-                            <a href="#">Decrease</a>
+                            <a href="http://localhost:3000/DecreaseByGroup">Decrease By Group</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/DecreaseByIndividual">Decrease By Individual</a>
                         </li>
                     </ul>
                 </li>
@@ -256,7 +259,8 @@
         var dataMember = "{{dataMember}}"
         var data_Member = JSON.parse(decodeURI(dataMember))
         var Member = [];
-        let display_MemberAll = "<thead><th>No</th><th>Member ID</th><th>Name</th><th>Last Name</th><th>House</th><th>Edit</th><th>Delete</th></thead>";
+        let display_MemberAll = "<thead><th>No</th><th>Member ID</th><th>Name</th><th>Last Name</th><th>House</th><th>Edit</th></thead>";
+        {{!-- let display_MemberAll = "<thead><th>No</th><th>Member ID</th><th>Name</th><th>Last Name</th><th>House</th><th>Edit</th><th>Delete</th></thead>"; --}}
 
         console.log(data_Member.length)
         for (let i = 0; i < data_Member.length; i++) {
@@ -266,7 +270,8 @@
         }
 
         for (let i = 0; i < Member.length; i++) {
-            display_MemberAll += "<tbody><tr><td>" + (i + 1) + "</td><td>" + Member[i].Member_ID + "</td><td>" + Member[i].Member_Name + "</td><td>" + Member[i].Member_Lastname + "</td><td>" + Member[i].Member_House + "</td></td><td><form action='http://localhost:3000/member/"+Member[i].Member_ID+"' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-edit'></i></button></p></form></td><td><p data-placement='top' data-toggle='tooltip' title='Delete'><button onclick='ShowModal_deleteMember(" + i + ")' class='btn btn-danger btn-xs' data-title='Delete' data-toggle='modal'><i class='fas fa-trash-alt'></i></button></p></td></tr></tbody>"
+            display_MemberAll += "<tbody><tr><td>" + (i + 1) + "</td><td>" + Member[i].Member_ID + "</td><td>" + Member[i].Member_Name + "</td><td>" + Member[i].Member_Lastname + "</td><td>" + Member[i].Member_House + "</td></td><td><form action='http://localhost:3000/member/"+Member[i].Member_ID+"' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-edit'></i></button></p></form></td></tr></tbody>"
+            {{!-- display_MemberAll += "<tbody><tr><td>" + (i + 1) + "</td><td>" + Member[i].Member_ID + "</td><td>" + Member[i].Member_Name + "</td><td>" + Member[i].Member_Lastname + "</td><td>" + Member[i].Member_House + "</td></td><td><form action='http://localhost:3000/member/"+Member[i].Member_ID+"' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-edit'></i></button></p></form></td><td><p data-placement='top' data-toggle='tooltip' title='Delete'><button onclick='ShowModal_deleteMember(" + i + ")' class='btn btn-danger btn-xs' data-title='Delete' data-toggle='modal'><i class='fas fa-trash-alt'></i></button></p></td></tr></tbody>" --}}
         }
 
         document.getElementById("table_member").innerHTML = display_MemberAll
