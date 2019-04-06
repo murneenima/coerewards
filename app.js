@@ -83,10 +83,7 @@ app.use((req, res, next) => { // allow the other to connect
 app.use('/member', MemberRounter)
 
 //==================================================================
-app.get('/MemberInsert', (req, res) => {
-    res.render('admin_MemberInsert.hbs', {})
-    //console.log('hello')
-})
+
 
 app.get('/error', (req, res) => {
     res.render('admin_error.hbs', {})
@@ -109,36 +106,14 @@ app.get('/SeeMoreEvent', (req, res) => {
     //console.log('hello')
 })
 
-app.get('/BehaviorContent', (req, res) => {
-    res.render('admin_BehaviorContent.hbs', {})
-    //console.log('hello')
-})
 
 app.get('/edit', (req, res) => {
     res.render('admin_edit.hbs', {})
     //console.log('hello')
 })
 
-app.get('/MemberAll', (req, res) => {
-    Member.find({}, (err, dataMember) => {
-        if (err) console.log(err)
-    }).then((dataMember) => {
-        res.render('admin_MemberAll.hbs', {
-            dataMember: encodeURI(JSON.stringify(dataMember))
-        })
-    })
-})
 
-// reward
-app.get('/rewardContent', (req, res) => {
-    res.render('admin_RewardContent.hbs', {})
-    //console.log('hello')
-})
-// edit reward
-app.get('/editReward', (req, res) => {
-    res.render('admin_RewardEdit.hbs', {})
-    //console.log('hello')
-})
+
 // Inc by group
 app.get('/IncreaseByGroup', (req, res) => {
     res.render('admin_Point_IncGroup.hbs', {})
@@ -163,6 +138,21 @@ app.get('/DecreaseByIndividual', (req, res) => {
 
 // ========================= Member ====================================
 // ==================== save data and upload photo =====================
+app.get('/MemberInsert', (req, res) => {
+    res.render('admin_MemberInsert.hbs', {})
+    //console.log('hello')
+})
+
+app.get('/MemberAll', (req, res) => {
+    Member.find({}, (err, dataMember) => {
+        if (err) console.log(err)
+    }).then((dataMember) => {
+        res.render('admin_MemberAll.hbs', {
+            dataMember: encodeURI(JSON.stringify(dataMember))
+        })
+    })
+})
+
 app.post('/save', upload.single('photos'), function (req, res) {
     console.log(req.file)
     let newMember = new Member({
@@ -241,7 +231,7 @@ app.post('/resetPassword', (req, res) => {
 
         d.save().then((success) => {
             console.log(' **** Success to reset password ****')
-            
+
             Member.find({}, (err, dataMember) => {
                 if (err) console.log(err)
             }).then((dataMember) => {
@@ -378,7 +368,6 @@ app.post('/removeCreatedBy', (req, res) => {
 })
 
 // ============= All Event ===================
-
 app.get('/EventContent', (req, res) => {
     let data = {}
     EventType.find({}, (err, data) => {
@@ -661,6 +650,11 @@ app.post('/saveOpenEvent', upload.single('photos'), function (req, res) {
 })
 
 // ===================== Behavior ==================
+app.get('/BehaviorContent', (req, res) => {
+    res.render('admin_BehaviorContent.hbs', {})
+    //console.log('hello')
+})
+
 app.post('/saveBehavior', (req, res) => {
     let newBehavior = new Behavior({
         Behavior_Name: req.body.Behavior_Name,
@@ -727,6 +721,25 @@ app.post('/saveEditBehavior', (req, res) => {
 })
 
 // ====================== Reward ================
+// reward content
+app.get('/rewardContent', (req, res) => {
+    res.render('admin_RewardContent.hbs', {})
+    //console.log('hello')
+})
+
+// edit reward
+app.get('/editReward', (req, res) => {
+    Reward.find({},(err,dataReaward)=>{
+        if (err) console.log(err)
+    }).then((dataReward)=>{
+        res.render('admin_RewardAll.hbs', {
+            dataReward : encodeURI(JSON.stringify(dataReward))
+        })
+    }, (err) => {
+        res.status(400).send(err)
+    })
+
+})
 app.post('/saveReward',upload.single('photos'), function (req, res){
     let newReward = new Reward({
         Reward_Name :req.body.Reward_Name,
@@ -741,6 +754,76 @@ app.post('/saveReward',upload.single('photos'), function (req, res){
     },(err)=>{
         res.status(400).send(err)
     })
+})
+
+app.post('/rewardedit/:id', (req, res) => {
+    let id = req.params.id
+    Reward.find({Reward_ID:req.params.id},(err,dataReaward)=>{
+        if (err) console.log(err)
+    }).then((dataReward)=>{
+        res.render('admin_RewardEdit.hbs', {
+            dataReward : encodeURI(JSON.stringify(dataReward))
+        })
+    })
+})
+
+app.post('/saveEditReward',upload.single('photos'),function(req,res){
+    if(req.file == undefined){
+        console.log('no file')
+        Reward.findOne({Reward_ID:req.body.Reward_ID}).then((data)=>{
+            data.Reward_Name = req.body.Reward_Name,
+            data.Reward_Point = req.body.Reward_Point,
+            data.Reward_Quantity = req.body.Reward_Quantity ,
+            data.Reward_Status = req.body.Reward_Status
+
+            data.save().then((success)=>{
+                console.log('!! UPDATE data on REWARD success !!')
+
+                Reward.find({},(err,dataReaward)=>{
+                    if (err) console.log(err)
+                }).then((dataReward)=>{
+                    res.render('admin_RewardAll.hbs', {
+                        dataReward : encodeURI(JSON.stringify(dataReward))
+                    })
+                }, (err) => {
+                    res.status(400).send(err)
+                })
+
+            }, (e) => {
+                res.status(400).send(e)
+            }, (err) => {
+                res.status(400).send(err)
+            })
+        })
+    }else{
+        console.log('have file')
+        Reward.findOne({Reward_ID:req.body.Reward_ID}).then((data)=>{
+            data.Reward_Name = req.body.Reward_Name,
+            data.Reward_Point = req.body.Reward_Point,
+            data.Reward_Quantity = req.body.Reward_Quantity ,
+            data.Reward_Status = req.body.Reward_Status,
+            data.Reward_Photo = req.file.path
+
+            data.save().then((success)=>{
+                console.log('!! UPDATE data on REWARD success !!')
+
+                Reward.find({},(err,dataReaward)=>{
+                    if (err) console.log(err)
+                }).then((dataReward)=>{
+                    res.render('admin_RewardAll.hbs', {
+                        dataReward : encodeURI(JSON.stringify(dataReward))
+                    })
+                }, (err) => {
+                    res.status(400).send(err)
+                })
+
+            }, (e) => {
+                res.status(400).send(e)
+            }, (err) => {
+                res.status(400).send(err)
+            })
+        })
+    }
 })
 
 //===================================================

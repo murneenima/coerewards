@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 
 <head>
@@ -6,24 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Edit Reward Content</title>
+    <title>Edit Reward</title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
         crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
 
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
         crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
         crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
     <style>
+        p {
+            font-size: 30px;
+            color: black
+        }
+
         h4 {
             color: crimson;
         }
     </style>
+
+
 </head>
 
 <body>
@@ -37,7 +47,7 @@
             <ul class="list-unstyled components">
                 <p>All Functions</p>
                 <li>
-                    <a href="http://localhost:3000/Main" >Main</a>
+                    <a href="http://localhost:3000/Main">Main</a>
                 </li>
                 <li>
                     <a href="#MemberSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Member</a>
@@ -156,7 +166,7 @@
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
-                            <li class="nav-item active">
+                            <li class="nav-item ">
                                 <a class="nav-link" href="#">Log Out</a>
                             </li>
                         </ul>
@@ -164,31 +174,165 @@
                 </div>
             </nav>
 
-            <h2 class="m-2 p-3 mb-2 bg-info text-white">Edit Content</h2>
             <div class="container">
-               
+                <h2 class="m-2 p-3 mb-2 bg-info text-white">Edit Reward Content</h2>
+                <form action="http://localhost:3000/saveEditReward" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-4 well text-center">
+                            <div class="col-md-12 ">
+                                <div class="row ">
+                                    <div id="img1">
+                                        <img id="img1">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col text-center">
+                                        <h6 class="text-center">Change Picture</h6>
+                                    </div>
+                                    <div class="col">
+                                        <input type="file" id="photos" name="photos" multiple class="form-control" >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7 personal-info">
+                            <div class="row m-3">
+                                <div class="col-4">
+                                    <label for="Behavior_Name" class="col-form-label">Reward ID : </label>
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" id="Reward_ID" name="Reward_ID" placeholder="ID" readonly></input>
+                                </div>
+                            </div>
+                            <div class="row m-3">
+                                <div class="col-4">
+                                    <label for="Behavior_Name" class="col-form-label">Reward Name :</label>
+                                </div>
+                                <div class="col-6">
+                                    <input class="form-control" id="Reward_Name" name="Reward_Name" rows="2" placeholder="ชื่อของรางวัล">
+                                </div>
+                            </div>
+                            <div class="row m-3">
+                                <div class="col-4">
+                                    <label for="Behavior_Point" class="col-form-label">Point : </label>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" id="Reward_Point" name="Reward_Point" placeholder="คะแนนที่ใช้แลก" required>
+                                </div>
+                            </div>
+                            <div class="row m-3">
+                                <div class="col-4">
+                                    <label for="Behavior_Description" class="col-form-label">Quantity : </label>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" id="Reward_Quantity" name="Reward_Quantity" placeholder="จำนวน" required>
+                                </div>
+                            </div>
+                            <div class="row m-3">
+                                <div class="col-4">
+                                    <label for="Reward_Status" class="col-form-label">Status : </label>
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" class="form-control" id="Reward_Status" name="Reward_Status">
+                                </div>
+                                <div class="col-1">
+                                    <a class='btn btn-outline-dark btn-lg' data-title='Edit' data-toggle='modal' data-target='#edit' onclick="ShowModal_Edit()"><i class="fas fa-pen-square"></i></a>
+                                </div>
+                            </div>
+                            <div class="row mt-3 ">
+                                <div class="col d-flex justify-content-center">
+                                       <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="line"></div>
+            <hr> {{!-- ####################### Edit ##################### --}}
+            <div class="modal fade" id="edit" data-curid="" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </button>
+                            <h4 class="modal-title custom_align" id="Heading">Edit Status</h4>
+                        </div>
+                        <!--///////////////// Form Edit ///////////////////////////-->
+                        <div class="modal-body">
+                            
+                                <div class="container">
+                                    <div class="row m-3">
+                                        <div class="col-5">
+                                            <label for="Reward_Status" class="col-form-label">Status : </label>
+                                        </div>
+                                        <div class="col-7">
+                                            <select class="form-control" type="text" id="Reward_Status1" name="Reward_Status1"required>
+                                                <option disabled selected>Please Select</option>
+                                                <option value="in stock">in stock</option>
+                                                <option value="out of stock">out of stock</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row m-3 d-flex justify-content-center">
+                                        <button type="submit" class="btn btn-primary" onclick="okay_button()" data-dismiss="modal">ตกลง</button>
+                                    </div>     
+                                </div>
+                        </div>
 
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
         </div>
     </div>
 
-    <!-- jQuery CDN - Slim version (=without AJAX) -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+
+    {{!-- ############################################################################################################# --}}
+
     <!-- Popper.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
         crossorigin="anonymous"></script>
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
         crossorigin="anonymous"></script>
-
     <script type="text/javascript">
         $(document).ready(function () {
             $('#sidebarCollapse').on('click', function () {
                 $('#sidebar').toggleClass('active');
             });
         });
+        var data = "{{dataReward}}"
+        var dataReward = JSON.parse(decodeURI(data))
+        var Reward = [];
+        for (let i = 0; i < dataReward.length; i++) {
+            Reward.push(dataReward[i])
+        }
+        //console.log(Reward)
+        var image2 = "<img id='img1' src='../" +Reward[0].Reward_Photo + "' style='width: 80%;height: auto;margin: 20px;'>"
+        document.getElementById("img1").innerHTML = image2
+        document.getElementById("Reward_ID").value = Reward[0].Reward_ID
+        document.getElementById("Reward_Name").value = Reward[0].Reward_Name
+        document.getElementById("Reward_Point").value = Reward[0].Reward_Point
+        document.getElementById("Reward_Quantity").value = Reward[0].Reward_Quantity
+        document.getElementById("Reward_Status").value = Reward[0].Reward_Status
+
+        function ShowModal_Edit(index) {
+            $('#edit').data('curid', index); // curid = index
+            $('#edit').modal('show');
+        }
+        function okay_button(){
+            let status_reward = document.getElementById('Reward_Status1').value
+            console.log(status_reward)
+            
+            document.getElementById("img1").innerHTML = image2
+            document.getElementById("Reward_ID").value = Reward[0].Reward_ID
+            document.getElementById("Reward_Name").value = Reward[0].Reward_Name
+            document.getElementById("Reward_Point").value = Reward[0].Reward_Point
+            document.getElementById("Reward_Quantity").value = Reward[0].Reward_Quantity
+            document.getElementById("Reward_Status").value = status_reward
+        }
     </script>
 </body>
 

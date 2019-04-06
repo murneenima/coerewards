@@ -12,7 +12,7 @@
         crossorigin="anonymous">
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="/style.css">
-
+    
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
         crossorigin="anonymous"></script>
@@ -27,7 +27,8 @@
             font-size: 30px;
             color: black
         }
-        h4{
+
+        h4 {
             color: crimson;
         }
     </style>
@@ -46,7 +47,7 @@
             <ul class="list-unstyled components">
                 <p>All Functions</p>
                 <li>
-                    <a href="http://localhost:3000/Main" >Main</a>
+                    <a href="http://localhost:3000/Main">Main</a>
                 </li>
                 <li>
                     <a href="#MemberSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Member</a>
@@ -174,28 +175,28 @@
             </nav>
 
             <div class="container">
-                            <h2 class="m-2 p-3 mb-2 bg-info text-white">Event Information</h2>
+                <h2 class="m-2 p-3 mb-2 bg-info text-white">Event Information</h2>
 
                 <form action="http://localhost:3000/saveOpenEvent" method="POST" enctype="multipart/form-data">
                     <div class="row">
-                        <div class="col-md-4 well text-center" >
-                        <div class="col-md-12 ">
-                            <div class="row ">
-                                <div id="img1">
-                                <img id="img1">
+                        <div class="col-md-4 well text-center">
+                            <div class="col-md-12 ">
+                                <div class="row ">
+                                    <div id="img1">
+                                        <img id="img1">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col text-center">
+                                        <h6 class="text-center">Change Picture</h6>
+                                    </div>
+                                    <div class="col">
+                                        <input type="file" id="photos" name="photos" multiple class="form-control" required>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col text-center">
-                                    <h6 class="text-center">Change Picture</h6>
-                                </div>
-                                <div class="col">
-                                    <input type="file" id="photos" name="photos" multiple class="form-control" required>
-                                </div>
-                            </div>        
                         </div>
-                    </div>
-                     <div class="col-md-7 personal-info">
+                        <div class="col-md-7 personal-info">
                             <div class="row m-4 ">
                                 <div class="col-3">
                                     <label for="Event_Name" class="col-form-label">Event ID</label>
@@ -279,18 +280,18 @@
                                 </div>
                                 <div class="col-5">
                                     <select type="text" class="form-control" id="Event_Year" name="Event_Year" required>
-                                        <option disabled selected>-Please Select-</option>
+                                        <option value="">-Please Select-</option>
                                         <option value="2561">2561</option>
-                                <option value="2562">2562</option>
-                                <option value="2563">2563</option>
-                                <option value="2564">2564</option>
-                                <option value="2565">2565</option>
-                                <option value="2566">2566</option>
-                                <option value="2567">2567</option>
-                                <option value="2568">2568</option>
-                                <option value="2569">2569</option>
-                                <option value="2570">2570</option>
-                                <option value="2571">2571</option>
+                                        <option value="2562">2562</option>
+                                        <option value="2563">2563</option>
+                                        <option value="2564">2564</option>
+                                        <option value="2565">2565</option>
+                                        <option value="2566">2566</option>
+                                        <option value="2567">2567</option>
+                                        <option value="2568">2568</option>
+                                        <option value="2569">2569</option>
+                                        <option value="2570">2570</option>
+                                        <option value="2571">2571</option>
                                     </select>
                                 </div>
                                 <div class="col-1">
@@ -303,7 +304,7 @@
                                 </div>
                                 <div class="col-5">
                                     <select type="text" class="form-control" id="Event_Semester" name="Event_Semester" required>
-                                        <option disabled selected>-Please Select-</option>
+                                        <option value="">-Please Select-</option>
                                         <option value="1">Semester 1</option>
                                         <option value="2">Semester 2</option>
                                         <option value="3">Semester 3</option>
@@ -390,7 +391,7 @@
         });
         var today = new Date().toISOString().split('T')[0];
         document.getElementsByName("Event_StartDate")[0].setAttribute('min', today);
-        document.getElementsByName("Event_EndDate")[0].setAttribute('min', today); 
+        document.getElementsByName("Event_EndDate")[0].setAttribute('min', today);
 
 
         var data = "{{data}}"
@@ -419,7 +420,7 @@
         document.getElementById("Event_Point").value = dataEvent[0].AllEvent_Point
         document.getElementById("Event_Location").value = dataEvent[0].AllEvent_Location
         document.getElementById("Event_Description").value = dataEvent[0].AllEvent_Descrip
-        
+
 
         for (let i = 0; i < EventType.length; i++) {
             display_et += "<option value=" + EventType[i].EventType_Name + ">" + EventType[i].EventType_Name + "</option>"
