@@ -114,28 +114,6 @@ app.get('/edit', (req, res) => {
     //console.log('hello')
 })
 
-// Inc by group
-app.get('/IncreaseByGroup', (req, res) => {
-    res.render('admin_Point_IncGroup.hbs', {})
-    //console.log('hello')
-})
-// Inc by indi
-app.get('/IncreaseByIndividual', (req, res) => {
-    res.render('admin_Point_IncIndi.hbs', {})
-    //console.log('hello')
-})
-// Dec by group
-app.get('/DecreaseByGroup', (req, res) => {
-    res.render('admin_Point_DecGroup.hbs', {})
-    //console.log('hello')
-})
-// Dec by indi
-app.get('/DecreaseByIndividual', (req, res) => {
-    res.render('admin_Point_DecIndi.hbs', {})
-    //console.log('hello')
-})
-
-
 // ========================= Member ====================================
 // ==================== save data and upload photo =====================
 app.get('/MemberInsert', (req, res) => {
@@ -868,6 +846,20 @@ app.post('/saveEditReward',upload.single('photos'),function(req,res){
         })
     }
 })
+
+//================== Point ===================
+// Inc by group
+app.get('/IncreasePoint', (req, res) => {
+    res.render('admin_Point_Inc.hbs', {})
+    //console.log('hello')
+})
+
+// Dec by group
+app.get('/DecreasePoint', (req, res) => {
+    res.render('admin_Point_Dec.hbs', {})
+    //console.log('hello')
+})
+
 
 //===================================================
 app.listen(3000, () => {
