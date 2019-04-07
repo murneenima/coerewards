@@ -15,11 +15,11 @@ var AllEventSchema = new Schema({
         required:true
     },
     AllEvent_StartDate:{
-        type:Date,
+        type:String,
         required:true
     },
     AllEvent_EndDate:{
-        type:Date,
+        type:String,
         required:true
     },
     AllEvent_StartTime:{

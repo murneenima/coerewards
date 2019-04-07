@@ -15,11 +15,11 @@ var OpenEventSchema = new Schema({
         required:true
     },
     OpenEvent_StartDate:{
-        type:Date,
+        type:String,
         required:true
     },
     OpenEvent_EndDate:{
-        type:Date,
+        type:String,
         required:true
     },
     OpenEvent_StartTime:{

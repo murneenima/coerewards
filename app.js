@@ -5,6 +5,8 @@ const request = require('request');
 const bcrypt = require('bcryptjs');
 const app = express()
 const multer = require('multer')
+const schedule = require('node-schedule');
+const moment = require('moment');
 autoIncrement = require('mongoose-auto-increment');
 
 
@@ -112,8 +114,6 @@ app.get('/edit', (req, res) => {
     //console.log('hello')
 })
 
-
-
 // Inc by group
 app.get('/IncreaseByGroup', (req, res) => {
     res.render('admin_Point_IncGroup.hbs', {})
@@ -208,21 +208,6 @@ app.post('/editMember', (req, res) => {
     })
 })
 
-// app.post('/removeMember', (req, res) => { 
-//     console.log('dataIn :', req.body.id)
-//     Member.remove({ Member_ID: req.body.id }).then((data) => {
-//         console.log('Member deleted success')
-
-//         House.remove({ House_MemberID: req.body.id }).then((data) => {
-//             console.log('Member In House deleted success')
-//         }, (err) => {
-//             res.status(400).send(err)
-//         })
-//     }, (err) => {
-//         res.status(400).send(err)
-//     })
-// })
-
 app.post('/resetPassword', (req, res) => {
     let password = "password"
     console.log('dataIn :', req.body.id)
@@ -292,7 +277,6 @@ app.get('/Mark', (req, res) => {
     })
 })
 
-
 // ============== Event Type ===================
 app.get('/EventTypeDisplay', (req, res) => {
     EventType.find({}, (err, data) => {
@@ -329,7 +313,6 @@ app.post('/removeEventType', (req, res) => {
         res.status(400).send(err)
     })
 })
-
 
 // ============== Created By ===================
 app.get('/CreatedByDisplay', (req, res) => {
@@ -390,7 +373,6 @@ app.get('/EventContent', (req, res) => {
 })
 
 app.post('/saveEvent', upload.single('photos'), function (req, res) {
-
     //console.log(req.file)
     let newAllEvent = new AllEvent({
         AllEvent_Name: req.body.Event_Name,
@@ -524,14 +506,67 @@ app.post('/event/edit/:id', (req, res) => {
     })
 })
 
+var j = schedule.scheduleJob('* * * * *', function () {
+    var day_format = moment().format('dddd');
+    // console.log(day_format)
+    var open_status = "Online"
+    var open_status2 = "Offline"
+    var ymd = moment().format('YYYY-MM-DD');
+    // var day = moment().format('DD');
+    // var month = moment().format('MMMM')
+    // var year = moment().format('YYYY')
+    var time = moment().format('HH:mm')
+    // console.log(ymd)
+    // console.log(time)
+
+    OpenEvent.find({OpenEvent_StartDate:ymd,OpenEvent_StartTime:time}).then((d1)=>{
+             //console.log(d)
+             if(d1.length == 0){
+                return 0 ;
+             }else{
+                console.log(d1.length)
+                for(let i=0 ; i< d1.length;i++){
+                    d1[i].OpenEvent_Status = open_status
+
+                    d1[i].save().then((success)=>{
+                    console.log('!! Update OPEN EVENT Status to ONLINE Success')
+                    }, (e) => {
+                        res.status(400).send(e)
+                    }, (err) => {
+                        res.status(400).send(err)
+                    })
+                }
+             
+             }
+    }) 
+
+    OpenEvent.find({OpenEvent_EndDate:ymd,OpenEvent_EndTime:time}).then((d2)=>{
+        if(d2.length == 0){
+           return 0 ;
+        }else{
+                console.log(d2.length)
+                for(let i=0 ; i< d2.length;i++){
+                    d2[i].OpenEvent_Status = open_status2
+
+                    d2[i].save().then((success)=>{
+                    console.log('!! Update OPEN EVENT Status to OFFLINE Success')
+                    }, (e) => {
+                        res.status(400).send(e)
+                    }, (err) => {
+                        res.status(400).send(err)
+                    })
+                }
+        }
+    })
+});
+
 // ============= เปิดกิจกรรม ====================
 app.post('/saveOpenEvent', upload.single('photos'), function (req, res) {
     if (req.file == undefined) {
-        console.log('hello')
         AllEvent.find({
             AllEvent_ID: req.body.Event_ID
         }).then((data) => {
-            console.log('data is' + data[0])
+            console.log(' No file')
             let newOpenEvent = new OpenEvent({
                 OpenEvent_Name: req.body.Event_Name,
                 OpenEvent_Point: req.body.Event_Point,
@@ -540,6 +575,7 @@ app.post('/saveOpenEvent', upload.single('photos'), function (req, res) {
                 OpenEvent_StartTime: req.body.Event_StartTime,
                 OpenEvent_EndTime: req.body.Event_EndTime,
                 OpenEvent_Semeter: req.body.Event_Semester,
+                OpenEvent_Year: req.body.Event_Year,
                 EventType_ID: req.body.Event_Type,
                 CreatedBy_ID: req.body.Event_CreatedBy,
                 OpenEvent_Location: req.body.Event_Location,
@@ -565,21 +601,25 @@ app.post('/saveOpenEvent', upload.single('photos'), function (req, res) {
                 });
 
                 let data = {}
-                EventType.find({}, (err, data) => {
+                AllEvent.find({}, (err, event) => {
                     if (err) console.log(err)
-                }).then((dataEV) => {
-                    data.EventType = dataEV
-
+                }).then((event) => {
+                    data.event = event
+            
                     CreatedBy.find({}, (err, data) => {
                         if (err) console.log(err)
-                    }).then((dataCB) => {
-                        data.CreatedBy = dataCB
-
-                        res.render('admin_EventContent.hbs', {
+                    }).then((CB) => {
+                        data.createdby = CB
+                        res.render('admin_EventAll.hbs', {
                             data: encodeURI(JSON.stringify(data))
                         })
+                    }, (err) => {
+                        res.status(400).send(err)
                     })
                 })
+
+
+
             }, (err) => {
                 //res.render('admin_error.hbs',{})
                 res.status(400).send(err)
@@ -589,7 +629,7 @@ app.post('/saveOpenEvent', upload.single('photos'), function (req, res) {
         AllEvent.find({
         AllEvent_ID: req.body.Event_ID
     }).then((data) => {
-        console.log('data is' + data[0])
+        console.log('for Have file')
         let newOpenEvent = new OpenEvent({
             OpenEvent_Name: req.body.Event_Name,
             OpenEvent_Point: req.body.Event_Point,
@@ -598,6 +638,7 @@ app.post('/saveOpenEvent', upload.single('photos'), function (req, res) {
             OpenEvent_StartTime: req.body.Event_StartTime,
             OpenEvent_EndTime: req.body.Event_EndTime,
             OpenEvent_Semeter: req.body.Event_Semester,
+            OpenEvent_Year: req.body.Event_Year,
             EventType_ID: req.body.Event_Type,
             CreatedBy_ID: req.body.Event_CreatedBy,
             OpenEvent_Location: req.body.Event_Location,
@@ -624,19 +665,20 @@ app.post('/saveOpenEvent', upload.single('photos'), function (req, res) {
             });
 
             let data = {}
-            EventType.find({}, (err, data) => {
+            AllEvent.find({}, (err, event) => {
                 if (err) console.log(err)
-            }).then((dataEV) => {
-                data.EventType = dataEV
-
+            }).then((event) => {
+                data.event = event
+        
                 CreatedBy.find({}, (err, data) => {
                     if (err) console.log(err)
-                }).then((dataCB) => {
-                    data.CreatedBy = dataCB
-
-                    res.render('admin_EventContent.hbs', {
+                }).then((CB) => {
+                    data.createdby = CB
+                    res.render('admin_EventAll.hbs', {
                         data: encodeURI(JSON.stringify(data))
                     })
+                }, (err) => {
+                    res.status(400).send(err)
                 })
             })
         }, (err) => {
@@ -740,6 +782,7 @@ app.get('/editReward', (req, res) => {
     })
 
 })
+
 app.post('/saveReward',upload.single('photos'), function (req, res){
     let newReward = new Reward({
         Reward_Name :req.body.Reward_Name,
