@@ -48,6 +48,9 @@ var MemberSchema = new Schema({
         unique:true
     }    
 })
-
+// MemberSchema.methods.add = function(Member_Total, callback){
+//     this.Member_Total = Member_Total;
+//     return this.save(callback);
+// }
 var Member = mongoose.model('Member',MemberSchema)
 module.exports = Member
