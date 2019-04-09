@@ -959,9 +959,11 @@ app.post('/IncEventIndividual', (req, res) => {
         //console.log(id)
         Member.findOne({ Member_ID: id }).then((d2) => {
             let total = parseFloat(d2.Member_Total)
+            let available = parseFloat(d2.Member_Available)
             let eventpoint =parseFloat(req.body.OpenEvent_Point)
             console.log(d2.Member_Total)
             d2.Member_Total = total + eventpoint,
+            d2.Member_Available = available + eventpoint,
                 d2.save().then((success) => {
                     console.log(' **** Success to edit Member_Point ****')
 
@@ -1006,10 +1008,12 @@ app.post('/DecBehaviorIndividual',(req,res)=>{
         //console.log(id)
         Member.findOne({ Member_ID: id }).then((d2) => {
             let total = parseFloat(d2.Member_Total)
+            let available = parseFloat(d2.Member_Available)
             let eventpoint = parseFloat(req.body.Behavior_Point)
 
             console.log(d2.Member_Total)
             d2.Member_Total = total - eventpoint,
+            d2.Member_Total = available - eventpoint,
                 d2.save().then((success) => {
                     console.log(' **** Success to edit Member_Point ****')
 

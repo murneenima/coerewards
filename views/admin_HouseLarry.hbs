@@ -227,7 +227,7 @@
         }
 
         for (let i = 0; i < House_Larry.length; i++) {
-            display_MemberAll += "<tbody><tr><td>" + (i + 1) + "</td><td>" + House_Larry[i].Member_ID + "</td><td>" + House_Larry[i].Member_Name + "</td><td>" + House_Larry[i].Member_Lastname + "</td><td>"+"+"+House_Larry[i].Member_Total+"</td><td>"+"+"+House_Larry[i].Member_Available+"</td></tr></tbody>"
+            display_MemberAll += "<tbody><tr><td>" + (i + 1) + "</td><td>" + House_Larry[i].Member_ID + "</td><td>" + House_Larry[i].Member_Name + "</td><td>" + House_Larry[i].Member_Lastname + "</td><td>"+House_Larry[i].Member_Total+"</td><td>"House_Larry[i].Member_Available+"</td></tr></tbody>"
         }
 
         document.getElementById("member_larry").innerHTML = display_MemberAll
