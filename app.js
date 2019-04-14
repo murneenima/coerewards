@@ -1013,7 +1013,7 @@ app.post('/DecBehaviorIndividual',(req,res)=>{
 
             console.log(d2.Member_Total)
             d2.Member_Total = total - eventpoint,
-            d2.Member_Total = available - eventpoint,
+            d2.Member_Available = available - eventpoint,
                 d2.save().then((success) => {
                     console.log(' **** Success to edit Member_Point ****')
 

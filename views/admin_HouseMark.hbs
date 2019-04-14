@@ -165,21 +165,18 @@
             <div class="row d-flex justify-content-end">
                 <div class="col-5 ">
                     <div class="container">
-                        <form action="">
                             <div class="row">
                                 <div class="col-12 mt-2">
                                     <div class="input-group">
-                                        <input class="form-control border-secondary py-2" type="search" id="filter" placeholder="Search By Id">
+                                        <input class="form-control border-secondary py-2" type="text" id="search" name="search" placeholder="Search By Id">
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary" type="button" >
+                                            <button class="btn btn-outline-secondary" disabled type="button">
                                                 <i class="fa fa-search"></i>
                                             </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </form>
-
                     </div>
                 </div>
             </div>
@@ -233,9 +230,31 @@
         document.getElementById("member_mark").innerHTML = display_MemberAll
 
         function myFunction() {
-            House_Mark.sort(function (a, b) { return a.Member_Total - b.Member_Total });
+            House_Mark.sort(function (a, b) { return b.Member_Total - a.Member_Total });
             //console.log(Member)
         }
+
+        $(document).ready(function () {
+            $('#search').keyup(function () {
+                search_table($(this).val())
+            });
+
+            function search_table(value) {
+                $('#member_mark tr').each(function () {
+                    var found = 'false';
+                    $(this).each(function () {
+                        if ($(this).text().toLocaleLowerCase().indexOf(value.toLocaleLowerCase()) >= 0) {
+                            found = 'true'
+                        }
+                    });
+                    if (found == 'true') {
+                        $(this).show()
+                    } else {
+                        $(this).hide()
+                    }
+                })
+            }
+        })
         
 
     </script>

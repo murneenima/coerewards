@@ -378,12 +378,13 @@
                     document.getElementById("Member_House").value = Member[i].Member_House
                     document.getElementById("button_save").disabled = false
                     return 0;
-                } else {
-                    if (id != Member[i].Member_ID) {
+                } 
+                {{!-- else {
+                    if (id !== Member[i].Member_ID) {
                         $('#myModal').modal('show')
                         return 0;
                     }
-                }
+                } --}}
             }
         }
     </script>

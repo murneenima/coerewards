@@ -166,7 +166,7 @@
                             <label for="StudentID">Student ID</label>
                         </div>
                         <div class="col-3">
-                            <input type="text" class="form-control" id="Member_ID" name="Member_ID" placeholder="Student ID" required>
+                            <input type="text" class="form-control" placeholder="58XXXXXX" pattern="[0-9]{8}" maxlength="8" id="Member_ID" name="Member_ID" placeholder="Student ID" required>
                         </div>
                         <div class="col-1">
                             <h4>*</h4>
@@ -175,7 +175,7 @@
                             <label for="Password">Password</label>
                         </div>
                         <div class="col-3">
-                            <input type="password" class="form-control" id="Member_Password" name="Member_Password" placeholder="Password" required>
+                            <input type="password" class="form-control" id="Member_Password" name="Member_Password" minlength="5" placeholder="Password" required>
                         </div>
                         <div class="col-1">
                             <h4>*</h4>
@@ -221,7 +221,7 @@
                             <label for="House">Tel</label>
                         </div>
                         <div class="col-3">
-                            <input type="tel" class="form-control" id="Member_Tel" name="Member_Tel" placeholder="Telephone" required>
+                            <input type="tel"  placeholder="0888888888" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" maxlength="10"  title="Ten digits code" required class="form-control" id="Member_Tel" name="Member_Tel" placeholder="Telephone" required>
                         </div>
                         <div class="col-1">
                             <h4>*</h4>

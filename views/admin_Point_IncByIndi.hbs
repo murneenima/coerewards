@@ -441,20 +441,22 @@
             let id = document.getElementById("SearchData").value
             // console.log(id)
             for (let i = 0; i < Member.length; i++) {
-                if (Member[i].Member_ID == id) {
+                if (Member[i].Member_ID === id) {
                     //console.log(Member[i].Member_ID)
                     document.getElementById("Member_ID").value = Member[i].Member_ID
                     document.getElementById("Member_Name").value = Member[i].Member_Name
                     document.getElementById("Member_Lastname").value = Member[i].Member_Lastname
                     document.getElementById("Member_House").value = Member[i].Member_House
                     document.getElementById("button_save").disabled = false
-                    return 0;
-                } else {
-                    if (id != Member[i].Member_ID) {
+                    return true;
+                } 
+                {{!-- else {
+                    if (id !== Member[i].Member_ID) {
                         $('#myModal').modal('show')
-                        return 0;
+                        return false;
                     }
-                }
+                } --}}
+            
             }
         }
     </script>
