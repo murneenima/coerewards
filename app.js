@@ -1044,3 +1044,45 @@ app.post('/DecBehaviorIndividual',(req,res)=>{
 app.listen(3000, () => {
     console.log('listin port 3000')
 })
+
+// ======= API for Mobile ====================
+app.get('/send_Member',function(req,res,next){
+    Member.find({}).exec(function(error, member) {
+        if (error) {
+            res.send(error);
+        } else {
+            res.json(member);
+        }
+    });
+})
+
+app.get('/send_OpenEvent',function(req,res,next){
+    OpenEvent.find({}).exec(function(error, openevent) {
+        if (error) {
+            res.send(error);
+        } else {
+            res.json(openevent);
+        }
+    });
+})
+
+app.get('/send_Reward',function(req,res,next){
+    Reward.find({}).exec(function(error, reward) {
+        if (error) {
+            res.send(error);
+        } else {
+            res.json(reward);
+        }
+    });
+})
+
+app.get('/send_House',function(req,res,next){
+    House.find({}).exec(function(error, house) {
+        if (error) {
+            res.send(error);
+        } else {
+            res.json(house);
+        }
+    });
+})
+
