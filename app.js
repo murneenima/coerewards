@@ -132,32 +132,123 @@ app.get('/MemberAll', (req, res) => {
     })
 })
 
+// app.post('/sign_in',(req,res)=>{
+//     let studentIDInput = req.body.studentID
+//     let passwordInput = req.body.password
+
+//     Student.find({
+//      studentID : studentIDInput,
+//     password : passwordInput
+// }).then((student)=>{
+//     if(student.length == 1){ //เจอข้อมูล 1 คน 
+//         res.render('admin_member.hbs')// ที่เป็น 0 เพราะมันเจอที่ ตน ที่ 0 มันต้องมีแค่คนเดียว
+//         //  res.render('admin_success.hbs',{
+//         //     studentID:student[0].studentID,
+//         //     name:student[0].name,
+//         //     surname:student[0].surname,
+//         //     house:studentID[0].house
+//         // }) 
+//         console.log('login success')
+//     }else if(student.length == 0){
+//         res.status(400).send('sorry id not found')
+//     }
+// },(err)=>{
+//     res.send(400).send(err)
+// })
+// })
+
 app.post('/save', upload.single('photos'), function (req, res) {
-    console.log(req.file)
-    let newMember = new Member({
-        Member_ID: req.body.Member_ID,
-        Member_Password: req.body.Member_Password,
-        Member_Name: req.body.Member_Name,
-        Member_Lastname: req.body.Member_Lastname,
-        Member_House: req.body.Member_House,
-        Member_Profile: req.file.path,
-        Member_Tel: req.body.Member_Tel
-    })
-    newMember.save().then((doc) => {
+    let data = {};
+    //console.log(req.file)
+    let point = req.body.Member_Point 
+    if(point == "" ){
+        point = "0";
+  
+    }else{
+        point = req.body.Member_Point
+    }
+    console.log(point)
+ 
+    Member.find({Member_ID:req.body.Member_ID},(err,data)=>{
+        if (err) console.log(err)
+    }).then((id)=>{
+        data.ID = id
+    
+        Member.find({Member_Tel:req.body.Member_Tel},(err,data)=>{
+            if (err) console.log(err)
+        }).then((tel)=>{
+            data.tel = tel
+            if(data.ID.length == 1){
+                console.log('ID Duplicated')
+                res.render('admin_error.hbs')
+            }
+            if(data.tel.length == 1){
+                console.log('Tel Duplicated')
+                res.render('admin_errorTel.hbs')
+            }
+            if(data.ID.length == 0 && data.tel.length == 0){
+                let newMember = new Member({
+                    Member_ID: req.body.Member_ID,
+                    Member_Password: req.body.Member_Password,
+                    Member_Name: req.body.Member_Name,
+                    Member_Lastname: req.body.Member_Lastname,
+                    Member_House: req.body.Member_House,
+                    Member_Profile: req.file.path,
+                    Member_Tel: req.body.Member_Tel,
+                    Member_Total: point,
+                    Member_Available: point
+                })
+                newMember.save().then((doc) => {
+            
+                    let newHouse = new House({
+                        House_name: req.body.Member_House,
+                        House_MemberID: req.body.Member_ID
+                    })
+            
+                    newHouse.save().then((doc) => {
+                        res.render('admin_MemberInsert.hbs', {})
+                    })
+            
+                }, (err) => {
+                    //res.render('admin_error.hbs',{})
+                    res.status(400).send(err)
+                })
+            }
 
-        let newHouse = new House({
-            House_name: req.body.Member_House,
-            House_MemberID: req.body.Member_ID
+        },(err)=>{
+            res.send(400).send(err)
         })
-
-        newHouse.save().then((doc) => {
-            res.render('admin_MemberInsert.hbs', {})
-        })
-
-    }, (err) => {
-        //res.render('admin_error.hbs',{})
-        res.status(400).send(err)
-    })
+        if(data.length ==1){
+            res.render('admin_error.hbs')
+        }else if(data.length == 0 ){
+            let newMember = new Member({
+                Member_ID: req.body.Member_ID,
+                Member_Password: req.body.Member_Password,
+                Member_Name: req.body.Member_Name,
+                Member_Lastname: req.body.Member_Lastname,
+                Member_House: req.body.Member_House,
+                Member_Profile: req.file.path,
+                Member_Tel: req.body.Member_Tel,
+                Member_Total: point,
+                Member_Available: point
+            })
+            newMember.save().then((doc) => {
+        
+                let newHouse = new House({
+                    House_name: req.body.Member_House,
+                    House_MemberID: req.body.Member_ID
+                })
+        
+                newHouse.save().then((doc) => {
+                    res.render('admin_MemberInsert.hbs', {})
+                })
+        
+            }, (err) => {
+                //res.render('admin_error.hbs',{})
+                res.status(400).send(err)
+            })
+        }
+    }) 
 })
 
 app.post('/editMember', (req, res) => {

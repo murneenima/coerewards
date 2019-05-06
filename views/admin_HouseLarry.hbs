@@ -180,7 +180,10 @@
                     </div>
                 </div>
             </div>
-            <div class="row mt-3">
+             <div class="row m-3 d-flex justify-content-end">
+                    <h3 id="total">Total</h3>
+            </div>
+            <div class="row ">
                 <div class="container">
                     <div class="table-responsive">
                         <table id="member_larry" class="table table-bordred table-striped justify-content-center text-center text-center">
@@ -230,6 +233,7 @@
         }
 
         document.getElementById("member_larry").innerHTML = display_MemberAll
+        document.getElementById("total").innerHTML ="Member Total = " +data_Larry.length 
 
         function myFunction() {
             House_Larry.sort(function (a, b) { return b.Member_Total - a.Member_Total });
