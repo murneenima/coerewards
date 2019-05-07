@@ -52,6 +52,7 @@ var Behavior = require('./Model/BehaviorModel')
 var Reward = require('./Model/RewardModel')
 var JoinEvent = require('./Model/JoinEventModel')
 var JoinBehavior = require('./Model/JoinBehaviorModal')
+var Year = require('./Model/YearModel')
 
 //=========================================
 mongoose.connect('mongodb://localhost:27017/DBcoe').then((doc) => {
@@ -1152,6 +1153,21 @@ app.post('/DecBehaviorIndividual', (req, res) => {
 // ============== Year ========================
 app.get('/getYear',(req,res)=>{
     res.render('admin_Year.hbs',{})
+})
+
+app.post('/saveYear', function (req,res){
+    let newYear = new Year({
+        Year_Year : req.body.Year_Year,
+        Year_StartDate : req.body.Year_StartDate,
+        Year_EndDate : req.body.Year_EndDate,
+    })
+
+    newYear.save().then((doc)=>{
+        console.log('@@@@ save YEAR data success @@@@')
+        res.render('admin_Year.hbs',{})
+    },(err)=>{
+        res.status(400).send(err)
+    })
 })
 
 // ================ admin ================
