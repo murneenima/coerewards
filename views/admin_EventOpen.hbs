@@ -281,18 +281,7 @@
                                 </div>
                                 <div class="col-5">
                                     <select type="text" class="form-control" id="Event_Year" name="Event_Year" required>
-                                        <option value="">-Please Select-</option>
-                                        <option value="2561">2561</option>
-                                        <option value="2562">2562</option>
-                                        <option value="2563">2563</option>
-                                        <option value="2564">2564</option>
-                                        <option value="2565">2565</option>
-                                        <option value="2566">2566</option>
-                                        <option value="2567">2567</option>
-                                        <option value="2568">2568</option>
-                                        <option value="2569">2569</option>
-                                        <option value="2570">2570</option>
-                                        <option value="2571">2571</option>
+                                       
                                     </select>
                                 </div>
                                 <div class="col-1">
@@ -415,9 +404,11 @@
         var dataEvent = [];
         var EventType = []
         var CreatedBy = [];
+        var Year = [];
 
         let display_et = "<option disabled selected>-Please Select-</option>"
         let display_cb = "<option disabled selected>-Please Select-</option>"
+        let display_year = "<option disabled selected>-Please Select-</option>"
 
         for (let i = 0; i < data_all.event.length; i++) {
             dataEvent.push(data_all.event[i])
@@ -428,7 +419,10 @@
         for (let i = 0; i < data_all.createdby.length; i++) {
             CreatedBy.push(data_all.createdby[i])
         }
-        console.log(EventType)
+        for (let i = 0; i < data_all.year.length; i++) {
+            Year.push(data_all.year[i])
+        }
+        //console.log(EventType)
 
         var image2 = "<img id='img1' src='../" + dataEvent[0].AllEvent_Picture + "' style='width: 80%;height: auto;margin: 20px;'>"
         document.getElementById("Event_ID").value = dataEvent[0].AllEvent_ID
@@ -444,9 +438,15 @@
         for (let i = 0; i < CreatedBy.length; i++) {
             display_cb += "<option value=" + CreatedBy[i].CreatedBy_Name + ">" + CreatedBy[i].CreatedBy_Name + "</option>"
         }
+        for (let i = 0; i < Year.length; i++) {
+            display_year += "<option value=" + Year[i].Year_Year + ">" + Year[i].Year_Year + "</option>"
+        }
         document.getElementById("Event_Type").innerHTML = display_et
         document.getElementById("Event_CreatedBy").innerHTML = display_cb
         document.getElementById("img1").innerHTML = image2
+
+        document.getElementById("Event_Year").innerHTML = display_year
+
 
     </script>
 </body>

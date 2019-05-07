@@ -557,11 +557,16 @@ app.post('/event/:id', (req, res) => {
             }).then((eventtype) => {
                 data.eventtype = eventtype
 
-                res.render('admin_EventOpen.hbs', {
-                    data: encodeURI(JSON.stringify(data))
-                })
-            }, (err) => {
-                res.status(400).send(err)
+                Year.find({},(err,data)=>{
+                    if (err) console.log(err)
+                }).then((year)=>{
+                    data.year = year
+                    res.render('admin_EventOpen.hbs', {
+                        data: encodeURI(JSON.stringify(data))
+                    })
+                }, (err) => {
+                    res.status(400).send(err)
+                }) 
             })
         })
     })
