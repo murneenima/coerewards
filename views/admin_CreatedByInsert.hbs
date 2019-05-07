@@ -25,10 +25,10 @@
     <div class="wrapper">
         <!-- Sidebar  -->
         <nav id="sidebar">
-                <div class="sidebar-header">
-                    <h3>COE REWARD</h3>
-                </div>
-    
+            <div class="sidebar-header">
+                <h3>COE REWARD</h3>
+            </div>
+
             <ul class="list-unstyled components">
                 <p>All Functions</p>
                 <li>
@@ -113,20 +113,26 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Report</a>
+                    <a href="http://localhost:3000/getYear">Calender for Academic Year</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/forAdmin">Admin</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/getReport">Report</a>
                 </li>
 
             </ul>
-    
-                <ul class="list-unstyled CTAs">
-                    <li>
-                        <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
-                    </li>
-                    <li>
-                        <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-                    </li>
-                </ul>
-            </nav>
+
+            <ul class="list-unstyled CTAs">
+                <li>
+                    <a href="http://localhost:3000/Alumni">Alumni</a>
+                </li>
+                {{!-- <li>
+                    <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
+                </li> --}}
+            </ul>
+        </nav>
 
         <!-- Page Content  -->
         <div id="content">
@@ -152,31 +158,32 @@
                     </div>
                 </div>
             </nav>
-                        <h2 class="m-2 p-3 mb-2 bg-info text-white">Insert Created By</h2>
+            <h2 class="m-2 p-3 mb-2 bg-info text-white">Insert Created By</h2>
             <div class="container">
                 <div class="row mt-3">
                     <div class="container">
-                            <form action="http://localhost:3000/saveCreatedBy" method="POST">
-                                    {{!-- <div class="row m-4">
-                                        <div class="col-2">
-                                            <label for="StudentID">Created ID</label>
-                                        </div>
-                                        <div class="col-5">
-                                            <input type="text" class="form-control" id="CreatedBy_ID" name="CreatedBy_ID" placeholder="Created By ID" readonly>
-                                        </div>
-                                    </div> --}}
-                                    <div class="row m-4">
-                                        <div class="col-2">
-                                            <label for="FirstName">Created By Name</label>
-                                        </div>
-                                        <div class="col-5">
-                                            <input type="text" class="form-control" id="CreatedBy_Name" name="CreatedBy_Name" placeholder="Created By Name" required> 
-                                        </div>
-                                    </div>
-                                    <div class="row-4 text-center ">
-                                            <button type="submit" class="btn btn-primary btn-lg">Save</button>
-                                    </div>
-                                </form>
+                        <form action="http://localhost:3000/saveCreatedBy" method="POST">
+                            {{!--
+                            <div class="row m-4">
+                                <div class="col-2">
+                                    <label for="StudentID">Created ID</label>
+                                </div>
+                                <div class="col-5">
+                                    <input type="text" class="form-control" id="CreatedBy_ID" name="CreatedBy_ID" placeholder="Created By ID" readonly>
+                                </div>
+                            </div> --}}
+                            <div class="row m-4">
+                                <div class="col-2">
+                                    <label for="FirstName">Created By Name</label>
+                                </div>
+                                <div class="col-5">
+                                    <input type="text" class="form-control" id="CreatedBy_Name" name="CreatedBy_Name" placeholder="Created By Name" required>
+                                </div>
+                            </div>
+                            <div class="row-4 text-center ">
+                                <button type="submit" class="btn btn-primary btn-lg">Save</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

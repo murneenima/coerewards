@@ -20,10 +20,10 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
         crossorigin="anonymous"></script>
     <style>
-            h4{
+        h4 {
             color: crimson;
         }
-        </style>
+    </style>
 </head>
 
 <body>
@@ -118,18 +118,24 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Report</a>
+                    <a href="http://localhost:3000/getYear">Calender for Academic Year</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/forAdmin">Admin</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/getReport">Report</a>
                 </li>
 
             </ul>
 
             <ul class="list-unstyled CTAs">
                 <li>
-                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
+                    <a href="http://localhost:3000/Alumni">Alumni</a>
                 </li>
-                <li>
+                {{!-- <li>
                     <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-                </li>
+                </li> --}}
             </ul>
         </nav>
 
@@ -169,8 +175,8 @@
                             <input type="text" class="form-control" id="Event_Name" name="Event_Name" placeholder="ชื่อกิจกรรม" required>
                         </div>
                         <div class="col-1">
-                                    <h4>*</h4>
-                                </div>
+                            <h4>*</h4>
+                        </div>
                     </div>
                     <div class="row m-4 ">
                         <div class="col-2">
@@ -180,56 +186,7 @@
                             <input type="number" min="1" class="form-control" id="Event_Point" name="Event_Point" placeholder="คะแนน" required>
                         </div>
                         <div class="col-1">
-                                    <h4>*</h4>
-                                </div>
-                    </div>
-                    <div class="row m-4">
-                        <div class="col-2">
-                            <label for="Event_StartDate" class="col-form-label">Start Date</label>
-                        </div>
-                        <div class="col-3">
-
-                            <input type="date" class="form-control" id="Event_StartDate" name="Event_StartDate" required>
-                        </div>
-                        <div class="col-1">
-                                    <h4>*</h4>
-                                </div>
-                        <div class="col-2">
-                            <label for="Event_EndDate" class="col-form-label">End Date</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="date" class="form-control" id="Event_EndDate" name="Event_EndDate" required>
-                        </div>
-                        <div class="col-1">
-                                    <h4>*</h4>
-                                </div>
-                    </div>
-                    <div class="row m-4">
-                        <div class="col-2">
-                            <label for="Event_EndDate" class="col-form-label">Time (24 hours)</label>
-                        </div>
-                        <div class="col-3">
-                            <div class="row mt-2">
-                                <div class="col">
-                                    <input type="time" min="8:00" max="22:00" class="form-control" id="Event_StartTime" name="Event_StartTime" required>
-                                </div>
-                                <div class="col-1">
-                                    <h4>*</h4>
-                                </div>
-                            </div>
-                            <div class="row mt-1 text-center">
-                                <div class="col">
-                                    <span>to</span>
-                                </div>
-                            </div>
-                            <div class="row mt-2">
-                                <div class="col">
-                                    <input type="time" min="8:00" max="22:00" class="form-control" id="Event_EndTime" name="Event_EndTime" required>
-                                </div>
-                                <div class="col-1">
-                                    <h4>*</h4>
-                                </div>
-                            </div>
+                            <h4>*</h4>
                         </div>
                     </div>
                     <div class="row m-4">
@@ -247,28 +204,6 @@
                         <div class="col-1">
                             <h4>*</h4>
                         </div>
-                        <div class="col-2">
-                            <label for="Event_Semester" class="col-form-label">ปีการศึกษา</label>
-                        </div>
-                        <div class="col-3">
-                            <select class="form-control" id="Event_Year" name="Event_Year" required>
-                                <option value="">Please select</option>
-                                <option value="2561">2561</option>
-                                <option value="2562">2562</option>
-                                <option value="2563">2563</option>
-                                <option value="2564">2564</option>
-                                <option value="2565">2565</option>
-                                <option value="2566">2566</option>
-                                <option value="2567">2567</option>
-                                <option value="2568">2568</option>
-                                <option value="2569">2569</option>
-                                <option value="2570">2570</option>
-                                <option value="2571">2571</option>
-                            </select>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
                     </div>
                     <div class="row m-4">
                         <div class="col-2">
@@ -280,8 +215,8 @@
                             </select>
                         </div>
                         <div class="col-1">
-                                    <h4>*</h4>
-                                </div>
+                            <h4>*</h4>
+                        </div>
                         <div class="col-2">
                             <label for="Event_CreatedBy" class="col-form-label">จัดโดย</label>
                         </div>
@@ -291,8 +226,8 @@
                             </select>
                         </div>
                         <div class="col-1">
-                                    <h4>*</h4>
-                                </div>
+                            <h4>*</h4>
+                        </div>
                     </div>
                     <div class="row m-4">
                         <div class="col-2">
@@ -302,15 +237,15 @@
                             <textarea type="text" class="form-control" id="Event_Location" name="Event_Location" rows="2" placeholder="สถานที่" required></textarea>
                         </div>
                         <div class="col-1">
-                                    <h4>*</h4>
-                                </div>
+                            <h4>*</h4>
+                        </div>
                     </div>
                     <div class="row m-4">
                         <div class="col-2">
                             <label for="Picture" class="col-form-label">Picture</label>
                         </div>
                         <div class="col-2">
-                            <input type="file" name="photos" multiple required>
+                            <input type="file" name="photos" multiple>
                         </div>
                     </div>
                     <div class="row m-4">
@@ -321,8 +256,8 @@
                             <textarea class="form-control" id="Event_Description" name="Event_Description" rows="3" required></textarea>
                         </div>
                         <div class="col-1">
-                                    <h4>*</h4>
-                                </div>
+                            <h4>*</h4>
+                        </div>
                     </div>
                     <div class="row-4 text-center ">
                         <button type="submit" class="btn btn-primary btn-lg">Save</button>
@@ -350,9 +285,12 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-        var today = new Date().toISOString().split('T')[0];
-        document.getElementsByName("Event_StartDate")[0].setAttribute('min', today);
-        document.getElementsByName("Event_EndDate")[0].setAttribute('min', today);
+        {
+            {
+                !-- var today = new Date().toISOString().split('T')[0];
+                document.getElementsByName("Event_StartDate")[0].setAttribute('min', today);
+                document.getElementsByName("Event_EndDate")[0].setAttribute('min', today); --}
+        }
 
         var data = "{{data}}"
         var dataAll = JSON.parse(decodeURI(data))

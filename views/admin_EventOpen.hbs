@@ -12,7 +12,7 @@
         crossorigin="anonymous">
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="/style.css">
-    
+
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
         crossorigin="anonymous"></script>
@@ -28,7 +28,8 @@
             color: black
         }
 
-        h4 {
+        h4,
+        h5 {
             color: crimson;
         }
     </style>
@@ -47,7 +48,7 @@
             <ul class="list-unstyled components">
                 <p>All Functions</p>
                 <li>
-                    <a href="http://localhost:3000/Main">Main</a>
+                    <a href="http://localhost:3000/Main" >Main</a>
                 </li>
                 <li>
                     <a href="#MemberSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Member</a>
@@ -128,18 +129,24 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Report</a>
+                    <a href="http://localhost:3000/getYear">Calender for Academic Year</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/forAdmin">Admin</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/getReport">Report</a>
                 </li>
 
             </ul>
 
             <ul class="list-unstyled CTAs">
                 <li>
-                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
+                    <a href="http://localhost:3000/Alumni">Alumni</a>
                 </li>
-                <li>
+                {{!-- <li>
                     <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-                </li>
+                </li> --}}
             </ul>
         </nav>
 
@@ -185,7 +192,7 @@
                                         <h6 class="text-center">Change Picture</h6>
                                     </div>
                                     <div class="col">
-                                        <input type="file" id="photos" name="photos" multiple class="form-control" >
+                                        <input type="file" id="photos" name="photos" multiple class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -251,10 +258,10 @@
                                     <label for="Event_EndDate" class="col-form-label">เวลาเริ่มกิจกรรม</label>
                                 </div>
                                 <div class="col-5">
-                                    <input type="time" min="8:00" max="22:00"  required class="form-control" id="Event_StartTime" name="Event_StartTime">
+                                    <input type="time" min="8:00" max="22:00" required class="form-control" id="Event_StartTime" name="Event_StartTime">
                                 </div>
-                                <div class="col-1">
-                                    <h4>*</h4>
+                                <div class="col-4">
+                                    <h5>* 8:00 - 22:00</h5>
                                 </div>
                             </div>
                             <div class="row m-4">
@@ -264,8 +271,8 @@
                                 <div class="col-5">
                                     <input type="time" min="8:00" max="22:00" required class="form-control" id="Event_EndTime" name="Event_EndTime">
                                 </div>
-                                <div class="col-1">
-                                    <h4>*</h4>
+                                <div class="col-4">
+                                    <h5>* 8:00 - 22:00</h5>
                                 </div>
                             </div>
                             <div class="row m-4">
@@ -384,8 +391,23 @@
             });
         });
         var today = new Date().toISOString().split('T')[0];
+
         document.getElementsByName("Event_StartDate")[0].setAttribute('min', today);
         document.getElementsByName("Event_EndDate")[0].setAttribute('min', today);
+
+        $('#Event_StartDate').change(function () {
+            var start_date = $('#Event_StartDate').val()
+            console.log(start_date)
+            document.getElementsByName("Event_EndDate")[0].setAttribute('min', start_date);
+        });
+
+        $('#Event_EndDate').change(function () {
+            var end_date = $('#Event_EndDate').val()
+            console.log(end_date)
+            document.getElementsByName("Event_StartDate")[0].setAttribute('max', end_date);
+        });
+
+
 
 
         var data = "{{data}}"

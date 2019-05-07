@@ -8,7 +8,7 @@
 
     <title>Insert Event Type</title>
 
-     <!-- Bootstrap CSS CDN -->
+    <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
         crossorigin="anonymous">
     <!-- Our Custom CSS -->
@@ -25,10 +25,10 @@
     <div class="wrapper">
         <!-- Sidebar  -->
         <nav id="sidebar">
-                <div class="sidebar-header">
-                    <h3>COE REWARD</h3>
-                </div>
-    
+            <div class="sidebar-header">
+                <h3>COE REWARD</h3>
+            </div>
+
             <ul class="list-unstyled components">
                 <p>All Functions</p>
                 <li>
@@ -113,20 +113,26 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Report</a>
+                    <a href="http://localhost:3000/getYear">Calender for Academic Year</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/forAdmin">Admin</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/getReport">Report</a>
                 </li>
 
             </ul>
-    
-                <ul class="list-unstyled CTAs">
-                    <li>
-                        <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
-                    </li>
-                    <li>
-                        <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-                    </li>
-                </ul>
-            </nav>
+
+            <ul class="list-unstyled CTAs">
+                <li>
+                    <a href="http://localhost:3000/Alumni">Alumni</a>
+                </li>
+                {{!-- <li>
+                    <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
+                </li> --}}
+            </ul>
+        </nav>
 
         <!-- Page Content  -->
         <div id="content">
@@ -152,37 +158,38 @@
                     </div>
                 </div>
             </nav>
-                        <h2 class="m-2 p-3 mb-2 bg-info text-white">Insert Event Type</h2>
+            <h2 class="m-2 p-3 mb-2 bg-info text-white">Insert Event Type</h2>
             <div class="container">
                 <div class="row mt-3">
                     <div class="container">
-                            <form action="http://localhost:3000/saveEventType" method="POST">
-                                    {{!-- <div class="row m-4">
-                                        <div class="col-2">
-                                            <label for="StudentID">Event Type ID</label>
-                                        </div>
-                                        <div class="col-5">
-                                            <input type="text" class="form-control" id="EventType_ID" name="EventType_ID" placeholder="Event Type ID" readonly>
-                                        </div>
-                                    </div> --}}
-                                    <div class="row m-4">
-                                        <div class="col-2">
-                                            <label for="FirstName">Event Type Name</label>
-                                        </div>
-                                        <div class="col-5">
-                                            <input type="text" class="form-control" id="EventType_Name" name="EventType_Name" placeholder="Event Type Name" required>
-                                        </div>
-                                    </div>
-                                    <div class="row-4 text-center ">
-                                            <button type="submit" class="btn btn-primary btn-lg">Save</button>
-                                    </div>
-                                </form>
+                        <form action="http://localhost:3000/saveEventType" method="POST">
+                            {{!--
+                            <div class="row m-4">
+                                <div class="col-2">
+                                    <label for="StudentID">Event Type ID</label>
+                                </div>
+                                <div class="col-5">
+                                    <input type="text" class="form-control" id="EventType_ID" name="EventType_ID" placeholder="Event Type ID" readonly>
+                                </div>
+                            </div> --}}
+                            <div class="row m-4">
+                                <div class="col-2">
+                                    <label for="FirstName">Event Type Name</label>
+                                </div>
+                                <div class="col-5">
+                                    <input type="text" class="form-control" id="EventType_Name" name="EventType_Name" placeholder="Event Type Name" required>
+                                </div>
+                            </div>
+                            <div class="row-4 text-center ">
+                                <button type="submit" class="btn btn-primary btn-lg">Save</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-     <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
 
@@ -199,21 +206,28 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-       
 
-        {{!-- var data = "{{data}}"
-        var data_event = JSON.parse(decodeURI(data))
-        var EventType = [];
 
-        if(data_event.length == 0){
-            console.log('lll')
-        } --}}
-        {{!-- for(let i=0;i<data_event.length;i++){
-            EventType.push(data_event)
+        {
+            {
+                !-- var data = "{{data}}"
+                var data_event = JSON.parse(decodeURI(data))
+                var EventType = [];
+
+                if (data_event.length == 0) {
+                    console.log('lll')
+                } --}
         }
+        {
+            {
+                !-- for (let i = 0; i < data_event.length; i++) {
+                    EventType.push(data_event)
+                }
 
-        let count = EventType.length 
-        console.log(count) --}}
+                let count = EventType.length
+                console.log(count)--
+            }
+        }
     </script>
 </body>
 

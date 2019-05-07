@@ -109,7 +109,6 @@ app.get('/SeeMoreEvent', (req, res) => {
     //console.log('hello')
 })
 
-
 app.get('/edit', (req, res) => {
     res.render('admin_edit.hbs', {})
     //console.log('hello')
@@ -160,33 +159,33 @@ app.get('/MemberAll', (req, res) => {
 app.post('/save', upload.single('photos'), function (req, res) {
     let data = {};
     //console.log(req.file)
-    let point = req.body.Member_Point 
-    if(point == "" ){
+    let point = req.body.Member_Point
+    if (point == "") {
         point = "0";
-  
-    }else{
+
+    } else {
         point = req.body.Member_Point
     }
     console.log(point)
- 
-    Member.find({Member_ID:req.body.Member_ID},(err,data)=>{
+
+    Member.find({ Member_ID: req.body.Member_ID }, (err, data) => {
         if (err) console.log(err)
-    }).then((id)=>{
+    }).then((id) => {
         data.ID = id
-    
-        Member.find({Member_Tel:req.body.Member_Tel},(err,data)=>{
+
+        Member.find({ Member_Tel: req.body.Member_Tel }, (err, data) => {
             if (err) console.log(err)
-        }).then((tel)=>{
+        }).then((tel) => {
             data.tel = tel
-            if(data.ID.length == 1){
+            if (data.ID.length == 1) {
                 console.log('ID Duplicated')
                 res.render('admin_error.hbs')
             }
-            if(data.tel.length == 1){
+            if (data.tel.length == 1) {
                 console.log('Tel Duplicated')
                 res.render('admin_errorTel.hbs')
             }
-            if(data.ID.length == 0 && data.tel.length == 0){
+            if (data.ID.length == 0 && data.tel.length == 0) {
                 let newMember = new Member({
                     Member_ID: req.body.Member_ID,
                     Member_Password: req.body.Member_Password,
@@ -199,28 +198,28 @@ app.post('/save', upload.single('photos'), function (req, res) {
                     Member_Available: point
                 })
                 newMember.save().then((doc) => {
-            
+
                     let newHouse = new House({
                         House_name: req.body.Member_House,
                         House_MemberID: req.body.Member_ID
                     })
-            
+
                     newHouse.save().then((doc) => {
                         res.render('admin_MemberInsert.hbs', {})
                     })
-            
+
                 }, (err) => {
                     //res.render('admin_error.hbs',{})
                     res.status(400).send(err)
                 })
             }
 
-        },(err)=>{
+        }, (err) => {
             res.send(400).send(err)
         })
-        if(data.length ==1){
+        if (data.length == 1) {
             res.render('admin_error.hbs')
-        }else if(data.length == 0 ){
+        } else if (data.length == 0) {
             let newMember = new Member({
                 Member_ID: req.body.Member_ID,
                 Member_Password: req.body.Member_Password,
@@ -233,22 +232,22 @@ app.post('/save', upload.single('photos'), function (req, res) {
                 Member_Available: point
             })
             newMember.save().then((doc) => {
-        
+
                 let newHouse = new House({
                     House_name: req.body.Member_House,
                     House_MemberID: req.body.Member_ID
                 })
-        
+
                 newHouse.save().then((doc) => {
                     res.render('admin_MemberInsert.hbs', {})
                 })
-        
+
             }, (err) => {
                 //res.render('admin_error.hbs',{})
                 res.status(400).send(err)
             })
         }
-    }) 
+    })
 })
 
 app.post('/editMember', (req, res) => {
@@ -444,38 +443,20 @@ app.get('/EventContent', (req, res) => {
 
 app.post('/saveEvent', upload.single('photos'), function (req, res) {
     //console.log(req.file)
-    let newAllEvent = new AllEvent({
-        AllEvent_Name: req.body.Event_Name,
-        AllEvent_Point: req.body.Event_Point,
-        AllEvent_StartDate: req.body.Event_StartDate,
-        AllEvent_EndDate: req.body.Event_EndDate,
-        AllEvent_StartTime: req.body.Event_StartTime,
-        AllEvent_EndTime: req.body.Event_EndTime,
-        AllEvent_Semeter: req.body.Event_Semester,
-        EventType_ID: req.body.Event_Type,
-        CreatedBy_ID: req.body.Event_CreatedBy,
-        AllEvent_Location: req.body.Event_Location,
-        AllEvent_Picture: req.file.path,
-        AllEvent_Descrip: req.body.Event_Description,
-        AllEvent_Year: req.body.Event_Year
-    })
-    newAllEvent.save().then((doc) => {
-        let newOpenEvent = new OpenEvent({
-            OpenEvent_Name: req.body.Event_Name,
-            OpenEvent_Point: req.body.Event_Point,
-            OpenEvent_StartDate: req.body.Event_StartDate,
-            OpenEvent_EndDate: req.body.Event_EndDate,
-            OpenEvent_StartTime: req.body.Event_StartTime,
-            OpenEvent_EndTime: req.body.Event_EndTime,
-            OpenEvent_Semeter: req.body.Event_Semester,
+    let pic_path = 'uploads/EVENTS.jpg'
+    if (req.file == undefined) {
+        console.log(' No file')
+        let newAllEvent = new AllEvent({
+            AllEvent_Name: req.body.Event_Name,
+            AllEvent_Point: req.body.Event_Point,
+            AllEvent_Semeter: req.body.Event_Semester,
             EventType_ID: req.body.Event_Type,
             CreatedBy_ID: req.body.Event_CreatedBy,
-            OpenEvent_Location: req.body.Event_Location,
-            OpenEvent_Picture: req.file.path,
-            OpenEvent_Descrip: req.body.Event_Description,
-            OpenEvent_Year: req.body.Event_Year
+            AllEvent_Location: req.body.Event_Location,
+            AllEvent_Picture: pic_path,
+            AllEvent_Descrip: req.body.Event_Description,
         })
-        newOpenEvent.save().then((doc) => {
+        newAllEvent.save().then((doc) => {
             let data = {}
             EventType.find({}, (err, data) => {
                 if (err) console.log(err)
@@ -497,7 +478,44 @@ app.post('/saveEvent', upload.single('photos'), function (req, res) {
             //res.render('admin_error.hbs',{})
             res.status(400).send(err)
         })
-    })
+    } else {
+        console.log(' Have file')
+        let newAllEvent = new AllEvent({
+            AllEvent_Name: req.body.Event_Name,
+            AllEvent_Point: req.body.Event_Point,
+            AllEvent_Semeter: req.body.Event_Semester,
+            EventType_ID: req.body.Event_Type,
+            CreatedBy_ID: req.body.Event_CreatedBy,
+            AllEvent_Location: req.body.Event_Location,
+            AllEvent_Picture: req.file.path,
+            AllEvent_Descrip: req.body.Event_Description,
+        })
+        newAllEvent.save().then((doc) => {
+            let data = {}
+            EventType.find({}, (err, data) => {
+                if (err) console.log(err)
+            }).then((dataEV) => {
+                data.EventType = dataEV
+
+                CreatedBy.find({}, (err, data) => {
+                    if (err) console.log(err)
+                }).then((dataCB) => {
+                    data.CreatedBy = dataCB
+
+                    console.log('Succes to save data on ALL EVENT and OPEN EVENT')
+                    res.render('admin_EventContent.hbs', {
+                        data: encodeURI(JSON.stringify(data))
+                    })
+                })
+            })
+        }, (err) => {
+            //res.render('admin_error.hbs',{})
+            res.status(400).send(err)
+        })
+    }
+
+
+
 })
 
 app.get('/AllEvent', (req, res) => {
@@ -1051,10 +1069,10 @@ app.post('/IncEventIndividual', (req, res) => {
         Member.findOne({ Member_ID: id }).then((d2) => {
             let total = parseFloat(d2.Member_Total)
             let available = parseFloat(d2.Member_Available)
-            let eventpoint =parseFloat(req.body.OpenEvent_Point)
+            let eventpoint = parseFloat(req.body.OpenEvent_Point)
             console.log(d2.Member_Total)
             d2.Member_Total = total + eventpoint,
-            d2.Member_Available = available + eventpoint,
+                d2.Member_Available = available + eventpoint,
                 d2.save().then((success) => {
                     console.log(' **** Success to edit Member_Point ****')
 
@@ -1080,7 +1098,7 @@ app.post('/IncEventIndividual', (req, res) => {
     })
 })
 
-app.post('/DecBehaviorIndividual',(req,res)=>{
+app.post('/DecBehaviorIndividual', (req, res) => {
 
     let date_save = moment().format('DD-MM-YYYY');
     let newJoinBehavior = new JoinBehavior({
@@ -1104,7 +1122,7 @@ app.post('/DecBehaviorIndividual',(req,res)=>{
 
             console.log(d2.Member_Total)
             d2.Member_Total = total - eventpoint,
-            d2.Member_Available = available - eventpoint,
+                d2.Member_Available = available - eventpoint,
                 d2.save().then((success) => {
                     console.log(' **** Success to edit Member_Point ****')
 
@@ -1131,14 +1149,34 @@ app.post('/DecBehaviorIndividual',(req,res)=>{
     })
 })
 
+// ============== Year ========================
+app.get('/getYear',(req,res)=>{
+    res.render('admin_Year.hbs',{})
+})
+
+// ================ admin ================
+app.get('/forAdmin',(req,res)=>{
+    res.render('admin_Admin.hbs',{})
+})
+
+// ============== Report =============
+app.get('/getReport',(req,res)=>{
+    res.render('admin_Report.hbs')
+})
+
+// ============ Alumni ==========
+app.get('/Alumni',(req,res)=>{
+    res.render('admin_Alumni.hbs',{})
+})
+
 //===================================================
 app.listen(3000, () => {
     console.log('listin port 3000')
 })
 
 // ======= API for Mobile ====================
-app.get('/send_Member',function(req,res,next){
-    Member.find({}).exec(function(error, member) {
+app.get('/send_Member', function (req, res, next) {
+    Member.find({}).exec(function (error, member) {
         if (error) {
             res.send(error);
         } else {
@@ -1147,8 +1185,8 @@ app.get('/send_Member',function(req,res,next){
     });
 })
 
-app.get('/send_OpenEvent',function(req,res,next){
-    OpenEvent.find({}).exec(function(error, openevent) {
+app.get('/send_OpenEvent', function (req, res, next) {
+    OpenEvent.find({}).exec(function (error, openevent) {
         if (error) {
             res.send(error);
         } else {
@@ -1157,8 +1195,8 @@ app.get('/send_OpenEvent',function(req,res,next){
     });
 })
 
-app.get('/send_Reward',function(req,res,next){
-    Reward.find({}).exec(function(error, reward) {
+app.get('/send_Reward', function (req, res, next) {
+    Reward.find({}).exec(function (error, reward) {
         if (error) {
             res.send(error);
         } else {
@@ -1167,8 +1205,8 @@ app.get('/send_Reward',function(req,res,next){
     });
 })
 
-app.get('/send_House',function(req,res,next){
-    House.find({}).exec(function(error, house) {
+app.get('/send_House', function (req, res, next) {
+    House.find({}).exec(function (error, house) {
         if (error) {
             res.send(error);
         } else {

@@ -37,7 +37,7 @@
             <ul class="list-unstyled components">
                 <p>All Functions</p>
                 <li>
-                    <a href="http://localhost:3000/Main">Main</a>
+                    <a href="http://localhost:3000/Main" >Main</a>
                 </li>
                 <li>
                     <a href="#MemberSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Member</a>
@@ -118,18 +118,24 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Report</a>
+                    <a href="http://localhost:3000/getYear">Calender for Academic Year</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/forAdmin">Admin</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/getReport">Report</a>
                 </li>
 
             </ul>
 
             <ul class="list-unstyled CTAs">
                 <li>
-                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
+                    <a href="http://localhost:3000/Alumni">Alumni</a>
                 </li>
-                <li>
+                {{!-- <li>
                     <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-                </li>
+                </li> --}}
             </ul>
         </nav>
 
@@ -166,7 +172,7 @@
                 <div class="row mt-3">
                     <div class="container">
                         <div class="table-responsive" id="table_data">
-                            
+
                         </div>
                     </div>
                 </div>
@@ -188,7 +194,7 @@
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     <script type="text/javascript" src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"> </script>
 
-    
+
     <script type="text/javascript">
         $(document).ready(function () {
             $('#sidebarCollapse').on('click', function () {
@@ -200,33 +206,33 @@
         var data = "{{dataOpenEvent}}"
         var dataOpentEvent = JSON.parse(decodeURI(data))
         var OpenEvent = [];
-        var display_OpenEvent = "<table id='table_Event' class='table table-bordred table-striped justify-content-center text-center'><thead>"+
-                                    "<tr>"+
-                                    "<th>No</th>"+
-                                    "<th>Event Name</th>"+
-                                    "<th>จัดโดย</th>"+
-                                    "<th>Semester</th>"+
-                                    "<th>Date</th>"+
-                                    "<th>เพิ่มคะแนน<br>รายบุคคล</th>"+
-                                    "<th>เพิ่มคะแนน<br>รายกลุ่ม</th>"+
-                                    "</tr>"+
-                                "</thead>";
+        var display_OpenEvent = "<table id='table_Event' class='table table-bordred table-striped justify-content-center text-center'><thead>" +
+            "<tr>" +
+            "<th>No</th>" +
+            "<th>Event Name</th>" +
+            "<th>จัดโดย</th>" +
+            "<th>Semester</th>" +
+            "<th>Date</th>" +
+            "<th>เพิ่มคะแนน<br>รายบุคคล</th>" +
+            "<th>เพิ่มคะแนน<br>รายกลุ่ม</th>" +
+            "</tr>" +
+            "</thead>";
 
         for (let i = 0; i < dataOpentEvent.length; i++) {
             OpenEvent.push(dataOpentEvent[i])
         }
         console.log(OpenEvent)
         for (let i = 0; i < OpenEvent.length; i++) {
-            display_OpenEvent += "<tbody>"+
-                                    "<tr>"+
-                                        "<th>" + (i + 1) + "</th>"+
-                                        "<td>" + OpenEvent[i].OpenEvent_Name + "</td>"+
-                                        "<td>" + OpenEvent[i].CreatedBy_ID + "</td>"+
-                                        "<td>" + OpenEvent[i].OpenEvent_Semeter + "</td>"+
-                                        "<td>" + OpenEvent[i].OpenEvent_StartDate + "<br> to <br>" + OpenEvent[i].OpenEvent_EndDate + "</td>"+
-                                        "<td><form action='http://localhost:3000/IncPointIndividual/" + OpenEvent[i].OpenEvent_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-user-alt'></i></button></p></form></td>"+
-                                        "<td><form action='http://localhost:3000/IncPointGroup/" + OpenEvent[i].OpenEvent_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-users'></i></button></p></form></td>"+
-                                    "</tr>"
+            display_OpenEvent += "<tbody>" +
+                "<tr>" +
+                "<th>" + (i + 1) + "</th>" +
+                "<td>" + OpenEvent[i].OpenEvent_Name + "</td>" +
+                "<td>" + OpenEvent[i].CreatedBy_ID + "</td>" +
+                "<td>" + OpenEvent[i].OpenEvent_Semeter + "</td>" +
+                "<td>" + OpenEvent[i].OpenEvent_StartDate + "<br> to <br>" + OpenEvent[i].OpenEvent_EndDate + "</td>" +
+                "<td><form action='http://localhost:3000/IncPointIndividual/" + OpenEvent[i].OpenEvent_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-user-alt'></i></button></p></form></td>" +
+                "<td><form action='http://localhost:3000/IncPointGroup/" + OpenEvent[i].OpenEvent_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-users'></i></button></p></form></td>" +
+                "</tr>"
         }
         display_OpenEvent += "</tbody></table>"
         document.getElementById('table_data').innerHTML = display_OpenEvent

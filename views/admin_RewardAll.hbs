@@ -118,18 +118,24 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Report</a>
+                    <a href="http://localhost:3000/getYear">Calender for Academic Year</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/forAdmin">Admin</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/getReport">Report</a>
                 </li>
 
             </ul>
 
             <ul class="list-unstyled CTAs">
                 <li>
-                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
+                    <a href="http://localhost:3000/Alumni">Alumni</a>
                 </li>
-                <li>
+                {{!-- <li>
                     <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-                </li>
+                </li> --}}
             </ul>
         </nav>
 
@@ -168,7 +174,7 @@
                                     <div class="input-group">
                                         <input class="form-control border-secondary py-2" type="search" id="filter" placeholder="Search By Id">
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary" type="button" >
+                                            <button class="btn btn-outline-secondary" type="button">
                                                 <i class="fa fa-search"></i>
                                             </button>
                                         </div>
@@ -209,18 +215,18 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-        var data ="{{dataReward}}"
+        var data = "{{dataReward}}"
         var dataReward = JSON.parse(decodeURI(data))
         var Reward = [];
-       let display_Reward = "<thead><th>No</th><th>Reward Name</th><th>Point</th><th>Quantity</th><th>Status</th><th>Edit</th></thead>";
+        let display_Reward = "<thead><th>No</th><th>Reward Name</th><th>Point</th><th>Quantity</th><th>Status</th><th>Edit</th></thead>";
 
-        for(let i=0;i<dataReward.length;i++){
+        for (let i = 0; i < dataReward.length; i++) {
             Reward.push(dataReward[i])
         }
-        
-        for(let i=0;i<Reward.length;i++){
-            display_Reward += "<tbody><tr><td>" + (i + 1) + "</td><td>" + Reward[i].Reward_Name + "</td><td>" + Reward[i].Reward_Point + "</td><td>" + Reward[i].Reward_Quantity + "</td><td>"+Reward[i].Reward_Status+"</td><td><form action='http://localhost:3000/rewardedit/"+Reward[i].Reward_ID+"' method='POST'><p><button class='btn btn-info btn-xs'><i class='fas fa-edit'></i> edit</button></p></form></td></tr></tbody>"
-        }   
+
+        for (let i = 0; i < Reward.length; i++) {
+            display_Reward += "<tbody><tr><td>" + (i + 1) + "</td><td>" + Reward[i].Reward_Name + "</td><td>" + Reward[i].Reward_Point + "</td><td>" + Reward[i].Reward_Quantity + "</td><td>" + Reward[i].Reward_Status + "</td><td><form action='http://localhost:3000/rewardedit/" + Reward[i].Reward_ID + "' method='POST'><p><button class='btn btn-info btn-xs'><i class='fas fa-edit'></i> edit</button></p></form></td></tr></tbody>"
+        }
         document.getElementById("table_reward").innerHTML = display_Reward
 
 

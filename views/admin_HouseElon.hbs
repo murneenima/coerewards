@@ -39,7 +39,7 @@
             <ul class="list-unstyled components">
                 <p>All Functions</p>
                 <li>
-                    <a href="http://localhost:3000/Main">Main</a>
+                    <a href="http://localhost:3000/Main" >Main</a>
                 </li>
                 <li>
                     <a href="#MemberSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Member</a>
@@ -120,18 +120,24 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Report</a>
+                    <a href="http://localhost:3000/getYear">Calender for Academic Year</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/forAdmin">Admin</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/getReport">Report</a>
                 </li>
 
             </ul>
 
             <ul class="list-unstyled CTAs">
                 <li>
-                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
+                    <a href="http://localhost:3000/Alumni">Alumni</a>
                 </li>
-                <li>
+                {{!-- <li>
                     <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-                </li>
+                </li> --}}
             </ul>
         </nav>
 
@@ -165,23 +171,23 @@
             <div class="row d-flex justify-content-end">
                 <div class="col-5 ">
                     <div class="container">
-                            <div class="row">
-                                <div class="col-12 mt-2">
-                                    <div class="input-group">
-                                        <input class="form-control border-secondary py-2" type="text" id="search" name="search" placeholder="Search By Id">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary" disabled type="button">
-                                                <i class="fa fa-search"></i>
-                                            </button>
-                                        </div>
+                        <div class="row">
+                            <div class="col-12 mt-2">
+                                <div class="input-group">
+                                    <input class="form-control border-secondary py-2" type="text" id="search" name="search" placeholder="Search By Id">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary" disabled type="button">
+                                            <i class="fa fa-search"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
+                        </div>
                     </div>
                 </div>
             </div>
-             <div class="row m-3 d-flex justify-content-end">
-                    <h3 id="total">Total</h3>
+            <div class="row m-3 d-flex justify-content-end">
+                <h3 id="total">Total</h3>
             </div>
             <div class="row ">
                 <div class="container">
@@ -239,7 +245,7 @@
         }
 
         document.getElementById("member_elon").innerHTML = display_MemberAll
-        document.getElementById("total").innerHTML ="Member Total = " +data_Elon.length 
+        document.getElementById("total").innerHTML = "Member Total = " + data_Elon.length
 
         function myFunction() {
             House_Elon.sort(function (a, b) { return b.Member_Total - a.Member_Total });

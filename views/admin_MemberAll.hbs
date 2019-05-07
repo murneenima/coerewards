@@ -19,13 +19,13 @@
         crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
         crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-        
-        
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
-        
+
+
+
 </head>
 
 <body>
@@ -120,18 +120,24 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Report</a>
+                    <a href="http://localhost:3000/getYear">Calender for Academic Year</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/forAdmin">Admin</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/getReport">Report</a>
                 </li>
 
             </ul>
 
             <ul class="list-unstyled CTAs">
                 <li>
-                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
+                    <a href="http://localhost:3000/Alumni">Alumni</a>
                 </li>
-                <li>
+                {{!-- <li>
                     <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-                </li>
+                </li> --}}
             </ul>
         </nav>
 
@@ -161,7 +167,7 @@
             </nav>
 
             <h2 class="m-2 p-3 mb-2 bg-info text-white">All Member</h2>
-            
+
             <div class="row d-flex justify-content-end">
                 <div class="col-5">
                     <div class="container">
@@ -171,25 +177,25 @@
                                     <div class="input-group">
                                         <input class="form-control border-secondary py-2" type="search" id="filter" placeholder="Search By Id">
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary" type="button" >
+                                            <button class="btn btn-outline-secondary" type="button">
                                                 <i class="fa fa-search"></i>
                                             </button>
                                         </div>
                                     </div>
                                 </div>
-                            </div>   
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
             <div class="row m-3 d-flex justify-content-end">
-                    <h3 id="total">Total</h3>
+                <h3 id="total">Total</h3>
             </div>
 
             {{!--
             <div class="line"></div> --}}
             <div class="row mt-3">
-               
+
                 <div class="container">
                     <div class="table-responsive">
                         <table id="table_member" class="table table-bordred table-striped justify-content-center text-center">
@@ -237,7 +243,8 @@
     </div>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
-    {{!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    {{!--
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script> --}}
     <!-- Popper.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
@@ -258,7 +265,7 @@
         var data_Member = JSON.parse(decodeURI(dataMember))
         var Member = [];
         let display_MemberAll = "<thead><th>No</th><th>Member ID</th><th>Name</th><th>Last Name</th><th>House</th><th>Edit</th></thead>";
-        {{!-- let display_MemberAll = "<thead><th>No</th><th>Member ID</th><th>Name</th><th>Last Name</th><th>House</th><th>Edit</th><th>Delete</th></thead>"; --}}
+        { { !--let display_MemberAll = "<thead><th>No</th><th>Member ID</th><th>Name</th><th>Last Name</th><th>House</th><th>Edit</th><th>Delete</th></thead>"; --} }
 
         console.log(data_Member.length)
         for (let i = 0; i < data_Member.length; i++) {
@@ -268,12 +275,12 @@
         }
 
         for (let i = 0; i < Member.length; i++) {
-            display_MemberAll += "<tbody><tr><td>" + (i + 1) + "</td><td>" + Member[i].Member_ID + "</td><td>" + Member[i].Member_Name + "</td><td>" + Member[i].Member_Lastname + "</td><td>" + Member[i].Member_House + "</td></td><td><form action='http://localhost:3000/member/"+Member[i].Member_ID+"' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-edit'></i></button></p></form></td></tr></tbody>"
-            {{!-- display_MemberAll += "<tbody><tr><td>" + (i + 1) + "</td><td>" + Member[i].Member_ID + "</td><td>" + Member[i].Member_Name + "</td><td>" + Member[i].Member_Lastname + "</td><td>" + Member[i].Member_House + "</td></td><td><form action='http://localhost:3000/member/"+Member[i].Member_ID+"' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-edit'></i></button></p></form></td><td><p data-placement='top' data-toggle='tooltip' title='Delete'><button onclick='ShowModal_deleteMember(" + i + ")' class='btn btn-danger btn-xs' data-title='Delete' data-toggle='modal'><i class='fas fa-trash-alt'></i></button></p></td></tr></tbody>" --}}
+            display_MemberAll += "<tbody><tr><td>" + (i + 1) + "</td><td>" + Member[i].Member_ID + "</td><td>" + Member[i].Member_Name + "</td><td>" + Member[i].Member_Lastname + "</td><td>" + Member[i].Member_House + "</td></td><td><form action='http://localhost:3000/member/" + Member[i].Member_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-edit'></i></button></p></form></td></tr></tbody>"
+            { { !--display_MemberAll += "<tbody><tr><td>" + (i + 1) + "</td><td>" + Member[i].Member_ID + "</td><td>" + Member[i].Member_Name + "</td><td>" + Member[i].Member_Lastname + "</td><td>" + Member[i].Member_House + "</td></td><td><form action='http://localhost:3000/member/" + Member[i].Member_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-edit'></i></button></p></form></td><td><p data-placement='top' data-toggle='tooltip' title='Delete'><button onclick='ShowModal_deleteMember(" + i + ")' class='btn btn-danger btn-xs' data-title='Delete' data-toggle='modal'><i class='fas fa-trash-alt'></i></button></p></td></tr></tbody>" -- } }
         }
 
         document.getElementById("table_member").innerHTML = display_MemberAll
-        document.getElementById("total").innerHTML ="Member Total = " +data_Member.length 
+        document.getElementById("total").innerHTML = "Member Total = " + data_Member.length
 
         function myFunction() {
             Member.sort(function (a, b) { return a.Member_ID - b.Member_ID });
@@ -288,7 +295,7 @@
         function POST_RemoveMember() {
             let index = $('#delete_member').data('curid')
             let id = Member[index].Member_ID
-           // console.log('Member will delete at ' + id)
+            // console.log('Member will delete at ' + id)
             $.ajax('http://localhost:3000/removeMember', {
                 data: JSON.stringify({ id }),
                 contentType: 'application/json',
@@ -300,25 +307,28 @@
 
 
         // =================== search ID ======================
-        {{!-- function search_id() {
-            var row_searchID = "<thead><th>No</th><th>Member ID</th><th>Name</th><th>Last Name</th><th>House</th><th>Edit</th><th>Delete</th></thead>";
-            var id_input = document.getElementById("idstudent").value;
-            //console.log(id_input);
-            var status = false;
-            for (let i = 0; i < Member.length; i++) {
-                if (id_input == Member[i].Member_ID) {
-                    status = true;
-                    row_searchID += "<tbody><tr><td>" + "1" + "</td><td>" + Member[i].Member_ID + "</td><td>" + Member[i].Member_Name + "</td><td>" + Member[i].Member_Lastname + "</td><td>" + Member[i].Member_House + "</td></td><td><p data-placement='top' data-toggle='tooltip' title='Edit'><button class='btn btn-primary btn-xs' type='submit' onclick='ShowModal_Edit(" + i + ")' data-title='Edit' data-toggle='modal' data-target='#edit' ><i class='fas fa-edit'></i></button></p></td><td><p data-placement='top' data-toggle='tooltip' title='Delete'><button onclick='ShowModal_deleteMember(" + i + ")' class='btn btn-danger btn-xs' data-title='Delete' data-toggle='modal'><i class='fas fa-trash-alt'></i></button></p></td></tr></tbody>"
-                }
-            }
-            if (!status) {
-                alert('not found this ID');
-            } else {
-                document.getElementById("table_member").innerHTML = row_searchID;
-            }
-        } --}}
+        {
+            {
+                !-- function search_id() {
+                    var row_searchID = "<thead><th>No</th><th>Member ID</th><th>Name</th><th>Last Name</th><th>House</th><th>Edit</th><th>Delete</th></thead>";
+                    var id_input = document.getElementById("idstudent").value;
+                    //console.log(id_input);
+                    var status = false;
+                    for (let i = 0; i < Member.length; i++) {
+                        if (id_input == Member[i].Member_ID) {
+                            status = true;
+                            row_searchID += "<tbody><tr><td>" + "1" + "</td><td>" + Member[i].Member_ID + "</td><td>" + Member[i].Member_Name + "</td><td>" + Member[i].Member_Lastname + "</td><td>" + Member[i].Member_House + "</td></td><td><p data-placement='top' data-toggle='tooltip' title='Edit'><button class='btn btn-primary btn-xs' type='submit' onclick='ShowModal_Edit(" + i + ")' data-title='Edit' data-toggle='modal' data-target='#edit' ><i class='fas fa-edit'></i></button></p></td><td><p data-placement='top' data-toggle='tooltip' title='Delete'><button onclick='ShowModal_deleteMember(" + i + ")' class='btn btn-danger btn-xs' data-title='Delete' data-toggle='modal'><i class='fas fa-trash-alt'></i></button></p></td></tr></tbody>"
+                        }
+                    }
+                    if (!status) {
+                        alert('not found this ID');
+                    } else {
+                        document.getElementById("table_member").innerHTML = row_searchID;
+                    }
+                } --}
+        }
 
-        
+
 
     </script>
 </body>

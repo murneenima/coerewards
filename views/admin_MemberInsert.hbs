@@ -118,18 +118,24 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Report</a>
+                    <a href="http://localhost:3000/getYear">Calender for Academic Year</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/forAdmin">Admin</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/getReport">Report</a>
                 </li>
 
             </ul>
 
             <ul class="list-unstyled CTAs">
                 <li>
-                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
+                    <a href="http://localhost:3000/Alumni">Alumni</a>
                 </li>
-                <li>
+                {{!-- <li>
                     <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-                </li>
+                </li> --}}
             </ul>
         </nav>
 
@@ -166,7 +172,8 @@
                             <label for="StudentID">Student ID</label>
                         </div>
                         <div class="col-3">
-                            <input type="text" class="form-control" placeholder="58XXXXXX" pattern="[0-9]{8}" maxlength="8" id="Member_ID" name="Member_ID" placeholder="Student ID" required>
+                            <input type="text" class="form-control" placeholder="58XXXXXX" pattern="[0-9]{8}" maxlength="8" id="Member_ID" name="Member_ID"
+                                placeholder="Student ID" required>
                         </div>
                         <div class="col-1">
                             <h4>*</h4>
@@ -175,7 +182,8 @@
                             <label for="Password">Password</label>
                         </div>
                         <div class="col-3">
-                            <input type="password" class="form-control" id="Member_Password" name="Member_Password" minlength="5" placeholder="Password" required>
+                            <input type="password" class="form-control" id="Member_Password" name="Member_Password" minlength="5" placeholder="Password"
+                                required>
                         </div>
                         <div class="col-1">
                             <h4>*</h4>
@@ -221,7 +229,8 @@
                             <label for="House">Tel</label>
                         </div>
                         <div class="col-3">
-                            <input type="tel"  placeholder="0888888888" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" maxlength="10"  title="Ten digits code" required class="form-control" id="Member_Tel" name="Member_Tel" placeholder="Telephone" required>
+                            <input type="tel" placeholder="0888888888" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" maxlength="10" title="Ten digits code" required
+                                class="form-control" id="Member_Tel" name="Member_Tel" placeholder="Telephone" required>
                         </div>
                         <div class="col-1">
                             <h4>*</h4>
@@ -232,10 +241,10 @@
                             <label for="Point">Point</label>
                         </div>
                         <div class="col-3">
-                            <input type="number" class="form-control" id="Member_Point" name="Member_Point" placeholder="Point" >
+                            <input type="number" class="form-control" id="Member_Point" name="Member_Point" placeholder="Point">
                         </div>
-                        
-                        
+
+
                     </div>
                     <div class="row m-4">
                         <div class="col-2">
@@ -250,7 +259,8 @@
                         </div>
 
                     </div>
-                    {{!-- <div class="row m-4">
+                    {{!--
+                    <div class="row m-4">
                         <div class="col-2">
                             <label for="House">Status</label>
                         </div>

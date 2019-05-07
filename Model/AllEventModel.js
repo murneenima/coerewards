@@ -14,22 +14,6 @@ var AllEventSchema = new Schema({
         type:Number,
         required:true
     },
-    AllEvent_StartDate:{
-        type:String,
-        required:true
-    },
-    AllEvent_EndDate:{
-        type:String,
-        required:true
-    },
-    AllEvent_StartTime:{
-        type:String,
-        required:true
-    },
-    AllEvent_EndTime:{
-        type:String,
-        required:true
-    },
     AllEvent_Semeter:{
         type:Number,
         required:true
@@ -50,9 +34,6 @@ var AllEventSchema = new Schema({
         type:String
     },
     AllEvent_Descrip:{
-        type:String
-    },
-    AllEvent_Year:{
         type:String
     },
     AllEvent_Count:{ // จำนวนครั้งที่จัด

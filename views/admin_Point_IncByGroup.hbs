@@ -47,7 +47,7 @@
             <ul class="list-unstyled components">
                 <p>All Functions</p>
                 <li>
-                    <a href="http://localhost:3000/Main">Main</a>
+                    <a href="http://localhost:3000/Main" >Main</a>
                 </li>
                 <li>
                     <a href="#MemberSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Member</a>
@@ -128,18 +128,24 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Report</a>
+                    <a href="http://localhost:3000/getYear">Calender for Academic Year</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/forAdmin">Admin</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/getReport">Report</a>
                 </li>
 
             </ul>
 
             <ul class="list-unstyled CTAs">
                 <li>
-                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
+                    <a href="http://localhost:3000/Alumni">Alumni</a>
                 </li>
-                <li>
+                {{!-- <li>
                     <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-                </li>
+                </li> --}}
             </ul>
         </nav>
 
@@ -344,7 +350,7 @@
                             </div>
                             <div class="row mt-3 mr-5">
                                 <div class="col d-flex justify-content-end">
-                                    <button type="button" id="button_insert" class="btn btn-success btn-lg" onclick="insert_member()" >เพิ่ม</button>
+                                    <button type="button" id="button_insert" class="btn btn-success btn-lg" onclick="insert_member()">เพิ่ม</button>
                                 </div>
                             </div>
                         </div>
@@ -411,7 +417,7 @@
         for (let i = 0; i < data.Member.length; i++) {
             Member.push(data.Member[i])
         }
-            console.log(Member)
+        console.log(Member)
 
         for (let i = 0; i < Event.length; i++) {
             document.getElementById("OpenEvent_Name").innerHTML = Event[0].OpenEvent_Name
@@ -451,12 +457,12 @@
             }
         }
 
-        function insert_member(){
+        function insert_member() {
             console.log('hello')
-            let id =   document.getElementById("Member_ID").value 
-            let name =  document.getElementById("Member_Name").value 
-            let lastname =  document.getElementById("Member_Lastname").value 
-            let house =  document.getElementById("Member_House").value 
+            let id = document.getElementById("Member_ID").value
+            let name = document.getElementById("Member_Name").value
+            let lastname = document.getElementById("Member_Lastname").value
+            let house = document.getElementById("Member_House").value
             display_MemberAll += "<tbody><tr><td>" + id + "</td><td>" + name + "</td><td>" + lastname + "</td><td>" + house + "</td></td></tr></tbody>"
             document.getElementById("table_member").innerHTML = display_MemberAll
             document.getElementById("button_insert").disabled = true;

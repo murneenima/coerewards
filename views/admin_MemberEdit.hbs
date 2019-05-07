@@ -43,7 +43,7 @@
             <ul class="list-unstyled components">
                 <p>All Functions</p>
                 <li>
-                    <a href="http://localhost:3000/Main">Main</a>
+                    <a href="http://localhost:3000/Main" >Main</a>
                 </li>
                 <li>
                     <a href="#MemberSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Member</a>
@@ -124,18 +124,24 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Report</a>
+                    <a href="http://localhost:3000/getYear">Calender for Academic Year</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/forAdmin">Admin</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/getReport">Report</a>
                 </li>
 
             </ul>
 
             <ul class="list-unstyled CTAs">
                 <li>
-                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
+                    <a href="http://localhost:3000/Alumni">Alumni</a>
                 </li>
-                <li>
+                {{!-- <li>
                     <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-                </li>
+                </li> --}}
             </ul>
         </nav>
 
@@ -184,13 +190,13 @@
                                 </div>
                             </div>
                             <div class="row mt-1  d-flex justify-content-center">
-                                    <button data-placement='top' data-toggle='tooltip' title='Edit' class='btn btn-primary btn-sm btn-block' data-title='Edit' data-toggle='modal' data-target='#edit' onclick="ShowModal_Edit()">Edit Profile</button>
+                                <button data-placement='top' data-toggle='tooltip' title='Edit' class='btn btn-primary btn-sm btn-block' data-title='Edit'
+                                    data-toggle='modal' data-target='#edit' onclick="ShowModal_Edit()">Edit Profile</button>
                             </div>
                             <div class="row mt-2  d-flex justify-content-center">
-                          
-                                    <button class='btn btn-primary btn-sm btn-block' data-title='Delete' data-toggle='modal'
-                                        data-target='#delete' onclick="ShowModal()">Reset Password</button>
-                                
+
+                                <button class='btn btn-primary btn-sm btn-block' data-title='Delete' data-toggle='modal' data-target='#delete' onclick="ShowModal()">Reset Password</button>
+
                             </div>
                             <div class="row mt-2 d-flex justify-content-center">
                                 <button type="button" class="btn btn-primary btn-sm btn-block">ย้ายบ้าน</button>
@@ -586,8 +592,8 @@
                 document.getElementById("Member_Lastname").innerHTML = lastname
                 document.getElementById("Member_House").innerHTML = house
                 document.getElementById("Member_Status").innerHTML = status
-                document.getElementById("Member_Point").innerHTML =point
-                document.getElementById("Member_MinusPoint").innerHTML =availablepoint
+                document.getElementById("Member_Point").innerHTML = point
+                document.getElementById("Member_MinusPoint").innerHTML = availablepoint
                 document.getElementById("Member_Tel").innerHTML = tel
                 document.getElementById("img1").innerHTML = image
 

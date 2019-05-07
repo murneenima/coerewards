@@ -29,7 +29,7 @@
 <body>
     <div class="wrapper">
         <!-- Sidebar  -->
-        <nav id="sidebar">
+       <nav id="sidebar">
             <div class="sidebar-header">
                 <h3>COE REWARD</h3>
             </div>
@@ -106,7 +106,7 @@
                         </li>
                     </ul>
                 </li>
-               <li>
+                <li>
                     <a href="#RewardSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Rewards</a>
                     <ul class="collapse list-unstyled" id="RewardSubmenu">
                         <li>
@@ -118,18 +118,24 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Report</a>
+                    <a href="http://localhost:3000/getYear">Calender for Academic Year</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/forAdmin">Admin</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/getReport">Report</a>
                 </li>
 
             </ul>
 
             <ul class="list-unstyled CTAs">
                 <li>
-                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
+                    <a href="http://localhost:3000/Alumni">Alumni</a>
                 </li>
-                <li>
+                {{!-- <li>
                     <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-                </li>
+                </li> --}}
             </ul>
         </nav>
 
@@ -166,7 +172,7 @@
                             <label for="Password">Reward Name</label>
                         </div>
                         <div class="col-4">
-                            <textarea  class="form-control" id="Reward_Name" name="Reward_Name" placeholder="ชื่อของรางวัล" required rows="3"></textarea>
+                            <textarea class="form-control" id="Reward_Name" name="Reward_Name" placeholder="ชื่อของรางวัล" required rows="3"></textarea>
                         </div>
                         <div class="col-1">
                             <h4>*</h4>
@@ -177,7 +183,8 @@
                             <label for="FirstName">คะแนนที่ใช้แลก</label>
                         </div>
                         <div class="col-4">
-                            <input type="number" class="form-control" id="Reward_Point" name="Reward_Point" placeholder="จำนวนคะแนนที่ใช้แลกของรางวัล" required>
+                            <input type="number" class="form-control" id="Reward_Point" name="Reward_Point" placeholder="จำนวนคะแนนที่ใช้แลกของรางวัล"
+                                required>
                         </div>
                         <div class="col-1">
                             <h4>*</h4>
@@ -206,7 +213,7 @@
                             <h4>*</h4>
                         </div>
                     </div>
-                
+
                     <div class="row-4 text-center ">
                         <button type="submit" value="upload" class="btn btn-primary btn-lg">SAVE</button>
                     </div>

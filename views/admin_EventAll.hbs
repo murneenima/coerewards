@@ -8,7 +8,7 @@
 
     <title>Event</title>
 
-   <!-- Bootstrap CSS CDN -->
+    <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
         crossorigin="anonymous">
     <!-- Our Custom CSS -->
@@ -19,9 +19,9 @@
         crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
         crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
 </head>
 
@@ -33,7 +33,7 @@
                 <h3>COE REWARD</h3>
             </div>
 
-        <ul class="list-unstyled components">
+            <ul class="list-unstyled components">
                 <p>All Functions</p>
                 <li>
                     <a href="http://localhost:3000/Main" >Main</a>
@@ -117,18 +117,24 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Report</a>
+                    <a href="http://localhost:3000/getYear">Calender for Academic Year</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/forAdmin">Admin</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/getReport">Report</a>
                 </li>
 
             </ul>
 
             <ul class="list-unstyled CTAs">
                 <li>
-                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
+                    <a href="http://localhost:3000/Alumni">Alumni</a>
                 </li>
-                <li>
+                {{!-- <li>
                     <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-                </li>
+                </li> --}}
             </ul>
         </nav>
 
@@ -156,16 +162,16 @@
                     </div>
                 </div>
             </nav>
-                        <h2 class="m-2 p-3 mb-2 bg-info text-white">All Event </h2>
+            <h2 class="m-2 p-3 mb-2 bg-info text-white">All Event </h2>
             <div class="container">
                 <div class="row mt-3 d-flex justify-content-end">
-                    <a class="btn btn-outline-primary btn-lg " href="http://localhost:3000/SeeMoreEvent" role="button">กิจกรรมที่เปิดแล้ว</a>
+                    <a class="btn btn-outline-primary btn-lg " href="http://localhost:3000/SeeMoreEvent" role="button">Upcoming Events</a>
                 </div>
                 <div class="row mt-2">
                     <div class="container">
                         <div class="table-responsive mt-3">
-                                <table id="event" class="table justify-content-center text-center ">
-                                      </table>    
+                            <table id="event" class="table justify-content-center text-center ">
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -195,18 +201,18 @@
         var AllEvent = [];
         var CreatedBy = [];
         //console.log(dataAll.event)
-        let display_Event = "<thead class='table-secondary'><th>No</th><th>ชื่อกิจกรรม</th><th>คะแนน</th><th>จัดกิจกรรมโดย</th><th>สถานที่</th><th>เปิดกิจกรรม</th><th>Edit</th></thead>";
+        let display_Event = "<thead class='table-secondary'><th>No</th><th>ชื่อกิจกรรม</th><th>คะแนน</th><th>จัดกิจกรรมโดย</th><th>สถานที่</th><th>กำหนดการจัดกิจกรรม</th><th>แก้ไขข้อมูล</th></thead>";
 
-        for(let i=0;i<dataAll.event.length;i++){
+        for (let i = 0; i < dataAll.event.length; i++) {
             AllEvent.push(dataAll.event[i])
         }
-        for(let i=0;i<dataAll.createdby.length;i++){
+        for (let i = 0; i < dataAll.createdby.length; i++) {
             CreatedBy.push(dataAll.createdby[i])
         }
         console.log(AllEvent)
 
-        for(let i=0;i<AllEvent.length;i++){
-            display_Event+= "<tbody><tr><td>" + (i + 1) + "</td><td>" + AllEvent[i].AllEvent_Name + "</td><td>" + AllEvent[i].AllEvent_Point + "</td><td>" + AllEvent[i].CreatedBy_ID + "</td><td>" + AllEvent[i].AllEvent_Location + "</td></td><td><form action='http://localhost:3000/event/"+AllEvent[i].AllEvent_ID+"' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'>เปิดกิจกรรม</button></p></form></td><td><form action='http://localhost:3000/event/edit/"+AllEvent[i].AllEvent_ID+"' method='POST'><p><button class='btn btn-info btn-xs'><i class='fas fa-edit'></i> edit</button></p></form></td></tr></tbody>"
+        for (let i = 0; i < AllEvent.length; i++) {
+            display_Event += "<tbody><tr><td>" + (i + 1) + "</td><td>" + AllEvent[i].AllEvent_Name + "</td><td>" + AllEvent[i].AllEvent_Point + "</td><td>" + AllEvent[i].CreatedBy_ID + "</td><td>" + AllEvent[i].AllEvent_Location + "</td></td><td><form action='http://localhost:3000/event/" + AllEvent[i].AllEvent_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'>จัดการกิจกรรม</button></p></form></td><td><form action='http://localhost:3000/event/edit/" + AllEvent[i].AllEvent_ID + "' method='POST'><p><button class='btn btn-info btn-xs'><i class='fas fa-edit'></i> แก้ไข</button></p></form></td></tr></tbody>"
         }
         document.getElementById("event").innerHTML = display_Event
 
