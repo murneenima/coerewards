@@ -356,8 +356,8 @@
         for (let i = 0; i < data.Member.length; i++) {
             Member.push(data.Member[i])
         }
-        console.log(Behavior)
-        console.log(Member)
+        //console.log(Behavior)
+        //console.log(Member)
 
         for (let i = 0; i < Behavior.length; i++) {
             document.getElementById("Behavior_ID").value = Behavior[0].Behavior_ID
@@ -385,15 +385,12 @@
                     document.getElementById("button_save").disabled = false
                     return 0;
                 }
-                {
-                    {
-                        !-- else {
-                            if (id !== Member[i].Member_ID) {
-                                $('#myModal').modal('show')
-                                return 0;
-                            }
-                        } --}
-                }
+                //else {
+                //    if (id !== Member[i].Member_ID) {
+                //        $('#myModal').modal('show')
+                //        return 0;
+                //    }
+                //} 
             }
         }
     </script>

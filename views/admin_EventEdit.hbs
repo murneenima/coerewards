@@ -302,12 +302,9 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-        {
-            {
-                !-- var today = new Date().toISOString().split('T')[0];
-                document.getElementsByName("Event_StartDate")[0].setAttribute('min', today);
-                document.getElementsByName("Event_EndDate")[0].setAttribute('min', today); --}
-        }
+        // var today = new Date().toISOString().split('T')[0];
+        // document.getElementsByName("Event_StartDate")[0].setAttribute('min', today);
+        // document.getElementsByName("Event_EndDate")[0].setAttribute('min', today);  
 
         var data = "{{data}}"
         var dataEvent = JSON.parse(decodeURI(data))
