@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -5,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Open Event</title>
+    <title>Admin</title>
 
-   <!-- Bootstrap CSS CDN -->
+    <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
         crossorigin="anonymous">
     <!-- Our Custom CSS -->
@@ -18,11 +19,11 @@
         crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
         crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-
-
+    <style>
+            h4{
+            color: crimson;
+        }
+        </style>
 </head>
 
 <body>
@@ -35,6 +36,9 @@
 
             <ul class="list-unstyled components">
                 <p>All Functions</p>
+                <li>
+                    <a href="http://localhost:3000/Main" >Main</a>
+                </li>
                 <li>
                     <a href="#MemberSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Member</a>
                     <ul class="collapse list-unstyled" id="MemberSubmenu">
@@ -49,48 +53,45 @@
                 <li>
                     <a href="#HouseSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">House</a>
                     <ul class="collapse list-unstyled" id="HouseSubmenu">
-                            <li>
-                                <a href="http://localhost:3000/Bill">Bill Gates</a>
-                            </li>
-                            <li>
-                                <a href="http://localhost:3000/Larry">Larry Page</a>
-                            </li>
-                            <li>
-                                <a href="http://localhost:3000/Elon">Elon Mask</a>
-                            </li>
-                            <li>
-                                <a href="http://localhost:3000/Mark">Mark Zuckerberg</a>
-                            </li>
+                        <li>
+                            <a href="http://localhost:3000/Bill">Bill Gates</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/Larry">Larry Page</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/Elon">Elon Mask</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/Mark">Mark Zuckerberg</a>
+                        </li>
                     </ul>
                 </li>
                 <li>
                     <a href="#EventSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Event</a>
                     <ul class="collapse list-unstyled" id="EventSubmenu">
-                            <li>
-                                <a href="http://localhost:3000/EventContent">New Event</a>
-                            </li>
-                            <li>
-                                <a href="http://localhost:3000/AllEvent">All Event</a>
-                            </li>
-                            <li>
-                                <a href="#">Open/Close Event</a>
-                            </li>
-                            <li>
-                                <a href="http://localhost:3000/EventTypeDisplay">Event Type</a>
-                            </li>
-                            <li>
-                                <a href="http://localhost:3000/CreatedByDisplay">Created By</a>
-                            </li>
-                        </ul>
+                        <li>
+                            <a href="http://localhost:3000/EventContent">New Event</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/AllEvent">All Event</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/EventTypeDisplay">Event Type</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/CreatedByDisplay">Created By</a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
                     <a href="#BehaviorSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Behavior</a>
                     <ul class="collapse list-unstyled" id="BehaviorSubmenu">
                         <li>
-                            <a href="#">Insert Behavior Content</a>
+                            <a href="http://localhost:3000/BehaviorContent">Insert Behavior Content</a>
                         </li>
                         <li>
-                            <a href="#">Edit Behavior</a>
+                            <a href="http://localhost:3000/EditBehavior">Edit Behavior</a>
                         </li>
                     </ul>
                 </li>
@@ -98,13 +99,10 @@
                     <a href="#PointSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Point</a>
                     <ul class="collapse list-unstyled" id="PointSubmenu">
                         <li>
-                            <a href="#">Increase By Group</a>
+                            <a href="http://localhost:3000/IncreasePoint">Increase Point</a>
                         </li>
                         <li>
-                            <a href="#">Increase By Individual</a>
-                        </li>
-                        <li>
-                            <a href="#">Decrease</a>
+                            <a href="http://localhost:3000/DecreasePoint">Decrease Point</a>
                         </li>
                     </ul>
                 </li>
@@ -112,26 +110,32 @@
                     <a href="#RewardSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Rewards</a>
                     <ul class="collapse list-unstyled" id="RewardSubmenu">
                         <li>
-                            <a href="#">Insert Reward content</a>
+                            <a href="http://localhost:3000/rewardContent">Insert Reward content</a>
                         </li>
                         <li>
-                            <a href="#">Edit content</a>
+                            <a href="http://localhost:3000/editReward">Edit content</a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Report</a>
+                    <a href="http://localhost:3000/getYear">Calender for Academic Year</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/forAdmin">Admin</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/getReport">Report</a>
                 </li>
 
             </ul>
 
             <ul class="list-unstyled CTAs">
                 <li>
-                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
+                    <a href="http://localhost:3000/Alumni">Alumni</a>
                 </li>
-                <li>
+                {{!-- <li>
                     <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-                </li>
+                </li> --}}
             </ul>
         </nav>
 
@@ -152,7 +156,7 @@
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
-                            <li class="nav-item ">
+                            <li class="nav-item active">
                                 <a class="nav-link" href="#">Log Out</a>
                             </li>
                         </ul>
@@ -160,21 +164,21 @@
                 </div>
             </nav>
 
-            <div class="row">
-                <div class="col-6">
-                    <h2>Open Event</h2>
-                </div>
+             <h2 class="m-2 p-3 mb-2 bg-info text-white">Admin</h2>
+                <div class="container">
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Well done!</h4>
+                        <p>บันทึกข้อมูลสำเร็จ !</p>
+                        <hr>
+                        </div>
             </div>
-            <div class="row">
-                
-            </div>
+
+            <div class="line"></div>
+
         </div>
     </div>
 
-
-    {{!-- ############################################################################################################# --}}
-    
-     <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
     <!-- Popper.JS -->
@@ -190,7 +194,8 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-
+        
+       
     </script>
 </body>
 

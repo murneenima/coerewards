@@ -12,6 +12,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "express-session": "^1.16.1",
     "hbs": "^4.0.3",
     "install": "^0.12.2",
     "jquery": "^3.3.1",

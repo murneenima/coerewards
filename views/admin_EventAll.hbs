@@ -140,7 +140,7 @@
 
         <!-- Page Content  -->
         <div id="content">
-
+            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>  
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 
@@ -156,7 +156,7 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item active">
-                                <a class="nav-link" href="#">Log Out</a>
+                                <a class="nav-link" href="http://localhost:3000/logout">Log Out</a>
                             </li>
                         </ul>
                     </div>
@@ -196,6 +196,7 @@
             });
         });
 
+        document.getElementById("username").innerHTML = "User : "+ name
         var data = "{{data}}"
         var dataAll = JSON.parse(decodeURI(data))
         var AllEvent = [];
@@ -215,6 +216,7 @@
             display_Event += "<tbody><tr><td>" + (i + 1) + "</td><td>" + AllEvent[i].AllEvent_Name + "</td><td>" + AllEvent[i].AllEvent_Point + "</td><td>" + AllEvent[i].CreatedBy_ID + "</td><td>" + AllEvent[i].AllEvent_Location + "</td></td><td><form action='http://localhost:3000/event/" + AllEvent[i].AllEvent_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'>จัดการกิจกรรม</button></p></form></td><td><form action='http://localhost:3000/event/edit/" + AllEvent[i].AllEvent_ID + "' method='POST'><p><button class='btn btn-info btn-xs'><i class='fas fa-edit'></i> แก้ไข</button></p></form></td></tr></tbody>"
         }
         document.getElementById("event").innerHTML = display_Event
+        
 
     </script>
 </body>

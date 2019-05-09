@@ -141,7 +141,7 @@
 
         <!-- Page Content  -->
         <div id="content">
-
+            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>  
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 
@@ -157,7 +157,7 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item active">
-                                <a class="nav-link" href="#">Log Out</a>
+                                <a class="nav-link" href="http://localhost:3000/logout">Log Out</a>
                             </li>
                         </ul>
                     </div>
@@ -165,8 +165,58 @@
             </nav>
 
              <h2 class="m-2 p-3 mb-2 bg-info text-white">Admin</h2>
-            
-        
+                <div class="container">
+                <form action="http://localhost:3000/admin/save" method="POST">
+                    <div class="row m-4 mt-5">
+                        <div class="col-2">
+                            <label for="Year_Year">Name</label>
+                        </div>
+                        <div class="col-4">
+                            <input class="form-control" type="text" id="Admin_Name" name="Admin_Name" placeholder="ชื่อ" required ></input>
+                        </div>
+                        <div class="col-1">
+                            <h4>*</h4>
+                        </div>
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="Year_StartDate">Surname</label>
+                        </div>
+                         <div class="col-4">
+                            <input type="text" class="form-control" id="Admin_Surname" name="Admin_Surname" placeholder="นามสกุล"  required>
+                        </div>
+                        <div class="col-1">
+                            <h4>*</h4>
+                        </div>
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="Year_EndDate">Username</label>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" class="form-control" id="Admin_Username" name="Admin_Username"  placeholder="ชื่อผู้ใช้" required>
+                        </div>
+                        <div class="col-1">
+                            <h4>*</h4>
+                        </div>
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="Year_EndDate">Password</label>
+                        </div>
+                        <div class="col-4">
+                            <input type="password" class="form-control" id="Admin_Password" name="Admin_Password" placeholder="รหัสผ่าน"  required>
+                        </div>
+                        <div class="col-1">
+                            <h4>*</h4>
+                        </div>
+                    </div>
+                    <div class="row-4 text-center ">
+                        <button type="submit" class="btn btn-primary btn-lg">SAVE</button>
+                    </div>
+                </form>
+            </div>
+
             <div class="line"></div>
 
         </div>
@@ -189,6 +239,7 @@
             });
         });
         
+        document.getElementById("username").innerHTML = "User : "+ name
        
     </script>
 </body>
