@@ -46,6 +46,10 @@ var MemberSchema = new Schema({
         required:true,
         minlength:10,
         unique:true
+    },
+    Member_Admin:{
+        type:String,
+        required:true  
     }    
 })
 // MemberSchema.methods.add = function(Member_Total, callback){

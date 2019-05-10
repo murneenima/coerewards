@@ -195,13 +195,13 @@
                         <table id="member_mark" class="table table-bordred table-striped justify-content-center text-center text-center">
                         </table>
                     </div>
+                    <div class="row m-3 d-flex justify-content-between">
+                            <button type="button" onclick="prevPage()"  class="btn btn-outline-info btn-lg" id="btn_prev">Prev</button>
+                            <span style="font-weight: bold;" id="page"></span>
+                            <button type="button" onclick="nextPage()"  class="btn btn-outline-info btn-lg" id="btn_next">Next</button>
+                    </div>
                 </div>
             </div>
-
-
-
-
-
         </div>
     </div>
     <!-- Popper.JS -->
@@ -219,39 +219,86 @@
         });
 
         document.getElementById("username").innerHTML = "User : "+ name
-        
+        var current_page = 1;
+        var records_per_page = 20;
+
         var dataHouse = "{{dataHouse}}"
         var data_Mark = JSON.parse(decodeURI(dataHouse))
         var House_Mark = [];
-        //console.log(data_Mark)
-        let display_MemberAll = "<thead><th>No</th><th>Member ID</th><th>Name</th><th>Last Name</th><th>Total Point</th><th>Available Point</th></thead>";
+    
+         // ==============Display data================
+        function prevPage(){  
+            if (current_page > 1) {
+                current_page--;
+                changePage(current_page);
+            }
+        }
 
-        //console.log(data_Mark.length)
+        function nextPage(){
+            if (current_page < numPages()) {
+                current_page++;
+                changePage(current_page);
+            }
+        }
+
+        function changePage(page){
+            var btn_next = document.getElementById("btn_next");
+            var btn_prev = document.getElementById("btn_prev");
+            let display_MemberAll = "<thead><th>No</th><th>Member ID</th><th>Name</th><th>Last Name</th><th>Total Point</th><th>Available Point</th></thead>";
+            var page_span = document.getElementById("page");
+
+            // Validate page
+            if (page < 1) page = 1;
+            if (page > numPages()) page = numPages();
+
+            document.getElementById("member_mark").innerHTML = ""; // แสดงผลข้อมูลตารางให้ว่าง
+
+            for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < data_Mark.length; i++) {
+                display_MemberAll += "<tbody><tr><td>" + (i + 1) + "</td><td>" + data_Mark[i].Member_ID + "</td><td>" + data_Mark[i].Member_Name + "</td><td>" + data_Mark[i].Member_Lastname + "</td><td>" + data_Mark[i].Member_Total + "</td><td>" + data_Mark[i].Member_Available + "</td></tr></tbody>"
+                document.getElementById("member_mark").innerHTML = display_MemberAll
+            }
+            page_span.innerHTML = "Page " + page; // แสดงผลหน้า
+
+            if (page == 1) {
+                btn_prev.style.visibility = "hidden";
+            } else {
+                btn_prev.style.visibility = "visible";
+            }
+
+            if (page == numPages()) {
+                btn_next.style.visibility = "hidden";
+            } else {
+                btn_next.style.visibility = "visible";
+            }
+        }
+
+        function numPages(){
+            return Math.ceil(data_Mark.length / records_per_page);
+        }
+
+        window.onload = function() {
+            changePage(1);
+        };
+        
+    
+        document.getElementById("total").innerHTML = "Member Total = " + data_Mark.length
+        // ==================== Sorting ==========
         for (let i = 0; i < data_Mark.length; i++) {
             House_Mark.push(data_Mark[i])
-            myFunction()
-            //display_MemberAll += "<tbody><tr><td>" + (i + 1) + "</td><td>" + Member[i].Member_ID + "</td><td>" + Member[i].Member_Name + "</td><td>" + Member[i].Member_Lastname + "</td><td>" + Member[i].Member_House + "</td></td><td><p data-placement='top' data-toggle='tooltip' title='Edit'><button class='btn btn-primary btn-xs'  onclick='ShowModal_Edit(" + i + ")' data-title='Edit' data-toggle='modal' data-target='#edit' ><i class='fas fa-edit'></i></button></p></td><td><p data-placement='top' data-toggle='tooltip' title='Delete'><button onclick='ShowModal_delete(" + i + ")' class='btn btn-danger btn-xs' data-title='Delete' data-toggle='modal'><i class='fas fa-trash-alt'></i></button></p></td></tr></tbody>"
+            myFunction()  
         }
-
-        for (let i = 0; i < House_Mark.length; i++) {
-            display_MemberAll += "<tbody><tr><td>" + (i + 1) + "</td><td>" + House_Mark[i].Member_ID + "</td><td>" + House_Mark[i].Member_Name + "</td><td>" + House_Mark[i].Member_Lastname + "</td><td>" + House_Mark[i].Member_Total + "</td><td>" + House_Mark[i].Member_Available + "</td></tr></tbody>"
-        }
-
-        document.getElementById("member_mark").innerHTML = display_MemberAll
-        document.getElementById("total").innerHTML = "Member Total = " + data_Mark.length
-
         function myFunction() {
-            House_Mark.sort(function (a, b) { return b.Member_Total - a.Member_Total });
+            data_Mark.sort(function (a, b) { return b.Member_Total - a.Member_Total });
             //console.log(Member)
         }
-
+        // =========== Search============= 
         $(document).ready(function () {
             $('#search').keyup(function () {
                 search_table($(this).val())
             });
 
             function search_table(value) {
-                $('#member_mark tr').each(function () {
+                $('#member_mark tbody').each(function () {
                     var found = 'false';
                     $(this).each(function () {
                         if ($(this).text().toLocaleLowerCase().indexOf(value.toLocaleLowerCase()) >= 0) {

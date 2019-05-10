@@ -26,20 +26,98 @@
     </style>
 </head>
 <body>
-    <div class="container d-flex justify-content-center align-items-center">
-        <div class="row mt-5 ">
-
-            <div class="alert alert-success" role="alert">
-                <h3 class="alert-heading">Succes !</h3>
-                <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูล Admin ลงฐานข้อมูลสำเร็จ </p>
-                <hr>
-                <p class="d-flex justify-content-end">
-                        <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/forAdmin" role="button">ตกลง</a>
-                </p>
-            </div>
-        </div>
-    </div>
+    <div id="listingTable"></div>
+    <a href="javascript:prevPage()" id="btn_prev">Prev</a>
+    <a href="javascript:nextPage()" id="btn_next">Next</a>
+    page: <span id="page"></span>
     <div class="line"></div>
 </body>
+    <script>
+    var current_page = 1;
+    var records_per_page = 8;
 
+var objJson = [
+    { adName: "AdName 1"},
+    { adName: "AdName 2"},
+    { adName: "AdName 3"},
+    { adName: "AdName 4"},
+    { adName: "AdName 5"},
+    { adName: "AdName 6"},
+    { adName: "AdName 7"},
+    { adName: "AdName 8"},
+    { adName: "AdName 9"},
+    { adName: "AdName 10"},
+    { adName: "AdName 11"},
+    { adName: "AdName 12"},
+    { adName: "AdName 13"},
+    { adName: "AdName 14"},
+    { adName: "AdName 15"},
+    { adName: "AdName 16"},
+    { adName: "AdName 17"},
+    { adName: "AdName 18"},
+    { adName: "AdName 19"},
+    { adName: "AdName 20"},
+    { adName: "AdName 21"},
+    { adName: "AdName 22"},
+    { adName: "AdName 23"},
+    { adName: "AdName 24"},
+    { adName: "AdName 25"}
+]; // Can be obtained from another source, such as your objJson variable
+
+function prevPage()
+{
+    if (current_page > 1) {
+        current_page--;
+        changePage(current_page);
+    }
+}
+
+function nextPage()
+{
+    if (current_page < numPages()) {
+        current_page++;
+        changePage(current_page);
+    }
+}
+
+function changePage(page)
+{
+    var btn_next = document.getElementById("btn_next");
+    var btn_prev = document.getElementById("btn_prev");
+    var listing_table = document.getElementById("listingTable");
+    var page_span = document.getElementById("page");
+
+    // Validate page
+    if (page < 1) page = 1;
+    if (page > numPages()) page = numPages();
+
+    listing_table.innerHTML = ""; // แสดงผลข้อมูลตารางให้ว่าง
+
+    for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < objJson.length; i++) {
+        listing_table.innerHTML += objJson[i].adName + "<br>"; // แสดงผลข้อมูล
+    }
+    page_span.innerHTML = page; // แสดงผลหน้า
+
+    if (page == 1) {
+        btn_prev.style.visibility = "hidden";
+    } else {
+        btn_prev.style.visibility = "visible";
+    }
+
+    if (page == numPages()) {
+        btn_next.style.visibility = "hidden";
+    } else {
+        btn_next.style.visibility = "visible";
+    }
+}
+
+function numPages()
+{
+    return Math.ceil(objJson.length / records_per_page);
+}
+
+window.onload = function() {
+    changePage(1);
+};
+    </script>
 </html>

@@ -658,11 +658,6 @@ app.get('/logout',function (req,res){
 
 // ========================= Member ====================================
 // ==================== save data and upload photo =====================
-
-
-
-
-
 app.post('/save', upload.single('photos'), function (req, res) {
     let data = {};
     //console.log(req.file)
@@ -702,10 +697,10 @@ app.post('/save', upload.single('photos'), function (req, res) {
                     Member_Profile: req.file.path,
                     Member_Tel: req.body.Member_Tel,
                     Member_Total: point,
-                    Member_Available: point
+                    Member_Available: point,
+                    Member_Admin:req.session.displayName
                 })
                 newMember.save().then((doc) => {
-
                     let newHouse = new House({
                         House_name: req.body.Member_House,
                         House_MemberID: req.body.Member_ID
