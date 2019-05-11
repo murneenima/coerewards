@@ -16,7 +16,7 @@ var RewardSchema = new Schema({
     },
     Reward_Photo:{
         type:String,
-        
+        required:true
     },
     Reward_Quantity:{
         type:Number,

@@ -88,41 +88,41 @@ app.use((req, res, next) => { // allow the other to connect
 
 app.use('/member', MemberRounter)
 // session
- 
+
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: true
-  }))
+}))
 // ================ API Get ================
 // 1 Admin
-app.get('/forAdmin',(req,res)=>{
-    let name =  req.session.displayName
-    if(req.session.displayName){
+app.get('/forAdmin', (req, res) => {
+    let name = req.session.displayName
+    if (req.session.displayName) {
         res.render('admin_Admin.hbs', {
-            data : encodeURI(JSON.stringify(name))
+            data: encodeURI(JSON.stringify(name))
         })
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
 
 // 2 Alumni 
-app.get('/Alumni',(req,res)=>{
-    let name =  req.session.displayName
-    if(req.session.displayName){
+app.get('/Alumni', (req, res) => {
+    let name = req.session.displayName
+    if (req.session.displayName) {
         res.render('admin_Alumni.hbs', {
-            data : encodeURI(JSON.stringify(name))
+            data: encodeURI(JSON.stringify(name))
         })
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
 
 // 3  Behavior_All
 app.get('/EditBehavior', (req, res) => {
-    let name =  req.session.displayName
-    if(req.session.displayName){
+    let name = req.session.displayName
+    if (req.session.displayName) {
         Behavior.find({}, (err, dataBehavior) => {
             if (err) console.log(err)
         }).then((dataBehavior) => {
@@ -133,19 +133,19 @@ app.get('/EditBehavior', (req, res) => {
         // res.render('admin_Alumni.hbs', {
         //     data : encodeURI(JSON.stringify(name))
         // })
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
 
 //4 admin_BehaviorContent
 app.get('/BehaviorContent', (req, res) => {
-    let name =  req.session.displayName
-    if(req.session.displayName){
+    let name = req.session.displayName
+    if (req.session.displayName) {
         res.render('admin_BehaviorContent.hbs', {
-            data : encodeURI(JSON.stringify(name))
+            data: encodeURI(JSON.stringify(name))
         })
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
@@ -153,8 +153,8 @@ app.get('/BehaviorContent', (req, res) => {
 //5 admin_BehaviorEdit
 app.post('/behavior/:id', (req, res) => {
     let id = req.params.id
-    let name =  req.session.displayName
-    if(req.session.displayName){
+    let name = req.session.displayName
+    if (req.session.displayName) {
         Behavior.find({ Behavior_ID: id }, (err, data) => {
             if (err) console.log(err)
         }).then((data) => {
@@ -162,14 +162,14 @@ app.post('/behavior/:id', (req, res) => {
                 dataBehavior: encodeURI(JSON.stringify(data))
             })
         })
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
 //6 admin_CreatedByDisplay
 app.get('/CreatedByDisplay', (req, res) => {
-    let name =  req.session.displayName
-    if(req.session.displayName){
+    let name = req.session.displayName
+    if (req.session.displayName) {
         CreatedBy.find({}, (err, data) => {
             if (err) console.log(err)
         }).then((dataCB) => {
@@ -177,28 +177,28 @@ app.get('/CreatedByDisplay', (req, res) => {
                 dataCB: encodeURI(JSON.stringify(dataCB))
             })
         })
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
 // 7 admin_CreatedByInsert
 app.get('/CreatedByInsert', (req, res) => {
-    let name =  req.session.displayName
-    if(req.session.displayName){
+    let name = req.session.displayName
+    if (req.session.displayName) {
         res.render('admin_CreatedByInsert.hbs', {})
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
 
 //8 admin_error
 app.get('/error', (req, res) => {
-    let name =  req.session.displayName
-    if(req.session.displayName){
+    let name = req.session.displayName
+    if (req.session.displayName) {
         res.render('admin_error.hbs', {
-            data : encodeURI(JSON.stringify(name))
+            data: encodeURI(JSON.stringify(name))
         })
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
@@ -207,13 +207,13 @@ app.get('/error', (req, res) => {
 //10 admin_EventAll
 app.get('/AllEvent', (req, res) => {
     let data = {}
-    let name =  req.session.displayName
-    if(req.session.displayName){
+    let name = req.session.displayName
+    if (req.session.displayName) {
         AllEvent.find({}, (err, event) => {
             if (err) console.log(err)
         }).then((event) => {
             data.event = event
-    
+
             CreatedBy.find({}, (err, data) => {
                 if (err) console.log(err)
             }).then((CB) => {
@@ -225,40 +225,37 @@ app.get('/AllEvent', (req, res) => {
                 res.status(400).send(err)
             })
         })
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
 
 //11 admin_EventCard
 app.get('/SeeMoreEvent', (req, res) => {
-    let data = {}
-    let name =  req.session.displayName
-    if(req.session.displayName){
+    if (req.session.displayName) {
         OpenEvent.find({}, (err, dataEvent) => {
             if (err) console.log(err)
-        }).then((dataEvent) => {
-            data.dataEvent = dataEvent
-            data.name = name
+        }).then((data) => {
             res.render('admin_EventCard.hbs', {
-                dataEvent: encodeURI(JSON.stringify(dataEvent))
+                data: encodeURI(JSON.stringify(data))
             })
         })
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
 
+
 //12 admin_EventContent
 app.get('/EventContent', (req, res) => {
     let data = {}
-    let name =  req.session.displayName
-    if(req.session.displayName){
+    let name = req.session.displayName
+    if (req.session.displayName) {
         EventType.find({}, (err, data) => {
             if (err) console.log(err)
         }).then((dataEV) => {
             data.EventType = dataEV
-    
+
             CreatedBy.find({}, (err, data) => {
                 if (err) console.log(err)
             }).then((dataCB) => {
@@ -270,7 +267,7 @@ app.get('/EventContent', (req, res) => {
                 res.status(400).send(err)
             })
         })
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
@@ -279,8 +276,8 @@ app.get('/EventContent', (req, res) => {
 //14 admin_EventOpen.hbs
 //15 admin_EventTypeDisplay.hbs
 app.get('/EventTypeDisplay', (req, res) => {
-    let name =  req.session.displayName
-    if(req.session.displayName){
+    let name = req.session.displayName
+    if (req.session.displayName) {
         EventType.find({}, (err, data) => {
             if (err) console.log(err)
         }).then((dataEV) => {
@@ -288,17 +285,17 @@ app.get('/EventTypeDisplay', (req, res) => {
                 dataEV: encodeURI(JSON.stringify(dataEV))
             })
         })
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
 
 //16 admin_EventTypeInsert.hbs
 app.get('/EventTypeInsert', (req, res) => {
-    let name =  req.session.displayName
-    if(req.session.displayName){
+    let name = req.session.displayName
+    if (req.session.displayName) {
         res.render('admin_EventTypeInsert.hbs', {})
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
@@ -306,8 +303,8 @@ app.get('/EventTypeInsert', (req, res) => {
 //17 admin_HouseBill.hbs
 app.get('/Bill', (req, res) => {
     let bill = 'Bill Gates'
-    let name =  req.session.displayName
-    if(req.session.displayName){
+    let name = req.session.displayName
+    if (req.session.displayName) {
         Member.find({ Member_House: bill }, (err, dataHouse) => {
             if (err) console.log(err)
         }).then((dataHouse) => {
@@ -315,7 +312,7 @@ app.get('/Bill', (req, res) => {
                 dataHouse: encodeURI(JSON.stringify(dataHouse))
             })
         })
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
@@ -323,8 +320,8 @@ app.get('/Bill', (req, res) => {
 //18 admin_HouseLarry.hbs
 app.get('/Larry', (req, res) => {
     let larry = 'Larry Page'
-    let name =  req.session.displayName
-    if(req.session.displayName){
+    let name = req.session.displayName
+    if (req.session.displayName) {
         Member.find({ Member_House: larry }, (err, dataHouse) => {
             if (err) console.log(err)
         }).then((dataHouse) => {
@@ -332,16 +329,16 @@ app.get('/Larry', (req, res) => {
                 dataHouse: encodeURI(JSON.stringify(dataHouse))
             })
         })
-    }else{
+    } else {
         res.redirect('/login')
-    }  
+    }
 })
 
 //19 admin_HouseElon.hbs
 app.get('/Elon', (req, res) => {
     let elon = 'Elon Mask'
-    let name =  req.session.displayName
-    if(req.session.displayName){
+    let name = req.session.displayName
+    if (req.session.displayName) {
         Member.find({ Member_House: elon }, (err, dataHouse) => {
             if (err) console.log(err)
         }).then((dataHouse) => {
@@ -349,16 +346,16 @@ app.get('/Elon', (req, res) => {
                 dataHouse: encodeURI(JSON.stringify(dataHouse))
             })
         })
-    }else{
+    } else {
         res.redirect('/login')
-    }   
+    }
 })
 
 //20 admin_HouseMark.hbs
 app.get('/Mark', (req, res) => {
     let mark = 'Mark Zuckerberg'
-    let name =  req.session.displayName
-    if(req.session.displayName){
+    let name = req.session.displayName
+    if (req.session.displayName) {
         Member.find({ Member_House: mark }, (err, dataHouse) => {
             if (err) console.log(err)
         }).then((dataHouse) => {
@@ -366,50 +363,50 @@ app.get('/Mark', (req, res) => {
                 dataHouse: encodeURI(JSON.stringify(dataHouse))
             })
         })
-    }else{
+    } else {
         res.redirect('/login')
-    } 
+    }
 })
 
 //21 admin_Login
 //22 admin_Main.hbs
 app.get('/Main', (req, res) => {
-    let name =  req.session.displayName
+    let name = req.session.displayName
     let data = {}
-    if(req.session.displayName){
-        Member.find({},(err,data)=>{
-            if(err) console.log(err)
-        }).then((dataMember)=>{
+    if (req.session.displayName) {
+        Member.find({}, (err, data) => {
+            if (err) console.log(err)
+        }).then((dataMember) => {
             data.member = dataMember
 
-            OpenEvent.find({},(err,data)=>{
-                if(err) console.log(err)
-            }).then((dataOpenEvent)=>{
+            OpenEvent.find({}, (err, data) => {
+                if (err) console.log(err)
+            }).then((dataOpenEvent) => {
                 data.openevent = dataOpenEvent
 
-                Reward.find({},(err,dataReward)=>{
-                    if(err) console.log(err)
-                }).then((dataReward)=>{
+                Reward.find({}, (err, dataReward) => {
+                    if (err) console.log(err)
+                }).then((dataReward) => {
                     data.reward = dataReward
 
                     res.render('admin_Main.hbs', {
-                        data : encodeURI(JSON.stringify(data))
+                        data: encodeURI(JSON.stringify(data))
                     })
                 }, (err) => {
                     res.status(400).send(err)
                 })
             })
         })
-        
-    }else{
+
+    } else {
         res.redirect('/login')
     }
 })
 
 //23 admin_MemberAll.hbs
 app.get('/MemberAll', (req, res) => {
-    let name =  req.session.displayName
-    if(req.session.displayName){
+    let name = req.session.displayName
+    if (req.session.displayName) {
         Member.find({}, (err, dataMember) => {
             if (err) console.log(err)
         }).then((dataMember) => {
@@ -417,7 +414,7 @@ app.get('/MemberAll', (req, res) => {
                 dataMember: encodeURI(JSON.stringify(dataMember))
             })
         })
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
@@ -425,18 +422,18 @@ app.get('/MemberAll', (req, res) => {
 //24 MemberEdit
 //25 admin_MemberInsert.hbs
 app.get('/MemberInsert', (req, res) => {
-    let name =  req.session.displayName
-    if(req.session.displayName){
+    let name = req.session.displayName
+    if (req.session.displayName) {
         res.render('admin_MemberInsert.hbs', {})
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
 
 // 26 admin_Point_Dec.hbs
 app.get('/DecreasePoint', (req, res) => {
-    let name =  req.session.displayName
-    if(req.session.displayName){
+    let name = req.session.displayName
+    if (req.session.displayName) {
         Behavior.find({}, (err, dataBehavior) => {
             if (err) console.log(err)
         }).then((dataBehavior) => {
@@ -446,15 +443,15 @@ app.get('/DecreasePoint', (req, res) => {
         }, (err) => {
             res.status(400).send(err)
         })
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
 
 //27 admin_Point_Inc.hbs
 app.get('/IncreasePoint', (req, res) => {
-    let name =  req.session.displayName
-    if(req.session.displayName){
+    let name = req.session.displayName
+    if (req.session.displayName) {
         OpenEvent.find({}, (err, dataOpenEvent) => {
             if (err) console.log(err)
         }).then((dataOpenEvent) => {
@@ -464,7 +461,7 @@ app.get('/IncreasePoint', (req, res) => {
         }, (err) => {
             res.status(400).send(err)
         })
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
@@ -472,19 +469,19 @@ app.get('/IncreasePoint', (req, res) => {
 //28 admin_Point_IncByGroup.hbs
 //29 admin_Point_IncByIndi.hbs
 //30 dmin_Report.hbs
-app.get('/getReport',(req,res)=>{
-    let name =  req.session.displayName
-    if(req.session.displayName){
-        res.render('admin_Report.hbs',{})
-    }else{
+app.get('/getReport', (req, res) => {
+    let name = req.session.displayName
+    if (req.session.displayName) {
+        res.render('admin_Report.hbs', {})
+    } else {
         res.redirect('/login')
     }
 })
 
 //31 admin_RewardAll.hbs
 app.get('/editReward', (req, res) => {
-    let name =  req.session.displayName
-    if(req.session.displayName){
+    let name = req.session.displayName
+    if (req.session.displayName) {
         Reward.find({}, (err, dataReaward) => {
             if (err) console.log(err)
         }).then((dataReward) => {
@@ -494,17 +491,17 @@ app.get('/editReward', (req, res) => {
         }, (err) => {
             res.status(400).send(err)
         })
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
 
 //32 admin_RewardContent.hbs
 app.get('/rewardContent', (req, res) => {
-    let name =  req.session.displayName
-    if(req.session.displayName){
+    let name = req.session.displayName
+    if (req.session.displayName) {
         res.render('admin_RewardContent.hbs', {})
-    }else{
+    } else {
         res.redirect('/login')
     }
     //console.log('hello')
@@ -512,30 +509,44 @@ app.get('/rewardContent', (req, res) => {
 
 //33 admin_RewardEdit.hbs
 //34 admin_Year.hbs
-app.get('/getYear',(req,res)=>{
-    let name =  req.session.displayName
-    if(req.session.displayName){
-        res.render('admin_Year.hbs',{})
-    }else{
+app.get('/getYear', (req, res) => {
+    let name = req.session.displayName
+    if (req.session.displayName) {
+        res.render('admin_Year.hbs', {})
+    } else {
+        res.redirect('/login')
+    }
+})
+
+app.get('/SeeMoreReward', (req, res) => {
+    if (req.session.displayName) {
+        Reward.find({}, (err, dataEvent) => {
+            if (err) console.log(err)
+        }).then((dataReward) => {
+            res.render('admin_RewardCard.hbs', {
+                data: encodeURI(JSON.stringify(dataReward))
+            })
+        })
+    } else {
         res.redirect('/login')
     }
 })
 
 // ****************************************************************************************
 // ====================== API Post =============================
-app.post('/admin/save',function (req,res){
-    let name =  req.session.displayName
-    if(req.session.displayName){
+app.post('/admin/save', function (req, res) {
+    let name = req.session.displayName
+    if (req.session.displayName) {
         // res.render('admin_Admin.hbs', {
         //     data : encodeURI(JSON.stringify(name))
         // })
         let newAdmin = new Admin({
-            Admin_Name : req.body.Admin_Name ,
-            Admin_Surname: req.body.Admin_Surname ,
-            Admin_Username: req.body.Admin_Username ,
-            Admin_Password: req.body.Admin_Password 
+            Admin_Name: req.body.Admin_Name,
+            Admin_Surname: req.body.Admin_Surname,
+            Admin_Username: req.body.Admin_Username,
+            Admin_Password: req.body.Admin_Password
         })
-        newAdmin.save().then((doc)=>{
+        newAdmin.save().then((doc) => {
             res.send(`
             <!DOCTYPE html>
             <html>
@@ -583,23 +594,23 @@ app.post('/admin/save',function (req,res){
             
             </html>
             `)
-        },(err) => {
+        }, (err) => {
             //res.render('admin_error.hbs',{})
             res.status(400).send(err)
         })
-    }else{
+    } else {
         res.redirect('/login')
     }
-    
-    
+
+
 })
 
 // ================= Login/Logout ============
-app.get('/login',(req,res)=>{
-    res.render('admin_Login.hbs',{})
+app.get('/login', (req, res) => {
+    res.render('admin_Login.hbs', {})
 })
 
-app.post('/login/admin',function(req,res){
+app.post('/login/admin', function (req, res) {
     let username = req.body.Username
     let password = req.body.Password
     let admin_error = ` <!DOCTYPE html>
@@ -656,27 +667,27 @@ app.post('/login/admin',function(req,res){
     </body>
     
     </html>`
-   
+
 
     Admin.find({
-        Admin_Username:username,
-        Admin_Password:password
-    }).then((admin)=>{
-        if(admin.length == 1){ //เจอข้อมูล 1 คน 
+        Admin_Username: username,
+        Admin_Password: password
+    }).then((admin) => {
+        if (admin.length == 1) { //เจอข้อมูล 1 คน 
             //console.log(admin[0].Admin_Name)
             req.session.displayName = admin[0].Admin_Name
-  
+
             res.redirect('/Main')
             console.log('login success')
-        }else if(admin.length == 0){
+        } else if (admin.length == 0) {
             res.send(admin_error)
         }
-    },(err)=>{
+    }, (err) => {
         res.send(400).send(err)
     })
 })
 
-app.get('/logout',function (req,res){
+app.get('/logout', function (req, res) {
     delete req.session.displayName
     res.redirect('/login')
 })
@@ -723,7 +734,7 @@ app.post('/save', upload.single('photos'), function (req, res) {
                     Member_Tel: req.body.Member_Tel,
                     Member_Total: point,
                     Member_Available: point,
-                    Member_Admin:req.session.displayName
+                    Member_Admin: req.session.displayName
                 })
                 newMember.save().then((doc) => {
                     let newHouse = new House({
@@ -815,7 +826,6 @@ app.post('/resetPassword', (req, res) => {
 })
 // ============== Event Type ===================
 
-
 app.post('/saveEventType', (req, res) => {
     let newEventType = new EventType({
         EventType_Name: req.body.EventType_Name,
@@ -838,8 +848,6 @@ app.post('/removeEventType', (req, res) => {
 })
 
 // ============== Created By ===================
-
-
 app.post('/saveCreatedBy', (req, res) => {
     let newCreatedBy = new CreatedBy({
         CreatedBy_Name: req.body.CreatedBy_Name
@@ -941,16 +949,16 @@ app.post('/event/:id', (req, res) => {
             }).then((eventtype) => {
                 data.eventtype = eventtype
 
-                Year.find({},(err,data)=>{
+                Year.find({}, (err, data) => {
                     if (err) console.log(err)
-                }).then((year)=>{
+                }).then((year) => {
                     data.year = year
                     res.render('admin_EventOpen.hbs', {
                         data: encodeURI(JSON.stringify(data))
                     })
                 }, (err) => {
                     res.status(400).send(err)
-                }) 
+                })
             })
         })
     })
@@ -1201,7 +1209,53 @@ app.post('/saveReward', upload.single('photos'), function (req, res) {
         console.log('@@@@ save REWARD data success @@@@')
         res.render('admin_RewardContent.hbs', {})
     }, (err) => {
-        res.status(400).send(err)
+        res.send(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
+            <title>Success</title>
+        
+            <!-- Bootstrap CSS CDN -->
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                crossorigin="anonymous">
+            <style>
+                @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                h4 {
+                    color: crimson;
+                }
+        
+                p {
+                    font-family: 'Poppins', sans-serif;
+                    font-size: 1.1em;
+                    font-weight: 300;
+                    line-height: 1.7em;
+                    color: #999;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container d-flex justify-content-center align-items-center">
+                <div class="row mt-5 ">
+        
+                    <div class="alert alert-success" role="alert">
+                        <h3 class="alert-heading">Error !</h3>
+                        <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">ไม่สามารถบันทึกข้อมูลได้ กรุณากรอกข้อมูลให้ครบถ้วน </p>
+                        <hr>
+                        <p class="d-flex justify-content-end">
+                                <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/forAdmin" role="button">ตกลง</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="line"></div>
+        </body>
+        
+        </html>
+        `)
     })
 })
 
@@ -1400,17 +1454,17 @@ app.post('/DecBehaviorIndividual', (req, res) => {
 })
 
 // ============== Year ========================
-app.post('/saveYear', function (req,res){
+app.post('/saveYear', function (req, res) {
     let newYear = new Year({
-        Year_Year : req.body.Year_Year,
-        Year_StartDate : req.body.Year_StartDate,
-        Year_EndDate : req.body.Year_EndDate,
+        Year_Year: req.body.Year_Year,
+        Year_StartDate: req.body.Year_StartDate,
+        Year_EndDate: req.body.Year_EndDate,
     })
 
-    newYear.save().then((doc)=>{
+    newYear.save().then((doc) => {
         console.log('@@@@ save YEAR data success @@@@')
         res.redirect('/getYear')
-    },(err)=>{
+    }, (err) => {
         res.status(400).send(err)
     })
 })

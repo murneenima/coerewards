@@ -4,6 +4,7 @@ autoIncrement = require('mongoose-auto-increment');
 
 var connection = mongoose.createConnection("mongodb://localhost/DBcoe");
 autoIncrement.initialize(connection);
+
 //===========================
 var OpenEventSchema = new Schema({
     OpenEvent_Name:{

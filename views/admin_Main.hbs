@@ -216,35 +216,7 @@
                         <div class="container">
                             <h4 class="text-center" style="color:darkcyan;">Member Point Ranking</h4>
                             <table class="table justify-content-center text-center" id="member_ranking">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th scope="col">Rank</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Score</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">4</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                    </tr>
-                                </tbody>
+                                
                             </table>
                             <div class="row d-flex justify-content-between">
                                 <button type="button" onclick="prevPage()" class="btn btn-outline-info" id="btn_prev">Prev</button>
@@ -265,20 +237,6 @@
                         <div class="row">
                             <div class="col">
                                 <div class="card-deck mt-3" id="display_card">
-                                    <div class="card h-50">
-                                        <img class="card-img-top" src="http://fiscalsystems.wpengine.com/wp-content/uploads/2013/10/EVENTS.png" alt="Card image cap">
-                                        <div class="card-body">
-                                            <a href="#">Card Title</a>
-                                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
-                                                content. This content is a little bit longer.</p>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mt-3 d-flex justify-content-between">
-                                    <button type="button" onclick="prevPage2()" class="btn btn-outline-info" id="btn_prev2">Prev</button>
-                                    <span style="font-weight: bold;" id="page2"></span>
-                                    <button type="button" onclick="nextPage2()" class="btn btn-outline-info" id="btn_next2">Next</button>
                                 </div>
                             </div>
                         </div>
@@ -297,38 +255,14 @@
                 <h2 class="mt-3 p-3 mb-2 bg-info text-white">Reward</h2>
                 <div class="row m-4">
                     <div class="container">
-                        <div class="card-deck mt-3">
-                            <div class="card">
-                                <img class="card-img-top" src="https://itchecknow.files.wordpress.com/2016/04/best-game-reward.png?w=509&h=387" alt="Card image cap">
-                                <div class="card-body">
-                                    <a href="#">Card Title</a>
-                                    <p class="card-text">r.</p>
-
-                                </div>
-                            </div>
-                            <div class="card">
-                                <img class="card-img-top" src="https://itchecknow.files.wordpress.com/2016/04/best-game-reward.png?w=509&h=387" alt="Card image cap">
-                                <div class="card-body">
-                                    <a href="#">Card Title</a>
-                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-
-                                </div>
-                            </div>
-                            <div class="card">
-                                <img class="card-img-top" src="https://itchecknow.files.wordpress.com/2016/04/best-game-reward.png?w=509&h=387" alt="Card image cap">
-                                <div class="card-body">
-                                    <a href="#">Card Title</a>
-                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-
-                                </div>
-                            </div>
+                        <div class="card-deck mt-3" id="display_reward">
 
                         </div>
 
                     </div>
                 </div>
                 <div class="row m-3 d-flex justify-content-end">
-                    <a href="#" class="btn btn-outline-info">See More</a>
+                    <a href="http://localhost:3000/SeeMoreReward" class="btn btn-outline-info">See More</a>
                 </div>
                 <br>
             </div>
@@ -354,7 +288,6 @@
         document.getElementById("username").innerHTML = "User : " + name
         var current_page = 1;
         var records_per_page = 5;
-        var records_per_page2 = 4;
 
         var data = "{{data}}"
         var dataAll = JSON.parse(decodeURI(data))
@@ -419,7 +352,7 @@
         // ==========Push and Sort============
         for (let i = 0; i < dataAll.member.length; i++) {
             Member.push(dataAll.member[i])
-            myFunction()
+          //  myFunction()
         }
         function myFunction() {
             dataAll.member.sort(function (a, b) { return b.Member_Total - a.Member_Total });
@@ -427,59 +360,51 @@
         }
 
         // ####################OPEN EVENT########################
-        function prevPage2() {
-            if (current_page > 1) {
-                current_page--;
-                changePage2(current_page);
-            }
-        }
 
-        function nextPage2() {
-            if (current_page < numPages2()) {
-                current_page++;
-                changePage2(current_page);
-            }
-        }
-
-        function changePage2(page) {
-            var btn_next2 = document.getElementById("btn_next2");
-            var btn_prev2 = document.getElementById("btn_prev2");
+        upcoming()
+        function upcoming() {
             let display_OpenEvent = ""
-            var page_span = document.getElementById("page2");
-
-            // Validate page
-            if (page < 1) page = 1;
-            if (page > numPages2()) page = numPages2();
-
-            document.getElementById("display_card").innerHTML = ""; // แสดงผลข้อมูลตารางให้ว่าง
-
-            for (var i = (page - 1) * records_per_page2; i < (page * records_per_page2) && i < dataAll.openevent.length; i++) {
-                display_OpenEvent += '<div class="card "><img class="card-img-top" src="' + dataAll.openevent[i].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/:' + dataAll.openevent[i].OpenEvent_ID + '">' + dataAll.openevent[i].OpenEvent_Name + '</a><p class="card-text">ภาคการศึกษา : ' + dataAll.openevent[i].OpenEvent_Semeter + '<br>' + 'วันที่ : ' + dataAll.openevent[i].OpenEvent_StartDate + '<br>สถานที่ : ' + dataAll.openevent[i].OpenEvent_Location + '</p></div></div>'
+            if(dataAll.openevent.length <4 ){
+                for (var i = 0; i < dataAll.openevent.length; i++) {
+                display_OpenEvent += '<div class="card  "  style="max-width: 25%;"><img class="card-img-top" src="'+ dataAll.openevent[i].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/:' + dataAll.openevent[i].OpenEvent_ID + '">' + dataAll.openevent[i].OpenEvent_Name + '</a><p class="card-text">ภาคการศึกษา : ' + dataAll.openevent[i].OpenEvent_Semeter + '<br>' + 'วันที่ : ' + dataAll.openevent[i].OpenEvent_StartDate + '<br>สถานที่ : ' + dataAll.openevent[i].OpenEvent_Location + '</p></div></div>'
                 document.getElementById("display_card").innerHTML = display_OpenEvent
-            }
-            page_span.innerHTML = "Page " + page; // แสดงผลหน้า
-
-            if (page == 1) {
-                btn_prev2.style.visibility = "hidden";
-            } else {
-                btn_prev2.style.visibility = "visible";
-            }
-
-            if (page == numPages2()) {
-                btn_next2.style.visibility = "hidden";
-            } else {
-                btn_next2.style.visibility = "visible";
-            }
-        }
-
-        function numPages2() {
-            return Math.ceil(dataAll.member.length / records_per_page2);
-        }
-
-        window.onload = function () {
-            changePage2(1);
+                myFunction()
+                }
+            }else{
+                for (var i = 0; i < 4; i++) {
+                display_OpenEvent += '<div class="card  "  style="max-width: 25%;"><img class="card-img-top rounded mx-auto d-block h-50 " src="'+ dataAll.openevent[i].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/:' + dataAll.openevent[i].OpenEvent_ID + '">' + dataAll.openevent[i].OpenEvent_Name + '</a><p class="card-text">ภาคการศึกษา : ' + dataAll.openevent[i].OpenEvent_Semeter + '<br>' + 'วันที่ : ' + dataAll.openevent[i].OpenEvent_StartDate + '<br>สถานที่ : ' + dataAll.openevent[i].OpenEvent_Location + '</p></div></div>'
+                document.getElementById("display_card").innerHTML = display_OpenEvent
+                myFunction()
+                }
+            }  
         };
+          function myFunction() {
+            dataAll.openevent.sort(function (a, b) { return a.OpenEvent_StartDate - b.OpenEvent_StartDate });
+            //console.log(Member)
+        }
 
+        // ######################### REWARD ###########################
+        reward()
+        function reward() {
+            let display_Reward = ""
+            if(dataAll.reward.length <4 ){
+                for (var i = 0; i < dataAll.reward.length; i++) {
+                display_Reward += '<div class="card  " style="max-width: 25%;"><img class="card-img-top rounded mx-auto d-block" src="'+ dataAll.reward[i].Reward_Photo + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayReward/:' + dataAll.reward[i].Reward_ID + '">' + dataAll.reward[i].Reward_Name + '</a><p class="card-text">จำนวนคงเหลือ : ' + dataAll.reward[i].Reward_Quantity + '<br>คะแนนที่ใช้ : '+dataAll.reward[i].Reward_Point+'</p></div></div>'
+                document.getElementById("display_reward").innerHTML = display_Reward
+                myFunction()
+                }
+            }else{
+                for (var i = 0; i < 4; i++) {
+                display_Reward += '<div class="card  "  style="max-width: 25%;"><img class="card-img-top rounded mx-auto d-block" src="'+ dataAll.openevent[i].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/:' + dataAll.openevent[i].OpenEvent_ID + '">' + dataAll.openevent[i].OpenEvent_Name + '</a><p class="card-text">ภาคการศึกษา : ' + dataAll.openevent[i].OpenEvent_Semeter + '<br>' + 'วันที่ : ' + dataAll.openevent[i].OpenEvent_StartDate + '<br>สถานที่ : ' + dataAll.openevent[i].OpenEvent_Location + '</p></div></div>'
+                document.getElementById("display_reward").innerHTML = display_Reward
+                myFunction()
+                }
+            }  
+        };
+          function myFunction() {
+            dataAll.reward.sort(function (a, b) { return a.Reward_Quantity - b.Reward_Quantity });
+            //console.log(Member)
+        }
 
     </script>
 </body>

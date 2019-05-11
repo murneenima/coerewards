@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Insert Member</title>
+    <title>More Reward</title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
@@ -20,10 +20,9 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
         crossorigin="anonymous"></script>
     <style>
-        h4 {
-            color: crimson;
-        }
     </style>
+
+
 </head>
 
 <body>
@@ -141,8 +140,7 @@
 
         <!-- Page Content  -->
         <div id="content">
-            
-             <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>    
+            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>  
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 
@@ -165,130 +163,121 @@
                 </div>
             </nav>
 
-            <h2 class="m-2 p-3 mb-2 bg-info text-white">Insert Member</h2>
-            <div class="container">
-                <form action="http://localhost:3000/save" method="POST" enctype="multipart/form-data">
-                    <div class="row m-4 mt-5">
-                        <div class="col-2">
-                            <label for="StudentID">Student ID</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="text" class="form-control" placeholder="58XXXXXX" pattern="[1-9]{8}" maxlength="8" id="Member_ID" name="Member_ID"
-                                placeholder="Student ID" required>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                        <div class="col-2">
-                            <label for="Password">Password</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="password" class="form-control" id="Member_Password" name="Member_Password" minlength="5" placeholder="Password"
-                                required>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                    </div>
-                    <div class="row m-4">
-                        <div class="col-2">
-                            <label for="FirstName">First Name</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="text" class="form-control" id="Member_Name" name="Member_Name" placeholder="First Name" required>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                        <div class="col-2">
-                            <label for="LastName">Last Name</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="text" class="form-control" id="Member_Lastname" name="Member_Lastname" placeholder="Last Name" required>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                    </div>
-                    <div class="row m-4">
-                        <div class="col-2">
-                            <label for="House">House</label>
-                        </div>
-                        <div class="col-3">
-                            <select class="form-control" id="Member_House" name="Member_House" required>
-                                <option value="">Please select</option>
-                                <option value="Bill Gates">Bill Gates</option>
-                                <option value="Larry Page">Larry Page</option>
-                                <option value="Elon Mask">Elon Mask</option>
-                                <option value="Mark Zuckerberg">Mark Zuckerberg</option>
-                            </select>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                        <div class="col-2">
-                            <label for="House">Tel</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="tel" placeholder="0888888888" pattern="[0-0]{1}[0-8]{2}[0-9]{3}[0-9]{4}" maxlength="10" title="Ten digits code" required
-                                class="form-control" id="Member_Tel" name="Member_Tel" placeholder="Telephone" required>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                    </div>
-                    <div class="row m-4">
-                        <div class="col-2">
-                            <label for="Point">Point</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="number" class="form-control" id="Member_Point" name="Member_Point" placeholder="Point">
-                        </div>
 
 
-                    </div>
-                    <div class="row m-4">
-                        <div class="col-2">
-                            <label for="House">Profile</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="file" name="photos" multiple required> {{!--
-                            <input type="submit" value="upload"> --}}
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-
-                    </div>
-                    {{!--
-                    <div class="row m-4">
-                        <div class="col-2">
-                            <label for="House">Status</label>
-                        </div>
-                        <div class="col-3">
-                            <select class="form-control" id="Member_Status" name="Member_Status" required>
-                                <option value="">Please select</option>
-                                <option value="Active">Active</option>
-                                <option value="Non Active">Non Active</option>
-                            </select>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                    </div> --}}
-                    <div class="row-4 text-center ">
-                        <button type="submit" value="upload" class="btn btn-primary btn-lg">SAVE</button>
-                    </div>
-                </form>
+            {{!-- ################################# Upcomint Event ################################# --}}
+            <h2 class="m-2 p-3 mb-2 bg-info text-white">Reward</h2>
+            <div class="row m-3 d-flex justify-content-end">
+                <div class="col-1/2 d-flex align-items-center">
+                    <h6>Sorting By :</h6>
+                </div>
+                <div class="col-2">
+                    <select class="form-control">
+                        <option>เร็วๆนี้</option>
+                        <option>นานมาแล้ว</option>
+                        <option>Large select</option>
+                        <option>Large select</option>
+                    </select>
+                </div>
+                <div class="col-1">
+                    <button type="button" class="btn btn-outline-info">Search</button>
+                </div>
             </div>
-            <div class="line"></div>
+
+            <div class="row">
+                <div class="container mt-2">
+                    <div class="card-deck m-3">
+                        <div class="card">
+                            <img class="card-img-top" src="http://fiscalsystems.wpengine.com/wp-content/uploads/2013/10/EVENTS.png" alt="Card image cap">
+                            <div class="card-body">
+                                <a href="#">Card Title</a>
+                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.
+                                    This content is a little bit longer.</p>
+
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img class="card-img-top" src="http://fiscalsystems.wpengine.com/wp-content/uploads/2013/10/EVENTS.png" alt="Card image cap">
+                            <div class="card-body">
+                                <a href="#">Card Title</a>
+                                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img class="card-img-top" src="http://fiscalsystems.wpengine.com/wp-content/uploads/2013/10/EVENTS.png" alt="Card image cap">
+                            <div class="card-body">
+                                <a href="#">Card Title</a>
+                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
+                                    This card has even longer content than the first to show that equal height action.</p>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="container mt-2">
+                    <div class="card-deck m-3">
+                        <div class="card">
+                            <img class="card-img-top" src="http://fiscalsystems.wpengine.com/wp-content/uploads/2013/10/EVENTS.png" alt="Card image cap">
+                            <div class="card-body">
+                                <a href="#">Card Title</a>
+                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.
+                                    This content is a little bit longer.</p>
+
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img class="card-img-top" src="http://fiscalsystems.wpengine.com/wp-content/uploads/2013/10/EVENTS.png" alt="Card image cap">
+                            <div class="card-body">
+                                <a href="#">Card Title</a>
+                                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img class="card-img-top" src="http://fiscalsystems.wpengine.com/wp-content/uploads/2013/10/EVENTS.png" alt="Card image cap">
+                            <div class="card-body">
+                                <a href="#">Card Title</a>
+                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
+                                    This card has even longer content than the first to show that equal height action.</p>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row mt-3 d-flex justify-content-center">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" href="#">Previous</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">1</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">2</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">3</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
 
         </div>
     </div>
-
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
+
     <!-- Popper.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
         crossorigin="anonymous"></script>
@@ -302,10 +291,19 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-
         document.getElementById("username").innerHTML = "User : "+ name
-      
-       
+
+        var data = "{{dataEvent}}"
+        var data2 = JSON.parse(decodeURI(data))
+        var Event = [];
+        var username = data2.name
+
+        //console.log(data2)
+        for (let i = 0; i < data2.length; i++) {
+            Event.push(data2[i])
+        }
+        console.log(name)
+        //console.log(Event)
     </script>
 </body>
 
