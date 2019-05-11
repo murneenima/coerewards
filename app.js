@@ -375,10 +375,32 @@ app.get('/Mark', (req, res) => {
 //22 admin_Main.hbs
 app.get('/Main', (req, res) => {
     let name =  req.session.displayName
+    let data = {}
     if(req.session.displayName){
-        res.render('admin_Main.hbs', {
-            data : encodeURI(JSON.stringify(name))
+        Member.find({},(err,data)=>{
+            if(err) console.log(err)
+        }).then((dataMember)=>{
+            data.member = dataMember
+
+            OpenEvent.find({},(err,data)=>{
+                if(err) console.log(err)
+            }).then((dataOpenEvent)=>{
+                data.openevent = dataOpenEvent
+
+                Reward.find({},(err,dataReward)=>{
+                    if(err) console.log(err)
+                }).then((dataReward)=>{
+                    data.reward = dataReward
+
+                    res.render('admin_Main.hbs', {
+                        data : encodeURI(JSON.stringify(data))
+                    })
+                }, (err) => {
+                    res.status(400).send(err)
+                })
+            })
         })
+        
     }else{
         res.redirect('/login')
     }
@@ -587,11 +609,14 @@ app.post('/login/admin',function(req,res){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>ระบบจัดการคะแนนและกลุ่มบ้าน</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet">
+
         <style>
             body {
                 margin: 0;
