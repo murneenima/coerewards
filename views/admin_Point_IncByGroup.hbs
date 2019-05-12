@@ -290,7 +290,7 @@
                     </div>
                     <div class="col d-flex justify-content-end">
                         <div class="input-group">
-                            <input class="form-control border-info py-2" type="text" placeholder="Search By Id" id="SearchData">
+                            <input class="form-control border-info py-2" type="text" pattern="[0-9]{8}" maxlength="8" placeholder="Search By Id" id="SearchData">
                             <div class="input-group-append">
                                 <button onclick="search_id()" class="btn btn-outline-secondary" type="button">
                                     <i class="fa fa-search"></i>
@@ -299,7 +299,21 @@
                         </div>
                     </div>
                 </div>
-                <form action="">
+
+                <div class="mt-3 container">
+                    <table id="table_data" class="table table-bordred table-striped justify-content-center text-center">
+                        {{!-- <thead class="thead-light">
+                            <th>Member ID</th>
+                            <th>Name</th>
+                            <th>Last Name</th>
+                            <th>House</th>
+                        </thead> --}}
+                    </table>
+                     <div class="row mt-4 mr-5 justify-content-end">
+                    <button type="submit" class="btn btn-success btn-lg" id="button_save">Save</button>
+                </div>
+                </div>
+                {{!-- <form action="">
                     <div class="row mt-3">
                         <div class="container">
                             <div class="row mt-3">
@@ -365,10 +379,73 @@
                             </div>
                         </div>
                     </div>
-                </form>
+                </form> --}}
             </div>
         </div>
     </div>
+
+            {{!-- ######### edit Profile ####################### --}}
+            <div class="modal fade" id="dataMember" data-curid="" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </button>
+                            <h4 class="modal-title custom_align" id="Heading">Member Information</h4>
+                        </div>
+                        <!--///////////////// Form Edit ///////////////////////////-->
+                        <div class="modal-body">
+                            {{!-- <form action="http://localhost:3000/editMember" method="post"> --}}
+                                <div class="container">
+                                    <div class="row m-4 mt-5">
+                                        <div class="col">
+                                            <label for="StudentID">Student ID :</label>
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" class="form-control" id="Member_ID" name="Member_ID" placeholder="Student ID" required readonly>
+                                        </div>
+
+                                    </div>
+                                    <div class="row m-4">
+                                        <div class="col">
+                                            <label for="FirstName">First Name :</label>
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" class="form-control" id="Member_Name" name="Member_Name" placeholder="First Name" required readonly>
+                                        </div>
+                                    </div>
+                                    <div class="row m-4">
+                                        <div class="col">
+                                            <label for="LastName">Last Name :</label>
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" class="form-control" id="Member_Lastname" name="Member_Lastname" placeholder="Last Name" required readonly>
+                                        </div>
+                                    </div>
+                                    <div class="row m-4">
+                                        <div class="col">
+                                            <label for="LastName">House :</label>
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" class="form-control" id="Member_House" name="Member_House" placeholder="Last Name" required readonly>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer ">
+                                        <button type="button" class="btn btn-warning btn-lg" data-dismiss="modal" onclick="Add_Row()" style="width: 100%;">
+                                            <span class="glyphicon glyphicon-ok-sign"></span> ตกลง</button>
+                                    </div>
+
+                                </div>
+                            {{!-- </form> --}}
+
+                        </div>
+
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
 
     {{!-- ################### Modal ######################### --}}
     <div class="modal" id="myModal" tabindex="-1" role="dialog">
@@ -412,14 +489,15 @@
         var data = JSON.parse(decodeURI(data2))
         var Event = []
         var Member = [];
-        let display_MemberAll = "<thead><th>Member ID</th><th>Name</th><th>Last Name</th><th>House</th></thead>";
+        let count = 0;
+        
         for (let i = 0; i < data.OpenEvent.length; i++) {
             Event.push(data.OpenEvent[i])
         }
         for (let i = 0; i < data.Member.length; i++) {
             Member.push(data.Member[i])
         }
-        console.log(Member)
+       //console.log(Member)
 
         for (let i = 0; i < Event.length; i++) {
             document.getElementById("OpenEvent_Name").innerHTML = Event[0].OpenEvent_Name
@@ -432,43 +510,70 @@
             document.getElementById("OpenEvent_Year").innerHTML = Event[0].OpenEvent_Year
             document.getElementById("OpenEvent_Location").innerHTML = Event[0].OpenEvent_Location
         }
+        document.getElementById("button_save").disabled = true
 
         function search_id() {
-            document.getElementById("button_insert").disabled = false;
-            document.getElementById("Member_ID").value = null
-            document.getElementById("Member_Name").value = null
-            document.getElementById("Member_Lastname").value = null
-            document.getElementById("Member_House").value = null
-
             let id = document.getElementById("SearchData").value
-            // console.log(id)
+            console.log(id)
             for (let i = 0; i < Member.length; i++) {
                 if (Member[i].Member_ID == id) {
-                    //console.log(Member[i].Member_ID)
+                    console.log(Member[i].Member_ID)
+                $('#dataMember').modal('show');
                     document.getElementById("Member_ID").value = Member[i].Member_ID
                     document.getElementById("Member_Name").value = Member[i].Member_Name
                     document.getElementById("Member_Lastname").value = Member[i].Member_Lastname
                     document.getElementById("Member_House").value = Member[i].Member_House
                     return 0;
-                } else {
-                    if (id != Member[i].Member_ID) {
-                        $('#myModal').modal('show')
-                        return 0;
-                    }
-                }
+                } 
             }
         }
 
-        function insert_member() {
-            console.log('hello')
+        let display_MemberAll = "<thead><th>No</th><th>Member ID</th><th>Name</th><th>Last Name</th><th>House</th><th>Delete</th></thead>";
+            
+        function Add_Row(){
+            document.getElementById("button_save").disabled = false
+            let MemberID = document.getElementById("SearchData").value
+           // let table = document.getElementsByTagName('table')[0]
+            
             let id = document.getElementById("Member_ID").value
             let name = document.getElementById("Member_Name").value
             let lastname = document.getElementById("Member_Lastname").value
             let house = document.getElementById("Member_House").value
-            display_MemberAll += "<tbody><tr><td>" + id + "</td><td>" + name + "</td><td>" + lastname + "</td><td>" + house + "</td></td></tr></tbody>"
-            document.getElementById("table_member").innerHTML = display_MemberAll
-            document.getElementById("button_insert").disabled = true;
+
+            count++ ;
+            
+            display_MemberAll +=   '<tbody><tr><td>'+count+'</td><td>'+id+'</td><td>'+name+'</td><td>'+lastname+'</td><td>'+house+'</td><td class="select" colspan="3"><button onclick="selectItem(3)">Select</button></td></tr>'
+            document.getElementById("table_data").innerHTML = display_MemberAll
+            //let newRow = table.insertRow(table.rows.length)
+
+            /*let cell1 = newRow.insertCell(0)
+            let cell2 = newRow.insertCell(1)
+            let cell3 = newRow.insertCell(2)
+            let cell4 = newRow.insertCell(3)
+
+            cell1.innerHTML = id
+            cell2.innerHTML = name
+            cell3.innerHTML = lastname
+            cell4.innerHTML = house*/
+            
+            console.log(count)
+            return 0 ;
         }
+
+        function selectItem(count) {
+	        let table1 = document.getElementsByTagName('table'+count);
+            console.log(table1)
+	        if(!table1) { alert('table not found'); return; }
+	        var valueFields = table1.getElementsByTagName('td');
+            console.log(valueFields[0].value)
+            console.log(valueFields[1].value)
+            console.log(valueFields[2].value)
+            console.log(valueFields[3].value)
+	       // document.myForm.location.value = valueFields[0].innerHTML;
+	       // document.myForm.start_date.value = valueFields[1].innerHTML;
+	       // document.myForm.end_date.value = valueFields[2].innerHTML;
+	
+}
     </script>
 </body>
 

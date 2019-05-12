@@ -25,6 +25,10 @@ var JoinBehaviorSchema = new Schema({
     JoinBehavior_Status:{
         type:String,
         default:"in used"
+    },
+    JoinBehavior_Admin:{
+        type:String,
+        required:true
     }
 }) 
 

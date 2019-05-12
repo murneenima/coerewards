@@ -240,7 +240,7 @@
                     </div>
                     <div class="col d-flex justify-content-end">
                         <div class="input-group">
-                            <input class="form-control border-info py-2" type="text" placeholder="Search By Id" id="SearchData">
+                            <input class="form-control border-info py-2" type="text" pattern="[0-9]{8}" maxlength="8" placeholder="Search By Id" id="SearchData">
                             <div class="input-group-append">
                                 <button onclick="search_id()" class="btn btn-outline-secondary" type="button">
                                     <i class="fa fa-search"></i>
@@ -387,12 +387,6 @@
                     document.getElementById("button_save").disabled = false
                     return 0;
                 }
-                //else {
-                //    if (id !== Member[i].Member_ID) {
-                //        $('#myModal').modal('show')
-                //        return 0;
-                //    }
-                //} 
             }
         }
     </script>

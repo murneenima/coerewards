@@ -575,7 +575,7 @@
                 let tel = ""
                 let image = "<img id='img1' src='../" + Member[0].Member_Profile + "' style='width: 200px;height: 200px;margin: 20px;object-fit: cover;object-position: center right'; class='img-circle img-thumbnail'>"
                 for (let i = 0; i < Member.length; i++) {
-                    console.log(Member[i])
+                    //console.log(Member[i])
                     id = Member[0].Member_ID
                     name = Member[0].Member_Name
                     lastname = Member[0].Member_Lastname
@@ -585,7 +585,6 @@
                     availablepoint = Member[0].Member_Available
                     tel = Member[0].Member_Tel
                 }
-                console.log(Member[0].Member_MinusPoint)
                 document.getElementById("Member_ID").innerHTML = id
                 document.getElementById("Member_Name").innerHTML = name
                 document.getElementById("Member_Lastname").innerHTML = lastname

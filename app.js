@@ -766,7 +766,8 @@ app.post('/save', upload.single('photos'), function (req, res) {
                 Member_Profile: req.file.path,
                 Member_Tel: req.body.Member_Tel,
                 Member_Total: point,
-                Member_Available: point
+                Member_Available: point,
+                Member_Admin: req.session.displayName
             })
             newMember.save().then((doc) => {
 
@@ -928,8 +929,6 @@ app.post('/saveEvent', upload.single('photos'), function (req, res) {
         })
     }
 })
-
-
 
 app.post('/event/:id', (req, res) => {
     let id = req.params.id
@@ -1156,8 +1155,6 @@ app.post('/saveBehavior', (req, res) => {
     })
 })
 
-
-
 // app.post('/behavior/:id', (req, res) => {
 //     let id = req.params.id
 //     Behavior.find({ Behavior_ID: id }, (err, data) => {
@@ -1198,65 +1195,129 @@ app.post('/saveEditBehavior', (req, res) => {
 
 // ====================== Reward ================
 app.post('/saveReward', upload.single('photos'), function (req, res) {
-    let newReward = new Reward({
-        Reward_Name: req.body.Reward_Name,
-        Reward_Point: req.body.Reward_Point,
-        Reward_Photo: req.file.path,
-        Reward_Quantity: req.body.Reward_Quantity,
-    })
-
-    newReward.save().then((doc) => {
-        console.log('@@@@ save REWARD data success @@@@')
-        res.render('admin_RewardContent.hbs', {})
-    }, (err) => {
-        res.send(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        
-            <title>Success</title>
-        
-            <!-- Bootstrap CSS CDN -->
-            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
-                crossorigin="anonymous">
-            <style>
-                @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-                h4 {
-                    color: crimson;
-                }
-        
-                p {
-                    font-family: 'Poppins', sans-serif;
-                    font-size: 1.1em;
-                    font-weight: 300;
-                    line-height: 1.7em;
-                    color: #999;
-                }
-            </style>
-        </head>
-        <body>
-            <div class="container d-flex justify-content-center align-items-center">
-                <div class="row mt-5 ">
-        
-                    <div class="alert alert-success" role="alert">
-                        <h3 class="alert-heading">Error !</h3>
-                        <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">ไม่สามารถบันทึกข้อมูลได้ กรุณากรอกข้อมูลให้ครบถ้วน </p>
-                        <hr>
-                        <p class="d-flex justify-content-end">
-                                <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/forAdmin" role="button">ตกลง</a>
-                        </p>
+    let pic_reward = 'uploads/Rewards.jpg'
+    if(req.file == undefined){
+        console.log('No file')
+        let newReward = new Reward({
+            Reward_Name: req.body.Reward_Name,
+            Reward_Point: req.body.Reward_Point,
+            Reward_Photo: pic_reward,
+            Reward_Quantity: req.body.Reward_Quantity,
+        })
+        newReward.save().then((doc) => {
+            console.log('@@@@ save REWARD data success @@@@')
+            res.render('admin_RewardContent.hbs', {})
+        }, (err) => {
+            res.send(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            
+                <title>Success</title>
+            
+                <!-- Bootstrap CSS CDN -->
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                    crossorigin="anonymous">
+                <style>
+                    @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                    h4 {
+                        color: crimson;
+                    }
+            
+                    p {
+                        font-family: 'Poppins', sans-serif;
+                        font-size: 1.1em;
+                        font-weight: 300;
+                        line-height: 1.7em;
+                        color: #999;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container d-flex justify-content-center align-items-center">
+                    <div class="row mt-5 ">
+            
+                        <div class="alert alert-success" role="alert">
+                            <h3 class="alert-heading">Error !</h3>
+                            <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">ไม่สามารถบันทึกข้อมูลได้ กรุณากรอกข้อมูลให้ครบถ้วน </p>
+                            <hr>
+                            <p class="d-flex justify-content-end">
+                                    <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/forAdmin" role="button">ตกลง</a>
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="line"></div>
-        </body>
-        
-        </html>
-        `)
-    })
+                <div class="line"></div>
+            </body>
+            
+            </html>
+            `)
+        })
+    }else{
+        console.log('Have file')
+        let newReward = new Reward({
+            Reward_Name: req.body.Reward_Name,
+            Reward_Point: req.body.Reward_Point,
+            Reward_Photo: req.file.path,
+            Reward_Quantity: req.body.Reward_Quantity,
+        })
+        newReward.save().then((doc) => {
+            console.log('@@@@ save REWARD data success @@@@')
+            res.render('admin_RewardContent.hbs', {})
+        }, (err) => {
+            res.send(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            
+                <title>Success</title>
+            
+                <!-- Bootstrap CSS CDN -->
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                    crossorigin="anonymous">
+                <style>
+                    @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                    h4 {
+                        color: crimson;
+                    }
+            
+                    p {
+                        font-family: 'Poppins', sans-serif;
+                        font-size: 1.1em;
+                        font-weight: 300;
+                        line-height: 1.7em;
+                        color: #999;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container d-flex justify-content-center align-items-center">
+                    <div class="row mt-5 ">
+            
+                        <div class="alert alert-success" role="alert">
+                            <h3 class="alert-heading">Error !</h3>
+                            <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">ไม่สามารถบันทึกข้อมูลได้ กรุณากรอกข้อมูลให้ครบถ้วน </p>
+                            <hr>
+                            <p class="d-flex justify-content-end">
+                                    <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/forAdmin" role="button">ตกลง</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="line"></div>
+            </body>
+            
+            </html>
+            `)
+        })
+    }
+
 })
 
 app.post('/rewardedit/:id', (req, res) => {
@@ -1380,11 +1441,13 @@ app.post('/DecPointIndividual/:id', (req, res) => {
 app.post('/IncEventIndividual', (req, res) => {
 
     let date_save = moment().format('DD-MM-YYYY');
+    let name = req.session.displayName
     let newJoinEvent = new JoinEvent({
         Member_ID: req.body.Member_ID,
         OpenEvent_ID: req.body.OpenEvent_ID,
         OpenEvent_Point: req.body.OpenEvent_Point,
         JoinEvent_Date: date_save,
+        JoinEvent_Admin:name
     })
 
     newJoinEvent.save().then((doc) => {
@@ -1423,6 +1486,7 @@ app.post('/DecBehaviorIndividual', (req, res) => {
         Behavior_ID: req.body.Behavior_ID,
         Behavior_Point: req.body.Behavior_Point,
         JoinBehavior_Date: date_save,
+        JoinBehavior_Admin: req.session.displayName
 
     })
 

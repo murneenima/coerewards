@@ -25,6 +25,9 @@ var JoinEventSchema = new Schema({
     JoinEvent_Status:{
         type:String,
         default:"in used"
+    },
+    JoinEvent_Admin:{
+        type:String,
     }
 }) 
 

@@ -323,7 +323,7 @@
 
             document.getElementById("member_ranking").innerHTML = ""; // แสดงผลข้อมูลตารางให้ว่าง
 
-            for (var i = (page - 1) * records_per_page; i < (page * records_per_page) && i < dataAll.member.length; i++) {
+            for (let i = (page - 1) * records_per_page; i < (page * records_per_page) && i < dataAll.member.length; i++) {
                 display_Member += "<tbody><tr><td>" + (i + 1) + "</td><td>" + dataAll.member[i].Member_Name + " " + dataAll.member[i].Member_Lastname + "</td><td>" + dataAll.member[i].Member_Total + "</td></tr></tbody>"
                 document.getElementById("member_ranking").innerHTML = display_Member
             }
@@ -365,20 +365,20 @@
         function upcoming() {
             let display_OpenEvent = ""
             if(dataAll.openevent.length <4 ){
-                for (var i = 0; i < dataAll.openevent.length; i++) {
+                for (let i = 0; i < dataAll.openevent.length; i++) {
                 display_OpenEvent += '<div class="card  "  style="max-width: 25%;"><img class="card-img-top" src="'+ dataAll.openevent[i].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/:' + dataAll.openevent[i].OpenEvent_ID + '">' + dataAll.openevent[i].OpenEvent_Name + '</a><p class="card-text">ภาคการศึกษา : ' + dataAll.openevent[i].OpenEvent_Semeter + '<br>' + 'วันที่ : ' + dataAll.openevent[i].OpenEvent_StartDate + '<br>สถานที่ : ' + dataAll.openevent[i].OpenEvent_Location + '</p></div></div>'
                 document.getElementById("display_card").innerHTML = display_OpenEvent
                 myFunction()
                 }
             }else{
-                for (var i = 0; i < 4; i++) {
+                for (let i = 0; i < 4; i++) {
                 display_OpenEvent += '<div class="card  "  style="max-width: 25%;"><img class="card-img-top rounded mx-auto d-block h-50 " src="'+ dataAll.openevent[i].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/:' + dataAll.openevent[i].OpenEvent_ID + '">' + dataAll.openevent[i].OpenEvent_Name + '</a><p class="card-text">ภาคการศึกษา : ' + dataAll.openevent[i].OpenEvent_Semeter + '<br>' + 'วันที่ : ' + dataAll.openevent[i].OpenEvent_StartDate + '<br>สถานที่ : ' + dataAll.openevent[i].OpenEvent_Location + '</p></div></div>'
                 document.getElementById("display_card").innerHTML = display_OpenEvent
-                myFunction()
+                myFunction1()
                 }
             }  
         };
-          function myFunction() {
+          function myFunction1() {
             dataAll.openevent.sort(function (a, b) { return a.OpenEvent_StartDate - b.OpenEvent_StartDate });
             //console.log(Member)
         }
@@ -387,21 +387,21 @@
         reward()
         function reward() {
             let display_Reward = ""
-            if(dataAll.reward.length <4 ){
-                for (var i = 0; i < dataAll.reward.length; i++) {
+            if(dataAll.reward.length <= 3 ){
+                for (let i = 0; i < dataAll.reward.length; i++) {
                 display_Reward += '<div class="card  " style="max-width: 25%;"><img class="card-img-top rounded mx-auto d-block" src="'+ dataAll.reward[i].Reward_Photo + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayReward/:' + dataAll.reward[i].Reward_ID + '">' + dataAll.reward[i].Reward_Name + '</a><p class="card-text">จำนวนคงเหลือ : ' + dataAll.reward[i].Reward_Quantity + '<br>คะแนนที่ใช้ : '+dataAll.reward[i].Reward_Point+'</p></div></div>'
+                Function2()
                 document.getElementById("display_reward").innerHTML = display_Reward
-                myFunction()
                 }
             }else{
-                for (var i = 0; i < 4; i++) {
-                display_Reward += '<div class="card  "  style="max-width: 25%;"><img class="card-img-top rounded mx-auto d-block" src="'+ dataAll.openevent[i].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/:' + dataAll.openevent[i].OpenEvent_ID + '">' + dataAll.openevent[i].OpenEvent_Name + '</a><p class="card-text">ภาคการศึกษา : ' + dataAll.openevent[i].OpenEvent_Semeter + '<br>' + 'วันที่ : ' + dataAll.openevent[i].OpenEvent_StartDate + '<br>สถานที่ : ' + dataAll.openevent[i].OpenEvent_Location + '</p></div></div>'
+                for (let i = 0; i < 4; i++) {
+                display_Reward += '<div class="card  " style="max-width: 25%;"><img class="card-img-top rounded mx-auto d-block" src="'+ dataAll.reward[i].Reward_Photo + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayReward/:' + dataAll.reward[i].Reward_ID + '">' + dataAll.reward[i].Reward_Name + '</a><p class="card-text">จำนวนคงเหลือ : ' + dataAll.reward[i].Reward_Quantity + '<br>คะแนนที่ใช้ : '+dataAll.reward[i].Reward_Point+'</p></div></div>'                
                 document.getElementById("display_reward").innerHTML = display_Reward
-                myFunction()
+                Function2()
                 }
             }  
         };
-          function myFunction() {
+          function Function2() {
             dataAll.reward.sort(function (a, b) { return a.Reward_Quantity - b.Reward_Quantity });
             //console.log(Member)
         }
