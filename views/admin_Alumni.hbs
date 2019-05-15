@@ -188,8 +188,10 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-
-         document.getElementById("username").innerHTML = "User : "+ name
+        let data2 = "{{data}}"
+        let data = JSON.parse(decodeURI(data2))
+        console.log(data)
+        document.getElementById("username").innerHTML = "User : "+ name
         
        
     </script>

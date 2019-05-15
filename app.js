@@ -63,7 +63,9 @@ mongoose.connect('mongodb://localhost:27017/DBcoe').then((doc) => {
     console.log('!!!!!!!!!! error to connect with database !!!!!!!!!')
 })
 // var connection = mongoose.createConnection("mongodb://localhost/DBcoe");
-autoIncrement.initialize(mongoose.createConnection('mongodb://localhost:27017/DBcoe'));
+
+
+autoIncrement.initialize(mongoose.createConnection('mongodb://localhost:27017/DBcoe'), { useNewUrlParser: true });
 
 app.use(express.static('public'))
 app.use("/", express.static(__dirname + "/public"));
@@ -90,7 +92,7 @@ app.use('/member', MemberRounter)
 // session
 
 app.use(session({
-    secret: 'keyboard cat',
+    secret: '1234DFs@ad1234!@#$sd',
     resave: false,
     saveUninitialized: true
 }))
@@ -388,6 +390,7 @@ app.get('/Main', (req, res) => {
                     if (err) console.log(err)
                 }).then((dataReward) => {
                     data.reward = dataReward
+                    data.name = name
 
                     res.render('admin_Main.hbs', {
                         data: encodeURI(JSON.stringify(data))
@@ -695,35 +698,69 @@ app.get('/logout', function (req, res) {
 // ========================= Member ====================================
 // ==================== save data and upload photo =====================
 app.post('/save', upload.single('photos'), function (req, res) {
-    let data = {};
-    //console.log(req.file)
-    let point = req.body.Member_Point
-    if (point == "") {
-        point = "0";
+    if (req.session.displayName) {
+        let data = {};
+        //console.log(req.file)
+        let point = req.body.Member_Point
+        if (point == "") {
+            point = "0";
 
-    } else {
-        point = req.body.Member_Point
-    }
-    console.log(point)
+        } else {
+            point = req.body.Member_Point
+        }
+        console.log(point)
 
-    Member.find({ Member_ID: req.body.Member_ID }, (err, data) => {
-        if (err) console.log(err)
-    }).then((id) => {
-        data.ID = id
-
-        Member.find({ Member_Tel: req.body.Member_Tel }, (err, data) => {
+        Member.find({ Member_ID: req.body.Member_ID }, (err, data) => {
             if (err) console.log(err)
-        }).then((tel) => {
-            data.tel = tel
-            if (data.ID.length == 1) {
-                console.log('ID Duplicated')
+        }).then((id) => {
+            data.ID = id
+
+            Member.find({ Member_Tel: req.body.Member_Tel }, (err, data) => {
+                if (err) console.log(err)
+            }).then((tel) => {
+                data.tel = tel
+                if (data.ID.length == 1) {
+                    console.log('ID Duplicated')
+                    res.render('admin_error.hbs')
+                }
+                if (data.tel.length == 1) {
+                    console.log('Tel Duplicated')
+                    res.render('admin_errorTel.hbs')
+                }
+                if (data.ID.length == 0 && data.tel.length == 0) {
+                    let newMember = new Member({
+                        Member_ID: req.body.Member_ID,
+                        Member_Password: req.body.Member_Password,
+                        Member_Name: req.body.Member_Name,
+                        Member_Lastname: req.body.Member_Lastname,
+                        Member_House: req.body.Member_House,
+                        Member_Profile: req.file.path,
+                        Member_Tel: req.body.Member_Tel,
+                        Member_Total: point,
+                        Member_Available: point,
+                        Member_Admin: req.session.displayName
+                    })
+                    newMember.save().then((doc) => {
+                        let newHouse = new House({
+                            House_name: req.body.Member_House,
+                            House_MemberID: req.body.Member_ID
+                        })
+
+                        newHouse.save().then((doc) => {
+                            res.render('admin_MemberInsert.hbs', {})
+                        })
+                    }, (err) => {
+                        //res.render('admin_error.hbs',{})
+                        res.status(400).send(err)
+                    })
+                }
+
+            }, (err) => {
+                res.send(400).send(err)
+            })
+            if (data.length == 1) {
                 res.render('admin_error.hbs')
-            }
-            if (data.tel.length == 1) {
-                console.log('Tel Duplicated')
-                res.render('admin_errorTel.hbs')
-            }
-            if (data.ID.length == 0 && data.tel.length == 0) {
+            } else if (data.length == 0) {
                 let newMember = new Member({
                     Member_ID: req.body.Member_ID,
                     Member_Password: req.body.Member_Password,
@@ -737,6 +774,7 @@ app.post('/save', upload.single('photos'), function (req, res) {
                     Member_Admin: req.session.displayName
                 })
                 newMember.save().then((doc) => {
+
                     let newHouse = new House({
                         House_name: req.body.Member_House,
                         House_MemberID: req.body.Member_ID
@@ -745,214 +783,250 @@ app.post('/save', upload.single('photos'), function (req, res) {
                     newHouse.save().then((doc) => {
                         res.render('admin_MemberInsert.hbs', {})
                     })
+
                 }, (err) => {
                     //res.render('admin_error.hbs',{})
                     res.status(400).send(err)
                 })
             }
-
-        }, (err) => {
-            res.send(400).send(err)
         })
-        if (data.length == 1) {
-            res.render('admin_error.hbs')
-        } else if (data.length == 0) {
-            let newMember = new Member({
-                Member_ID: req.body.Member_ID,
-                Member_Password: req.body.Member_Password,
-                Member_Name: req.body.Member_Name,
-                Member_Lastname: req.body.Member_Lastname,
-                Member_House: req.body.Member_House,
-                Member_Profile: req.file.path,
-                Member_Tel: req.body.Member_Tel,
-                Member_Total: point,
-                Member_Available: point,
-                Member_Admin: req.session.displayName
+    } else {
+        res.redirect('/login')
+    }
+})
+
+app.post('/editMember', (req, res) => {
+    if (req.session.displayName) {
+        console.log('Edit Member')
+        let id = req.body.Member_ID1
+        Member.findOne({ Member_ID: id }).then((d) => {
+            d.Member_ID = id
+            d.Member_Name = req.body.Member_Name1
+            d.Member_Lastname = req.body.Member_Lastname1
+            d.Member_Tel = req.body.Member_Tel1
+            d.Member_Status = req.body.Member_Status1
+
+            d.save().then((success) => {
+                console.log(' **** Success to edit Member ****')
+                res.redirect('/MemberAll')
+            }, (e) => {
+                res.status(400).send(e)
+            }, (err) => {
+                res.status(400).send(err)
             })
-            newMember.save().then((doc) => {
+        })
+    } else {
+        res.redirect('/login')
+    }
 
-                let newHouse = new House({
-                    House_name: req.body.Member_House,
-                    House_MemberID: req.body.Member_ID
-                })
+})
 
-                newHouse.save().then((doc) => {
-                    res.render('admin_MemberInsert.hbs', {})
-                })
+app.post('/resetPassword', (req, res) => {
+    if (req.session.displayName) {
+        let password = "password"
+        console.log('dataIn :', req.body.id)
+        Member.findOne({ Member_ID: req.body.id }).then((d) => {
+            d.Member_Password = password
 
+            d.save().then((success) => {
+                console.log(' **** Success to reset password ****')
+                res.redirect('/MemberAll')
+            }, (e) => {
+                res.status(400).send(e)
+            }, (err) => {
+                res.status(400).send(err)
+            })
+        })
+    } else {
+        res.redirect('/login')
+    }
+
+})
+
+// ============== Event Type ===================
+app.post('/saveEventType', (req, res) => {
+    if (req.session.displayName) {
+        let newEventType = new EventType({
+            EventType_Name: req.body.EventType_Name,
+        })
+        newEventType.save().then((doc) => {
+            res.redirect('/EventTypeInsert')
+        }, (err) => {
+            res.status(400).send(err)
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
+app.post('/removeEventType', (req, res) => {
+    if (req.session.displayName) {
+        console.log('dataIn :', req.body.id)
+        EventType.remove({ EventType_ID: req.body.id }).then((data) => {
+            console.log('Event Type deleted success')
+        }, (err) => {
+            res.status(400).send(err)
+        })
+    } else {
+        res.redirect('/login')
+    }
+
+})
+
+// ============== Created By ===================
+app.post('/saveCreatedBy', (req, res) => {
+    if (req.session.displayName) {
+        let newCreatedBy = new CreatedBy({
+            CreatedBy_Name: req.body.CreatedBy_Name
+        })
+        newCreatedBy.save().then((doc) => {
+            console.log(doc)
+            res.redirect('/CreatedByInsert')
+        }, (err) => {
+            res.status(400).send(err)
+        })
+    } else {
+        res.redirect('/login')
+    }
+
+})
+
+app.post('/removeCreatedBy', (req, res) => {
+    if (req.session.displayName) {
+        console.log('dataIn :', req.body.id)
+        CreatedBy.remove({ CreatedBy_ID: req.body.id }).then((data) => {
+            console.log('Created By deleted success')
+        }, (err) => {
+            res.status(400).send(err)
+        })
+    } else {
+        res.redirect('/login')
+    }
+
+})
+
+// ============= All Event ===================
+app.post('/saveEvent', upload.single('photos'), function (req, res) {
+    if (req.session.displayName) {
+        //console.log(req.file)
+        let pic_path = 'uploads/EVENTS.jpg'
+        if (req.file == undefined) {
+            console.log(' No file')
+            let newAllEvent = new AllEvent({
+                AllEvent_Name: req.body.Event_Name,
+                AllEvent_Point: req.body.Event_Point,
+                AllEvent_Semeter: req.body.Event_Semester,
+                EventType_ID: req.body.Event_Type,
+                CreatedBy_ID: req.body.Event_CreatedBy,
+                AllEvent_Location: req.body.Event_Location,
+                AllEvent_Picture: pic_path,
+                AllEvent_Descrip: req.body.Event_Description,
+            })
+            newAllEvent.save().then((doc) => {
+                console.log('Succes to save data on ALL EVENT and OPEN EVENT')
+                res.redirect('/EventContent')
+                // EventType.find({}, (err, data) => {
+                //     if (err) console.log(err)
+                // }).then((dataEV) => {
+                //     data.EventType = dataEV
+
+                //     CreatedBy.find({}, (err, data) => {
+                //         if (err) console.log(err)
+                //     }).then((dataCB) => {
+                //         data.CreatedBy = dataCB
+
+                //         res.render('admin_EventContent.hbs', {
+                //             data: encodeURI(JSON.stringify(data))
+                //         })
+                //     })
+                // })
+            }, (err) => {
+                //res.render('admin_error.hbs',{})
+                res.status(400).send(err)
+            })
+        } else {
+            console.log(' Have file')
+            let newAllEvent = new AllEvent({
+                AllEvent_Name: req.body.Event_Name,
+                AllEvent_Point: req.body.Event_Point,
+                AllEvent_Semeter: req.body.Event_Semester,
+                EventType_ID: req.body.Event_Type,
+                CreatedBy_ID: req.body.Event_CreatedBy,
+                AllEvent_Location: req.body.Event_Location,
+                AllEvent_Picture: req.file.path,
+                AllEvent_Descrip: req.body.Event_Description,
+            })
+            newAllEvent.save().then((doc) => {
+                console.log('Succes to save data on ALL EVENT and OPEN EVENT')
+                res.redirect('/EventContent')
             }, (err) => {
                 //res.render('admin_error.hbs',{})
                 res.status(400).send(err)
             })
         }
-    })
-})
-
-app.post('/editMember', (req, res) => {
-    console.log('Edit Member')
-    let id = req.body.Member_ID1
-    Member.findOne({ Member_ID: id }).then((d) => {
-        d.Member_ID = id
-        d.Member_Name = req.body.Member_Name1
-        d.Member_Lastname = req.body.Member_Lastname1
-        d.Member_Tel = req.body.Member_Tel1
-        d.Member_Status = req.body.Member_Status1
-
-        d.save().then((success) => {
-            console.log(' **** Success to edit Member ****')
-            res.redirect('/MemberAll')
-        }, (e) => {
-            res.status(400).send(e)
-        }, (err) => {
-            res.status(400).send(err)
-        })
-    })
-})
-
-app.post('/resetPassword', (req, res) => {
-    let password = "password"
-    console.log('dataIn :', req.body.id)
-    Member.findOne({ Member_ID: req.body.id }).then((d) => {
-        d.Member_Password = password
-
-        d.save().then((success) => {
-            console.log(' **** Success to reset password ****')
-            res.redirect('/MemberAll')
-        }, (e) => {
-            res.status(400).send(e)
-        }, (err) => {
-            res.status(400).send(err)
-        })
-    })
-})
-// ============== Event Type ===================
-
-app.post('/saveEventType', (req, res) => {
-    let newEventType = new EventType({
-        EventType_Name: req.body.EventType_Name,
-    })
-    newEventType.save().then((doc) => {
-        res.redirect('/EventTypeInsert')
-    }, (err) => {
-        res.status(400).send(err)
-    })
-
-})
-
-app.post('/removeEventType', (req, res) => {
-    console.log('dataIn :', req.body.id)
-    EventType.remove({ EventType_ID: req.body.id }).then((data) => {
-        console.log('Event Type deleted success')
-    }, (err) => {
-        res.status(400).send(err)
-    })
-})
-
-// ============== Created By ===================
-app.post('/saveCreatedBy', (req, res) => {
-    let newCreatedBy = new CreatedBy({
-        CreatedBy_Name: req.body.CreatedBy_Name
-    })
-    newCreatedBy.save().then((doc) => {
-        console.log(doc)
-        res.redirect('/CreatedByInsert')
-    }, (err) => {
-        res.status(400).send(err)
-    })
-})
-
-app.post('/removeCreatedBy', (req, res) => {
-    console.log('dataIn :', req.body.id)
-    CreatedBy.remove({ CreatedBy_ID: req.body.id }).then((data) => {
-        console.log('Created By deleted success')
-    }, (err) => {
-        res.status(400).send(err)
-    })
-})
-
-// ============= All Event ===================
-app.post('/saveEvent', upload.single('photos'), function (req, res) {
-    //console.log(req.file)
-    let pic_path = 'uploads/EVENTS.jpg'
-    if (req.file == undefined) {
-        console.log(' No file')
-        let newAllEvent = new AllEvent({
-            AllEvent_Name: req.body.Event_Name,
-            AllEvent_Point: req.body.Event_Point,
-            AllEvent_Semeter: req.body.Event_Semester,
-            EventType_ID: req.body.Event_Type,
-            CreatedBy_ID: req.body.Event_CreatedBy,
-            AllEvent_Location: req.body.Event_Location,
-            AllEvent_Picture: pic_path,
-            AllEvent_Descrip: req.body.Event_Description,
-        })
-        newAllEvent.save().then((doc) => {
-            console.log('Succes to save data on ALL EVENT and OPEN EVENT')
-            res.redirect('/EventContent')
-            // EventType.find({}, (err, data) => {
-            //     if (err) console.log(err)
-            // }).then((dataEV) => {
-            //     data.EventType = dataEV
-
-            //     CreatedBy.find({}, (err, data) => {
-            //         if (err) console.log(err)
-            //     }).then((dataCB) => {
-            //         data.CreatedBy = dataCB
-
-            //         res.render('admin_EventContent.hbs', {
-            //             data: encodeURI(JSON.stringify(data))
-            //         })
-            //     })
-            // })
-        }, (err) => {
-            //res.render('admin_error.hbs',{})
-            res.status(400).send(err)
-        })
     } else {
-        console.log(' Have file')
-        let newAllEvent = new AllEvent({
-            AllEvent_Name: req.body.Event_Name,
-            AllEvent_Point: req.body.Event_Point,
-            AllEvent_Semeter: req.body.Event_Semester,
-            EventType_ID: req.body.Event_Type,
-            CreatedBy_ID: req.body.Event_CreatedBy,
-            AllEvent_Location: req.body.Event_Location,
-            AllEvent_Picture: req.file.path,
-            AllEvent_Descrip: req.body.Event_Description,
-        })
-        newAllEvent.save().then((doc) => {
-            console.log('Succes to save data on ALL EVENT and OPEN EVENT')
-            res.redirect('/EventContent')
-        }, (err) => {
-            //res.render('admin_error.hbs',{})
-            res.status(400).send(err)
-        })
+        res.redirect('/login')
     }
+
 })
 
 app.post('/event/:id', (req, res) => {
-    let id = req.params.id
-    let data = {}
-    AllEvent.find({ AllEvent_ID: id }, (err, data) => {
-        if (err) console.log(err)
-    }).then((event) => {
-        data.event = event
-
-        CreatedBy.find({}, (err, data) => {
+    if (req.session.displayName) {
+        let id = req.params.id
+        let data = {}
+        AllEvent.find({ AllEvent_ID: id }, (err, data) => {
             if (err) console.log(err)
-        }).then((createdby) => {
-            data.createdby = createdby
+        }).then((event) => {
+            data.event = event
 
-            EventType.find({}, (err, data) => {
+            CreatedBy.find({}, (err, data) => {
                 if (err) console.log(err)
-            }).then((eventtype) => {
-                data.eventtype = eventtype
+            }).then((createdby) => {
+                data.createdby = createdby
 
-                Year.find({}, (err, data) => {
+                EventType.find({}, (err, data) => {
                     if (err) console.log(err)
-                }).then((year) => {
-                    data.year = year
-                    res.render('admin_EventOpen.hbs', {
+                }).then((eventtype) => {
+                    data.eventtype = eventtype
+
+                    Year.find({}, (err, data) => {
+                        if (err) console.log(err)
+                    }).then((year) => {
+                        data.year = year
+                        res.render('admin_EventOpen.hbs', {
+                            data: encodeURI(JSON.stringify(data))
+                        })
+                    }, (err) => {
+                        res.status(400).send(err)
+                    })
+                })
+            })
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
+app.post('/event/edit/:id', (req, res) => {
+    if (req.session.displayName) {
+        let id = req.params.id
+        let data = {}
+        AllEvent.find({ AllEvent_ID: id }, (err, data) => {
+            if (err) console.log(err)
+        }).then((event) => {
+            data.event = event
+
+            CreatedBy.find({}, (err, data) => {
+                if (err) console.log(err)
+            }).then((createdby) => {
+                data.createdby = createdby
+
+                EventType.find({}, (err, data) => {
+                    if (err) console.log(err)
+                }).then((eventtype) => {
+                    data.eventtype = eventtype
+
+                    res.render('admin_EventEdit.hbs', {
                         data: encodeURI(JSON.stringify(data))
                     })
                 }, (err) => {
@@ -960,35 +1034,10 @@ app.post('/event/:id', (req, res) => {
                 })
             })
         })
-    })
-})
+    } else {
+        res.redirect('/login')
+    }
 
-app.post('/event/edit/:id', (req, res) => {
-    let id = req.params.id
-    let data = {}
-    AllEvent.find({ AllEvent_ID: id }, (err, data) => {
-        if (err) console.log(err)
-    }).then((event) => {
-        data.event = event
-
-        CreatedBy.find({}, (err, data) => {
-            if (err) console.log(err)
-        }).then((createdby) => {
-            data.createdby = createdby
-
-            EventType.find({}, (err, data) => {
-                if (err) console.log(err)
-            }).then((eventtype) => {
-                data.eventtype = eventtype
-
-                res.render('admin_EventEdit.hbs', {
-                    data: encodeURI(JSON.stringify(data))
-                })
-            }, (err) => {
-                res.status(400).send(err)
-            })
-        })
-    })
 })
 
 var j = schedule.scheduleJob('* * * * *', function () {
@@ -1047,112 +1096,118 @@ var j = schedule.scheduleJob('* * * * *', function () {
 
 // ============= เปิดกิจกรรม ====================
 app.post('/saveOpenEvent', upload.single('photos'), function (req, res) {
-    if (req.file == undefined) {
-        AllEvent.find({
-            AllEvent_ID: req.body.Event_ID
-        }).then((data) => {
-            console.log(' No file')
-            let newOpenEvent = new OpenEvent({
-                OpenEvent_Name: req.body.Event_Name,
-                OpenEvent_Point: req.body.Event_Point,
-                OpenEvent_StartDate: req.body.Event_StartDate,
-                OpenEvent_EndDate: req.body.Event_EndDate,
-                OpenEvent_StartTime: req.body.Event_StartTime,
-                OpenEvent_EndTime: req.body.Event_EndTime,
-                OpenEvent_Semeter: req.body.Event_Semester,
-                OpenEvent_Year: req.body.Event_Year,
-                EventType_ID: req.body.Event_Type,
-                CreatedBy_ID: req.body.Event_CreatedBy,
-                OpenEvent_Location: req.body.Event_Location,
-                OpenEvent_Picture: data[0].AllEvent_Picture,
-                OpenEvent_Descrip: req.body.Event_Description,
-                OpenEvent_Count: data[0].AllEvent_Count + 1
+    if (req.session.displayName) {
+        if (req.file == undefined) {
+            AllEvent.find({
+                AllEvent_ID: req.body.Event_ID
+            }).then((data) => {
+                console.log(' No file')
+                let newOpenEvent = new OpenEvent({
+                    OpenEvent_Name: req.body.Event_Name,
+                    OpenEvent_Point: req.body.Event_Point,
+                    OpenEvent_StartDate: req.body.Event_StartDate,
+                    OpenEvent_EndDate: req.body.Event_EndDate,
+                    OpenEvent_StartTime: req.body.Event_StartTime,
+                    OpenEvent_EndTime: req.body.Event_EndTime,
+                    OpenEvent_Semeter: req.body.Event_Semester,
+                    OpenEvent_Year: req.body.Event_Year,
+                    EventType_ID: req.body.Event_Type,
+                    CreatedBy_ID: req.body.Event_CreatedBy,
+                    OpenEvent_Location: req.body.Event_Location,
+                    OpenEvent_Picture: data[0].AllEvent_Picture,
+                    OpenEvent_Descrip: req.body.Event_Description,
+                    OpenEvent_Count: data[0].AllEvent_Count + 1
 
-            })
+                })
 
-            newOpenEvent.save().then((doc) => {
-                AllEvent.findOne({ AllEvent_ID: req.body.Event_ID }, function (err, data) {
-                    if (data) {
-                        data.AllEvent_Count += 1
-                        data.save(function (err) {
-                            if (err) // do something
-                                console.log('is fail to update COUNT ON ALLEVENT')
-                            else
-                                console.log('is UPdated COUNT ALLEVENT')
-                        });
-                    } else {
-                        console.log(err);
-                    }
-                });
-                res.redirect('/AllEvent')
-            }, (err) => {
-                //res.render('admin_error.hbs',{})
-                res.status(400).send(err)
+                newOpenEvent.save().then((doc) => {
+                    AllEvent.findOne({ AllEvent_ID: req.body.Event_ID }, function (err, data) {
+                        if (data) {
+                            data.AllEvent_Count += 1
+                            data.save(function (err) {
+                                if (err) // do something
+                                    console.log('is fail to update COUNT ON ALLEVENT')
+                                else
+                                    console.log('is UPdated COUNT ALLEVENT')
+                            });
+                        } else {
+                            console.log(err);
+                        }
+                    });
+                    res.redirect('/AllEvent')
+                }, (err) => {
+                    //res.render('admin_error.hbs',{})
+                    res.status(400).send(err)
+                })
             })
-        })
+        } else {
+            AllEvent.find({
+                AllEvent_ID: req.body.Event_ID
+            }).then((data) => {
+                console.log('for Have file')
+                let newOpenEvent = new OpenEvent({
+                    OpenEvent_Name: req.body.Event_Name,
+                    OpenEvent_Point: req.body.Event_Point,
+                    OpenEvent_StartDate: req.body.Event_StartDate,
+                    OpenEvent_EndDate: req.body.Event_EndDate,
+                    OpenEvent_StartTime: req.body.Event_StartTime,
+                    OpenEvent_EndTime: req.body.Event_EndTime,
+                    OpenEvent_Semeter: req.body.Event_Semester,
+                    OpenEvent_Year: req.body.Event_Year,
+                    EventType_ID: req.body.Event_Type,
+                    CreatedBy_ID: req.body.Event_CreatedBy,
+                    OpenEvent_Location: req.body.Event_Location,
+                    OpenEvent_Picture: req.file.path,
+                    OpenEvent_Descrip: req.body.Event_Description,
+                    OpenEvent_Count: data[0].AllEvent_Count + 1
+
+                })
+
+                newOpenEvent.save().then((doc) => {
+
+                    AllEvent.findOne({ AllEvent_ID: req.body.Event_ID }, function (err, data) {
+                        if (data) {
+                            data.AllEvent_Count += 1
+                            data.save(function (err) {
+                                if (err) // do something
+                                    console.log('is fail to update COUNT ON ALLEVENT')
+                                else
+                                    console.log('is UPdated COUNT ALLEVENT')
+                            });
+                        } else {
+                            console.log(err);
+                        }
+                    });
+                    res.redirect('/AllEvent')
+                }, (err) => {
+                    //res.render('admin_error.hbs',{})
+                    res.status(400).send(err)
+                })
+            })
+        }
     } else {
-        AllEvent.find({
-            AllEvent_ID: req.body.Event_ID
-        }).then((data) => {
-            console.log('for Have file')
-            let newOpenEvent = new OpenEvent({
-                OpenEvent_Name: req.body.Event_Name,
-                OpenEvent_Point: req.body.Event_Point,
-                OpenEvent_StartDate: req.body.Event_StartDate,
-                OpenEvent_EndDate: req.body.Event_EndDate,
-                OpenEvent_StartTime: req.body.Event_StartTime,
-                OpenEvent_EndTime: req.body.Event_EndTime,
-                OpenEvent_Semeter: req.body.Event_Semester,
-                OpenEvent_Year: req.body.Event_Year,
-                EventType_ID: req.body.Event_Type,
-                CreatedBy_ID: req.body.Event_CreatedBy,
-                OpenEvent_Location: req.body.Event_Location,
-                OpenEvent_Picture: req.file.path,
-                OpenEvent_Descrip: req.body.Event_Description,
-                OpenEvent_Count: data[0].AllEvent_Count + 1
-
-            })
-
-            newOpenEvent.save().then((doc) => {
-
-                AllEvent.findOne({ AllEvent_ID: req.body.Event_ID }, function (err, data) {
-                    if (data) {
-                        data.AllEvent_Count += 1
-                        data.save(function (err) {
-                            if (err) // do something
-                                console.log('is fail to update COUNT ON ALLEVENT')
-                            else
-                                console.log('is UPdated COUNT ALLEVENT')
-                        });
-                    } else {
-                        console.log(err);
-                    }
-                });
-                res.redirect('/AllEvent')
-            }, (err) => {
-                //res.render('admin_error.hbs',{})
-                res.status(400).send(err)
-            })
-        })
+        res.redirect('/login')
     }
-
-
 })
 
 // ===================== Behavior ==================
 app.post('/saveBehavior', (req, res) => {
-    let newBehavior = new Behavior({
-        Behavior_Name: req.body.Behavior_Name,
-        Behavior_Point: req.body.Behavior_Point,
-        Behavior_Description: req.body.Behavior_Description
-    })
+    if (req.session.displayName) {
+        let newBehavior = new Behavior({
+            Behavior_Name: req.body.Behavior_Name,
+            Behavior_Point: req.body.Behavior_Point,
+            Behavior_Description: req.body.Behavior_Description
+        })
 
-    newBehavior.save().then((doc) => {
-        console.log('!! Success to save BEHAVIOR data !!')
-        res.redirect('/BehaviorContent')
-    }, (err) => {
-        res.status(400).send(err)
-    })
+        newBehavior.save().then((doc) => {
+            console.log('!! Success to save BEHAVIOR data !!')
+            res.redirect('/BehaviorContent')
+        }, (err) => {
+            res.status(400).send(err)
+        })
+    } else {
+        res.redirect('/login')
+    }
 })
 
 // app.post('/behavior/:id', (req, res) => {
@@ -1167,182 +1222,25 @@ app.post('/saveBehavior', (req, res) => {
 // })
 
 app.post('/saveEditBehavior', (req, res) => {
-    Behavior.findOne({ Behavior_ID: req.body.Behavior_ID }).then((d) => {
-        //console.log(d)
-        // console.log('dataIn :', req.body.id)
-        // console.log('hello')
-        d.Behavior_Name = req.body.Behavior_Name,
-            d.Behavior_Point = req.body.Behavior_Point,
-            d.Behavior_Description = req.body.Behavior_Description
+    if (req.session.displayName) {
+        Behavior.findOne({ Behavior_ID: req.body.Behavior_ID }).then((d) => {
+            //console.log(d)
+            // console.log('dataIn :', req.body.id)
+            // console.log('hello')
+            d.Behavior_Name = req.body.Behavior_Name,
+                d.Behavior_Point = req.body.Behavior_Point,
+                d.Behavior_Description = req.body.Behavior_Description
 
-        d.save().then((success) => {
-            console.log('!! UPDATE data on BEHAVIOR success !!')
+            d.save().then((success) => {
+                console.log('!! UPDATE data on BEHAVIOR success !!')
 
-            Behavior.find({}, (err, dataBehavior) => {
-                if (err) console.log(err)
-            }).then((dataBehavior) => {
-                res.render('admin_BehaviorAll.hbs', {
-                    dataBehavior: encodeURI(JSON.stringify(dataBehavior))
+                Behavior.find({}, (err, dataBehavior) => {
+                    if (err) console.log(err)
+                }).then((dataBehavior) => {
+                    res.render('admin_BehaviorAll.hbs', {
+                        dataBehavior: encodeURI(JSON.stringify(dataBehavior))
+                    })
                 })
-            })
-        }, (e) => {
-            res.status(400).send(e)
-        }, (err) => {
-            res.status(400).send(err)
-        })
-    })
-})
-
-// ====================== Reward ================
-app.post('/saveReward', upload.single('photos'), function (req, res) {
-    let pic_reward = 'uploads/Rewards.jpg'
-    if(req.file == undefined){
-        console.log('No file')
-        let newReward = new Reward({
-            Reward_Name: req.body.Reward_Name,
-            Reward_Point: req.body.Reward_Point,
-            Reward_Photo: pic_reward,
-            Reward_Quantity: req.body.Reward_Quantity,
-        })
-        newReward.save().then((doc) => {
-            console.log('@@@@ save REWARD data success @@@@')
-            res.render('admin_RewardContent.hbs', {})
-        }, (err) => {
-            res.send(`
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset="utf-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            
-                <title>Success</title>
-            
-                <!-- Bootstrap CSS CDN -->
-                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
-                    crossorigin="anonymous">
-                <style>
-                    @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-                    h4 {
-                        color: crimson;
-                    }
-            
-                    p {
-                        font-family: 'Poppins', sans-serif;
-                        font-size: 1.1em;
-                        font-weight: 300;
-                        line-height: 1.7em;
-                        color: #999;
-                    }
-                </style>
-            </head>
-            <body>
-                <div class="container d-flex justify-content-center align-items-center">
-                    <div class="row mt-5 ">
-            
-                        <div class="alert alert-success" role="alert">
-                            <h3 class="alert-heading">Error !</h3>
-                            <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">ไม่สามารถบันทึกข้อมูลได้ กรุณากรอกข้อมูลให้ครบถ้วน </p>
-                            <hr>
-                            <p class="d-flex justify-content-end">
-                                    <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/forAdmin" role="button">ตกลง</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="line"></div>
-            </body>
-            
-            </html>
-            `)
-        })
-    }else{
-        console.log('Have file')
-        let newReward = new Reward({
-            Reward_Name: req.body.Reward_Name,
-            Reward_Point: req.body.Reward_Point,
-            Reward_Photo: req.file.path,
-            Reward_Quantity: req.body.Reward_Quantity,
-        })
-        newReward.save().then((doc) => {
-            console.log('@@@@ save REWARD data success @@@@')
-            res.render('admin_RewardContent.hbs', {})
-        }, (err) => {
-            res.send(`
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset="utf-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            
-                <title>Success</title>
-            
-                <!-- Bootstrap CSS CDN -->
-                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
-                    crossorigin="anonymous">
-                <style>
-                    @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-                    h4 {
-                        color: crimson;
-                    }
-            
-                    p {
-                        font-family: 'Poppins', sans-serif;
-                        font-size: 1.1em;
-                        font-weight: 300;
-                        line-height: 1.7em;
-                        color: #999;
-                    }
-                </style>
-            </head>
-            <body>
-                <div class="container d-flex justify-content-center align-items-center">
-                    <div class="row mt-5 ">
-            
-                        <div class="alert alert-success" role="alert">
-                            <h3 class="alert-heading">Error !</h3>
-                            <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">ไม่สามารถบันทึกข้อมูลได้ กรุณากรอกข้อมูลให้ครบถ้วน </p>
-                            <hr>
-                            <p class="d-flex justify-content-end">
-                                    <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/forAdmin" role="button">ตกลง</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="line"></div>
-            </body>
-            
-            </html>
-            `)
-        })
-    }
-
-})
-
-app.post('/rewardedit/:id', (req, res) => {
-    let id = req.params.id
-    Reward.find({ Reward_ID: req.params.id }, (err, dataReaward) => {
-        if (err) console.log(err)
-    }).then((dataReward) => {
-        res.render('admin_RewardEdit.hbs', {
-            dataReward: encodeURI(JSON.stringify(dataReward))
-        })
-    })
-})
-
-app.post('/saveEditReward', upload.single('photos'), function (req, res) {
-    if (req.file == undefined) {
-        console.log('no file')
-        Reward.findOne({ Reward_ID: req.body.Reward_ID }).then((data) => {
-            data.Reward_Name = req.body.Reward_Name,
-                data.Reward_Point = req.body.Reward_Point,
-                data.Reward_Quantity = req.body.Reward_Quantity,
-                data.Reward_Status = req.body.Reward_Status
-
-            data.save().then((success) => {
-                console.log('!! UPDATE data on REWARD success !!')
-                res.redirect('/editReward')
             }, (e) => {
                 res.status(400).send(e)
             }, (err) => {
@@ -1350,187 +1248,506 @@ app.post('/saveEditReward', upload.single('photos'), function (req, res) {
             })
         })
     } else {
-        console.log('have file')
-        Reward.findOne({ Reward_ID: req.body.Reward_ID }).then((data) => {
-            data.Reward_Name = req.body.Reward_Name,
-                data.Reward_Point = req.body.Reward_Point,
-                data.Reward_Quantity = req.body.Reward_Quantity,
-                data.Reward_Status = req.body.Reward_Status,
-                data.Reward_Photo = req.file.path
+        res.redirect('/login')
+    }
+})
 
-            data.save().then((success) => {
-                console.log('!! UPDATE data on REWARD success !!')
-                res.redirect('/editReward')
-            }, (e) => {
-                res.status(400).send(e)
+// ====================== Reward ================
+app.post('/saveReward', upload.single('photos'), function (req, res) {
+    if (req.session.displayName) {
+        let pic_reward = 'uploads/Rewards.jpg'
+        if (req.file == undefined) {
+            console.log('No file')
+            let newReward = new Reward({
+                Reward_Name: req.body.Reward_Name,
+                Reward_Point: req.body.Reward_Point,
+                Reward_Photo: pic_reward,
+                Reward_Quantity: req.body.Reward_Quantity,
+            })
+            newReward.save().then((doc) => {
+                console.log('@@@@ save REWARD data success @@@@')
+                res.render('admin_RewardContent.hbs', {})
+            }, (err) => {
+                res.send(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            
+                <title>Success</title>
+            
+                <!-- Bootstrap CSS CDN -->
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                    crossorigin="anonymous">
+                <style>
+                    @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                    h4 {
+                        color: crimson;
+                    }
+            
+                    p {
+                        font-family: 'Poppins', sans-serif;
+                        font-size: 1.1em;
+                        font-weight: 300;
+                        line-height: 1.7em;
+                        color: #999;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container d-flex justify-content-center align-items-center">
+                    <div class="row mt-5 ">
+            
+                        <div class="alert alert-success" role="alert">
+                            <h3 class="alert-heading">Error !</h3>
+                            <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">ไม่สามารถบันทึกข้อมูลได้ กรุณากรอกข้อมูลให้ครบถ้วน </p>
+                            <hr>
+                            <p class="d-flex justify-content-end">
+                                    <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/forAdmin" role="button">ตกลง</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="line"></div>
+            </body>
+            
+            </html>
+            `)
+            })
+        } else {
+            console.log('Have file')
+            let newReward = new Reward({
+                Reward_Name: req.body.Reward_Name,
+                Reward_Point: req.body.Reward_Point,
+                Reward_Photo: req.file.path,
+                Reward_Quantity: req.body.Reward_Quantity,
+            })
+            newReward.save().then((doc) => {
+                console.log('@@@@ save REWARD data success @@@@')
+                res.render('admin_RewardContent.hbs', {})
+            }, (err) => {
+                res.send(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            
+                <title>Success</title>
+            
+                <!-- Bootstrap CSS CDN -->
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                    crossorigin="anonymous">
+                <style>
+                    @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                    h4 {
+                        color: crimson;
+                    }
+            
+                    p {
+                        font-family: 'Poppins', sans-serif;
+                        font-size: 1.1em;
+                        font-weight: 300;
+                        line-height: 1.7em;
+                        color: #999;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container d-flex justify-content-center align-items-center">
+                    <div class="row mt-5 ">
+            
+                        <div class="alert alert-success" role="alert">
+                            <h3 class="alert-heading">Error !</h3>
+                            <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">ไม่สามารถบันทึกข้อมูลได้ กรุณากรอกข้อมูลให้ครบถ้วน </p>
+                            <hr>
+                            <p class="d-flex justify-content-end">
+                                    <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/forAdmin" role="button">ตกลง</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="line"></div>
+            </body>
+            
+            </html>
+            `)
+            })
+        }
+    } else {
+        res.redirect('/login')
+    }
+})
+
+app.post('/rewardedit/:id', (req, res) => {
+    if (req.session.displayName) {
+        let id = req.params.id
+        Reward.find({ Reward_ID: req.params.id }, (err, dataReaward) => {
+            if (err) console.log(err)
+        }).then((dataReward) => {
+            res.render('admin_RewardEdit.hbs', {
+                dataReward: encodeURI(JSON.stringify(dataReward))
+            })
+        })
+    } else {
+        res.redirect('/login')
+    }
+
+})
+
+app.post('/saveEditReward', upload.single('photos'), function (req, res) {
+    if (req.session.displayName) {
+        if (req.file == undefined) {
+            console.log('no file')
+            Reward.findOne({ Reward_ID: req.body.Reward_ID }).then((data) => {
+                data.Reward_Name = req.body.Reward_Name,
+                    data.Reward_Point = req.body.Reward_Point,
+                    data.Reward_Quantity = req.body.Reward_Quantity,
+                    data.Reward_Status = req.body.Reward_Status
+
+                data.save().then((success) => {
+                    console.log('!! UPDATE data on REWARD success !!')
+                    res.redirect('/editReward')
+                }, (e) => {
+                    res.status(400).send(e)
+                }, (err) => {
+                    res.status(400).send(err)
+                })
+            })
+        } else {
+            console.log('have file')
+            Reward.findOne({ Reward_ID: req.body.Reward_ID }).then((data) => {
+                data.Reward_Name = req.body.Reward_Name,
+                    data.Reward_Point = req.body.Reward_Point,
+                    data.Reward_Quantity = req.body.Reward_Quantity,
+                    data.Reward_Status = req.body.Reward_Status,
+                    data.Reward_Photo = req.file.path
+
+                data.save().then((success) => {
+                    console.log('!! UPDATE data on REWARD success !!')
+                    res.redirect('/editReward')
+                }, (e) => {
+                    res.status(400).send(e)
+                }, (err) => {
+                    res.status(400).send(err)
+                })
+            })
+        }
+    } else {
+        res.redirect('/login')
+    }
+
+})
+
+//================== Point ===================
+// แสดงผลหน้า เพิ่มคะแนนรายบุคคล
+app.post('/IncPointIndividual/:id', (req, res) => {
+    if (req.session.displayName) {
+        let data = {}
+        let id = req.params.id
+        OpenEvent.find({ OpenEvent_ID: id }, (err, dataOpenEvent) => {
+            if (err) console.log(err)
+        }).then((dataOpenEvent) => {
+            data.OpenEvent = dataOpenEvent
+
+            Member.find({}, (err, data) => {
+                if (err) console.log(err)
+            }).then((Member) => {
+                data.Member = Member
+
+                res.render('admin_Point_IncByIndi.hbs', {
+                    data: encodeURI(JSON.stringify(data))
+                })
             }, (err) => {
                 res.status(400).send(err)
             })
         })
+    } else {
+        res.redirect('/login')
     }
 })
 
-//================== Point ===================
-
-app.post('/IncPointIndividual/:id', (req, res) => {
-    let data = {}
-    let id = req.params.id
-    OpenEvent.find({ OpenEvent_ID: id }, (err, dataOpenEvent) => {
-        if (err) console.log(err)
-    }).then((dataOpenEvent) => {
-        data.OpenEvent = dataOpenEvent
-
-        Member.find({}, (err, data) => {
-            if (err) console.log(err)
-        }).then((Member) => {
-            data.Member = Member
-
-            res.render('admin_Point_IncByIndi.hbs', {
-                data: encodeURI(JSON.stringify(data))
-            })
-        }, (err) => {
-            res.status(400).send(err)
-        })
-    })
-})
-
+// แสดงผลหน้า เพิ่มคะแนนรายกลุ่ม
 app.post('/IncPointGroup/:id', (req, res) => {
-    let data = {}
-    let id = req.params.id
-    OpenEvent.find({ OpenEvent_ID: id }, (err, dataOpenEvent) => {
-        if (err) console.log(err)
-    }).then((dataOpenEvent) => {
-        data.OpenEvent = dataOpenEvent
-
-        Member.find({}, (err, data) => {
+    if (req.session.displayName) {
+        let data = {}
+        let id = req.params.id
+        OpenEvent.find({ OpenEvent_ID: id }, (err, dataOpenEvent) => {
             if (err) console.log(err)
-        }).then((Member) => {
-            data.Member = Member
+        }).then((dataOpenEvent) => {
+            data.OpenEvent = dataOpenEvent
 
-            res.render('admin_Point_IncByGroup.hbs', {
-                data: encodeURI(JSON.stringify(data))
+            Member.find({}, (err, data) => {
+                if (err) console.log(err)
+            }).then((Member) => {
+                data.Member = Member
+
+                res.render('admin_Point_IncByGroup.hbs', {
+                    data: encodeURI(JSON.stringify(data))
+                })
+            }, (err) => {
+                res.status(400).send(err)
             })
-        }, (err) => {
-            res.status(400).send(err)
         })
-    })
+    } else {
+        res.redirect('/login')
+    }
 })
-
+// แสดงผลหน้า ลบคะแนนรายบุคคล
 app.post('/DecPointIndividual/:id', (req, res) => {
-    let data = {}
-    let id = req.params.id
-    Behavior.find({ Behavior_ID: id }, (err, dataBehavior) => {
-        if (err) console.log(err)
-    }).then((dataBehavior) => {
-        data.Behavior = dataBehavior
-
-        Member.find({}, (err, data) => {
+    if (req.session.displayName) {
+        let data = {}
+        let id = req.params.id
+        Behavior.find({ Behavior_ID: id }, (err, dataBehavior) => {
             if (err) console.log(err)
-        }).then((Member) => {
-            data.Member = Member
+        }).then((dataBehavior) => {
+            data.Behavior = dataBehavior
 
-            res.render('admin_Point_DecByIndi.hbs', {
-                data: encodeURI(JSON.stringify(data))
+            Member.find({}, (err, data) => {
+                if (err) console.log(err)
+            }).then((Member) => {
+                data.Member = Member
+
+                res.render('admin_Point_DecByIndi.hbs', {
+                    data: encodeURI(JSON.stringify(data))
+                })
+            }, (err) => {
+                res.status(400).send(err)
+            })
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
+// แสดงผลหน้า ลบคะแนนรายกลุ่ม
+app.post('/DecPointGroup/:id', (req, res) => {
+    if (req.session.displayName) {
+        let data = {}
+        let id = req.params.id
+        Behavior.find({ Behavior_ID: id }, (err, dataBehavior) => {
+            if (err) console.log(err)
+        }).then((dataBehavior) => {
+            data.Behavior = dataBehavior
+
+            Member.find({}, (err, data) => {
+                if (err) console.log(err)
+            }).then((Member) => {
+                data.Member = Member
+
+                res.render('admin_Point_DecByGroup.hbs', {
+                    data: encodeURI(JSON.stringify(data))
+                })
+            }, (err) => {
+                res.status(400).send(err)
+            })
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
+// save คะแนนรายบุคคล
+app.post('/IncEventIndividual', (req, res) => {
+    if (req.session.displayName) {
+        let date_save = moment().format('DD-MM-YYYY');
+        let name = req.session.displayName
+        let newJoinEvent = new JoinEvent({
+            Member_ID: req.body.Member_ID,
+            OpenEvent_ID: req.body.OpenEvent_ID,
+            OpenEvent_Point: req.body.OpenEvent_Point,
+            JoinEvent_Date: date_save,
+            JoinEvent_Admin: req.session.displayName
+        })
+
+        newJoinEvent.save().then((doc) => {
+            console.log('!!! JOIN EVENT save success !!!')
+
+            let id = req.body.Member_ID
+            //console.log(id)
+            Member.findOne({ Member_ID: id }).then((d2) => {
+                let total = parseFloat(d2.Member_Total)
+                let available = parseFloat(d2.Member_Available)
+                let eventpoint = parseFloat(req.body.OpenEvent_Point)
+                console.log(d2.Member_Total)
+                d2.Member_Total = total + eventpoint,
+                    d2.Member_Available = available + eventpoint,
+                    d2.save().then((success) => {
+                        console.log(' **** Success to edit Member_Point ****')
+                        res.redirect('/IncreasePoint')
+                    }, (e) => {
+                        res.status(400).send(e)
+                    }, (err) => {
+                        res.status(400).send(err)
+                    })
+            })
+
+        }, (err) => {
+            res.status(400).send(err)
+        })
+    } else {
+        res.redirect('/login')
+    }
+
+
+})
+// ลบคะแนนรายบุุคล
+app.post('/DecBehaviorIndividual', (req, res) => {
+    if (req.session.displayName) {
+        let date_save = moment().format('DD-MM-YYYY');
+        let newJoinBehavior = new JoinBehavior({
+
+            Member_ID: req.body.Member_ID,
+            Behavior_ID: req.body.Behavior_ID,
+            Behavior_Point: req.body.Behavior_Point,
+            JoinBehavior_Date: date_save,
+            JoinBehavior_Admin: req.session.displayName
+
+        })
+
+        newJoinBehavior.save().then((doc) => {
+            console.log('!!! JOIN BEHAVIOR save success !!!')
+
+            let id = req.body.Member_ID
+            //console.log(id)
+            Member.findOne({ Member_ID: id }).then((d2) => {
+                let total = parseFloat(d2.Member_Total)
+                let available = parseFloat(d2.Member_Available)
+                let eventpoint = parseFloat(req.body.Behavior_Point)
+
+                console.log(d2.Member_Total)
+                d2.Member_Total = total - eventpoint,
+                    d2.Member_Available = available - eventpoint,
+                    d2.save().then((success) => {
+                        console.log(' **** Success to edit Member_Point ****')
+                        res.redirect('/DecreasePoint')
+                    }, (e) => {
+                        res.status(400).send(e)
+                    }, (err) => {
+                        res.status(400).send(err)
+                    })
             })
         }, (err) => {
             res.status(400).send(err)
         })
-    })
+    } else {
+        res.redirect('/login')
+    }
 })
-
-app.post('/IncEventIndividual', (req, res) => {
-
+// เพิ่มคะแนนรายกลุ่ม
+app.post('/savePointByGroup', function (req, res) {
     let date_save = moment().format('DD-MM-YYYY');
     let name = req.session.displayName
-    let newJoinEvent = new JoinEvent({
-        Member_ID: req.body.Member_ID,
-        OpenEvent_ID: req.body.OpenEvent_ID,
-        OpenEvent_Point: req.body.OpenEvent_Point,
-        JoinEvent_Date: date_save,
-        JoinEvent_Admin:name
-    })
+    let id = req.body.id
+    //console.log(id)
+    if (req.session.displayName) {
 
-    newJoinEvent.save().then((doc) => {
-        console.log('!!! JOIN EVENT save success !!!')
-
-        let id = req.body.Member_ID
-        //console.log(id)
-        Member.findOne({ Member_ID: id }).then((d2) => {
-            let total = parseFloat(d2.Member_Total)
-            let available = parseFloat(d2.Member_Available)
-            let eventpoint = parseFloat(req.body.OpenEvent_Point)
-            console.log(d2.Member_Total)
-            d2.Member_Total = total + eventpoint,
-                d2.Member_Available = available + eventpoint,
-                d2.save().then((success) => {
-                    console.log(' **** Success to edit Member_Point ****')
-                    res.redirect('/IncreasePoint')
-                }, (e) => {
-                    res.status(400).send(e)
-                }, (err) => {
-                    res.status(400).send(err)
-                })
+        let newJoinEvent2 = new JoinEvent({
+            Member_ID: req.body.id,
+            OpenEvent_ID: req.body.id_event,
+            OpenEvent_Point: req.body.point_event,
+            JoinEvent_Date: date_save,
+            JoinEvent_Admin: req.session.displayName
         })
 
-    }, (err) => {
-        res.status(400).send(err)
-    })
+
+        newJoinEvent2.save().then((doc) => {
+            console.log('@@@@ save DATA in JOIN EVENT @@@@')
+
+            Member.findOne({ Member_ID: id }).then((d2) => {
+                let total = parseFloat(d2.Member_Total)
+                let available = parseFloat(d2.Member_Available)
+                let eventpoint = parseFloat(req.body.point_event)
+                console.log(d2.Member_Total)
+                d2.Member_Total = total + eventpoint,
+                    d2.Member_Available = available + eventpoint,
+                    d2.save().then((success) => {
+                        console.log(d2.Member_Total)
+                        console.log(' **** Success to หฟอำ Member_Point ****')
+
+                    }, (e) => {
+                        res.status(400).send(e)
+                    }, (err) => {
+                        res.status(400).send(err)
+                    })
+            })
+        }, (err) => {
+            res.status(400).send(err)
+        })
+    } else {
+        res.redirect('/login')
+    }
 })
-
-app.post('/DecBehaviorIndividual', (req, res) => {
-
+// ลบคะแนนรายกลุ่ม
+app.post('/saveDecPointGroup', function (req, res) {
     let date_save = moment().format('DD-MM-YYYY');
-    let newJoinBehavior = new JoinBehavior({
+    let name = req.session.displayName
+    let id = req.body.id
+    //console.log(id)
+    if (req.session.displayName) {
+        let date_save = moment().format('DD-MM-YYYY');
+        let newJoinBehavior = new JoinBehavior({
 
-        Member_ID: req.body.Member_ID,
-        Behavior_ID: req.body.Behavior_ID,
-        Behavior_Point: req.body.Behavior_Point,
-        JoinBehavior_Date: date_save,
-        JoinBehavior_Admin: req.session.displayName
+            Member_ID: id,
+            Behavior_ID: req.body.id_behavior,
+            Behavior_Point: req.body.point_behavior,
+            JoinBehavior_Date: date_save,
+            JoinBehavior_Admin: req.session.displayName
 
-    })
-
-    newJoinBehavior.save().then((doc) => {
-        console.log('!!! JOIN BEHAVIOR save success !!!')
-
-        let id = req.body.Member_ID
-        //console.log(id)
-        Member.findOne({ Member_ID: id }).then((d2) => {
-            let total = parseFloat(d2.Member_Total)
-            let available = parseFloat(d2.Member_Available)
-            let eventpoint = parseFloat(req.body.Behavior_Point)
-
-            console.log(d2.Member_Total)
-            d2.Member_Total = total - eventpoint,
-                d2.Member_Available = available - eventpoint,
-                d2.save().then((success) => {
-                    console.log(' **** Success to edit Member_Point ****')
-                    res.redirect('/DecreasePoint')
-                }, (e) => {
-                    res.status(400).send(e)
-                }, (err) => {
-                    res.status(400).send(err)
-                })
         })
-    }, (err) => {
-        res.status(400).send(err)
-    })
+
+        newJoinBehavior.save().then((doc) => {
+            console.log('!!! JOIN BEHAVIOR save success !!!')
+
+            //console.log(id)
+            Member.findOne({ Member_ID: id }).then((d2) => {
+                let total = parseFloat(d2.Member_Total)
+                let available = parseFloat(d2.Member_Available)
+                let eventpoint = parseFloat(req.body.point_behavior)
+
+                console.log(d2.Member_Total)
+                    d2.Member_Total = total - eventpoint,
+                    d2.Member_Available = available - eventpoint,
+                    d2.save().then((success) => {
+                        console.log(' **** Success to ลบ Member_Point ****')
+                       
+                    }, (e) => {
+                        res.status(400).send(e)
+                    }, (err) => {
+                        res.status(400).send(err)
+                    })
+            })
+        }, (err) => {
+            res.status(400).send(err)
+        })
+        
+    } else {
+        res.redirect('/login')
+    }
 })
 
 // ============== Year ========================
 app.post('/saveYear', function (req, res) {
-    let newYear = new Year({
-        Year_Year: req.body.Year_Year,
-        Year_StartDate: req.body.Year_StartDate,
-        Year_EndDate: req.body.Year_EndDate,
-    })
+    if (req.session.displayName) {
+        let newYear = new Year({
+            Year_Year: req.body.Year_Year,
+            Year_StartDate: req.body.Year_StartDate,
+            Year_EndDate: req.body.Year_EndDate,
+        })
 
-    newYear.save().then((doc) => {
-        console.log('@@@@ save YEAR data success @@@@')
-        res.redirect('/getYear')
-    }, (err) => {
-        res.status(400).send(err)
-    })
+        newYear.save().then((doc) => {
+            console.log('@@@@ save YEAR data success @@@@')
+            res.redirect('/getYear')
+        }, (err) => {
+            res.status(400).send(err)
+        })
+    } else {
+        res.redirect('/login')
+    }
+
 })
 
 // ============== Report =============

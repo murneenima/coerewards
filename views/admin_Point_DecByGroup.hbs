@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>เพิ่มคะแนนรายกลุ่ม</title>
+    <title>ลบคะแนนรายกลุ่ม</title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
@@ -21,7 +21,6 @@
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    
 
     <style>
         p {
@@ -48,7 +47,7 @@
             <ul class="list-unstyled components">
                 <p>All Functions</p>
                 <li>
-                    <a href="http://localhost:3000/Main">Main</a>
+                    <a href="http://localhost:3000/Main" >Main</a>
                 </li>
                 <li>
                     <a href="#MemberSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Member</a>
@@ -144,8 +143,7 @@
                 <li>
                     <a href="http://localhost:3000/Alumni">Alumni</a>
                 </li>
-                {{!--
-                <li>
+                {{!-- <li>
                     <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
                 </li> --}}
             </ul>
@@ -153,7 +151,7 @@
 
         <!-- Page Content  -->
         <div id="content">
-            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>
+            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>  
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 
@@ -175,114 +173,64 @@
                     </div>
                 </div>
             </nav>
-            <h2 class="m-2 p-3 mb-2 bg-info text-white">Increase Point By Group</h2>
+            <h2 class="m-2 p-3 mb-2 bg-info text-white">Decrease Point By Individual</h2>
             <div class="container">
                 <div class="row m-4">
-                    <h3 class="font-weight-bold" style="text-decoration: underline;"> ข้อมูลกิจกรรม</h3>
+                    <h3 class="font-weight-bold" style="text-decoration: underline;"> ข้อมูลคะแนนพฤติกรรม</h3>
                 </div>
-                <div class="row mt-3">
-                    <div class="col-2">
-                        <div class="form-group">
-                            <label for="Event_Name">Event Name :</label>
+                <form action="http://localhost:3000/DecBehaviorIndividual" method="POST">
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="Event_Name">รหัสข้อมูลคะแนนพฤติกรรม :</label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <input type="text" name="Behavior_ID" id="Behavior_ID" class="form-control input-lg" readonly>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-3">
-                        <div class="form-group">
-                            <label type="text" name="OpenEvent_Name" id="OpenEvent_Name" class="form-control input-lg"></label>
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="Behavior_Name">ข้อมูลคะแนนพฤติกรรม :</label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <input type="text" name="Behavior_Name" id="Behavior_Name" class="form-control input-lg" readonly>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-2">
-                        <div class="form-group">
-                            <label for="Event_Name">คะแนน :</label>
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="Event_Name">คะแนน :</label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <input type="number" name="Behavior_Point" id="Behavior_Point" class="form-control input-lg" readonly>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-3">
-                        <div class="form-group">
-                            <label type="text" name="OpenEvent_Point" id="OpenEvent_Point" class="form-control input-lg"></label>
+                    <div class="row mt-1">
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="Event_Name">คำอธิบาย :</label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <textarea type="text" name="Behavior_Description" id="Behavior_Description" class="form-control input-lg" rows="3" readonly></textarea>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row mt-1">
-                    <div class="col-2">
-                        <div class="form-group">
-                            <label for="Event_Name">ประเภทกิจกรรม :</label>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="form-group">
-                            <label type="text" name="EventType_ID" id="EventType_ID" class="form-control input-lg"></label>
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div class="form-group">
-                            <label for="Event_Name">จัดทำโดย :</label>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="form-group">
-                            <label type="text" name="CreatedBy_ID" id="CreatedBy_ID" class="form-control input-lg"></label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-1">
-                    <div class="col-2">
-                        <div class="form-group">
-                            <label for="Event_Name">วันเริ่มต้น :</label>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="form-group">
-                            <label type="text" name="OpenEvent_StartDate" id="OpenEvent_StartDate" class="form-control input-lg"></label>
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div class="form-group">
-                            <label for="Event_Name">สิ้นสุด :</label>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="form-group">
-                            <label type="text" name="OpenEvent_EndDate" id="OpenEvent_EndDate" class="form-control input-lg"></label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-1">
-                    <div class="col-2">
-                        <div class="form-group">
-                            <label for="Event_Name">เทอม :</label>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="form-group">
-                            <label type="text" name="OpenEvent_Semeter" id="OpenEvent_Semeter" class="form-control input-lg"></label>
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div class="form-group">
-                            <label for="Event_Name">ปีการศึกษา :</label>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="form-group">
-                            <label type="text" name="OpenEvent_Year" id="OpenEvent_Year" class="form-control input-lg"></label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-1">
-                    <div class="col-2">
-                        <div class="form-group">
-                            <label for="Event_Name">สถานที่ :</label>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="form-group">
-                            <label type="text" name="OpenEvent_Location" id="OpenEvent_Location" class="form-control input-lg"></label>
-                        </div>
-                    </div>
-                </div>
             </div>
             <hr>
             <div class="container">
+
                 <div class="row m-4">
                     <h3 class="font-weight-bold" style="text-decoration: underline;">เพิ่มข้อมูลสมาชิก</h3>
                 </div>
@@ -316,6 +264,8 @@
                         <button type="button" id="sendServer" name="sendServer" class="btn btn-success btn-lg">Save</button>
                     </div>
                 </div>
+                <hr>
+                </form>
             </div>
         </div>
     </div>
@@ -405,7 +355,6 @@
     </div>
 
 
-
     {{!-- ############################################################################################################# --}}
 
     <!-- Popper.JS -->
@@ -421,43 +370,35 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-
-        document.getElementById("username").innerHTML = "User : " + name
+        document.getElementById("username").innerHTML = "User : "+ name
+        
         var data2 = "{{data}}"
         var data = JSON.parse(decodeURI(data2))
-        var Event = []
+        var Behavior = []
         var Member = [];
-        let count = 0;
-
-        for (let i = 0; i < data.OpenEvent.length; i++) {
-            Event.push(data.OpenEvent[i])
+        for (let i = 0; i < data.Behavior.length; i++) {
+            Behavior.push(data.Behavior[i])
         }
         for (let i = 0; i < data.Member.length; i++) {
             Member.push(data.Member[i])
         }
+        //console.log(Behavior)
         //console.log(Member)
 
-        for (let i = 0; i < Event.length; i++) {
-            
-            document.getElementById("OpenEvent_Name").innerHTML = Event[0].OpenEvent_Name
-            document.getElementById("OpenEvent_Point").innerHTML = Event[0].OpenEvent_Point
-            document.getElementById("EventType_ID").innerHTML = Event[0].EventType_ID
-            document.getElementById("CreatedBy_ID").innerHTML = Event[0].CreatedBy_ID
-            document.getElementById("OpenEvent_StartDate").innerHTML = Event[0].OpenEvent_StartDate
-            document.getElementById("OpenEvent_EndDate").innerHTML = Event[0].OpenEvent_EndDate
-            document.getElementById("OpenEvent_Semeter").innerHTML = Event[0].OpenEvent_Semeter
-            document.getElementById("OpenEvent_Year").innerHTML = Event[0].OpenEvent_Year
-            document.getElementById("OpenEvent_Location").innerHTML = Event[0].OpenEvent_Location
+        for (let i = 0; i < Behavior.length; i++) {
+            document.getElementById("Behavior_ID").value = Behavior[0].Behavior_ID
+            document.getElementById("Behavior_Name").value = Behavior[0].Behavior_Name
+            document.getElementById("Behavior_Point").value = Behavior[0].Behavior_Point
+            document.getElementById("Behavior_Description").value = Behavior[0].Behavior_Description
         }
 
-        // ========================================================================
         function search_id() {
             let id = document.getElementById("SearchData").value
-            //console.log(id)
+            // console.log(id)
             for (let i = 0; i < Member.length; i++) {
                 if (Member[i].Member_ID == id) {
                     //console.log(Member[i].Member_ID)
-                    $('#dataMember').modal('show');
+                     $('#dataMember').modal('show');
                     document.getElementById("Member_ID").value = Member[i].Member_ID
                     document.getElementById("Member_Name").value = Member[i].Member_Name
                     document.getElementById("Member_Lastname").value = Member[i].Member_Lastname
@@ -467,9 +408,7 @@
             }
         }
 
-        //let display_MemberAll = "<thead><th><input type='checkbox' id='master'></th><th>No</th><th>Member ID</th><th>Name</th><th>Last Name</th><th>House</th><th class='pull-right'>Delete</th></thead>";
-
-        function Add_Row() {
+          function Add_Row() {
             let table_data = document.getElementById("table_data"),
                 newRow = table_data.insertRow(table_data.length),
                 cell1 = newRow.insertCell(0),
@@ -490,7 +429,7 @@
             cell5.innerHTML = '<button type="button" class="btn btn-danger" onclick="removeSelectedRow()">Delete</button>'
         }
 
-        function removeSelectedRow() {
+         function removeSelectedRow() {
             let rIndex, table_data = document.getElementById("table_data");
             for (let i = 0; i < table_data.rows.length; i++) {
                 table_data.rows[i].onclick = function () {
@@ -501,12 +440,11 @@
             }
         }
 
-
         $('#sendServer').click(function () {
             var dataArr = [];
-            let id_event = Event[0].OpenEvent_ID
-            let point_event = Event[0].OpenEvent_Point
-            console.log(id_event)
+            let id_behavior = Behavior[0].Behavior_ID
+            let point_behavior = Behavior[0].Behavior_Point
+           
             $("td").each(function () {
                 dataArr.push($(this).html());
             });
@@ -515,8 +453,8 @@
             for(let i=0;i<dataArr.length;i++){
                if( i % 5 == 0){
                     let id = dataArr[i]
-                    $.ajax('http://localhost:3000/savePointByGroup',{
-                    data: JSON.stringify({id,id_event,point_event}),
+                    $.ajax('http://localhost:3000/saveDecPointGroup',{
+                    data: JSON.stringify({id,id_behavior,point_behavior}),
                     contentType: "application/json", // this
                     dataType: "json",
                     type: "POST",
@@ -526,10 +464,6 @@
             
             }
         });
-
-
-
-
     </script>
 </body>
 

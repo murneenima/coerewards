@@ -1,123 +1,661 @@
-<!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Success</title>
+    <title>เพิ่มคะแนนรายกลุ่ม</title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
         crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="/style.css">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
+        crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+
     <style>
-        @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+        p {
+            font-size: 20px;
+            color: black
+        }
+
         h4 {
             color: crimson;
         }
-
-        p {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.1em;
-            font-weight: 300;
-            line-height: 1.7em;
-            color: #999;
-        }
     </style>
+
+
 </head>
+
 <body>
-    <div id="listingTable"></div>
-    <a href="javascript:prevPage()" id="btn_prev">Prev</a>
-    <a href="javascript:nextPage()" id="btn_next">Next</a>
-    page: <span id="page"></span>
-    <div class="line"></div>
-</body>
-    <script>
-    var current_page = 1;
-    var records_per_page = 8;
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>COE REWARD</h3>
+            </div>
 
-var objJson = [
-    { adName: "AdName 1"},
-    { adName: "AdName 2"},
-    { adName: "AdName 3"},
-    { adName: "AdName 4"},
-    { adName: "AdName 5"},
-    { adName: "AdName 6"},
-    { adName: "AdName 7"},
-    { adName: "AdName 8"},
-    { adName: "AdName 9"},
-    { adName: "AdName 10"},
-    { adName: "AdName 11"},
-    { adName: "AdName 12"},
-    { adName: "AdName 13"},
-    { adName: "AdName 14"},
-    { adName: "AdName 15"},
-    { adName: "AdName 16"},
-    { adName: "AdName 17"},
-    { adName: "AdName 18"},
-    { adName: "AdName 19"},
-    { adName: "AdName 20"},
-    { adName: "AdName 21"},
-    { adName: "AdName 22"},
-    { adName: "AdName 23"},
-    { adName: "AdName 24"},
-    { adName: "AdName 25"}
-]; // Can be obtained from another source, such as your objJson variable
+            <ul class="list-unstyled components">
+                <p>All Functions</p>
+                <li>
+                    <a href="http://localhost:3000/Main">Main</a>
+                </li>
+                <li>
+                    <a href="#MemberSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Member</a>
+                    <ul class="collapse list-unstyled" id="MemberSubmenu">
+                        <li>
+                            <a href="http://localhost:3000/MemberInsert">Insert Member</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/MemberAll">All Member</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#HouseSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">House</a>
+                    <ul class="collapse list-unstyled" id="HouseSubmenu">
+                        <li>
+                            <a href="http://localhost:3000/Bill">Bill Gates</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/Larry">Larry Page</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/Elon">Elon Mask</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/Mark">Mark Zuckerberg</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#EventSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Event</a>
+                    <ul class="collapse list-unstyled" id="EventSubmenu">
+                        <li>
+                            <a href="http://localhost:3000/EventContent">New Event</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/AllEvent">All Event</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/EventTypeDisplay">Event Type</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/CreatedByDisplay">Created By</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#BehaviorSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Behavior</a>
+                    <ul class="collapse list-unstyled" id="BehaviorSubmenu">
+                        <li>
+                            <a href="http://localhost:3000/BehaviorContent">Insert Behavior Content</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/EditBehavior">Edit Behavior</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#PointSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Point</a>
+                    <ul class="collapse list-unstyled" id="PointSubmenu">
+                        <li>
+                            <a href="http://localhost:3000/IncreasePoint">Increase Point</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/DecreasePoint">Decrease Point</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#RewardSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Rewards</a>
+                    <ul class="collapse list-unstyled" id="RewardSubmenu">
+                        <li>
+                            <a href="http://localhost:3000/rewardContent">Insert Reward content</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/editReward">Edit content</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/getYear">Calender for Academic Year</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/forAdmin">Admin</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000/getReport">Report</a>
+                </li>
 
-function prevPage()
-{
-    if (current_page > 1) {
-        current_page--;
-        changePage(current_page);
-    }
-}
+            </ul>
 
-function nextPage()
-{
-    if (current_page < numPages()) {
-        current_page++;
-        changePage(current_page);
-    }
-}
+            <ul class="list-unstyled CTAs">
+                <li>
+                    <a href="http://localhost:3000/Alumni">Alumni</a>
+                </li>
+                {{!--
+                <li>
+                    <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
+                </li> --}}
+            </ul>
+        </nav>
 
-function changePage(page)
-{
-    var btn_next = document.getElementById("btn_next");
-    var btn_prev = document.getElementById("btn_prev");
-    var listing_table = document.getElementById("listingTable");
-    var page_span = document.getElementById("page");
+        <!-- Page Content  -->
+        <div id="content">
+            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
 
-    // Validate page
-    if (page < 1) page = 1;
-    if (page > numPages()) page = numPages();
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                        <span>Menu</span>
+                    </button>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
 
-    listing_table.innerHTML = ""; // แสดงผลข้อมูลตารางให้ว่าง
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item ">
+                                <a class="nav-link" href="http://localhost:3000/logout">Log Out</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <h2 class="m-2 p-3 mb-2 bg-info text-white">Increase Point By Group</h2>
+            <div class="container">
+                <div class="row m-4">
+                    <h3 class="font-weight-bold" style="text-decoration: underline;"> ข้อมูลกิจกรรม</h3>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-2">
+                        <div class="form-group">
+                            <label for="Event_Name">Event Name :</label>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label type="text" name="OpenEvent_Name" id="OpenEvent_Name" class="form-control input-lg"></label>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group">
+                            <label for="Event_Name">คะแนน :</label>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label type="text" name="OpenEvent_Point" id="OpenEvent_Point" class="form-control input-lg"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-2">
+                        <div class="form-group">
+                            <label for="Event_Name">ประเภทกิจกรรม :</label>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label type="text" name="EventType_ID" id="EventType_ID" class="form-control input-lg"></label>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group">
+                            <label for="Event_Name">จัดทำโดย :</label>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label type="text" name="CreatedBy_ID" id="CreatedBy_ID" class="form-control input-lg"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-2">
+                        <div class="form-group">
+                            <label for="Event_Name">วันเริ่มต้น :</label>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label type="text" name="OpenEvent_StartDate" id="OpenEvent_StartDate" class="form-control input-lg"></label>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group">
+                            <label for="Event_Name">สิ้นสุด :</label>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label type="text" name="OpenEvent_EndDate" id="OpenEvent_EndDate" class="form-control input-lg"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-2">
+                        <div class="form-group">
+                            <label for="Event_Name">เทอม :</label>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label type="text" name="OpenEvent_Semeter" id="OpenEvent_Semeter" class="form-control input-lg"></label>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group">
+                            <label for="Event_Name">ปีการศึกษา :</label>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label type="text" name="OpenEvent_Year" id="OpenEvent_Year" class="form-control input-lg"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-2">
+                        <div class="form-group">
+                            <label for="Event_Name">สถานที่ :</label>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label type="text" name="OpenEvent_Location" id="OpenEvent_Location" class="form-control input-lg"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="container">
+                <div class="row m-4">
+                    <h3 class="font-weight-bold" style="text-decoration: underline;">เพิ่มข้อมูลสมาชิก</h3>
+                </div>
+                <div class="row ">
+                    <div class="col d-flex justify-content-end">
+                        <p>ค้นหาข้อมูลสมาชิก</p>
+                    </div>
+                    <div class="col d-flex justify-content-end">
+                        <div class="input-group">
+                            <input class="form-control border-info py-2" type="text" pattern="[0-9]{8}" maxlength="8" placeholder="Search By Id" id="SearchData">
+                            <div class="input-group-append">
+                                <button onclick="search_id()" class="btn btn-outline-secondary" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-    for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < objJson.length; i++) {
-        listing_table.innerHTML += objJson[i].adName + "<br>"; // แสดงผลข้อมูล
-    }
-    page_span.innerHTML = page; // แสดงผลหน้า
+                <div class="mt-3 container">
+                    <table id="table_data" class="table table-bordred table-striped justify-content-center text-center">
+                        {{!--
+                        <thead class="thead-light">
+                            <th>Member ID</th>
+                            <th>Name</th>
+                            <th>Last Name</th>
+                            <th>House</th>
+                        </thead> --}}
+                    </table>
+                    {{!-- <div class="row mt-4 mr-5 justify-content-end">
+                        <button type="submit" class="btn btn-success btn-lg" id="button_save">Save</button>
+                    </div> --}}
+                    <div class="row well">
+	<a type="button" class="btn btn-primary pull-right delete_all">Delete Selected</a>
+</div>
+                </div>
+                {{!--
+                <form action="">
+                    <div class="row mt-3">
+                        <div class="container">
+                            <div class="row mt-3">
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <label for="Event_Name">รหัสนักศึกษา :</label>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <input type="text" name="Member_ID" id="Member_ID" class="form-control input-lg" readonly>
+                                    </div>
+                                </div>
 
-    if (page == 1) {
-        btn_prev.style.visibility = "hidden";
-    } else {
-        btn_prev.style.visibility = "visible";
-    }
+                            </div>
+                            <div class="row">
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <label for="Event_Name">ชื่อนักศึกษา :</label>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <input type="text" name="Member_Name" id="Member_Name" class="form-control input-lg" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <label for="Event_Name">นามสกุล :</label>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <input type="text" name="Member_Lastname" id="Member_Lastname" class="form-control input-lg" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <label for="Event_Name">House :</label>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <input type="text" name="Member_House" id="Member_House" class="form-control input-lg" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3 mr-5">
+                                <div class="col d-flex justify-content-end">
+                                    <button type="button" id="button_insert" class="btn btn-success btn-lg" onclick="insert_member()">เพิ่ม</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row mt-3">
+                        <div class="container">
+                            <div class="table-responsive">
+                                <table id="table_member" class="table table-bordred table-striped justify-content-center text-center">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </form> --}}
+            </div>
+        </div>
+    </div>
 
-    if (page == numPages()) {
-        btn_next.style.visibility = "hidden";
-    } else {
-        btn_next.style.visibility = "visible";
-    }
-}
+    {{!-- ######### edit Profile ####################### --}}
+    <div class="modal fade" id="dataMember" data-curid="" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </button>
+                    <h4 class="modal-title custom_align" id="Heading">Member Information</h4>
+                </div>
+                <!--///////////////// Form Edit ///////////////////////////-->
+                <div class="modal-body">
+                    {{!--
+                    <form action="http://localhost:3000/editMember" method="post"> --}}
+                        <div class="container">
+                            <div class="row m-4 mt-5">
+                                <div class="col">
+                                    <label for="StudentID">Student ID :</label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="Member_ID" name="Member_ID" placeholder="Student ID" required readonly>
+                                </div>
 
-function numPages()
-{
-    return Math.ceil(objJson.length / records_per_page);
-}
+                            </div>
+                            <div class="row m-4">
+                                <div class="col">
+                                    <label for="FirstName">First Name :</label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="Member_Name" name="Member_Name" placeholder="First Name" required readonly>
+                                </div>
+                            </div>
+                            <div class="row m-4">
+                                <div class="col">
+                                    <label for="LastName">Last Name :</label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="Member_Lastname" name="Member_Lastname" placeholder="Last Name" required readonly>
+                                </div>
+                            </div>
+                            <div class="row m-4">
+                                <div class="col">
+                                    <label for="LastName">House :</label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="Member_House" name="Member_House" placeholder="Last Name" required readonly>
+                                </div>
+                            </div>
+                            <div class="modal-footer ">
+                                <button type="button" class="btn btn-warning btn-lg" data-dismiss="modal" onclick="Add_Row()" style="width: 100%;">
+                                    <span class="glyphicon glyphicon-ok-sign"></span> ตกลง</button>
+                            </div>
 
-window.onload = function() {
-    changePage(1);
-};
+                        </div>
+                        {{!-- </form> --}}
+
+                </div>
+
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    {{!-- ################### Modal ######################### --}}
+    <div class="modal" id="myModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Please enter the correct ID.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================= Delete   ===================================== -->
+    <div class="modal fade" id="delete_member" data-curid="" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </button>
+                    <h4 class="modal-title custom_align" id="Heading">Delete Event Type</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="alert alert-danger">
+                        <span class="glyphicon glyphicon-warning-sign"></span>
+                        Are you sure you want to delete this information?</div>
+
+                </div>
+                <div class="modal-footer ">
+
+                    <button onclick="POST_RemoveEventType()" type="submit" class="btn btn-success">
+                        <span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+                    <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">
+                        <span class="glyphicon glyphicon-remove"></span> No</button>
+
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+    {{!-- ############################################################################################################# --}}
+
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+        crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+
+        document.getElementById("username").innerHTML = "User : " + name
+        var data2 = "{{data}}"
+        var data = JSON.parse(decodeURI(data2))
+        var Event = []
+        var Member = [];
+        let count = 0;
+
+        for (let i = 0; i < data.OpenEvent.length; i++) {
+            Event.push(data.OpenEvent[i])
+        }
+        for (let i = 0; i < data.Member.length; i++) {
+            Member.push(data.Member[i])
+        }
+        //console.log(Member)
+
+        for (let i = 0; i < Event.length; i++) {
+            document.getElementById("OpenEvent_Name").innerHTML = Event[0].OpenEvent_Name
+            document.getElementById("OpenEvent_Point").innerHTML = Event[0].OpenEvent_Point
+            document.getElementById("EventType_ID").innerHTML = Event[0].EventType_ID
+            document.getElementById("CreatedBy_ID").innerHTML = Event[0].CreatedBy_ID
+            document.getElementById("OpenEvent_StartDate").innerHTML = Event[0].OpenEvent_StartDate
+            document.getElementById("OpenEvent_EndDate").innerHTML = Event[0].OpenEvent_EndDate
+            document.getElementById("OpenEvent_Semeter").innerHTML = Event[0].OpenEvent_Semeter
+            document.getElementById("OpenEvent_Year").innerHTML = Event[0].OpenEvent_Year
+            document.getElementById("OpenEvent_Location").innerHTML = Event[0].OpenEvent_Location
+        }
+        //document.getElementById("button_save").disabled = true
+
+        function search_id() {
+            let id = document.getElementById("SearchData").value
+            //console.log(id)
+            for (let i = 0; i < Member.length; i++) {
+                if (Member[i].Member_ID == id) {
+                    console.log(Member[i].Member_ID)
+                    $('#dataMember').modal('show');
+                    document.getElementById("Member_ID").value = Member[i].Member_ID
+                    document.getElementById("Member_Name").value = Member[i].Member_Name
+                    document.getElementById("Member_Lastname").value = Member[i].Member_Lastname
+                    document.getElementById("Member_House").value = Member[i].Member_House
+                    return 0;
+                }
+            }
+        }
+
+        let display_MemberAll = "<thead><th><input type='checkbox' id='master'></th><th>No</th><th>Member ID</th><th>Name</th><th>Last Name</th><th>House</th><th class='pull-right'>Delete</th></thead>";
+
+        function Add_Row() {
+            //document.getElementById("button_save").disabled = false
+            let MemberID = document.getElementById("SearchData").value
+            // let table = document.getElementsByTagName('table')[0]
+
+            let id = document.getElementById("Member_ID").value
+            let name = document.getElementById("Member_Name").value
+            let lastname = document.getElementById("Member_Lastname").value
+            let house = document.getElementById("Member_House").value
+
+            //display_MemberAll += '<tbody><tr id="'+count+'"><td>' + (count + 1) + '</td><td>' + id + '</td><td>' + name + '</td><td>' + lastname + '</td><td>' + house + '</td><td><p data-placement="top" data-toggle="tooltip" title="Delete"><button onclick="ShowModal_deleteEventType(' + count + ')" class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal"><i class="fas fa-trash-alt"></i></button></p></td></tr>'
+            display_MemberAll += '<tbody><tr  data-row-id="' + count + '"><td><input type="checkbox" class="sub_chk" data-id="' + count + '"></td><td>' + (count + 1) + '</td><td>' + id + '</td><td>' + name + '</td><td>' + lastname + '</td><td>' + house + '</td><td><a class="remove-row pull-right" targetDiv="" data-id="' + count + '" href="javascript: void(0)"><button>delete</button></a></td></tr>'
+            document.getElementById("table_data").innerHTML = display_MemberAll
+            display_MemberAll = ""
+            count++
+            //console.log(count)
+            return 0;
+        }
+
+        // =================== Delete Data ====================
+        function ShowModal_deleteEventType(index) {
+            $('#delete_member').data('curid', index); // curid = index
+            $('#delete_member').modal('show');
+        }
+
+        jQuery('#master').on('click', function (e) {
+            if ($(this).is(':checked', true)) {
+                $(".sub_chk").prop('checked', true);
+            }
+            else {
+                $(".sub_chk").prop('checked', false);
+            }
+        });
+
+        jQuery('.delete_all').on('click', function (e) {
+            var allVals = [];
+            $(".sub_chk:checked").each(function () {
+                allVals.push($(this).attr('data-id'));
+            });
+            //alert(allVals.length); return false;  
+            if (allVals.length <= 0) {
+                alert("Please select row.");
+            }
+            else {
+                //$("#loading").show(); 
+                WRN_PROFILE_DELETE = "Are you sure you want to delete this row?";
+                var check = confirm(WRN_PROFILE_DELETE);
+                if (check == true) {
+                    //for server side
+                    /*
+                var join_selected_values = allVals.join(","); 
+                	
+                $.ajax({   
+                  
+                type: "POST",  
+                url: "delete.php",  
+                cache:false,  
+                data: 'ids='+join_selected_values,  
+                success: function(response)  
+                {   
+                $("#loading").hide();  
+                $("#msgdiv").html(response);
+                //referesh table
+                }   
+                });*/
+                    //for client side
+                    $.each(allVals, function (index, value) {
+                        $('table tr').filter("[data-row-id='" + value + "']").remove();
+                    });
+
+
+                }
+            }
+        });
+
+        jQuery('.remove-row').on('click', function (e) {
+            WRN_PROFILE_DELETE = "Are you sure you want to delete this row?";
+            var check = confirm(WRN_PROFILE_DELETE);
+            if (check == true) {
+                $('table tr').filter("[data-row-id='" + $(this).attr('data-id') + "']").remove();
+            }
+        });
+
+
     </script>
+</body>
+
 </html>
