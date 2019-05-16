@@ -535,6 +535,14 @@ app.get('/SeeMoreReward', (req, res) => {
     }
 })
 
+app.get('/RedeemRewards', (req, res) => {
+    if (req.session.displayName) {
+        res.render('admin_RewardRedeem.hbs', {})
+    } else {
+        res.redirect('/login')
+    }
+})
+
 // ****************************************************************************************
 // ====================== API Post =============================
 app.post('/admin/save', function (req, res) {
@@ -1751,9 +1759,6 @@ app.post('/saveYear', function (req, res) {
 })
 
 // ============== Report =============
-
-
-
 
 //===================================================
 app.listen(3000, () => {

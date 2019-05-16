@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>กำหนดปีการศึกษา</title>
+    <title>Redeem Rewards</title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
@@ -145,7 +145,7 @@
 
         <!-- Page Content  -->
         <div id="content">
-            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>  
+            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 
@@ -168,48 +168,10 @@
                 </div>
             </nav>
 
-            <h2 class="m-2 p-3 mb-2 bg-info text-white">กำหนดปีการศึกษา</h2>
-             <div class="container">
-                <form action="http://localhost:3000/saveYear" method="POST">
-                    <div class="row m-4 mt-5">
-                        <div class="col-2">
-                            <label for="Year_Year">ปีการศึกษา</label>
-                        </div>
-                        <div class="col-4">
-                            <input class="form-control" id="Year_Year" name="Year_Year" placeholder="ปีการศึกษา EX. 2550" required ></input>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                    </div>
-                    <div class="row m-4">
-                        <div class="col-2">
-                            <label for="Year_StartDate">วันเริ่มต้น</label>
-                        </div>
-                         <div class="col-4">
-                            <input type="date" class="form-control" id="Year_StartDate" name="Year_StartDate" required>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                    </div>
-                    <div class="row m-4">
-                        <div class="col-2">
-                            <label for="Year_EndDate">วันสิ้นสุด</label>
-                        </div>
-                        <div class="col-4">
-                            <input type="date" class="form-control" id="Year_EndDate" name="Year_EndDate" required>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                    </div>
-                    <div class="row-4 text-center ">
-                        <button type="submit" value="upload" class="btn btn-primary btn-lg">SAVE</button>
-                    </div>
-                </form>
-            </div>
+            <h2 class="m-2 p-3 mb-2 bg-info text-white">Redeem Rewards</h2>
+            <div class="container">
 
+            </div>
             <div class="line"></div>
 
         </div>
@@ -231,26 +193,7 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-
-         var today = new Date().toISOString().split('T')[0];
-
-        document.getElementsByName("Year_StartDate")[0].setAttribute('min', today);
-        document.getElementsByName("Year_EndDate")[0].setAttribute('min', today);
-
-        $('#Year_StartDate').change(function () {
-            var start_date = $('#Year_StartDate').val()
-            console.log(start_date)
-            document.getElementsByName("Year_EndDate")[0].setAttribute('min', start_date);
-        });
-
-        $('#Year_EndDate').change(function () {
-            var end_date = $('#Year_EndDate').val()
-            console.log(end_date)
-            document.getElementsByName("Year_StartDate")[0].setAttribute('max', end_date);
-        });
-        document.getElementById("username").innerHTML = "User : "+ name
-
-
+        document.getElementById("username").innerHTML = "User : " + name
     </script>
 </body>
 
