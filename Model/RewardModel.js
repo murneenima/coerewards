@@ -25,7 +25,13 @@ var RewardSchema = new Schema({
     Reward_Status:{
         type:String,
         default:"in stock"
-    }
+    }, 
+    imgBase64_filename:{
+        type:String     
+    },    
+    imgBase64_pathfile:{
+        type:String 
+    }    
 })
 RewardSchema.plugin(autoIncrement.plugin, {
     model: 'Reward',

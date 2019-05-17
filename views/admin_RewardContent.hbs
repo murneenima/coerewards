@@ -210,8 +210,9 @@
                             <label for="House">Picture</label>
                         </div>
                         <div class="col-4">
-                            <input type="file" name="photos" multiple> {{!--
-                            <input type="submit" value="upload"> --}}
+                            <input type="file" onchange="previewFile()" name="photos" multiple> 
+                            <img src="" height="200" alt=""> 
+                        {{!--<input type="submit" value="upload"> --}}
                         </div>
                         <div class="col-1">
                             <h4>*</h4>
@@ -245,6 +246,22 @@
             });
         });
         document.getElementById("username").innerHTML = "User : " + name
+        var imageURL = ""
+        function previewFile() {
+            var preview = document.querySelector('img');
+            var file = document.querySelector('input[type=file]').files[0];
+            var reader = new FileReader();
+
+            reader.addEventListener("load", function () {
+                preview.src = reader.result;
+                imageURL = reader.result
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+
+            }
+        }
     </script>
 </body>
 

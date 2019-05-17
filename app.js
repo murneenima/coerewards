@@ -27,7 +27,54 @@ const fileFilter = (req, file, cb) => {
     if (file.mimetype === 'image/jpeg') {
         cb(null, true);
     } else {
-        cb(null, false);
+        //cb(null, false);
+        res.send(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            
+                <title>Success</title>
+            
+                <!-- Bootstrap CSS CDN -->
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                    crossorigin="anonymous">
+                <style>
+                    @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                    h4 {
+                        color: crimson;
+                    }
+            
+                    p {
+                        font-family: 'Poppins', sans-serif;
+                        font-size: 1.1em;
+                        font-weight: 300;
+                        line-height: 1.7em;
+                        color: #999;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container d-flex justify-content-center align-items-center">
+                    <div class="row mt-5 ">
+            
+                        <div class="alert alert-success" role="alert">
+                            <h3 class="alert-heading">False</h3>
+                            <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">Please select file .jpg only</p>
+                            <hr>
+                            <p class="d-flex justify-content-end">
+                                    <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/Main" role="button">ตกลง</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="line"></div>
+            </body>
+            
+            </html>
+            `)
     }
 }
 const upload = multer({
@@ -540,18 +587,18 @@ app.get('/RedeemRewards', (req, res) => {
     if (req.session.displayName) {
         let stock = "in stock"
         let data = {}
-        Reward.find({Reward_Status:stock},(err,data)=>{
-            if(err) console.log(err)
-        }).then((dataReward)=>{
+        Reward.find({ Reward_Status: stock }, (err, data) => {
+            if (err) console.log(err)
+        }).then((dataReward) => {
             data.reward = dataReward
 
-            Member.find({},(err,data)=>{
-                if(err) console.log(err)
-            }).then((dataMember)=>{
+            Member.find({}, (err, data) => {
+                if (err) console.log(err)
+            }).then((dataMember) => {
                 data.member = dataMember
 
                 res.render('admin_RewardRedeem.hbs', {
-                    data:encodeURI(JSON.stringify(data))
+                    data: encodeURI(JSON.stringify(data))
                 })
             })
         })
@@ -723,13 +770,9 @@ app.get('/logout', function (req, res) {
 // ========================= Member ====================================
 // ==================== save data and upload photo =====================
 app.post('/save', upload.single('photos'), function (req, res) {
-    let encoded_filename = base64encode(req.file.originalname); // "aGV5ICB0aGVyZQ=="
-    let encoded_pathfile = base64encode(req.file.path); // "aGV5ICB0aGVyZQ=="
-    console.log(req.file.path)
-    console.log(req.file.originalname)
-    
-   
-   if (req.session.displayName) {
+    if (req.session.displayName) {
+        let encoded_filename = base64encode(req.file.originalname); // "aGV5ICB0aGVyZQ=="
+        let encoded_pathfile = base64encode(req.file.path); // "aGV5ICB0aGVyZQ=="
         let data = {};
         //console.log(req.file)
         let point = req.body.Member_Point
@@ -770,8 +813,8 @@ app.post('/save', upload.single('photos'), function (req, res) {
                         Member_Total: point,
                         Member_Available: point,
                         Member_Admin: req.session.displayName,
-                        imgBase64_filename :encoded_filename,
-                        imgBase64_pathfile :encoded_pathfile
+                        imgBase64_filename: encoded_filename,
+                        imgBase64_pathfile: encoded_pathfile
                     })
                     newMember.save().then((doc) => {
                         let newHouse = new House({
@@ -791,39 +834,40 @@ app.post('/save', upload.single('photos'), function (req, res) {
             }, (err) => {
                 res.send(400).send(err)
             })
-            if (data.length == 1) {
-                res.render('admin_error.hbs')
-            } else if (data.length == 0) {
-                let newMember = new Member({
-                    Member_ID: req.body.Member_ID,
-                    Member_Password: req.body.Member_Password,
-                    Member_Name: req.body.Member_Name,
-                    Member_Lastname: req.body.Member_Lastname,
-                    Member_House: req.body.Member_House,
-                    Member_Profile: req.file.path,
-                    Member_Tel: req.body.Member_Tel,
-                    Member_Total: point,
-                    Member_Available: point,
-                    Member_Admin: req.session.displayName,
-                    imgBase64_filename :encoded_filename,
-                    imgBase64_pathfile :encoded_pathfile
-                })
-                newMember.save().then((doc) => {
+            
+            // if (data.length == 1) {
+            //     res.render('admin_error.hbs')
+            // } else if (data.length == 0) {
+            //     let newMember = new Member({
+            //         Member_ID: req.body.Member_ID,
+            //         Member_Password: req.body.Member_Password,
+            //         Member_Name: req.body.Member_Name,
+            //         Member_Lastname: req.body.Member_Lastname,
+            //         Member_House: req.body.Member_House,
+            //         Member_Profile: req.file.path,
+            //         Member_Tel: req.body.Member_Tel,
+            //         Member_Total: point,
+            //         Member_Available: point,
+            //         Member_Admin: req.session.displayName,
+            //         imgBase64_filename: encoded_filename,
+            //         imgBase64_pathfile: encoded_pathfile
+            //     })
+            //     newMember.save().then((doc) => {
 
-                    let newHouse = new House({
-                        House_name: req.body.Member_House,
-                        House_MemberID: req.body.Member_ID
-                    })
+            //         let newHouse = new House({
+            //             House_name: req.body.Member_House,
+            //             House_MemberID: req.body.Member_ID
+            //         })
 
-                    newHouse.save().then((doc) => {
-                        res.render('admin_MemberInsert.hbs', {})
-                    })
+            //         newHouse.save().then((doc) => {
+            //             res.render('admin_MemberInsert.hbs', {})
+            //         })
 
-                }, (err) => {
-                    //res.render('admin_error.hbs',{})
-                    res.status(400).send(err)
-                })
-            }
+            //     }, (err) => {
+            //         //res.render('admin_error.hbs',{})
+            //         res.status(400).send(err)
+            //     })
+            // }
         })
     } else {
         res.redirect('/login')
@@ -943,6 +987,7 @@ app.post('/removeCreatedBy', (req, res) => {
 // ============= All Event ===================
 app.post('/saveEvent', upload.single('photos'), function (req, res) {
     if (req.session.displayName) {
+        let img_event = "http://togetherasonefoundation.org/wp-content/uploads/2019/01/EVENTS.png"
         //console.log(req.file)
         let pic_path = 'uploads/EVENTS.jpg'
         if (req.file == undefined) {
@@ -956,6 +1001,8 @@ app.post('/saveEvent', upload.single('photos'), function (req, res) {
                 AllEvent_Location: req.body.Event_Location,
                 AllEvent_Picture: pic_path,
                 AllEvent_Descrip: req.body.Event_Description,
+                imgBase64_filename :img_event,
+                imgBase64_pathfile :img_event
             })
             newAllEvent.save().then((doc) => {
                 console.log('Succes to save data on ALL EVENT and OPEN EVENT')
@@ -981,6 +1028,8 @@ app.post('/saveEvent', upload.single('photos'), function (req, res) {
             })
         } else {
             console.log(' Have file')
+            let encoded_filename = base64encode(req.file.originalname); // "aGV5ICB0aGVyZQ=="
+            let encoded_pathfile = base64encode(req.file.path); // "aGV5ICB0aGVyZQ=="
             let newAllEvent = new AllEvent({
                 AllEvent_Name: req.body.Event_Name,
                 AllEvent_Point: req.body.Event_Point,
@@ -990,6 +1039,8 @@ app.post('/saveEvent', upload.single('photos'), function (req, res) {
                 AllEvent_Location: req.body.Event_Location,
                 AllEvent_Picture: req.file.path,
                 AllEvent_Descrip: req.body.Event_Description,
+                imgBase64_filename: encoded_filename,
+                imgBase64_pathfile: encoded_pathfile
             })
             newAllEvent.save().then((doc) => {
                 console.log('Succes to save data on ALL EVENT and OPEN EVENT')
@@ -1128,12 +1179,13 @@ var j = schedule.scheduleJob('* * * * *', function () {
         }
     })
 
- 
+
 });
 
 // ============= เปิดกิจกรรม ====================
 app.post('/saveOpenEvent', upload.single('photos'), function (req, res) {
     if (req.session.displayName) {
+        let img_event = "http://togetherasonefoundation.org/wp-content/uploads/2019/01/EVENTS.png"
         if (req.file == undefined) {
             AllEvent.find({
                 AllEvent_ID: req.body.Event_ID
@@ -1153,7 +1205,9 @@ app.post('/saveOpenEvent', upload.single('photos'), function (req, res) {
                     OpenEvent_Location: req.body.Event_Location,
                     OpenEvent_Picture: data[0].AllEvent_Picture,
                     OpenEvent_Descrip: req.body.Event_Description,
-                    OpenEvent_Count: data[0].AllEvent_Count + 1
+                    OpenEvent_Count: data[0].AllEvent_Count + 1,
+                    imgBase64_filename: img_event,
+                    imgBase64_pathfile: img_event
 
                 })
 
@@ -1182,6 +1236,8 @@ app.post('/saveOpenEvent', upload.single('photos'), function (req, res) {
                 AllEvent_ID: req.body.Event_ID
             }).then((data) => {
                 console.log('for Have file')
+                let encoded_filename = base64encode(req.file.originalname); // "aGV5ICB0aGVyZQ=="
+                let encoded_pathfile = base64encode(req.file.path); // "aGV5ICB0aGVyZQ=="
                 let newOpenEvent = new OpenEvent({
                     OpenEvent_Name: req.body.Event_Name,
                     OpenEvent_Point: req.body.Event_Point,
@@ -1196,7 +1252,9 @@ app.post('/saveOpenEvent', upload.single('photos'), function (req, res) {
                     OpenEvent_Location: req.body.Event_Location,
                     OpenEvent_Picture: req.file.path,
                     OpenEvent_Descrip: req.body.Event_Description,
-                    OpenEvent_Count: data[0].AllEvent_Count + 1
+                    OpenEvent_Count: data[0].AllEvent_Count + 1,
+                    imgBase64_filename: encoded_filename,
+                    imgBase64_pathfile: encoded_pathfile
 
                 })
 
@@ -1292,14 +1350,17 @@ app.post('/saveEditBehavior', (req, res) => {
 // ====================== Reward ================
 app.post('/saveReward', upload.single('photos'), function (req, res) {
     if (req.session.displayName) {
+        let img_re ="data:image/png;base64,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"
         let pic_reward = 'uploads/Rewards.jpg'
         if (req.file == undefined) {
             console.log('No file')
             let newReward = new Reward({
                 Reward_Name: req.body.Reward_Name,
                 Reward_Point: req.body.Reward_Point,
-                Reward_Photo: pic_reward,
+                Reward_Photo: img_re,
                 Reward_Quantity: req.body.Reward_Quantity,
+                imgBase64_filename: img_re,
+                imgBase64_pathfile: img_re
             })
             newReward.save().then((doc) => {
                 console.log('@@@@ save REWARD data success @@@@')
@@ -1355,11 +1416,15 @@ app.post('/saveReward', upload.single('photos'), function (req, res) {
             })
         } else {
             console.log('Have file')
+            let encoded_filename = base64encode(req.file.originalname); // "aGV5ICB0aGVyZQ=="
+            let encoded_pathfile = base64encode(req.file.path); // "aGV5ICB0aGVyZQ=="
             let newReward = new Reward({
                 Reward_Name: req.body.Reward_Name,
                 Reward_Point: req.body.Reward_Point,
                 Reward_Photo: req.file.path,
                 Reward_Quantity: req.body.Reward_Quantity,
+                imgBase64_filename: encoded_filename,
+                imgBase64_pathfile: encoded_pathfile
             })
             newReward.save().then((doc) => {
                 console.log('@@@@ save REWARD data success @@@@')
@@ -1746,11 +1811,11 @@ app.post('/saveDecPointGroup', function (req, res) {
                 let eventpoint = parseFloat(req.body.point_behavior)
 
                 console.log(d2.Member_Total)
-                    d2.Member_Total = total - eventpoint,
+                d2.Member_Total = total - eventpoint,
                     d2.Member_Available = available - eventpoint,
                     d2.save().then((success) => {
                         console.log(' **** Success to ลบ Member_Point ****')
-                       
+
                     }, (e) => {
                         res.status(400).send(e)
                     }, (err) => {
@@ -1760,7 +1825,7 @@ app.post('/saveDecPointGroup', function (req, res) {
         }, (err) => {
             res.status(400).send(err)
         })
-        
+
     } else {
         res.redirect('/login')
     }
@@ -1837,22 +1902,22 @@ app.get('/send_House', function (req, res, next) {
 
 // ###################### register ######################
 app.get('/register', function (req, res, next) {
-    res.render('register.hbs',{})
+    res.render('register.hbs', {})
 })
 
 app.post('/admin/register', function (req, res) {
 
-        // res.render('admin_Admin.hbs', {
-        //     data : encodeURI(JSON.stringify(name))
-        // })
-        let newAdmin = new Admin({
-            Admin_Name: req.body.Admin_Name,
-            Admin_Surname: req.body.Admin_Surname,
-            Admin_Username: req.body.Admin_Username,
-            Admin_Password: req.body.Admin_Password
-        })
-        newAdmin.save().then((doc) => {
-            res.send(`
+    // res.render('admin_Admin.hbs', {
+    //     data : encodeURI(JSON.stringify(name))
+    // })
+    let newAdmin = new Admin({
+        Admin_Name: req.body.Admin_Name,
+        Admin_Surname: req.body.Admin_Surname,
+        Admin_Username: req.body.Admin_Username,
+        Admin_Password: req.body.Admin_Password
+    })
+    newAdmin.save().then((doc) => {
+        res.send(`
             <!DOCTYPE html>
             <html>
             <head>
@@ -1899,10 +1964,10 @@ app.post('/admin/register', function (req, res) {
             
             </html>
             `)
-        }, (err) => {
-            //res.render('admin_error.hbs',{})
-            res.status(400).send(err)
-        })
+    }, (err) => {
+        //res.render('admin_error.hbs',{})
+        res.status(400).send(err)
+    })
 
 })
 

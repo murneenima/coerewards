@@ -39,7 +39,13 @@ var AllEventSchema = new Schema({
     AllEvent_Count:{ // จำนวนครั้งที่จัด
         type:Number,
         default:1
-    }
+    },
+    imgBase64_filename:{
+        type:String     
+    },    
+    imgBase64_pathfile:{
+        type:String 
+    }    
 })
 AllEventSchema.plugin(autoIncrement.plugin, {
     model: 'AllEvent',

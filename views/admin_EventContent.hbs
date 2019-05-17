@@ -249,7 +249,8 @@
                             <label for="Picture" class="col-form-label">Picture</label>
                         </div>
                         <div class="col-2">
-                            <input type="file" name="photos" multiple>
+                            <input type="file" onchange="previewFile()" name="photos" multiple>
+                            <img src="" height="200" alt="">
                         </div>
                     </div>
                     <div class="row m-4">
@@ -316,6 +317,23 @@
         }
         document.getElementById("Event_Type").innerHTML = Select_EventType
         document.getElementById("Event_CreatedBy").innerHTML = Select_CreatedBy
+
+        var imageURL = ""
+        function previewFile() {
+            var preview = document.querySelector('img');
+            var file = document.querySelector('input[type=file]').files[0];
+            var reader = new FileReader();
+
+            reader.addEventListener("load", function () {
+                preview.src = reader.result;
+                imageURL = reader.result
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+
+            }
+        }
     </script>
 </body>
 
