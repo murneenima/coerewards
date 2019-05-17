@@ -66,9 +66,6 @@ var OpenEventSchema = new Schema({
     },
     imgBase64_filename:{
         type:String     
-    },    
-    imgBase64_pathfile:{
-        type:String 
     }    
 })
 OpenEventSchema.plugin(autoIncrement.plugin, {

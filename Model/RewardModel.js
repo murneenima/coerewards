@@ -28,10 +28,7 @@ var RewardSchema = new Schema({
     }, 
     imgBase64_filename:{
         type:String     
-    },    
-    imgBase64_pathfile:{
-        type:String 
-    }    
+    }   
 })
 RewardSchema.plugin(autoIncrement.plugin, {
     model: 'Reward',

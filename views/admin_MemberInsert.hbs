@@ -242,7 +242,7 @@
                             <label for="House">Tel</label>
                         </div>
                         <div class="col-3">
-                            <input type="tel" placeholder="0888888888" pattern="[0-0]{1}[6-9]{2}[0-9]{3}[0-9]{4}" maxlength="10" title="Ten digits code"
+                            <input type="tel" placeholder="0888888888" pattern="[0-0]{1}[1-9]{1}[0-9]{8}" maxlength="10" title="Ten digits code"
                                 required class="form-control" id="Member_Tel" name="Member_Tel" placeholder="Telephone" required>
                         </div>
                         <div class="col-1">
@@ -264,7 +264,7 @@
                             <label for="House">Profile</label>
                         </div>
                         <div class="col-3">
-                            <input type="file" onchange="previewFile()" id="photos" name="photos" multiple required>
+                            <input type="file" onchange="previewFile()" id="photos" name="photos" multiple required accept=".png, .jpg, .jpeg">
                             <img src="" height="200" alt=""> {{!--
                             <input type="submit" value="upload"> --}}
                         </div>

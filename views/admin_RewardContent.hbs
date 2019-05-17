@@ -210,7 +210,7 @@
                             <label for="House">Picture</label>
                         </div>
                         <div class="col-4">
-                            <input type="file" onchange="previewFile()" name="photos" multiple> 
+                            <input type="file" onchange="previewFile()" name="photos" accept=".png, .jpg, .jpeg" multiple> 
                             <img src="" height="200" alt=""> 
                         {{!--<input type="submit" value="upload"> --}}
                         </div>
@@ -259,9 +259,10 @@
 
             if (file) {
                 reader.readAsDataURL(file);
-
             }
         }
+
+        
     </script>
 </body>
 

@@ -52,10 +52,7 @@ var MemberSchema = new Schema({
     },    
     imgBase64_filename:{
         type:String     
-    },    
-    imgBase64_pathfile:{
-        type:String 
-    }    
+    }   
 })
 // MemberSchema.methods.add = function(Member_Total, callback){
 //     this.Member_Total = Member_Total;

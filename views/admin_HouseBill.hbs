@@ -222,6 +222,7 @@
             $('#sidebarCollapse').on('click', function () {
                 $('#sidebar').toggleClass('active');
             });
+            
         });
         document.getElementById("username").innerHTML = "User : "+ name
         var current_page = 1;
@@ -231,7 +232,12 @@
         var data_Bill = JSON.parse(decodeURI(dataHouse))
         var House_Bill = [];
         
-        // ==============Display data================
+        if(data_Bill.length == 0){
+            document.getElementById("btn_prev").hidden = true
+            document.getElementById("btn_next").hidden = true
+    
+        }else{
+            // ==============Display data================
         function prevPage(){  
             if (current_page > 1) {
                 current_page--;
@@ -285,6 +291,8 @@
         window.onload = function() {
             changePage(1);
         };
+        
+        }
         
     
         // =========================Total member===============================

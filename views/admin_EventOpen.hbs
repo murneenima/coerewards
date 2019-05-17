@@ -196,7 +196,7 @@
                                         <h6 class="text-center">Change Picture</h6>
                                     </div>
                                     <div class="col">
-                                        <input type="file"  onchange="previewFile()"  name="photos" multiple class="form-control">
+                                        <input type="file"  onchange="previewFile()"  name="photos" multiple class="form-control" accept=".png, .jpg, .jpeg">
                                     </div>
                                 </div>
                             </div>
@@ -430,7 +430,7 @@
         }
         //console.log(EventType)
 
-        var image2 = "<img id='img1'  height='200' src='../" + dataEvent[0].AllEvent_Picture + "' style='width: 80%;height: auto;margin: 20px;'>"
+        var image2 = "<img id='img1'  height='200' src='"+ dataEvent[0].AllEvent_Picture + "' style='width: 80%;height: auto;margin: 20px;'>"
         document.getElementById("Event_ID").value = dataEvent[0].AllEvent_ID
         document.getElementById("Event_Name").value = dataEvent[0].AllEvent_Name
         document.getElementById("Event_Point").value = dataEvent[0].AllEvent_Point

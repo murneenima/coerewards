@@ -249,7 +249,7 @@
                             <label for="Picture" class="col-form-label">Picture</label>
                         </div>
                         <div class="col-2">
-                            <input type="file" onchange="previewFile()" name="photos" multiple>
+                            <input type="file" onchange="previewFile()" name="photos" multiple accept=".png, .jpg, .jpeg" >
                             <img src="" height="200" alt="">
                         </div>
                     </div>
@@ -326,12 +326,14 @@
 
             reader.addEventListener("load", function () {
                 preview.src = reader.result;
+                
                 imageURL = reader.result
+
             }, false);
 
             if (file) {
                 reader.readAsDataURL(file);
-
+                
             }
         }
     </script>

@@ -42,10 +42,7 @@ var AllEventSchema = new Schema({
     },
     imgBase64_filename:{
         type:String     
-    },    
-    imgBase64_pathfile:{
-        type:String 
-    }    
+    } 
 })
 AllEventSchema.plugin(autoIncrement.plugin, {
     model: 'AllEvent',

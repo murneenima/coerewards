@@ -230,7 +230,12 @@
         var data_Larry = JSON.parse(decodeURI(dataHouse))
         var House_Larry = [];
 
-         // ==============Display data================
+        if(data_Larry.length == 0){
+            document.getElementById("btn_prev").hidden = true
+            document.getElementById("btn_next").hidden = true
+    
+        }else{
+             // ==============Display data================
         function prevPage(){  
             if (current_page > 1) {
                 current_page--;
@@ -283,6 +288,9 @@
         window.onload = function() {
             changePage(1);
         };
+        }
+
+        
         
 
         document.getElementById("total").innerHTML = "Member Total = " + data_Larry.length
