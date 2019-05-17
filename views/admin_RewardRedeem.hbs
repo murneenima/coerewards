@@ -145,7 +145,7 @@
 
         <!-- Page Content  -->
         <div id="content">
-            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>
+            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username"></p>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 
@@ -170,9 +170,53 @@
 
             <h2 class="m-2 p-3 mb-2 bg-info text-white">Redeem Rewards</h2>
             <div class="container">
-
+                <form action="" method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <h3>รายการสินค้า</h3>
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="Event_Semester" class="col-form-label">Select Reward : </label>
+                        </div>
+                        <div class="col-3">
+                            <select class="form-control" id="Reward_Name" name="Reward_Name" required>
+                                
+                                
+                            </select>
+                        </div>
+                        <div class="col-1">
+                            <h4>*</h4>
+                        </div>
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="Event_Type" class="col-form-label">จำนวนคงเหลือ</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="text" class="form-control" id="Reward_Quantity" name="Reward_Quantity" placeholder="ชื่อกิจกรรม" required>
+                        </div>
+                        <div class="col-1">
+                            <h4>*</h4>
+                        </div>
+                    </div>
+                    <div class="row m-4">
+                         <div class="col-2">
+                            <label for="Event_CreatedBy" class="col-form-label">คะแนนที่ใช้</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="text" class="form-control" id="Reward_Point" name="Reward_Point" placeholder="ชื่อกิจกรรม" required>
+                        </div>
+                        <div class="col-1">
+                            <h4>*</h4>
+                        </div>
+                    </div>
+                    <div class="line"></div>
+                    <div class="row-4 text-center ">
+                        <button type="submit" class="btn btn-primary btn-lg">Save</button>
+                    </div>
+                </form>
             </div>
-            <div class="line"></div>
+            
 
         </div>
     </div>
@@ -194,6 +238,41 @@
             });
         });
         document.getElementById("username").innerHTML = "User : " + name
+        var data2 = "{{data}}"
+        var data = JSON.parse(decodeURI(data2))
+        let Reward = [] ;
+        let Option_Reward = '<option value="" selected disabled>Please select</option>'
+       
+
+        for(let i=0;i<data.reward.length;i++){
+            Reward.push(data.reward[i])
+        }
+        console.log(Reward)
+        for(let i=0;i<Reward.length;i++){
+            Option_Reward += '"<option value="'+Reward[i].Reward_Name+'">'+Reward[i].Reward_Name+'</option>"'
+        }
+        document.getElementById("Reward_Name").innerHTML = Option_Reward
+
+        $(document).ready(function () {
+
+        $('#Reward_Name').on('change', function () {
+        var myValue = $(this).val();
+        var myText = $.trim($("#Reward_Name :selected").text()).toLowerCase(); // Trim spaces and convert to lowercase for comparison
+        console.log(myValue)
+        for(let i=0 ;i<Reward.length;i++){
+            if(Reward[i].Reward_Name == myValue){
+                console.log(Reward[i].Reward_Quantity)
+                let Quantity = Reward[i].Reward_Quantity
+                let point = Reward[i].Reward_Point
+                document.getElementById("Reward_Quantity").value = Reward[i].Reward_Quantity
+                document.getElementById("Reward_Point").value = point
+               // $("#Reward_Quantity").html(Quantity);
+               // $("#Reward_Point").html(Reward[i].Reward_Point);
+            }
+        }
+        
+    });
+});
     </script>
 </body>
 

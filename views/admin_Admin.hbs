@@ -20,10 +20,10 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
         crossorigin="anonymous"></script>
     <style>
-            h4{
+        h4 {
             color: crimson;
         }
-        </style>
+    </style>
 </head>
 
 <body>
@@ -145,7 +145,7 @@
 
         <!-- Page Content  -->
         <div id="content">
-            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>  
+            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 
@@ -168,15 +168,15 @@
                 </div>
             </nav>
 
-             <h2 class="m-2 p-3 mb-2 bg-info text-white">Admin</h2>
-                <div class="container">
+            <h2 class="m-2 p-3 mb-2 bg-info text-white">Admin</h2>
+            <div class="container">
                 <form action="http://localhost:3000/admin/save" method="POST">
                     <div class="row m-4 mt-5">
                         <div class="col-2">
                             <label for="Year_Year">Name</label>
                         </div>
                         <div class="col-4">
-                            <input class="form-control" type="text" id="Admin_Name" name="Admin_Name" placeholder="ชื่อ" required ></input>
+                            <input class="form-control" type="text" id="Admin_Name" name="Admin_Name" placeholder="ชื่อ" required></input>
                         </div>
                         <div class="col-1">
                             <h4>*</h4>
@@ -186,8 +186,8 @@
                         <div class="col-2">
                             <label for="Year_StartDate">Surname</label>
                         </div>
-                         <div class="col-4">
-                            <input type="text" class="form-control" id="Admin_Surname" name="Admin_Surname" placeholder="นามสกุล"  required>
+                        <div class="col-4">
+                            <input type="text" class="form-control" id="Admin_Surname" name="Admin_Surname" placeholder="นามสกุล" required>
                         </div>
                         <div class="col-1">
                             <h4>*</h4>
@@ -198,7 +198,7 @@
                             <label for="Year_EndDate">Username</label>
                         </div>
                         <div class="col-4">
-                            <input type="text" class="form-control" id="Admin_Username" name="Admin_Username"  placeholder="ชื่อผู้ใช้" required>
+                            <input type="text" class="form-control" id="Admin_Username" name="Admin_Username" placeholder="ชื่อผู้ใช้" required>
                         </div>
                         <div class="col-1">
                             <h4>*</h4>
@@ -209,7 +209,7 @@
                             <label for="Year_EndDate">Password</label>
                         </div>
                         <div class="col-4">
-                            <input type="password" class="form-control" id="Admin_Password" name="Admin_Password" placeholder="รหัสผ่าน"  required>
+                            <input type="password" class="form-control" id="Admin_Password" name="Admin_Password" placeholder="รหัสผ่าน" required>
                         </div>
                         <div class="col-1">
                             <h4>*</h4>
@@ -242,9 +242,9 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-        
-        document.getElementById("username").innerHTML = "User : "+ name
-       
+
+        document.getElementById("username").innerHTML = "User : " + name
+
     </script>
 </body>
 

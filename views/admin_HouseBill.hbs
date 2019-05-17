@@ -257,8 +257,9 @@
             if (page > numPages()) page = numPages();
 
             document.getElementById("member_bill").innerHTML = ""; // แสดงผลข้อมูลตารางให้ว่าง
-
+        
             for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < data_Bill.length; i++) {
+            console.log(data_Bill[i].Member_ID)
                 display_MemberAll += "<tbody><tr><td>" + (i + 1) + "</td><td>" + data_Bill[i].Member_ID + "</td><td>" + data_Bill[i].Member_Name + "</td><td>" + data_Bill[i].Member_Lastname + "</td><td>" + data_Bill[i].Member_Total + "</td><td>" + data_Bill[i].Member_Available + "</td></tr></tbody>"
                 document.getElementById("member_bill").innerHTML = display_MemberAll
             }

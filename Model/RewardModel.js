@@ -20,8 +20,7 @@ var RewardSchema = new Schema({
     },
     Reward_Quantity:{
         type:Number,
-        required:true,
-        min:1
+        required:true
     },
     Reward_Status:{
         type:String,

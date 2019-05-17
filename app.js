@@ -537,7 +537,23 @@ app.get('/SeeMoreReward', (req, res) => {
 
 app.get('/RedeemRewards', (req, res) => {
     if (req.session.displayName) {
-        res.render('admin_RewardRedeem.hbs', {})
+        let stock = "in stock"
+        let data = {}
+        Reward.find({Reward_Status:stock},(err,data)=>{
+            if(err) console.log(err)
+        }).then((dataReward)=>{
+            data.reward = dataReward
+
+            Member.find({},(err,data)=>{
+                if(err) console.log(err)
+            }).then((dataMember)=>{
+                data.member = dataMember
+
+                res.render('admin_RewardRedeem.hbs', {
+                    data:encodeURI(JSON.stringify(data))
+                })
+            })
+        })
     } else {
         res.redirect('/login')
     }
@@ -1100,6 +1116,8 @@ var j = schedule.scheduleJob('* * * * *', function () {
             }
         }
     })
+
+ 
 });
 
 // ============= เปิดกิจกรรม ====================
@@ -1804,5 +1822,9 @@ app.get('/send_House', function (req, res, next) {
             res.json(house);
         }
     });
+})
+
+app.get('/register', function (req, res, next) {
+    res.render('register.hbs',{})
 })
 
