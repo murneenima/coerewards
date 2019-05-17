@@ -19,6 +19,14 @@
         crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
         crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> {{!-- AJAX FORM --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+
     <style>
         h4 {
             color: crimson;
@@ -145,8 +153,8 @@
 
         <!-- Page Content  -->
         <div id="content">
-            
-             <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>    
+
+            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 
@@ -234,8 +242,8 @@
                             <label for="House">Tel</label>
                         </div>
                         <div class="col-3">
-                            <input type="tel" placeholder="0888888888" pattern="[0-0]{1}[6-9]{2}[0-9]{3}[0-9]{4}" maxlength="10" title="Ten digits code" required
-                                class="form-control" id="Member_Tel" name="Member_Tel" placeholder="Telephone" required>
+                            <input type="tel" placeholder="0888888888" pattern="[0-0]{1}[6-9]{2}[0-9]{3}[0-9]{4}" maxlength="10" title="Ten digits code"
+                                required class="form-control" id="Member_Tel" name="Member_Tel" placeholder="Telephone" required>
                         </div>
                         <div class="col-1">
                             <h4>*</h4>
@@ -256,7 +264,8 @@
                             <label for="House">Profile</label>
                         </div>
                         <div class="col-3">
-                            <input type="file" name="photos" multiple required> {{!--
+                            <input type="file" onchange="previewFile()" id="photos" name="photos" multiple required>
+                            <img src="" height="200" alt=""> {{!--
                             <input type="submit" value="upload"> --}}
                         </div>
                         <div class="col-1">
@@ -264,22 +273,6 @@
                         </div>
 
                     </div>
-                    {{!--
-                    <div class="row m-4">
-                        <div class="col-2">
-                            <label for="House">Status</label>
-                        </div>
-                        <div class="col-3">
-                            <select class="form-control" id="Member_Status" name="Member_Status" required>
-                                <option value="">Please select</option>
-                                <option value="Active">Active</option>
-                                <option value="Non Active">Non Active</option>
-                            </select>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                    </div> --}}
                     <div class="row-4 text-center ">
                         <button type="submit" value="upload" class="btn btn-primary btn-lg">SAVE</button>
                     </div>
@@ -291,8 +284,9 @@
     </div>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
+    {{!--
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script> --}}
     <!-- Popper.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
         crossorigin="anonymous"></script>
@@ -306,10 +300,25 @@
                 $('#sidebar').toggleClass('active');
             });
         });
+        var imageURL = ""
 
-        document.getElementById("username").innerHTML = "User : "+ name
-      
-       
+        document.getElementById("username").innerHTML = "User : " + name
+        function previewFile() {
+            var preview = document.querySelector('img');
+            var file = document.querySelector('input[type=file]').files[0];
+            var reader = new FileReader();
+
+            reader.addEventListener("load", function () {
+                preview.src = reader.result;
+                imageURL = reader.result
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+
+            }
+        }
+
     </script>
 </body>
 

@@ -8,6 +8,7 @@ const multer = require('multer')
 const schedule = require('node-schedule');
 const moment = require('moment');
 const session = require('express-session')
+const { base64encode, base64decode } = require('nodejs-base64');
 autoIncrement = require('mongoose-auto-increment');
 
 
@@ -722,7 +723,13 @@ app.get('/logout', function (req, res) {
 // ========================= Member ====================================
 // ==================== save data and upload photo =====================
 app.post('/save', upload.single('photos'), function (req, res) {
-    if (req.session.displayName) {
+    let encoded_filename = base64encode(req.file.originalname); // "aGV5ICB0aGVyZQ=="
+    let encoded_pathfile = base64encode(req.file.path); // "aGV5ICB0aGVyZQ=="
+    console.log(req.file.path)
+    console.log(req.file.originalname)
+    
+   
+   if (req.session.displayName) {
         let data = {};
         //console.log(req.file)
         let point = req.body.Member_Point
@@ -762,7 +769,9 @@ app.post('/save', upload.single('photos'), function (req, res) {
                         Member_Tel: req.body.Member_Tel,
                         Member_Total: point,
                         Member_Available: point,
-                        Member_Admin: req.session.displayName
+                        Member_Admin: req.session.displayName,
+                        imgBase64_filename :encoded_filename,
+                        imgBase64_pathfile :encoded_pathfile
                     })
                     newMember.save().then((doc) => {
                         let newHouse = new House({
@@ -795,7 +804,9 @@ app.post('/save', upload.single('photos'), function (req, res) {
                     Member_Tel: req.body.Member_Tel,
                     Member_Total: point,
                     Member_Available: point,
-                    Member_Admin: req.session.displayName
+                    Member_Admin: req.session.displayName,
+                    imgBase64_filename :encoded_filename,
+                    imgBase64_pathfile :encoded_pathfile
                 })
                 newMember.save().then((doc) => {
 
@@ -1824,7 +1835,7 @@ app.get('/send_House', function (req, res, next) {
     });
 })
 
-// register
+// ###################### register ######################
 app.get('/register', function (req, res, next) {
     res.render('register.hbs',{})
 })

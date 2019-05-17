@@ -1,93 +1,29 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>Airshow :: Untitled</title>
-<style type="text/css">
-body, button, input {
-	font-family: verdana;
-	font-size: 10px;
-}
-.item {
-}
-.item {
-	float:left;
-	width: 200px;
-	border: 1px solid #999;
-	margin-right: 6px;
-}
-.item td, .item th {
-	border: 1px solid #999;
-}
-.item .select {
-	text-align: center;
-}
-</style>
-<script>
-function selectItem(n) {
-	var table = document.getElementById('item'+n);
-	if(!table) { alert('table not found'); return; }
-	var valueFields = table.getElementsByTagName('td');
-	document.myForm.location.value = valueFields[0].innerHTML;
-	document.myForm.start_date.value = valueFields[1].innerHTML;
-	document.myForm.end_date.value = valueFields[2].innerHTML;
-	
-}
-</script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
 </head>
 <body>
-<table class="item">
-<tr>
-<th class="Location">Location</th>
-<th class="Start date">Start Date</th>
-<th class="End date">End Date</th>
-</tr>
-<tbody id="item1">
-<tr>
-<td class="Location">L_1</td>
-<td class="Start date">SD_1</td>
-<td class="End date">ED_1</td>
-</tr>
-</tbody>
-<tr><td class="select" colspan="3"><button onclick="selectItem(1)">Select</button></td></tr>
-</table>
-<table class="item">
-<tr>
-<th class="Location">Location</th>
-<th class="Start date">Start Date</th>
-<th class="End date">End Date</th>
-</tr>
-<tbody id="item2" >
-<tr>
-<td class="Location">L_2</td>
-<td class="Start date">SD_2</td>
-<td class="End date">ED_2</td>
-</tr>
-</tbody>
-<tr><td class="select" colspan="3"><button onclick="selectItem(2)">Select</button></td></tr>
-</table>
-<table class="item">
-<tr>
-<th class="Location">Location</th>
-<th class="Start date">Start Date</th>
-<th class="End date">End Date</th>
-</tr>
-<tbody id="item3">
-<tr>
-<td class="Location">L_3</td>
-<td class="Start date">SD_3</td>
-<td class="End date">ED_3</td>
-</tr>
-</tbody>
-<tr><td class="select" colspan="3"><button onclick="selectItem(3)">Select</button></td></tr>
-</table>
-<hr style="clear:both">
-<form name="myForm">
-	<table>
-	<tr><td>Location</td><td><input type="text" name="location" value=""></td></tr>
-	<tr><td>Start Date</td><td><input type="text" name="start_date" value=""></td></tr>
-	<tr><td>End Date</td><td><input type="text" name="end_date" value=""></td></tr>
-	</table>
-</form>
+	<script>
+		function convertFileToBase64viaFileReader(url, callback){
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'blob';
+    xhr.onload = function() {
+      var reader  = new FileReader();
+      reader.onloadend = function () {
+          callback(reader.result);
+      }
+      reader.readAsDataURL(xhr.response);
+    };
+    xhr.open('GET', url);
+    xhr.send();
+}
+convertFileToBase64viaFileReader('http://bit.ly/18g0VNp', function(base64Img){
+    // Base64DataURL
+});
+		</script>
 </body>
 </html>
