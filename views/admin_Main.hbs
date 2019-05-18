@@ -399,7 +399,7 @@
                 }
             }else{
                 for (let i = 0; i < 4; i++) {
-                display_Reward += '<div class="card  " style="max-width: 25%;"><img class="card-img-top rounded mx-auto d-block" height="150" src="'+ dataAll.reward[i].Reward_Photo + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayReward/:' + dataAll.reward[i].Reward_ID + '">' + dataAll.reward[i].Reward_Name + '</a><p class="card-text">จำนวนคงเหลือ : ' + dataAll.reward[i].Reward_Quantity + '<br>คะแนนที่ใช้ : '+dataAll.reward[i].Reward_Point+'</p></div></div>'                
+                display_Reward += '<div class="card  " style="max-width: 25%;"><img class="card-img-top rounded mx-auto d-block" height="200" src="'+ dataAll.reward[i].Reward_Photo + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayReward/:' + dataAll.reward[i].Reward_ID + '">' + dataAll.reward[i].Reward_Name + '</a><p class="card-text">จำนวนคงเหลือ : ' + dataAll.reward[i].Reward_Quantity + '<br>คะแนนที่ใช้ : '+dataAll.reward[i].Reward_Point+'</p></div></div>'                
                 document.getElementById("display_reward").innerHTML = display_Reward
                 Function2()
                 }

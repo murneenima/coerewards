@@ -775,8 +775,7 @@ app.post('/save', upload.single('photos'), function (req, res) {
                                         Member_Tel: req.body.Member_Tel,
                                         Member_Total: point,
                                         Member_Available: point,
-                                        Member_Admin: req.session.displayName,
-                                        imgBase64_filename: img_base64
+                                        Member_Admin: req.session.displayName
                                     })
                                     newMember.save().then((doc) => {
                                         let newHouse = new House({
@@ -969,8 +968,7 @@ app.post('/saveEvent', upload.single('photos'), function (req, res) {
                 CreatedBy_ID: req.body.Event_CreatedBy,
                 AllEvent_Location: req.body.Event_Location,
                 AllEvent_Picture: img_event,
-                AllEvent_Descrip: req.body.Event_Description,
-                imgBase64_filename: img_event
+                AllEvent_Descrip: req.body.Event_Description
             })
             newAllEvent.save().then((doc) => {
                 console.log('Succes to save data on ALL EVENT and OPEN EVENT')
@@ -995,8 +993,7 @@ app.post('/saveEvent', upload.single('photos'), function (req, res) {
                     CreatedBy_ID: req.body.Event_CreatedBy,
                     AllEvent_Location: req.body.Event_Location,
                     AllEvent_Picture: img_base64,
-                    AllEvent_Descrip: req.body.Event_Description,
-                    imgBase64_filename: img_base64
+                    AllEvent_Descrip: req.body.Event_Description
                 })
                 newAllEvent.save().then((doc) => {
                     console.log('Succes to save data on ALL EVENT and OPEN EVENT')
@@ -1164,10 +1161,9 @@ app.post('/saveOpenEvent', upload.single('photos'), function (req, res) {
                     EventType_ID: req.body.Event_Type,
                     CreatedBy_ID: req.body.Event_CreatedBy,
                     OpenEvent_Location: req.body.Event_Location,
-                    OpenEvent_Picture: img_event,
+                    OpenEvent_Picture: data[0].AllEvent_Picture,
                     OpenEvent_Descrip: req.body.Event_Description,
                     OpenEvent_Count: data[0].AllEvent_Count + 1,
-                    imgBase64_filename: img_event
 
                 })
 
@@ -1215,7 +1211,6 @@ app.post('/saveOpenEvent', upload.single('photos'), function (req, res) {
                         OpenEvent_Picture: img_base64,
                         OpenEvent_Descrip: req.body.Event_Description,
                         OpenEvent_Count: data[0].AllEvent_Count + 1,
-                        imgBase64_filename: img_base64
                     })
 
                     newOpenEvent.save().then((doc) => {
@@ -1322,7 +1317,6 @@ app.post('/saveReward', upload.single('photos'), function (req, res) {
                 Reward_Point: req.body.Reward_Point,
                 Reward_Photo: img_re,
                 Reward_Quantity: req.body.Reward_Quantity,
-                imgBase64_filename: img_re,
             })
             newReward.save().then((doc) => {
                 console.log('@@@@ save REWARD data success @@@@')
@@ -1384,8 +1378,7 @@ app.post('/saveReward', upload.single('photos'), function (req, res) {
                     Reward_Name: req.body.Reward_Name,
                     Reward_Point: req.body.Reward_Point,
                     Reward_Photo: img_base64,
-                    Reward_Quantity: req.body.Reward_Quantity,
-                    imgBase64_filename: img_base64
+                    Reward_Quantity: req.body.Reward_Quantity
                 })
                 newReward.save().then((doc) => {
                     console.log('@@@@ save REWARD data success @@@@')

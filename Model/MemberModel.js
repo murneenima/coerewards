@@ -49,9 +49,6 @@ var MemberSchema = new Schema({
     },
     Member_Admin:{
         type:String 
-    },    
-    imgBase64_filename:{
-        type:String     
     }   
 })
 // MemberSchema.methods.add = function(Member_Total, callback){
