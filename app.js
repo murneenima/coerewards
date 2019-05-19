@@ -10,6 +10,7 @@ const moment = require('moment');
 const session = require('express-session')
 const image2base64 = require('image-to-base64');
 autoIncrement = require('mongoose-auto-increment');
+var academic_year = 2562;
 
 // =========== image===========
 const storage = multer.diskStorage({
@@ -89,7 +90,7 @@ app.use((req, res, next) => { // allow the other to connect
     next();
 })
 
-app.use('/member', MemberRounter)
+//app.use('/member', MemberRounter)
 // session
 
 app.use(session({
@@ -892,6 +893,78 @@ app.post('/resetPassword', (req, res) => {
 
 })
 
+app.post('/member/:edit', (req, res, next) => {
+    //console.log('dataIn :', req.params.edit)
+    if (req.session.displayName) {
+        let id = req.params.edit
+        let data = {}
+        Member.find({ Member_ID: id }, (err, dataMember) => {
+            if (err) console.log(err)
+        }).then((dataMember) => {
+            data.member = dataMember
+
+            JoinEvent.find({Member_ID:id},(err,data)=>{
+                if (err) console.log(err)
+            }).then((dataJoinEvent)=>{
+                data.joinevent = dataJoinEvent
+
+                JoinBehavior.find({Member_ID:id},(err,data)=>{
+                    if(err) console.log(err)
+                }).then((dataJoinBehavior)=>{
+                    data.joinbehavior = dataJoinBehavior
+
+                    RedeemReward.find({Member_ID:id},(err,data)=>{
+                        if(err) console.log(err)
+                    }).then((dataRedeemReward)=>{
+                        data.redeemreward = dataRedeemReward
+
+                        res.render('admin_MemberEdit.hbs', {
+                            data: encodeURI(JSON.stringify(data))
+                        })
+                    }, (err) => {
+                        res.status(400).send(err)
+                    })
+                })
+            })
+            
+        })
+    } else {
+        res.redirect('/login')
+    }
+
+})
+
+app.post('/member/edit/data', (req, res) => {
+    if (req.session.displayName) {
+        let id = req.body.Member_ID
+        Member.findOne({ Member_ID: id }).then((d) => {
+            d.Member_ID = id
+            d.Member_Name = req.body.Member_Name
+            d.Member_Lastname = req.body.Member_Lastname
+            d.Member_House = req.body.Member_House
+            d.Member_Status = req.body.Member_Status
+            d.Member_Name = req.body.Member_Name
+    
+            d.save().then((success) => {
+                console.log(' **** Success to edit Member ****')
+                Member.find({}, (err, dataMember) => {
+                    if (err) console.log(err)
+                }).then((dataMember) => {
+                    res.render('admin_MemberAll.hbs', {
+                        dataMember: encodeURI(JSON.stringify(dataMember))
+                    })
+                })
+            }, (e) => {
+                res.status(400).send(e)
+            }, (err) => {
+                res.status(400).send(err)
+            })
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
 // ============== Event Type ===================
 app.post('/saveEventType', (req, res) => {
     if (req.session.displayName) {
@@ -1134,6 +1207,16 @@ var j = schedule.scheduleJob('* * * * *', function () {
                     res.status(400).send(err)
                 })
             }
+        }
+    })
+    Year.find({ Year_StartDate: ymd }).then((d3) => {
+        for (let i = 0; i < d3.length; i++) {
+            //console.log(academic_year)
+            //console.log('==============')
+            //console.log(d3[i].Year_Year)
+            let year = d3[i].Year_Year
+            academic_year = year
+            //console.log(academic_year)    
         }
     })
 
@@ -1494,40 +1577,42 @@ app.post('/saveEditReward', upload.single('photos'), function (req, res) {
 })
 
 // บันทึกข้อมูลการแลกของรางวัล
-app.post('/saveRedeemReward',function (req, res){
-    if(req.session.displayName){
+app.post('/saveRedeemReward', function (req, res) {
+    if (req.session.displayName) {
+        console.log(academic_year)
         let date_save = moment().format('DD-MM-YYYY')
-        
-        Reward.findOne({Reward_ID:req.body.Reward_ID}).then((reward)=>{
-            let re_quantity = parseFloat(reward.Reward_Quantity) 
-           let re_point = parseFloat(reward.Reward_Point)
+
+        Reward.findOne({ Reward_ID: req.body.Reward_ID }).then((reward) => {
+            let re_quantity = parseFloat(reward.Reward_Quantity)
+            let re_point = parseFloat(reward.Reward_Point)
             let redeem_quantity = parseFloat(req.body.Member_RewardQuantity)
-           
+
 
             reward.Reward_Quantity = re_point - redeem_quantity
-            reward.save().then((success)=>{
+            reward.save().then((success) => {
                 console.log('@@@@ Save QUANTITY Reward success @@@@')
 
                 // บันทึกข้อมูลคะแนนของสมาชิก
-                Member.findOne({Member_ID:req.body.Member_ID}).then((member)=>{
-                    let member_available_point = parseFloat(member.Member_Available) 
-                    member.Member_Available = member_available_point - (redeem_quantity*re_point)
+                Member.findOne({ Member_ID: req.body.Member_ID }).then((member) => {
+                    let member_available_point = parseFloat(member.Member_Available)
+                    member.Member_Available = member_available_point - (redeem_quantity * re_point)
                     console.log(member.Member_Available)
-                    member.save().then((success)=>{
+                    member.save().then((success) => {
                         console.log('@@@ Save Member AVAILABLE POINT Success @@@')
 
 
                         let newRedeemReward = new RedeemReward({
-                            Reward_ID:req.body.Reward_ID,
-                            Reward_Name:req.body.Reward_Name,
-                            Reward_Point:req.body.Reward_Point,
-                            Member_ID:req.body.Member_ID,
-                            RedeemReward_Quantity:req.body.Member_RewardQuantity,
-                            RedeemReward_Date:date_save,
-                            RedeemReward_Admin:req.session.displayName
+                            Reward_ID: req.body.Reward_ID,
+                            Reward_Name: req.body.Reward_Name,
+                            Reward_Point: req.body.Reward_Point,
+                            Member_ID: req.body.Member_ID,
+                            RedeemReward_Quantity: req.body.Member_RewardQuantity,
+                            RedeemReward_Date: date_save,
+                            RedeemReward_Admin: req.session.displayName,
+                            RedeemReward_Year: academic_year
                         })
 
-                        newRedeemReward.save().then((doc)=>{
+                        newRedeemReward.save().then((doc) => {
                             console.log('@@@@@@ Save data to REDEEM REWARD table Success')
                             res.redirect('/RedeemRewards')
                         }, (err) => {
@@ -1549,7 +1634,7 @@ app.post('/saveRedeemReward',function (req, res){
                 res.status(400).send(err)
             })
         })
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
@@ -1671,7 +1756,8 @@ app.post('/IncEventIndividual', (req, res) => {
             OpenEvent_ID: req.body.OpenEvent_ID,
             OpenEvent_Point: req.body.OpenEvent_Point,
             JoinEvent_Date: date_save,
-            JoinEvent_Admin: req.session.displayName
+            JoinEvent_Admin: req.session.displayName,
+            JoinEvent_Year: academic_year
         })
 
         newJoinEvent.save().then((doc) => {
@@ -1715,7 +1801,8 @@ app.post('/DecBehaviorIndividual', (req, res) => {
             Behavior_ID: req.body.Behavior_ID,
             Behavior_Point: req.body.Behavior_Point,
             JoinBehavior_Date: date_save,
-            JoinBehavior_Admin: req.session.displayName
+            JoinBehavior_Admin: req.session.displayName,
+            JoinBehavior_Year: academic_year
 
         })
 
@@ -1761,7 +1848,8 @@ app.post('/savePointByGroup', function (req, res) {
             OpenEvent_ID: req.body.id_event,
             OpenEvent_Point: req.body.point_event,
             JoinEvent_Date: date_save,
-            JoinEvent_Admin: req.session.displayName
+            JoinEvent_Admin: req.session.displayName,
+            JoinEvent_Year: academic_year
         })
 
 
@@ -1777,7 +1865,7 @@ app.post('/savePointByGroup', function (req, res) {
                     d2.Member_Available = available + eventpoint,
                     d2.save().then((success) => {
                         console.log(d2.Member_Total)
-                        console.log(' **** Success to หฟอำ Member_Point ****')
+                        console.log(' **** Success to save Member_Point ****')
 
                     }, (e) => {
                         res.status(400).send(e)
@@ -1806,7 +1894,8 @@ app.post('/saveDecPointGroup', function (req, res) {
             Behavior_ID: req.body.id_behavior,
             Behavior_Point: req.body.point_behavior,
             JoinBehavior_Date: date_save,
-            JoinBehavior_Admin: req.session.displayName
+            JoinBehavior_Admin: req.session.displayName,
+            JoinBehavior_Year: academic_year
 
         })
 
@@ -1847,6 +1936,8 @@ app.post('/saveYear', function (req, res) {
             Year_Year: req.body.Year_Year,
             Year_StartDate: req.body.Year_StartDate,
             Year_EndDate: req.body.Year_EndDate,
+            Year_StartTime: req.body.Year_StartTime,
+            Year_EndTime: req.body.Year_EndTime,
         })
 
         newYear.save().then((doc) => {
@@ -1905,6 +1996,36 @@ app.get('/send_House', function (req, res, next) {
             res.send(error);
         } else {
             res.json(house);
+        }
+    });
+})
+
+app.get('/send_RedeemReward',function (req,res, next){
+    RedeemReward.find({}).exec(function (error,redeemreward){
+        if (error) {
+            res.send(error);
+        } else {
+            res.json(redeemreward);
+        }
+    });
+})
+
+app.get('/send_JoinEvent',function (req,res, next){
+    JoinEvent.find({}).exec(function (error,JoinEvent){
+        if (error) {
+            res.send(error);
+        } else {
+            res.json(JoinEvent);
+        }
+    });
+})
+
+app.get('/send_Behavior',function (req,res, next){
+    Behavior.find({}).exec(function (error,Behavior){
+        if (error) {
+            res.send(error);
+        } else {
+            res.json(Behavior);
         }
     });
 })

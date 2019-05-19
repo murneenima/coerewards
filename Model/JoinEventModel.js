@@ -28,6 +28,11 @@ var JoinEventSchema = new Schema({
     },
     JoinEvent_Admin:{
         type:String,
+        required:true
+    },
+    JoinEvent_Year:{
+        type:String,
+        required:true
     }
 }) 
 

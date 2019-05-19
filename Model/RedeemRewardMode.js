@@ -34,6 +34,10 @@ var RedeemRewardSchema = new Schema({
         type:String,
         required:true
     },
+    RedeemReward_Year:{
+        type:String,
+        required:true
+    },
 
 })
 RedeemRewardSchema.plugin(autoIncrement.plugin, {

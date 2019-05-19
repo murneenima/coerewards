@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
         crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
 
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
@@ -557,15 +557,17 @@
 
             document.getElementById("username").innerHTML = "User : "+ name
 
-            var data = "{{dataMember}}"
-            var data_Member = JSON.parse(decodeURI(data))
+            var data = "{{data}}"
+            var data_All = JSON.parse(decodeURI(data))
             var Member = [];
+            
 
-            //console.log(data_Member)
-
-            for (let j = 0; j < data_Member.length; j++) {
-                Member.push(data_Member[j])
+            //console.log(data_All)
+            // ======================== Member Information ==========================
+            for (let j = 0; j < data_All.member.length; j++) {
+                Member.push(data_All.member[j])
             }
+            //console.log(Member)
             mydata()
 
             function mydata() {
@@ -627,6 +629,26 @@
                 $('#delete').modal('show');
             }
 
+            // ======================== Join Event ==========================
+            var JoinEvent = [];
+            for(let i=0;i<data_All.joinevent.length;i++){
+                JoinEvent.push(data_All.joinevent[i])
+            }
+            console.log(JoinEvent)
+
+            // ======================== Join Behavior ==========================
+            var JoinBehavior = [];
+            for(let i=0;i<data_All.joinbehavior.length;i++){
+                JoinBehavior.push(data_All.joinbehavior[i])
+            }
+            console.log(JoinBehavior)
+
+            // ======================== Redeem Reward ==========================
+            var RedeemReward = [];
+            for(let i=0;i<data_All.redeemreward.length;i++){
+                RedeemReward.push(data_All.redeemreward[i])
+            }
+            console.log(RedeemReward)
 
         </script>
 </body>

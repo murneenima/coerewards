@@ -11,11 +11,19 @@ var YearSchema = new Schema({
         required:true
     },
     Year_StartDate:{
-        type:Date,
+        type:String,
         required:true
     },
     Year_EndDate:{
-        type:Date,
+        type:String,
+        required:true
+    },
+    Year_StartTime:{
+        type:String,
+        required:true
+    },
+    Year_EndTime:{
+        type:String,
         required:true
     }
 })

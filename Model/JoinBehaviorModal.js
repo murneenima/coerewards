@@ -29,6 +29,10 @@ var JoinBehaviorSchema = new Schema({
     JoinBehavior_Admin:{
         type:String,
         required:true
+    },
+    JoinBehavior_Year:{
+        type:String,
+        required:true
     }
 }) 
 
