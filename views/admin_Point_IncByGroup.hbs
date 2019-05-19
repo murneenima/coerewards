@@ -21,7 +21,7 @@
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    
+
 
     <style>
         p {
@@ -315,8 +315,11 @@
                             <th>Select</th>
                         </thead>
                     </table>
-                    <div class="row mt-4 mr-5 justify-content-end">
-                        <button type="button" id="sendServer" name="sendServer" class="btn btn-success btn-lg">Save</button>
+
+                    <div class="row m-4 d-flex justify-content-end">
+                        <div class="col-2">
+                            <button type="button" id="sendServer" name="sendServer" class="btn btn-lg btn-block btn-primary">Save</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -441,7 +444,7 @@
         //console.log(Member)
 
         for (let i = 0; i < Event.length; i++) {
-            
+
             document.getElementById("OpenEvent_Name").innerHTML = Event[0].OpenEvent_Name
             document.getElementById("OpenEvent_Point").innerHTML = Event[0].OpenEvent_Point
             document.getElementById("EventType_ID").innerHTML = Event[0].EventType_ID
@@ -515,18 +518,18 @@
             });
             //console.log(dataArr)
             //console.log(dataArr[5])
-            for(let i=0;i<dataArr.length;i++){
-               if( i % 5 == 0){
+            for (let i = 0; i < dataArr.length; i++) {
+                if (i % 5 == 0) {
                     let id = dataArr[i]
-                    $.ajax('http://localhost:3000/savePointByGroup',{
-                    data: JSON.stringify({id,id_event,point_event}),
-                    contentType: "application/json", // this
-                    dataType: "json",
-                    type: "POST",
+                    $.ajax('http://localhost:3000/savePointByGroup', {
+                        data: JSON.stringify({ id, id_event, point_event }),
+                        contentType: "application/json", // this
+                        dataType: "json",
+                        type: "POST",
                     });
-                   location.reload();
-               }
-            
+                    location.reload();
+                }
+
             }
         });
 

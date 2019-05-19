@@ -169,55 +169,249 @@
             </nav>
 
             <h2 class="m-2 p-3 mb-2 bg-info text-white">Redeem Rewards</h2>
-            <div class="container">
-                <form action="" method="POST" enctype="multipart/form-data">
-                    <div class="row">
-                        <h3>รายการสินค้า</h3>
-                    </div>
-                    <div class="row m-4">
-                        <div class="col-2">
-                            <label for="Event_Semester" class="col-form-label">Select Reward : </label>
-                        </div>
-                        <div class="col-3">
-                            <select class="form-control" id="Reward_Name" name="Reward_Name" required>
-                                
-                                
-                            </select>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                    </div>
-                    <div class="row m-4">
-                        <div class="col-2">
-                            <label for="Event_Type" class="col-form-label">จำนวนคงเหลือ</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="text" class="form-control" id="Reward_Quantity" name="Reward_Quantity" placeholder="ชื่อกิจกรรม" required>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                    </div>
-                    <div class="row m-4">
-                         <div class="col-2">
-                            <label for="Event_CreatedBy" class="col-form-label">คะแนนที่ใช้</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="text" class="form-control" id="Reward_Point" name="Reward_Point" placeholder="ชื่อกิจกรรม" required>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                    </div>
-                    <div class="line"></div>
-                    <div class="row-4 text-center ">
-                        <button type="submit" class="btn btn-primary btn-lg">Save</button>
-                    </div>
-                </form>
-            </div>
-            
 
+            <form action="http://localhost:3000/saveRedeemReward" method="POST" >
+                <div class="row m-4">
+                    <h3>รายการสินค้า</h3>
+                </div>
+                <div class="container" style=" border-radius: 25px;border: 2px solid rgb(69, 73, 63);">
+                    <div class="row mt-1">
+                        <div class="col-6">
+                            <div class="row m-4">
+                                <div class="col-4">
+                                    <label for="Event_Semester" class="col-form-label">Select Reward </label>
+                                </div>
+                                <div class="col-1">
+                                    <h3>:</h3>
+                                </div>
+                                <div class="col-6">
+                                    <select class="form-control" id="Reward_Name" name="Reward_Name" required>
+
+
+                                    </select>
+                                </div>
+                                <div class="col-1">
+                                    <h4>*</h4>
+                                </div>
+                            </div>
+                            <div class="row m-4">
+                                <div class="col-4">
+                                    <label for="Event_Type" class="col-form-label">Reward ID</label>
+                                </div>
+                                <div class="col-1">
+                                    <h3>:</h3>
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" class="form-control" id="Reward_ID" name="Reward_ID" placeholder="Reward ID" required readonly>
+                                </div>
+                                <div class="col-1">
+                                    <h4>*</h4>
+                                </div>
+                            </div>
+                            <div class="row m-4">
+                                <div class="col-4">
+                                    <label for="Event_Type" class="col-form-label">จำนวนคงเหลือ</label>
+                                </div>
+                                <div class="col-1">
+                                    <h3>:</h3>
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" class="form-control" id="Reward_Quantity" name="Reward_Quantity" placeholder="จำนวนคงเหลืแ" required readonly>
+                                </div>
+                                <div class="col-1">
+                                    <h4>*</h4>
+                                </div>
+                            </div>
+                            <div class="row m-4">
+                                <div class="col-4">
+                                    <label for="Event_CreatedBy" class="col-form-label">คะแนนที่ใช้</label>
+                                </div>
+                                <div class="col-1">
+                                    <h3>:</h3>
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" class="form-control" id="Reward_Point" name="Reward_Point" placeholder="คะแนนที่ใช้" required readonly>
+                                </div>
+                                <div class="col-1">
+                                    <h4>*</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row m-4" id="img_reward">
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                {{!-- ########################################################################### --}}
+                <div class="row m-4">
+                    <h3>ข้อมูลสมาชิก</h3>
+                </div>
+                <div class="container" style=" border-radius: 25px;border: 2px solid rgb(69, 73, 63);">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="row m-4">
+                                <h4>Picture</h4>
+                            </div>
+                            <div class="row m-4" id="img_member">
+
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="row m-4">
+                                <div class="col-3">
+                                    <label for="Event_CreatedBy" class="col-form-label">Student ID</label>
+                                </div>
+                                <div class="col-1">
+                                    <h3>:</h3>
+                                </div>
+                                <div class="col-4">
+                                    <input type="number" class="form-control" placeholder="58XXXXXX" pattern="[0-9]{8}" maxlength="8" id="Member_ID" name="Member_ID"
+                                        placeholder="Student ID" required>
+                                </div>
+                                <div class="col-1">
+                                    <button type="button" id="search" class="btn btn-outline-dark">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                                <div class="col-1">
+                                    <h4>*</h4>
+                                </div>
+                            </div>
+                            <div class="row m-4">
+                                <div class="col-3">
+                                    <label for="Event_CreatedBy" class="col-form-label">Name</label>
+                                </div>
+                                <div class="col-1">
+                                    <h3>:</h3>
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" id="Member_Name" name="Member_Name" placeholder="Name Lastname" required>
+                                </div>
+                                <div class="col-1">
+                                    <h4>*</h4>
+                                </div>
+                            </div>
+                            <div class="row m-4">
+                                <div class="col-3">
+                                    <label for="Event_CreatedBy" class="col-form-label">Available Point</label>
+                                </div>
+                                <div class="col-1">
+                                    <h3>:</h3>
+                                </div>
+                                <div class="col-4">
+                                    <input type="number" class="form-control" id="Member_Available" name="Member_Available" placeholder="Available Point" required>
+                                </div>
+                                <div class="col-1">
+                                    <h4>*</h4>
+                                </div>
+                            </div>
+                            <div class="row m-4">
+                                <div class="col-5">
+                                    <label for="Event_CreatedBy" class="col-form-label">จำนวนของรางวัลที่ต้องการแลก </label>
+                                </div>
+                                <div class="col-1">
+                                    <h3>:</h3>
+                                </div>
+                                <div class="col-2">
+                                    <select  type="text" class="form-control" name="Member_RewardQuantity" id="Member_RewardQuantity">
+                                        
+                                    </select>
+                                </div>
+                                <div class="col-1">
+                                    <h5>X</h5>
+                                </div>
+                                <div class="col-2">
+                                    <input type="text" class="form-control" id="Reward_Point1" name="Reward_Point1"  required readonly>
+                                </div>
+                                <div class="col-1">
+                                    <h4>*</h4>
+                                </div>
+                            </div>
+                            <div class="row m-4">
+
+                                <div class="col-8">
+                                    <label for="Event_CreatedBy" class="col-form-label">รวมคะแนนที่ใช้</label>
+                                </div>
+                                <div class="col-1">
+                                    <h3>=</h3>
+                                </div>
+                                <div class="col-2">
+                                    <input type="number" class="form-control" id="Member_UsePoint" name="Member_UsePoint" required>
+                                </div>
+                                <div class="col-1">
+                                    <h4>*</h4>
+                                </div>
+                            </div>
+                            <div class="row m-4">
+                                <div class="col-8">
+                                    <label for="Event_CreatedBy" class="col-form-label">คะแนนคงเหลือ </label>
+                                </div>
+                                <div class="col-1">
+                                    <h3>=</h3>
+                                </div>
+                                <div class="col-2">
+                                    <input type="text" class="form-control" id="Member_Remain" name="Member_Remain" required>
+                                </div>
+                                <div class="col-1">
+                                    <h4>*</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m-4 d-flex justify-content-end">
+                    <div class="col-2">
+                        <button type="submit" id="save_data" class="btn btn-lg btn-block btn-primary">Save</button>
+                    </div>
+                </div>
+            </form>
+
+            {{!-- ########### No ID ############# --}}
+            <div class="modal" id="error_data" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p style="color: rgb(0, 0, 0);">Can't find data from ID, Please inter the correct ID.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Okay</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            {{!-- ########### No ID ############# --}}
+            <div class="modal" id="error_point" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p style="color: rgb(0, 0, 0);">Can't redeem this reward. Member does't have enough point.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Okay</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -237,42 +431,119 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-        document.getElementById("username").innerHTML = "User : " + name
+        //document.getElementById("username").innerHTML = "User : " + name
         var data2 = "{{data}}"
         var data = JSON.parse(decodeURI(data2))
-        let Reward = [] ;
-        let Option_Reward = '<option value="" selected disabled>Please select</option>'
-       
+        let Reward = [];
+        var point = 0
+        var use_point = 0
+        let avai_point =0
+        let Option_Reward = '<option  selected disabled>Please select</option>'
+        let Option_Quantity = '<option  selected disabled>0</option>'
 
-        for(let i=0;i<data.reward.length;i++){
+
+        for (let i = 0; i < data.reward.length; i++) {
             Reward.push(data.reward[i])
         }
-        console.log(Reward)
-        for(let i=0;i<Reward.length;i++){
-            Option_Reward += '"<option value="'+Reward[i].Reward_Name+'">'+Reward[i].Reward_Name+'</option>"'
+        //console.log(Reward)
+        for (let i = 0; i < Reward.length; i++) {
+            Option_Reward += '"<option value="' + Reward[i].Reward_Name + '">' + Reward[i].Reward_Name + '</option>"'
         }
         document.getElementById("Reward_Name").innerHTML = Option_Reward
+        document.getElementById("save_data").disabled = true
+
+
 
         $(document).ready(function () {
 
-        $('#Reward_Name').on('change', function () {
-        var myValue = $(this).val();
-        var myText = $.trim($("#Reward_Name :selected").text()).toLowerCase(); // Trim spaces and convert to lowercase for comparison
-        console.log(myValue)
-        for(let i=0 ;i<Reward.length;i++){
-            if(Reward[i].Reward_Name == myValue){
-                console.log(Reward[i].Reward_Quantity)
-                let Quantity = Reward[i].Reward_Quantity
-                let point = Reward[i].Reward_Point
-                document.getElementById("Reward_Quantity").value = Reward[i].Reward_Quantity
-                document.getElementById("Reward_Point").value = point
-               // $("#Reward_Quantity").html(Quantity);
-               // $("#Reward_Point").html(Reward[i].Reward_Point);
-            }
-        }
-        
-    });
-});
+            $('#Reward_Name').on('change', function () {
+                let Quantity =0
+                var myValue = $(this).val();
+                var myText = $.trim($("#Reward_Name :selected").text()).toLowerCase(); // Trim spaces and convert to lowercase for comparison
+                for (let i = 0; i < Reward.length; i++) {
+                    if (Reward[i].Reward_Name == myValue) {
+                        Quantity = Reward[i].Reward_Quantity
+                        point = Reward[i].Reward_Point
+                        let photo = Reward[i].Reward_Photo
+                        document.getElementById("Reward_ID").value = Reward[i].Reward_ID
+                        document.getElementById("Reward_Quantity").value = Reward[i].Reward_Quantity
+                        document.getElementById("Reward_Point").value = point
+                        document.getElementById("Reward_Point1").value = point
+                        document.getElementById("img_reward").innerHTML = '  <img src="' + photo + '" class="rounded mx-auto d-block"  height="200" alt="" style="border-radius: 25px;border: 1px solid #DCDCDC;">'
+                    }
+                }
+
+                // จำนวนที่แลกแต้มได้
+                for(let i=0;i<Quantity ;i++){
+                    Option_Quantity += "<option  value='"+(i+1)+"'>"+(i+1)+"</option>"
+                }
+                document.getElementById("Member_RewardQuantity").innerHTML = Option_Quantity
+                
+                // คะแนน
+                use_point = document.getElementById("Member_RewardQuantity").value * document.getElementById("Reward_Point1").value
+                document.getElementById("Member_UsePoint").value = use_point
+                 if(avai_point<use_point){
+                     document.getElementById("Member_Remain").value = ''
+                     $('#error_point').modal({}); 
+                     return 0 
+                }else{
+                    document.getElementById("Member_Remain").value = avai_point- use_point 
+                    return 0 
+                }
+            });
+
+
+
+            $('#search').on('click', function () {
+                document.getElementById("save_data").disabled = false
+                var id = document.getElementById("Member_ID").value;
+                let Member = [];
+            
+                for (let i = 0; i < data.member.length; i++) {
+                    if (data.member[i].Member_ID == id) {
+                        Member.push(data.member[i])
+                    }
+                }
+
+
+                if (Member.length == 1) {
+                    let name = Member[0].Member_Name + " " + Member[0].Member_Lastname
+                    avai_point = Member[0].Member_Available
+                    let pic = Member[0].Member_Profile
+
+                    document.getElementById("Member_Name").value = name
+                    document.getElementById("Member_Available").value = avai_point
+                    document.getElementById("img_member").innerHTML = '  <img src="' + pic + '" class="rounded mx-auto d-block"  height="200" alt="" style="border-radius: 25px;border: 1px solid #DCDCDC;">'
+
+                } else if (Member.length == 0) {
+                    $('#error_data').modal({}); 
+                    document.getElementById("Member_Name").value = ''
+                    document.getElementById("Member_Available").value = ''
+                    document.getElementById("img_member").innerHTML = ' '
+                }
+
+            });
+
+            $('#Member_RewardQuantity').on('change', function () {
+                use_point = document.getElementById("Member_RewardQuantity").value * document.getElementById("Reward_Point1").value
+                //console.log(use_point)
+                document.getElementById("Member_UsePoint").value = use_point
+                document.getElementById("Member_Remain").value = ''
+                if(avai_point<use_point){
+                     document.getElementById("Member_Remain").value = ''
+                     $('#error_point').modal({}); 
+                     return 0 
+                }else{
+                    document.getElementById("Member_Remain").value = avai_point- use_point 
+                    return 0 
+                }
+            });
+        });
+
+
+        /*
+                        
+    */
     </script>
 </body>
 

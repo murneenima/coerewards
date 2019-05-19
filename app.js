@@ -55,6 +55,7 @@ var JoinEvent = require('./Model/JoinEventModel')
 var JoinBehavior = require('./Model/JoinBehaviorModal')
 var Year = require('./Model/YearModel')
 var Admin = require('./Model/AdminModel')
+var RedeemReward = require('./Model/RedeemRewardMode')
 
 //=========================================
 mongoose.connect('mongodb://localhost:27017/DBcoe').then((doc) => {
@@ -1263,17 +1264,6 @@ app.post('/saveBehavior', (req, res) => {
     }
 })
 
-// app.post('/behavior/:id', (req, res) => {
-//     let id = req.params.id
-//     Behavior.find({ Behavior_ID: id }, (err, data) => {
-//         if (err) console.log(err)
-//     }).then((data) => {
-//         res.render('admin_BehaviorEdit.hbs', {
-//             dataBehavior: encodeURI(JSON.stringify(data))
-//         })
-//     })
-// })
-
 app.post('/saveEditBehavior', (req, res) => {
     if (req.session.displayName) {
         Behavior.findOne({ Behavior_ID: req.body.Behavior_ID }).then((d) => {
@@ -1503,6 +1493,66 @@ app.post('/saveEditReward', upload.single('photos'), function (req, res) {
 
 })
 
+// บันทึกข้อมูลการแลกของรางวัล
+app.post('/saveRedeemReward',function (req, res){
+    if(req.session.displayName){
+        let date_save = moment().format('DD-MM-YYYY')
+        
+        Reward.findOne({Reward_ID:req.body.Reward_ID}).then((reward)=>{
+            let re_quantity = parseFloat(reward.Reward_Quantity) 
+           let re_point = parseFloat(reward.Reward_Point)
+            let redeem_quantity = parseFloat(req.body.Member_RewardQuantity)
+           
+
+            reward.Reward_Quantity = re_point - redeem_quantity
+            reward.save().then((success)=>{
+                console.log('@@@@ Save QUANTITY Reward success @@@@')
+
+                // บันทึกข้อมูลคะแนนของสมาชิก
+                Member.findOne({Member_ID:req.body.Member_ID}).then((member)=>{
+                    let member_available_point = parseFloat(member.Member_Available) 
+                    member.Member_Available = member_available_point - (redeem_quantity*re_point)
+                    console.log(member.Member_Available)
+                    member.save().then((success)=>{
+                        console.log('@@@ Save Member AVAILABLE POINT Success @@@')
+
+
+                        let newRedeemReward = new RedeemReward({
+                            Reward_ID:req.body.Reward_ID,
+                            Reward_Name:req.body.Reward_Name,
+                            Reward_Point:req.body.Reward_Point,
+                            Member_ID:req.body.Member_ID,
+                            RedeemReward_Quantity:req.body.Member_RewardQuantity,
+                            RedeemReward_Date:date_save,
+                            RedeemReward_Admin:req.session.displayName
+                        })
+
+                        newRedeemReward.save().then((doc)=>{
+                            console.log('@@@@@@ Save data to REDEEM REWARD table Success')
+                            res.redirect('/RedeemRewards')
+                        }, (err) => {
+                            //res.render('admin_error.hbs',{})
+                            res.status(400).send(err)
+                        })
+
+
+                    }, (err) => {
+                        res.status(400).send(err)
+                    })
+
+
+                })
+
+            }, (e) => {
+                res.status(400).send(e)
+            }, (err) => {
+                res.status(400).send(err)
+            })
+        })
+    }else{
+        res.redirect('/login')
+    }
+})
 //================== Point ===================
 // แสดงผลหน้า เพิ่มคะแนนรายบุคคล
 app.post('/IncPointIndividual/:id', (req, res) => {
