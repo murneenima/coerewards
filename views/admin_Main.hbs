@@ -346,7 +346,11 @@
         var point_elon = 0;
         var point_mark = 0;
         var table_house = '<thead class="thead-light"><tr><th scope="col">Rank</th><th scope="col">House</th><th scope="col">Score</th></tr></thead>'
-
+        var House_Point = [{name : "Bill Gates" , point : 0},
+                            {name : "Larry Page" , point : 0},
+                            {name : "Elon Mask" , point : 0},
+                            {name : "Mark Zuckerberg" , point : 0},]
+        
         for (let i = 0; i < dataAll.house.length; i++) {
             // console.log(dataAll.house[i].House_name)
             if (dataAll.house[i].House_name == "Bill Gates") {
@@ -362,28 +366,36 @@
         }
         for (let i = 0; i < Bill.length; i++) {
             point_bill = point_bill + Bill[i].House_MemberPoint
+
         }
-        console.log(point_bill)
 
         for (let i = 0; i < Larry.length; i++) {
             point_larry = point_larry + Larry[i].House_MemberPoint
         }
-        console.log(point_larry)
 
         for (let i = 0; i < Elon.length; i++) {
             point_elon = point_elon + Elon[i].House_MemberPoint
         }
-        console.log(point_elon)
 
         for (let i = 0; i < Mark.length; i++) {
             point_mark = point_mark + Mark[i].House_MemberPoint
         }
-        console.log(point_mark)
-        table_house += '<tbody><tr><th scope="row">1</th><td>Bill Gates</td><td>' + point_bill + '</td></tr><tbody><tr><th scope="row">2</th><td>Larry Page</td><td>' + point_larry + '</td></tr><tbody><tr><th scope="row">3</th><td>Elon Musk</td><td>' + point_elon + '</td></tr><tbody><tr><th scope="row">4</th><td>Mark Zackerberg</td><td>' + point_mark + '</td></tr></tbody>'
-        document.getElementById("table_house").innerHTML = table_house
-        $(function(){
-  $('#table_house').tablesorter(); 
-});
+        House_Point[0].point= point_bill
+        House_Point[1].point= point_larry
+        House_Point[2].point= point_elon
+        House_Point[3].point= point_mark
+
+        //console.log(House_Point)
+        for(let i=0;i< House_Point.length ; i++){
+            myFunction3()
+            table_house += '<tbody><tr><th scope="row">'+(i+1)+'</th><td>'+House_Point[i].name+'</td><td>' + House_Point[i].point + '</td></tr><tbody>'
+            document.getElementById("table_house").innerHTML = table_house
+        }
+        function myFunction3() {
+            House_Point.sort(function (a, b) { return b.point - a.point });
+            //console.log(Member)
+        }
+    
         // ####################OPEN EVENT########################
 
         upcoming()

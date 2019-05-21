@@ -2063,7 +2063,7 @@ app.get('/send_BehaviorHistory',function(req,res,next){
         if(error){
             res.send(error);
         }else{
-            res.json(JoinBehavior)
+            res.json(Joi)
         }
     })
 })
