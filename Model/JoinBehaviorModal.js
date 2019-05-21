@@ -14,6 +14,10 @@ var JoinBehaviorSchema = new Schema({
         type:String,
         required:true
     },
+    Behavior_Name:{
+        type:String,
+        required:true
+    },
     Behavior_Point:{
         type:Number,
         required:true

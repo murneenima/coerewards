@@ -10,7 +10,7 @@ const moment = require('moment');
 const session = require('express-session')
 const image2base64 = require('image-to-base64');
 autoIncrement = require('mongoose-auto-increment');
-var academic_year = 2562;
+var academic_year = 2563;
 
 // =========== image===========
 const storage = multer.diskStorage({
@@ -394,11 +394,15 @@ app.get('/Main', (req, res) => {
                     data.reward = dataReward
                     data.name = name
 
-                    res.render('admin_Main.hbs', {
-                        data: encodeURI(JSON.stringify(data))
-                    })
-                }, (err) => {
-                    res.status(400).send(err)
+                    House.find({},(err,dataHouse)=>{
+                        data.house = dataHouse
+
+                        res.render('admin_Main.hbs', {
+                            data: encodeURI(JSON.stringify(data))
+                        })
+                    }, (err) => {
+                        res.status(400).send(err)
+                    }) 
                 })
             })
         })
@@ -782,7 +786,8 @@ app.post('/save', upload.single('photos'), function (req, res) {
                                     newMember.save().then((doc) => {
                                         let newHouse = new House({
                                             House_name: req.body.Member_House,
-                                            House_MemberID: req.body.Member_ID
+                                            House_MemberID: req.body.Member_ID,
+                                            House_MemberPoint: point
                                         })
 
                                         newHouse.save().then((doc) => {
@@ -805,40 +810,6 @@ app.post('/save', upload.single('photos'), function (req, res) {
             }, (err) => {
                 res.send(400).send(err)
             })
-
-            // if (data.length == 1) {
-            //     res.render('admin_error.hbs')
-            // } else if (data.length == 0) {
-            //     let newMember = new Member({
-            //         Member_ID: req.body.Member_ID,
-            //         Member_Password: req.body.Member_Password,
-            //         Member_Name: req.body.Member_Name,
-            //         Member_Lastname: req.body.Member_Lastname,
-            //         Member_House: req.body.Member_House,
-            //         Member_Profile: req.file.path,
-            //         Member_Tel: req.body.Member_Tel,
-            //         Member_Total: point,
-            //         Member_Available: point,
-            //         Member_Admin: req.session.displayName,
-            //         imgBase64_filename: encoded_filename,
-            //         imgBase64_pathfile: encoded_pathfile
-            //     })
-            //     newMember.save().then((doc) => {
-
-            //         let newHouse = new House({
-            //             House_name: req.body.Member_House,
-            //             House_MemberID: req.body.Member_ID
-            //         })
-
-            //         newHouse.save().then((doc) => {
-            //             res.render('admin_MemberInsert.hbs', {})
-            //         })
-
-            //     }, (err) => {
-            //         //res.render('admin_error.hbs',{})
-            //         res.status(400).send(err)
-            //     })
-            // }
         })
     } else {
         res.redirect('/login')
@@ -918,11 +889,17 @@ app.post('/member/:edit', (req, res, next) => {
                     }).then((dataRedeemReward)=>{
                         data.redeemreward = dataRedeemReward
 
-                        res.render('admin_MemberEdit.hbs', {
-                            data: encodeURI(JSON.stringify(data))
-                        })
-                    }, (err) => {
-                        res.status(400).send(err)
+                        Year.find({},(err,data)=>{
+                            if (err) console.log(err)
+                        }).then((dataYear)=>{
+                            data.year = dataYear
+                            
+                            res.render('admin_MemberEdit.hbs', {
+                                data: encodeURI(JSON.stringify(data))
+                            })
+                        }, (err) => {
+                            res.status(400).send(err)
+                        }) 
                     })
                 })
             })
@@ -1754,6 +1731,7 @@ app.post('/IncEventIndividual', (req, res) => {
         let newJoinEvent = new JoinEvent({
             Member_ID: req.body.Member_ID,
             OpenEvent_ID: req.body.OpenEvent_ID,
+            OpenEvent_Name:req.body.OpenEvent_Name,
             OpenEvent_Point: req.body.OpenEvent_Point,
             JoinEvent_Date: date_save,
             JoinEvent_Admin: req.session.displayName,
@@ -1774,11 +1752,22 @@ app.post('/IncEventIndividual', (req, res) => {
                     d2.Member_Available = available + eventpoint,
                     d2.save().then((success) => {
                         console.log(' **** Success to edit Member_Point ****')
-                        res.redirect('/IncreasePoint')
-                    }, (e) => {
-                        res.status(400).send(e)
-                    }, (err) => {
-                        res.status(400).send(err)
+
+                        House.findOne({House_MemberID:id}).then((house)=>{
+                            let house_member_point = parseFloat(house.House_MemberPoint)
+                            let point = parseFloat(req.body.OpenEvent_Point)
+                            house.House_MemberPoint = house_member_point + point;
+
+                            house.save().then((success)=>{
+                                console.log('@@@@ Update POINT in House table @@@@')
+                                res.redirect('/IncreasePoint')
+
+                            })
+                        }, (e) => {
+                            res.status(400).send(e)
+                        }, (err) => {
+                            res.status(400).send(err)
+                        })
                     })
             })
 
@@ -1801,6 +1790,7 @@ app.post('/DecBehaviorIndividual', (req, res) => {
             Behavior_ID: req.body.Behavior_ID,
             Behavior_Point: req.body.Behavior_Point,
             JoinBehavior_Date: date_save,
+            Behavior_Name:req.body.Behavior_Name,
             JoinBehavior_Admin: req.session.displayName,
             JoinBehavior_Year: academic_year
 
@@ -1821,11 +1811,23 @@ app.post('/DecBehaviorIndividual', (req, res) => {
                     d2.Member_Available = available - eventpoint,
                     d2.save().then((success) => {
                         console.log(' **** Success to edit Member_Point ****')
-                        res.redirect('/DecreasePoint')
-                    }, (e) => {
-                        res.status(400).send(e)
-                    }, (err) => {
-                        res.status(400).send(err)
+
+                        House.findOne({House_MemberID:id}).then((house)=>{
+                            let house_member_point = parseFloat(house.House_MemberPoint)
+                            let point = parseFloat(req.body.Behavior_Point)
+                            house.House_MemberPoint = house_member_point - point;
+
+                            house.save().then((success)=>{
+                                console.log('@@@@ Update POINT in House table @@@@')
+                                res.redirect('/DecreasePoint')
+
+                            })
+                        }, (e) => {
+                            res.status(400).send(e)
+                        }, (err) => {
+                            res.status(400).send(err)
+                        })
+                        
                     })
             })
         }, (err) => {
@@ -1847,6 +1849,7 @@ app.post('/savePointByGroup', function (req, res) {
             Member_ID: req.body.id,
             OpenEvent_ID: req.body.id_event,
             OpenEvent_Point: req.body.point_event,
+            OpenEvent_Name:req.body.event_name,
             JoinEvent_Date: date_save,
             JoinEvent_Admin: req.session.displayName,
             JoinEvent_Year: academic_year
@@ -1867,10 +1870,21 @@ app.post('/savePointByGroup', function (req, res) {
                         console.log(d2.Member_Total)
                         console.log(' **** Success to save Member_Point ****')
 
-                    }, (e) => {
-                        res.status(400).send(e)
-                    }, (err) => {
-                        res.status(400).send(err)
+
+                        House.findOne({House_MemberID:id}).then((house)=>{
+                            let house_member_point = parseFloat(house.House_MemberPoint)
+                            let point = parseFloat(req.body.point_event)
+                            house.House_MemberPoint = house_member_point + point;
+
+                            house.save().then((success)=>{
+                                console.log('@@@@ Update POINT in House table @@@@')
+                                res.redirect('/IncreasePoint')
+                            })
+                        }, (e) => {
+                            res.status(400).send(e)
+                        }, (err) => {
+                            res.status(400).send(err)
+                        })
                     })
             })
         }, (err) => {
@@ -1889,11 +1903,11 @@ app.post('/saveDecPointGroup', function (req, res) {
     if (req.session.displayName) {
         let date_save = moment().format('DD-MM-YYYY');
         let newJoinBehavior = new JoinBehavior({
-
             Member_ID: id,
             Behavior_ID: req.body.id_behavior,
             Behavior_Point: req.body.point_behavior,
             JoinBehavior_Date: date_save,
+            Behavior_Name:req.body.behavior_name,
             JoinBehavior_Admin: req.session.displayName,
             JoinBehavior_Year: academic_year
 
@@ -1913,11 +1927,22 @@ app.post('/saveDecPointGroup', function (req, res) {
                     d2.Member_Available = available - eventpoint,
                     d2.save().then((success) => {
                         console.log(' **** Success to ลบ Member_Point ****')
+                        
+                        House.findOne({House_MemberID:id}).then((house)=>{
+                            let house_member_point = parseFloat(house.House_MemberPoint)
+                            let point = parseFloat(req.body.point_behavior)
+                            house.House_MemberPoint = house_member_point - point;
 
-                    }, (e) => {
-                        res.status(400).send(e)
-                    }, (err) => {
-                        res.status(400).send(err)
+                            house.save().then((success)=>{
+                                console.log('@@@@ Update POINT in House table @@@@')
+                                res.redirect('/DecreasePoint')
+
+                            })
+                        }, (e) => {
+                            res.status(400).send(e)
+                        }, (err) => {
+                            res.status(400).send(err)
+                        })
                     })
             })
         }, (err) => {
@@ -1969,7 +1994,7 @@ app.get('/send_Member', function (req, res, next) {
         }
     });
 })
-
+// ข้อมูลกิจกรรมที่เปิด
 app.get('/send_OpenEvent', function (req, res, next) {
     OpenEvent.find({}).exec(function (error, openevent) {
         if (error) {
@@ -1979,7 +2004,7 @@ app.get('/send_OpenEvent', function (req, res, next) {
         }
     });
 })
-
+// ข้อมูลของรางวัล
 app.get('/send_Reward', function (req, res, next) {
     Reward.find({}).exec(function (error, reward) {
         if (error) {
@@ -1989,7 +2014,7 @@ app.get('/send_Reward', function (req, res, next) {
         }
     });
 })
-
+// ข้อมูลคะแนนของแต่ละบ้าน
 app.get('/send_House', function (req, res, next) {
     House.find({}).exec(function (error, house) {
         if (error) {
@@ -1999,7 +2024,7 @@ app.get('/send_House', function (req, res, next) {
         }
     });
 })
-
+//ข้อมูล ประวัติการแลกของรางวัล
 app.get('/send_RedeemReward',function (req,res, next){
     RedeemReward.find({}).exec(function (error,redeemreward){
         if (error) {
@@ -2010,6 +2035,18 @@ app.get('/send_RedeemReward',function (req,res, next){
     });
 })
 
+// ข้อมูลพฤติกรรม
+app.get('/send_Behavior',function (req,res, next){
+    Behavior.find({}).exec(function (error,Behavior){
+        if (error) {
+            res.send(error);
+        } else {
+            res.json(Behavior);
+        }
+    });
+})
+
+// ข้อมูลการเข้าร่วมกิจกรรมของนักศึกษา (Join Event)
 app.get('/send_JoinEvent',function (req,res, next){
     JoinEvent.find({}).exec(function (error,JoinEvent){
         if (error) {
@@ -2020,14 +2057,15 @@ app.get('/send_JoinEvent',function (req,res, next){
     });
 })
 
-app.get('/send_Behavior',function (req,res, next){
-    Behavior.find({}).exec(function (error,Behavior){
-        if (error) {
+// ข้อมูลการทำผิด (Join  Behavior)
+app.get('/send_BehaviorHistory',function(req,res,next){
+    JoinBehavior.find({}).exec(function (error,JoinBehavior){
+        if(error){
             res.send(error);
-        } else {
-            res.json(Behavior);
+        }else{
+            res.json(JoinBehavior)
         }
-    });
+    })
 })
 
 // ###################### register ######################

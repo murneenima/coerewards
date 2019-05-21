@@ -14,6 +14,10 @@ var JoinEventSchema = new Schema({
         type:String,
         required:true
     },
+    OpenEvent_Name:{
+        type:String,
+        required:true
+    },
     OpenEvent_Point:{
         type:Number,
         required:true

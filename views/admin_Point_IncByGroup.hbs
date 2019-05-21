@@ -512,6 +512,7 @@
             var dataArr = [];
             let id_event = Event[0].OpenEvent_ID
             let point_event = Event[0].OpenEvent_Point
+            let event_name = Event[0].OpenEvent_Name
             console.log(id_event)
             $("td").each(function () {
                 dataArr.push($(this).html());
@@ -522,7 +523,7 @@
                 if (i % 5 == 0) {
                     let id = dataArr[i]
                     $.ajax('http://localhost:3000/savePointByGroup', {
-                        data: JSON.stringify({ id, id_event, point_event }),
+                        data: JSON.stringify({ id, id_event, point_event,event_name }),
                         contentType: "application/json", // this
                         dataType: "json",
                         type: "POST",

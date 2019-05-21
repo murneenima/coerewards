@@ -180,36 +180,8 @@
                                 <i class="fas fa-trophy" style="color:coral;"></i>
                             </h4>
 
-                            <table class="table justify-content-center text-center">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th scope="col">Rank</th>
-                                        <th scope="col">House</th>
-                                        <th scope="col">Score</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">4</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                    </tr>
-                                </tbody>
+                            <table id="table_house" class="table justify-content-center text-center">
+
                             </table>
                         </div>
                     </div>
@@ -219,7 +191,7 @@
                         <div class="container">
                             <h4 class="text-center" style="color:darkcyan;">Member Point Ranking</h4>
                             <table class="table justify-content-center text-center" id="member_ranking">
-                                
+
                             </table>
                             <div class="row d-flex justify-content-between">
                                 <button type="button" onclick="prevPage()" class="btn btn-outline-info" id="btn_prev">Prev</button>
@@ -288,7 +260,7 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-    
+
         document.getElementById("username").innerHTML = "User : " + name
         var current_page = 1;
         var records_per_page = 5;
@@ -356,33 +328,82 @@
         // ==========Push and Sort============
         for (let i = 0; i < dataAll.member.length; i++) {
             Member.push(dataAll.member[i])
-          //  myFunction()
+            //  myFunction()
         }
         function myFunction() {
             dataAll.member.sort(function (a, b) { return b.Member_Total - a.Member_Total });
             //console.log(Member)
         }
 
+        // ######################### House ##########################
+        var House = [];
+        var Bill = [];
+        var Larry = [];
+        var Elon = [];
+        var Mark = [];
+        var point_bill = 0;
+        var point_larry = 0;
+        var point_elon = 0;
+        var point_mark = 0;
+        var table_house = '<thead class="thead-light"><tr><th scope="col">Rank</th><th scope="col">House</th><th scope="col">Score</th></tr></thead>'
+
+        for (let i = 0; i < dataAll.house.length; i++) {
+            // console.log(dataAll.house[i].House_name)
+            if (dataAll.house[i].House_name == "Bill Gates") {
+                Bill.push(dataAll.house[i])
+            } else if (dataAll.house[i].House_name == "Larry Page") {
+                Larry.push(dataAll.house[i])
+            } else if (dataAll.house[i].House_name == "Elon Mask") {
+                Elon.push(dataAll.house[i])
+            } else if (dataAll.house[i].House_name == "Mark Zuckerberg") {
+                Mark.push(dataAll.house[i])
+            }
+
+        }
+        for (let i = 0; i < Bill.length; i++) {
+            point_bill = point_bill + Bill[i].House_MemberPoint
+        }
+        console.log(point_bill)
+
+        for (let i = 0; i < Larry.length; i++) {
+            point_larry = point_larry + Larry[i].House_MemberPoint
+        }
+        console.log(point_larry)
+
+        for (let i = 0; i < Elon.length; i++) {
+            point_elon = point_elon + Elon[i].House_MemberPoint
+        }
+        console.log(point_elon)
+
+        for (let i = 0; i < Mark.length; i++) {
+            point_mark = point_mark + Mark[i].House_MemberPoint
+        }
+        console.log(point_mark)
+        table_house += '<tbody><tr><th scope="row">1</th><td>Bill Gates</td><td>' + point_bill + '</td></tr><tbody><tr><th scope="row">2</th><td>Larry Page</td><td>' + point_larry + '</td></tr><tbody><tr><th scope="row">3</th><td>Elon Musk</td><td>' + point_elon + '</td></tr><tbody><tr><th scope="row">4</th><td>Mark Zackerberg</td><td>' + point_mark + '</td></tr></tbody>'
+        document.getElementById("table_house").innerHTML = table_house
+        $(function(){
+  $('#table_house').tablesorter(); 
+});
         // ####################OPEN EVENT########################
 
         upcoming()
         function upcoming() {
             let display_OpenEvent = ""
-            if(dataAll.openevent.length <4 ){
+            if (dataAll.openevent.length < 4) {
                 for (let i = 0; i < dataAll.openevent.length; i++) {
-                display_OpenEvent += '<div class="card"  style="max-width: 25%; height="200"><img class="card-img-top rounded mx-auto d-block"  src="'+ dataAll.openevent[i].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/:' + dataAll.openevent[i].OpenEvent_ID + '">' + dataAll.openevent[i].OpenEvent_Name + '</a><p class="card-text">ภาคการศึกษา : ' + dataAll.openevent[i].OpenEvent_Semeter + '<br>' + 'วันที่ : ' + dataAll.openevent[i].OpenEvent_StartDate + '<br>สถานที่ : ' + dataAll.openevent[i].OpenEvent_Location + '</p></div></div>'
-                document.getElementById("display_card").innerHTML = display_OpenEvent
-                myFunction()
+                    display_OpenEvent += '<div class="card"  style="max-width: 25%; height="200"><img class="card-img-top rounded mx-auto d-block"  src="' + dataAll.openevent[i].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/:' + dataAll.openevent[i].OpenEvent_ID + '">' + dataAll.openevent[i].OpenEvent_Name + '</a><p class="card-text">ภาคการศึกษา : ' + dataAll.openevent[i].OpenEvent_Semeter + '<br>' + 'วันที่ : ' + dataAll.openevent[i].OpenEvent_StartDate + '<br>สถานที่ : ' + dataAll.openevent[i].OpenEvent_Location + '</p></div></div>'
+                    document.getElementById("display_card").innerHTML = display_OpenEvent
+                    myFunction1()
                 }
-            }else{
+            } else {
                 for (let i = 0; i < 4; i++) {
-                display_OpenEvent += '<div class="card"  style="max-width: 25%; "  ><img class="card-img-top rounded mx-auto d-block " height="200" src="'+ dataAll.openevent[i].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/:' + dataAll.openevent[i].OpenEvent_ID + '">' + dataAll.openevent[i].OpenEvent_Name + '</a><p class="card-text">ภาคการศึกษา : ' + dataAll.openevent[i].OpenEvent_Semeter + '<br>' + 'วันที่ : ' + dataAll.openevent[i].OpenEvent_StartDate + '<br>สถานที่ : ' + dataAll.openevent[i].OpenEvent_Location + '</p></div></div>'
-                document.getElementById("display_card").innerHTML = display_OpenEvent
-                myFunction1()
+                    display_OpenEvent += '<div class="card"  style="max-width: 25%; "  ><img class="card-img-top rounded mx-auto d-block " height="200" src="' + dataAll.openevent[i].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/:' + dataAll.openevent[i].OpenEvent_ID + '">' + dataAll.openevent[i].OpenEvent_Name + '</a><p class="card-text">ภาคการศึกษา : ' + dataAll.openevent[i].OpenEvent_Semeter + '<br>' + 'วันที่ : ' + dataAll.openevent[i].OpenEvent_StartDate + '<br>สถานที่ : ' + dataAll.openevent[i].OpenEvent_Location + '</p></div></div>'
+                    document.getElementById("display_card").innerHTML = display_OpenEvent
+                    myFunction1()
                 }
-            }  
+            }
         };
-          function myFunction1() {
+        function myFunction1() {
             dataAll.openevent.sort(function (a, b) { return a.OpenEvent_StartDate - b.OpenEvent_StartDate });
             //console.log(Member)
         }
@@ -391,24 +412,25 @@
         reward()
         function reward() {
             let display_Reward = ""
-            if(dataAll.reward.length <= 3 ){
+            if (dataAll.reward.length <= 3) {
                 for (let i = 0; i < dataAll.reward.length; i++) {
-                display_Reward += '<div class="card  " style="max-width: 25%;"><img class="card-img-top rounded mx-auto d-block" src="'+ dataAll.reward[i].Reward_Photo + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayReward/:' + dataAll.reward[i].Reward_ID + '">' + dataAll.reward[i].Reward_Name + '</a><p class="card-text">จำนวนคงเหลือ : ' + dataAll.reward[i].Reward_Quantity + '<br>คะแนนที่ใช้ : '+dataAll.reward[i].Reward_Point+'</p></div></div>'
-                Function2()
-                document.getElementById("display_reward").innerHTML = display_Reward
+                    display_Reward += '<div class="card  " style="max-width: 25%;"><img class="card-img-top rounded mx-auto d-block" src="' + dataAll.reward[i].Reward_Photo + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayReward/:' + dataAll.reward[i].Reward_ID + '">' + dataAll.reward[i].Reward_Name + '</a><p class="card-text">จำนวนคงเหลือ : ' + dataAll.reward[i].Reward_Quantity + '<br>คะแนนที่ใช้ : ' + dataAll.reward[i].Reward_Point + '</p></div></div>'
+                    Function2()
+                    document.getElementById("display_reward").innerHTML = display_Reward
                 }
-            }else{
+            } else {
                 for (let i = 0; i < 4; i++) {
-                display_Reward += '<div class="card  " style="max-width: 25%;"><img class="card-img-top rounded mx-auto d-block" height="200" src="'+ dataAll.reward[i].Reward_Photo + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayReward/:' + dataAll.reward[i].Reward_ID + '">' + dataAll.reward[i].Reward_Name + '</a><p class="card-text">จำนวนคงเหลือ : ' + dataAll.reward[i].Reward_Quantity + '<br>คะแนนที่ใช้ : '+dataAll.reward[i].Reward_Point+'</p></div></div>'                
-                document.getElementById("display_reward").innerHTML = display_Reward
-                Function2()
+                    display_Reward += '<div class="card  " style="max-width: 25%;"><img class="card-img-top rounded mx-auto d-block" height="200" src="' + dataAll.reward[i].Reward_Photo + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayReward/:' + dataAll.reward[i].Reward_ID + '">' + dataAll.reward[i].Reward_Name + '</a><p class="card-text">จำนวนคงเหลือ : ' + dataAll.reward[i].Reward_Quantity + '<br>คะแนนที่ใช้ : ' + dataAll.reward[i].Reward_Point + '</p></div></div>'
+                    document.getElementById("display_reward").innerHTML = display_Reward
+                    Function2()
                 }
-            }  
+            }
         };
-          function Function2() {
+        function Function2() {
             dataAll.reward.sort(function (a, b) { return a.Reward_Quantity - b.Reward_Quantity });
             //console.log(Member)
         }
+
 
     </script>
 </body>

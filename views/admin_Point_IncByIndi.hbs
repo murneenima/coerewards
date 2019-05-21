@@ -213,7 +213,7 @@
                         </div>
                         <div class="col-8">
                             <div class="form-group">
-                                <label type="text" name="OpenEvent_Name" id="OpenEvent_Name" class="form-control input-lg" aria-readonly="true"></label>
+                                <input type="text" name="OpenEvent_Name" id="OpenEvent_Name" class="form-control input-lg" readonly></input>
                             </div>
                         </div>
 
@@ -434,7 +434,7 @@
 
         for (let i = 0; i < Event.length; i++) {
             document.getElementById("OpenEvent_ID").value = Event[0].OpenEvent_ID
-            document.getElementById("OpenEvent_Name").innerHTML = Event[0].OpenEvent_Name
+            document.getElementById("OpenEvent_Name").value = Event[0].OpenEvent_Name
             document.getElementById("OpenEvent_Point").value = Event[0].OpenEvent_Point
             document.getElementById("EventType_ID").innerHTML = Event[0].EventType_ID
             document.getElementById("CreatedBy_ID").innerHTML = Event[0].CreatedBy_ID

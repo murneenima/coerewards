@@ -177,7 +177,7 @@
                     </div>
                 </div>
             </nav>
-            <h2 class="m-2 p-3 mb-2 bg-info text-white">Decrease Point By Individual</h2>
+            <h2 class="m-2 p-3 mb-2 bg-info text-white">Decrease Point By Group</h2>
             <div class="container">
                 <div class="row m-4">
                     <h3 class="font-weight-bold" style="text-decoration: underline;"> ข้อมูลคะแนนพฤติกรรม</h3>
@@ -450,6 +450,7 @@
             var dataArr = [];
             let id_behavior = Behavior[0].Behavior_ID
             let point_behavior = Behavior[0].Behavior_Point
+            let behavior_name = Behavior[0].Behavior_Name
            
             $("td").each(function () {
                 dataArr.push($(this).html());
@@ -460,7 +461,7 @@
                if( i % 5 == 0){
                     let id = dataArr[i]
                     $.ajax('http://localhost:3000/saveDecPointGroup',{
-                    data: JSON.stringify({id,id_behavior,point_behavior}),
+                    data: JSON.stringify({id,id_behavior,point_behavior,behavior_name}),
                     contentType: "application/json", // this
                     dataType: "json",
                     type: "POST",

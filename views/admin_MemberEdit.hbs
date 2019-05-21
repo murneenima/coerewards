@@ -23,7 +23,6 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
     <style>
-
     </style>
 
 
@@ -148,7 +147,7 @@
 
         <!-- Page Content  -->
         <div id="content">
-            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>  
+            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 
@@ -320,53 +319,23 @@
                 {{!-- ===================== ประวัติการเข้าร่วมกิจกรรม ======================== --}}
                 <div class="col">
                     <h4 class="p-3 mb-2 bg-info text-white rounded">Joined Event</h4>
-                    {{!--
-                    <div class="row m-2">
-                        <div class="col d-flex justify-content-end">
-                            <h5> Select Year</h5>
-                        </div>
-                        <div class="col-4 d-flex justify-content-center">
-                            <select class="form-control" id="exampleFormControlSelect1">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
-                        </div>
-                    </div> --}}
                     <div class="row">
                         <div class="container border border-dark m-2">
-                            <h5 class="m-2 d-flex justify-content-end"> ปีการศึกษา 2560</h5>
-                            <table class="table">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">First</th>
-                                        <th scope="col">Last</th>
-                                        <th scope="col">Handle</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                        <td>@twitter</td>
-                                    </tr>
-                                </tbody>
+                            <div class="row mt-3 mb-2 mr-2">
+                                <div class="col">
+                                    <h5 class="m-2 d-flex justify-content-end"> ปีการศึกษา</h5>
+                                </div>
+                                <div class="col-3">
+                                    <select class="form-control" id="Year_Event" name="Year_Event">
+                                        <option selected>All</option>
+                                        <option>2562</option>
+                                        <option>2563</option>
+                                        <option>2564</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <table class="table table-bordred table-striped justify-content-center " id="table_event">
+
                             </table>
                         </div>
                     </div>
@@ -375,53 +344,25 @@
                 {{!-- ===================== ประวัติการแลกของรางวัล Rewards ======================== --}}
                 <div class="col">
                     <h4 class="p-3 mb-2 bg-info text-white rounded">Rewards</h4>
-                    {{!--
-                    <div class="row m-2">
-                        <div class="col d-flex justify-content-end">
-                            <h5> Select Year</h5>
-                        </div>
-                        <div class="col-4 d-flex justify-content-center">
-                            <select class="form-control" id="exampleFormControlSelect1">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
-                        </div>
-                    </div> --}}
+
                     <div class="row">
                         <div class="container border border-dark m-2">
-                            <h5 class="m-2 d-flex justify-content-end"> ปีการศึกษา 2560</h5>
-                            <table class="table">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">First</th>
-                                        <th scope="col">Last</th>
-                                        <th scope="col">Handle</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                        <td>@twitter</td>
-                                    </tr>
-                                </tbody>
+                            <div class="row mt-3 mb-2 mr-2">
+                                <div class="col">
+                                    <h5 class="m-2 d-flex justify-content-end"> ปีการศึกษา</h5>
+                                </div>
+                                <div class="col-3">
+                                    <select class="form-control" id="Year_Reward" name="Year_Reward">
+                                        <option selected>All</option>
+                                        <option>2562</option>
+                                        <option>2563</option>
+                                        <option>2564</option>
+                                        <option>2565</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <table id="table_reward" class="table table-bordred table-striped justify-content-center ">
+
                             </table>
                         </div>
                     </div>
@@ -555,12 +496,12 @@
                 });
             });
 
-            document.getElementById("username").innerHTML = "User : "+ name
+            document.getElementById("username").innerHTML = "User : " + name
 
             var data = "{{data}}"
             var data_All = JSON.parse(decodeURI(data))
             var Member = [];
-            
+
 
             //console.log(data_All)
             // ======================== Member Information ==========================
@@ -579,7 +520,8 @@
                 let point = ""
                 let availablepoint = ""
                 let tel = ""
-                let image = "<img id='img1' src='"+ Member[0].Member_Profile + "' style='width: 200px;height: 200px;margin: 20px;object-fit: cover;object-position: center right'; class='img-circle img-thumbnail'>"
+                let image = "<img id='img1' src='" + Member[0].Member_Profile + "' style='width: 200px;height: 200px;margin: 20px;object-fit: cover;object-position: center right'; class='img-circle img-thumbnail'>"
+
                 for (let i = 0; i < Member.length; i++) {
                     //console.log(Member[i])
                     id = Member[0].Member_ID
@@ -629,27 +571,101 @@
                 $('#delete').modal('show');
             }
 
+            // ======================== Year ==========================
+            var Year = [];
+            for (let i = 0; i < data_All.year.length; i++) {
+                Year.push(data_All.year[i])
+            }
+            // console.log(data_All.year)
+
+
             // ======================== Join Event ==========================
             var JoinEvent = [];
-            for(let i=0;i<data_All.joinevent.length;i++){
+            var table_event = '<thead class="thead-light"><tr><th scope="col">ปีการศึกษา </th><th scope="col">Event </th><th scope="col" class="text-center">Point</th></tr></thead>'
+
+            for (let i = 0; i < data_All.joinevent.length; i++) {
                 JoinEvent.push(data_All.joinevent[i])
             }
-            console.log(JoinEvent)
+            for (let j = 0; j < JoinEvent.length; j++) {
+                table_event += '<tbody><tr><td>' + JoinEvent[j].JoinEvent_Year + '</td><td><a href="#" class="alert-link">' + JoinEvent[j].OpenEvent_Name + '</a></td><td class="text-center">' + '+' + JoinEvent[j].OpenEvent_Point + '</td></tr>'
+            }
+
 
             // ======================== Join Behavior ==========================
             var JoinBehavior = [];
-            for(let i=0;i<data_All.joinbehavior.length;i++){
+            for (let i = 0; i < data_All.joinbehavior.length; i++) {
                 JoinBehavior.push(data_All.joinbehavior[i])
+                table_event += '<tbody><tr><td>' + data_All.joinbehavior[i].JoinBehavior_Year + '</td><td><a href="#" class="alert-link">' + data_All.joinbehavior[i].Behavior_Name + '</a></td><td class="text-center">' + '-' + data_All.joinbehavior[i].Behavior_Point + '</td></tr>'
             }
-            console.log(JoinBehavior)
+
+            document.getElementById("table_event").innerHTML = table_event
+
+            // select ปีการศึกษา
+            $(document).ready(function () {
+                $('#Year_Event').on('change', function () {
+                    event_select_year($(this).val())
+                    // console.log($(this).val())
+                });
+
+                function event_select_year(value) {
+                    $('#table_event tbody').each(function () {
+                        var found = 'false';
+                        $(this).each(function () {
+                            //console.log($(this).text().toLocaleLowerCase().indexOf(value.toLocaleLowerCase()))
+                            if ($(this).text().toLocaleLowerCase().indexOf(value.toLocaleLowerCase()) >= 0) {
+                                found = 'true'
+                            }
+                        });
+                        if (found == 'true') {
+                            $(this).show()
+                        } else {
+                            $(this).hide()
+                        }
+                        if(value == 'All'){
+                            $(this).show()
+                        }
+                    })
+                }
+            })
 
             // ======================== Redeem Reward ==========================
             var RedeemReward = [];
-            for(let i=0;i<data_All.redeemreward.length;i++){
-                RedeemReward.push(data_All.redeemreward[i])
-            }
-            console.log(RedeemReward)
+            var table_reward = '<thead class="thead-light"><tr><th scope="col">ปีการศึกษา </th><th scope="col">Reward </th><th scope="col" class="text-center">Point</th></tr></thead>'
 
+            for (let i = 0; i < data_All.redeemreward.length; i++) {
+                RedeemReward.push(data_All.redeemreward[i])
+                table_reward += '<tbody><tr><td>' + data_All.redeemreward[i].RedeemReward_Year + '</td><td><a href="#" class="alert-link">'+ data_All.redeemreward[i].Reward_Name + '</a></td><td class="text-center">' + data_All.redeemreward[i].Reward_Point + '</td></tr>'
+
+            }
+            document.getElementById("table_reward").innerHTML = table_reward
+
+            // select ปีการศึกษา
+            $(document).ready(function () {
+                $('#Year_Reward').on('change', function () {
+                    reward_select_year($(this).val())
+                    // console.log($(this).val())
+                });
+
+                function reward_select_year(value) {
+                    $('#table_reward tbody').each(function () {
+                        var found = 'false';
+                        $(this).each(function () {
+                            //console.log($(this).text().toLocaleLowerCase().indexOf(value.toLocaleLowerCase()))
+                            if ($(this).text().toLocaleLowerCase().indexOf(value.toLocaleLowerCase()) >= 0) {
+                                found = 'true'
+                            }
+                        });
+                        if (found == 'true') {
+                            $(this).show()
+                        } else {
+                            $(this).hide()
+                        }
+                        if(value == 'All'){
+                            $(this).show()
+                        }
+                    })
+                }
+            })
         </script>
 </body>
 
