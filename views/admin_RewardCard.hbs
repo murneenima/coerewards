@@ -171,90 +171,21 @@
 
             {{!-- ################################# Upcomint Event ################################# --}}
             <h2 class="m-2 p-3 mb-2 bg-info text-white">Reward</h2>
-            <div class="row m-3 d-flex justify-content-end">
-                <div class="col-1/2 d-flex align-items-center">
-                    <h6>Sorting By :</h6>
-                </div>
-                <div class="col-2">
-                    <select class="form-control">
-                        <option>เร็วๆนี้</option>
-                        <option>นานมาแล้ว</option>
-                        <option>Large select</option>
-                        <option>Large select</option>
-                    </select>
-                </div>
-                <div class="col-1">
-                    <button type="button" class="btn btn-outline-info">Search</button>
-                </div>
-            </div>
+           
 
             <div class="row">
-                <div class="container mt-2">
-                    <div class="card-deck m-3">
-                        <div class="card">
-                            <img class="card-img-top" src="http://fiscalsystems.wpengine.com/wp-content/uploads/2013/10/EVENTS.png" alt="Card image cap">
-                            <div class="card-body">
-                                <a href="#">Card Title</a>
-                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.
-                                    This content is a little bit longer.</p>
-
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img class="card-img-top" src="http://fiscalsystems.wpengine.com/wp-content/uploads/2013/10/EVENTS.png" alt="Card image cap">
-                            <div class="card-body">
-                                <a href="#">Card Title</a>
-                                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img class="card-img-top" src="http://fiscalsystems.wpengine.com/wp-content/uploads/2013/10/EVENTS.png" alt="Card image cap">
-                            <div class="card-body">
-                                <a href="#">Card Title</a>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
-                                    This card has even longer content than the first to show that equal height action.</p>
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="container mt-2">
-                    <div class="card-deck m-3">
-                        <div class="card">
-                            <img class="card-img-top" src="http://fiscalsystems.wpengine.com/wp-content/uploads/2013/10/EVENTS.png" alt="Card image cap">
-                            <div class="card-body">
-                                <a href="#">Card Title</a>
-                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.
-                                    This content is a little bit longer.</p>
-
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img class="card-img-top" src="http://fiscalsystems.wpengine.com/wp-content/uploads/2013/10/EVENTS.png" alt="Card image cap">
-                            <div class="card-body">
-                                <a href="#">Card Title</a>
-                                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img class="card-img-top" src="http://fiscalsystems.wpengine.com/wp-content/uploads/2013/10/EVENTS.png" alt="Card image cap">
-                            <div class="card-body">
-                                <a href="#">Card Title</a>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
-                                    This card has even longer content than the first to show that equal height action.</p>
-
-                            </div>
-                        </div>
-                    </div>
-
+                <div class="container m-4  " id="reward_card">
+               
+                   
                 </div>
             </div>
+             <div class="row m-3 d-flex justify-content-between">
+                            <button type="button" onclick="prevPage()"  class="btn btn-outline-info btn-lg" id="btn_prev">Prev</button>
+                            <span style="font-weight: bold;" id="page"></span>
+                            <button type="button" onclick="nextPage()"  class="btn btn-outline-info btn-lg" id="btn_next">Next</button>
+                    </div>
 
-            <div class="row mt-3 d-flex justify-content-center">
+            {{!-- <div class="row mt-3 d-flex justify-content-center">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
                         <li class="page-item">
@@ -274,7 +205,7 @@
                         </li>
                     </ul>
                 </nav>
-            </div>
+            </div> --}}
 
         </div>
     </div>
@@ -297,17 +228,92 @@
         });
         document.getElementById("username").innerHTML = "User : "+ name
 
-        var data = "{{dataEvent}}"
+        var data = "{{data}}"
         var data2 = JSON.parse(decodeURI(data))
-        var Event = [];
+        var Reward = [];
         var username = data2.name
+        var current_page = 1;
+        var records_per_page = 12;
 
         //console.log(data2)
         for (let i = 0; i < data2.length; i++) {
-            Event.push(data2[i])
+            Reward.push(data2[i])
         }
-        console.log(name)
-        //console.log(Event)
+        console.log(Reward)
+
+        function sort_quantity() {
+            Reward.sort(function (a, b) { return a.Reward_Quantity - b.Reward_Quantity });
+            //console.log(Member)
+        }   
+        
+        // ==========================Display data==================================
+        function prevPage(){  
+            if (current_page > 1) {
+                current_page--;
+                changePage(current_page);
+            }
+        }
+
+        function nextPage(){
+            if (current_page < numPages()) {
+                current_page++;
+                changePage(current_page);
+            }
+        }
+
+        function changePage(page){
+            var btn_next = document.getElementById("btn_next");
+            var btn_prev = document.getElementById("btn_prev");
+            let reward_card = ""            
+            var page_span = document.getElementById("page");
+
+            // Validate page
+            if (page < 1) page = 1;
+            if (page > numPages()) page = numPages();
+
+            document.getElementById("reward_card").innerHTML = ""; // แสดงผลข้อมูลตารางให้ว่าง
+
+            for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < Reward.length; i++) {
+            
+                sort_quantity()
+                if(i%4 == 0){
+                    reward_card += '<div class="card-deck m-3 d-flex justify-content-between"><div class="card  " style="max-width: 20%;"><img class="card-img-top rounded mx-auto d-block" height="150" src="' + Reward[i].Reward_Photo + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayReward/' + Reward[i].Reward_ID + '">' + Reward[i].Reward_Name + '</a><p class="card-text">จำนวนคงเหลือ : ' + Reward[i].Reward_Quantity + '<br>คะแนนที่ใช้ : ' + Reward[i].Reward_Point + '</p></div></div>'
+
+                }else if(i%4 == 3){
+                    reward_card += '<div class="card" style="max-width: 20%;"><img class="card-img-top rounded mx-auto d-block" height="150"  src="' + Reward[i].Reward_Photo + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayReward/' + Reward[i].Reward_ID + '">' + Reward[i].Reward_Name + '</a><p class="card-text">จำนวนคงเหลือ : ' + Reward[i].Reward_Quantity + '<br>คะแนนที่ใช้ : ' + Reward[i].Reward_Point + '</p></div></div></div>'
+
+                }else {
+                    reward_card += '<div class="card" style="max-width: 20%;"><img class="card-img-top rounded mx-auto d-block" height="150"  src="' + Reward[i].Reward_Photo + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayReward/' + Reward[i].Reward_ID + '">' + Reward[i].Reward_Name + '</a><p class="card-text">จำนวนคงเหลือ : ' + Reward[i].Reward_Quantity + '<br>คะแนนที่ใช้ : ' + Reward[i].Reward_Point + '</p></div></div>'
+
+                }
+                    document.getElementById("reward_card").innerHTML = reward_card
+
+           
+            }
+            page_span.innerHTML = "Page " + page; // แสดงผลหน้า
+
+            if (page == 1) {
+                btn_prev.style.visibility = "hidden";
+            } else {
+                btn_prev.style.visibility = "visible";
+            }
+
+            if (page == numPages()) {
+                btn_next.style.visibility = "hidden";
+            } else {
+                btn_next.style.visibility = "visible";
+            }
+        }
+
+        function numPages(){
+            return Math.ceil(Reward.length / records_per_page);
+        }
+
+        window.onload = function() {
+            changePage(1);
+        };
+        
+       
     </script>
 </body>
 

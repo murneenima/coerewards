@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -5,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Open Event</title>
+    <title>Open Event Detail</title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
@@ -18,23 +19,15 @@
         crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
         crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script> {{!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> --}} {{!--
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> --}}
 
     <style>
-        p {
-            font-size: 30px;
-            color: black
-        }
-
-        h4,
-        h5 {
+        h4,h6 {
             color: crimson;
         }
     </style>
-
-
 </head>
 
 <body>
@@ -156,7 +149,7 @@
 
         <!-- Page Content  -->
         <div id="content">
-            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>  
+            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 
@@ -171,7 +164,7 @@
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
-                            <li class="nav-item ">
+                            <li class="nav-item active">
                                 <a class="nav-link" href="http://localhost:3000/logout">Log Out</a>
                             </li>
                         </ul>
@@ -179,13 +172,11 @@
                 </div>
             </nav>
 
+            <h2 class="m-2 p-3 mb-2 bg-info text-white">Event Detail</h2>
             <div class="container">
-                <h2 class="m-2 p-3 mb-2 bg-info text-white">Event Information</h2>
-
-                <form action="http://localhost:3000/saveOpenEvent" method="POST" enctype="multipart/form-data">
-        
-                    <div class="row">
-                        <div class="col-md-4 well text-center">
+                <form action="http://localhost:3000/editOpenEvent" method="POST" enctype="multipart/form-data">
+                    <div class="row m-4 d-flex justify-content-center" >
+                        <div class="col-6 well text-center">
                             <div class="col-md-12 ">
                                 <div class="row ">
                                     <div id="img1">
@@ -194,17 +185,20 @@
                                 </div>
                                 <div class="row">
                                     <div class="col text-center">
-                                        <h6 class="text-center">Change Picture</h6>
+                                        <h5 class="text-center">Change Picture</h5>
                                     </div>
                                     <div class="col">
-                                        <input type="file"  onchange="previewFile()"  name="photos" multiple class="form-control" accept=".png, .jpg, .jpeg">
+                                        <input type="file" onchange="previewFile()" name="photos" multiple class="form-control" accept=".png, .jpg, .jpeg">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-7 personal-info">
+                    </div>
+                    <hr>
+                    <div class="row mt-4">
+                        <div class="col-7">
                             <div class="row m-4 ">
-                                <div class="col-3">
+                                <div class="col-4">
                                     <label for="Event_Name" class="col-form-label">Event ID</label>
                                 </div>
                                 <div class="col-5">
@@ -215,21 +209,21 @@
                                 </div>
                             </div>
                             <div class="row m-4 ">
-                                <div class="col-3">
+                                <div class="col-4">
                                     <label for="Event_Name" class="col-form-label">Event Name</label>
                                 </div>
-                                <div class="col-8">
-                                    <input type="text" class="form-control" id="Event_Name" name="Event_Name" placeholder="ชื่อกิจกรรม" required>
+                                <div class="col-7">
+                                    <textarea type="text" class="form-control" id="Event_Name" name="Event_Name" placeholder="ชื่อกิจกรรม" rows="3" required></textarea>
                                 </div>
                                 <div class="col-1">
                                     <h4>*</h4>
                                 </div>
                             </div>
                             <div class="row m-4 ">
-                                <div class="col-3">
+                                <div class="col-4">
                                     <label for="Event_Point" class="col-form-label">Point</label>
                                 </div>
-                                <div class="col-5">
+                                <div class="col-4">
                                     <input type="number" class="form-control" id="Event_Point" name="Event_Point" placeholder="คะแนน" required>
                                 </div>
                                 <div class="col-1">
@@ -237,7 +231,7 @@
                                 </div>
                             </div>
                             <div class="row m-4">
-                                <div class="col-3">
+                                <div class="col-4">
                                     <label for="Event_StartDate" class="col-form-label">Start Date</label>
                                 </div>
                                 <div class="col-5">
@@ -248,7 +242,7 @@
                                 </div>
                             </div>
                             <div class="row m-4">
-                                <div class="col-3">
+                                <div class="col-4">
                                     <label for="Event_EndDate" class="col-form-label">End Date</label>
                                 </div>
                                 <div class="col-5">
@@ -259,34 +253,36 @@
                                 </div>
                             </div>
                             <div class="row m-4">
-                                <div class="col-3">
+                                <div class="col-4">
                                     <label for="Event_EndDate" class="col-form-label">เวลาเริ่มกิจกรรม</label>
                                 </div>
                                 <div class="col-5">
                                     <input type="time" min="8:00" max="22:00" required class="form-control" id="Event_StartTime" name="Event_StartTime">
                                 </div>
-                                <div class="col-4">
-                                    <h5>* 8:00 - 22:00</h5>
+                                <div class="col-3">
+                                    <h6>* 8:00 - 22:00</h6>
                                 </div>
                             </div>
                             <div class="row m-4">
-                                <div class="col-3">
+                                <div class="col-4">
                                     <label for="Event_EndDate" class="col-form-label">เวลาสิ้นสุดกิจกรรม</label>
                                 </div>
                                 <div class="col-5">
                                     <input type="time" min="8:00" max="22:00" required class="form-control" id="Event_EndTime" name="Event_EndTime">
                                 </div>
-                                <div class="col-4">
-                                    <h5>* 8:00 - 22:00</h5>
+                                <div class="col-3">
+                                    <h6>* 8:00 - 22:00</h6>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-5 personal-info">
                             <div class="row m-4">
-                                <div class="col-3">
+                                <div class="col-4">
                                     <label for="Event_Semester" class="col-form-label">Year</label>
                                 </div>
-                                <div class="col-5">
+                                <div class="col-6">
                                     <select type="text" class="form-control" id="Event_Year" name="Event_Year" required>
-                                       
+
                                     </select>
                                 </div>
                                 <div class="col-1">
@@ -294,12 +290,12 @@
                                 </div>
                             </div>
                             <div class="row m-4">
-                                <div class="col-3">
+                                <div class="col-4">
                                     <label for="Event_Semester" class="col-form-label">Semester</label>
                                 </div>
-                                <div class="col-5">
+                                <div class="col-6">
                                     <select type="text" class="form-control" id="Event_Semester" name="Event_Semester" required>
-                                        <option value="" disabled selected>-Please Select-</option>
+                                        <option value="">-Please Select-</option>
                                         <option value="1">Semester 1</option>
                                         <option value="2">Semester 2</option>
                                         <option value="3">Semester 3</option>
@@ -310,7 +306,7 @@
                                 </div>
                             </div>
                             <div class="row m-4">
-                                <div class="col-3">
+                                <div class="col-5">
                                     <label for="Event_Type" class="col-form-label">ประเภทของกิจกรรม</label>
                                 </div>
                                 <div class="col-5">
@@ -322,7 +318,7 @@
                                 </div>
                             </div>
                             <div class="row m-4">
-                                <div class="col-3">
+                                <div class="col-5">
                                     <label for="Event_CreatedBy" class="col-form-label">จัดโดย</label>
                                 </div>
                                 <div class="col-5">
@@ -335,7 +331,7 @@
                                 </div>
                             </div>
                             <div class="row m-4">
-                                <div class="col-3">
+                                <div class="col-5">
                                     <label for="Event_Location" class="col-form-label">Location</label>
                                 </div>
                                 <div class="col-5">
@@ -346,40 +342,40 @@
                                 </div>
                             </div>
                             <div class="row m-4">
-                                <div class="col-3">
+                                <div class="col-5">
                                     <label for="Event_Description" class="col-form-label">Description</label>
                                 </div>
-                                <div class="col-8">
-                                    <textarea class="form-control" id="Event_Description" name="Event_Description" rows="4" required></textarea>
+                                <div class="col-6">
+                                    <textarea class="form-control" id="Event_Description" name="Event_Description" rows="5" required></textarea>
                                 </div>
                                 <div class="col-1">
                                     <h4>*</h4>
                                 </div>
                             </div>
-                            <div class="row-4 text-center ">
-                                <button type="submit" class="btn btn-primary btn-lg">Save</button>
-                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row-4 mr-3 d-flex justify-content-center">
+                        <div class="col-2">
+                            <button type="submit" value="upload" class="btn btn-primary btn-lg btn-block">Save Edit</button>
                         </div>
                     </div>
                 </form>
-
             </div>
-            <hr>
+            <div class="line"></div>
+
         </div>
     </div>
 
-
-    {{!-- ############################################################################################################# --}}
-
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
     <!-- Popper.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
         crossorigin="anonymous"></script>
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
         crossorigin="anonymous"></script>
-        {{!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> --}}
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -387,25 +383,12 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-        var today = new Date().toISOString().split('T')[0];
+        // var today = new Date().toISOString().split('T')[0];
+        // document.getElementsByName("Event_StartDate")[0].setAttribute('min', today);
+        // document.getElementsByName("Event_EndDate")[0].setAttribute('min', today);  
+        document.getElementById("username").innerHTML = "User : " + name
 
-        document.getElementsByName("Event_StartDate")[0].setAttribute('min', today);
-        document.getElementsByName("Event_EndDate")[0].setAttribute('min', today);
-        document.getElementById("username").innerHTML = "User : "+ name
-
-        $('#Event_StartDate').change(function () {
-            var start_date = $('#Event_StartDate').val();
-            console.log(start_date)
-            document.getElementsByName("Event_EndDate")[0].setAttribute('min', start_date);
-        });
-
-        $('#Event_EndDate').change(function () {
-            var end_date = $('#Event_EndDate').datepicker({ dateFormat: 'dd-mm-yy' }).val();
-            console.log(end_date)
-            document.getElementsByName("Event_StartDate")[0].setAttribute('max', end_date);
-        });
-
-
+        
         var data = "{{data}}"
         var data_all = JSON.parse(decodeURI(data))
         var dataEvent = [];
@@ -416,7 +399,7 @@
         let display_et = "<option disabled selected>-Please Select-</option>"
         let display_cb = "<option disabled selected>-Please Select-</option>"
         let display_year = "<option disabled selected>-Please Select-</option>"
-
+        console.log(data_all)
         for (let i = 0; i < data_all.event.length; i++) {
             dataEvent.push(data_all.event[i])
         }
@@ -431,12 +414,17 @@
         }
         //console.log(EventType)
 
-        var image2 = "<img id='img1'  height='200' src='"+ dataEvent[0].AllEvent_Picture + "' style='width: 80%;height: auto;margin: 20px;'>"
-        document.getElementById("Event_ID").value = dataEvent[0].AllEvent_ID
-        document.getElementById("Event_Name").value = dataEvent[0].AllEvent_Name
-        document.getElementById("Event_Point").value = dataEvent[0].AllEvent_Point
-        document.getElementById("Event_Location").value = dataEvent[0].AllEvent_Location
-        document.getElementById("Event_Description").value = dataEvent[0].AllEvent_Descrip
+        var image2 = "<img id='img1'  height='50' src='"+ dataEvent[0].OpenEvent_Picture + "' style='width: 80%;height: auto;margin: 20px;'>"
+        document.getElementById("Event_ID").value = dataEvent[0].OpenEvent_ID
+        document.getElementById("Event_Name").value = dataEvent[0].OpenEvent_Name
+        document.getElementById("Event_Point").value = dataEvent[0].OpenEvent_Point
+        document.getElementById("Event_Location").value = dataEvent[0].OpenEvent_Location
+        document.getElementById("Event_StartDate").value = dataEvent[0].OpenEvent_StartDate
+        document.getElementById("Event_EndDate").value = dataEvent[0].OpenEvent_EndDate
+        document.getElementById("Event_StartTime").value = dataEvent[0].OpenEvent_StartTime
+        document.getElementById("Event_EndTime").value = dataEvent[0].OpenEvent_EndTime
+        document.getElementById("Event_Semester").value = dataEvent[0].OpenEvent_Semeter
+        document.getElementById("Event_Description").value = dataEvent[0].OpenEvent_Descrip
 
 
         for (let i = 0; i < EventType.length; i++) {
@@ -471,6 +459,8 @@
             }
         }
         
+
+
 
     </script>
 </body>

@@ -263,13 +263,27 @@
 
         document.getElementById("username").innerHTML = "User : " + name
         var current_page = 1;
-        var records_per_page = 5;
+        var records_per_page = 4;
 
         var data = "{{data}}"
         var dataAll = JSON.parse(decodeURI(data))
         let Member = []
         let Openevent = []
         let Reward = []
+        var House = [];
+        var Bill = [];
+        var Larry = [];
+        var Elon = [];
+        var Mark = [];
+        var point_bill = 0;
+        var point_larry = 0;
+        var point_elon = 0;
+        var point_mark = 0;
+        var table_house = '<thead class="thead-light"><tr><th scope="col">Rank</th><th scope="col">House</th><th scope="col">Score</th></tr></thead>'
+        var House_Point = [{ name: "Bill Gates", point: 0 },
+        { name: "Larry Page", point: 0 },
+        { name: "Elon Mask", point: 0 },
+        { name: "Mark Zuckerberg", point: 0 },]
         //console.log(dataAll)
 
         // ==============Display data================
@@ -336,87 +350,76 @@
         }
 
         // ######################### House ##########################
-        var House = [];
-        var Bill = [];
-        var Larry = [];
-        var Elon = [];
-        var Mark = [];
-        var point_bill = 0;
-        var point_larry = 0;
-        var point_elon = 0;
-        var point_mark = 0;
-        var table_house = '<thead class="thead-light"><tr><th scope="col">Rank</th><th scope="col">House</th><th scope="col">Score</th></tr></thead>'
-        var House_Point = [{name : "Bill Gates" , point : 0},
-                            {name : "Larry Page" , point : 0},
-                            {name : "Elon Mask" , point : 0},
-                            {name : "Mark Zuckerberg" , point : 0},]
-        
-        for (let i = 0; i < dataAll.house.length; i++) {
-            // console.log(dataAll.house[i].House_name)
-            if (dataAll.house[i].House_name == "Bill Gates") {
-                Bill.push(dataAll.house[i])
-            } else if (dataAll.house[i].House_name == "Larry Page") {
-                Larry.push(dataAll.house[i])
-            } else if (dataAll.house[i].House_name == "Elon Mask") {
-                Elon.push(dataAll.house[i])
-            } else if (dataAll.house[i].House_name == "Mark Zuckerberg") {
-                Mark.push(dataAll.house[i])
+        house_ranking()
+        function house_ranking() {
+            for (let i = 0; i < dataAll.house.length; i++) {
+                // console.log(dataAll.house[i].House_name)
+                if (dataAll.house[i].House_name == "Bill Gates") {
+                    Bill.push(dataAll.house[i])
+                } else if (dataAll.house[i].House_name == "Larry Page") {
+                    Larry.push(dataAll.house[i])
+                } else if (dataAll.house[i].House_name == "Elon Mask") {
+                    Elon.push(dataAll.house[i])
+                } else if (dataAll.house[i].House_name == "Mark Zuckerberg") {
+                    Mark.push(dataAll.house[i])
+                }
+
+            }
+            for (let i = 0; i < Bill.length; i++) {
+                point_bill = point_bill + Bill[i].House_MemberPoint
+
             }
 
-        }
-        for (let i = 0; i < Bill.length; i++) {
-            point_bill = point_bill + Bill[i].House_MemberPoint
+            for (let i = 0; i < Larry.length; i++) {
+                point_larry = point_larry + Larry[i].House_MemberPoint
+            }
 
-        }
+            for (let i = 0; i < Elon.length; i++) {
+                point_elon = point_elon + Elon[i].House_MemberPoint
+            }
 
-        for (let i = 0; i < Larry.length; i++) {
-            point_larry = point_larry + Larry[i].House_MemberPoint
-        }
+            for (let i = 0; i < Mark.length; i++) {
+                point_mark = point_mark + Mark[i].House_MemberPoint
+            }
+            House_Point[0].point = point_bill
+            House_Point[1].point = point_larry
+            House_Point[2].point = point_elon
+            House_Point[3].point = point_mark
 
-        for (let i = 0; i < Elon.length; i++) {
-            point_elon = point_elon + Elon[i].House_MemberPoint
-        }
+            //console.log(House_Point)
+            for (let i = 0; i < House_Point.length; i++) {
+                myFunction3()
+                table_house += '<tbody><tr><th scope="row">' + (i + 1) + '</th><td>' + House_Point[i].name + '</td><td>' + House_Point[i].point + '</td></tr><tbody>'
+                document.getElementById("table_house").innerHTML = table_house
+            }
 
-        for (let i = 0; i < Mark.length; i++) {
-            point_mark = point_mark + Mark[i].House_MemberPoint
-        }
-        House_Point[0].point= point_bill
-        House_Point[1].point= point_larry
-        House_Point[2].point= point_elon
-        House_Point[3].point= point_mark
 
-        //console.log(House_Point)
-        for(let i=0;i< House_Point.length ; i++){
-            myFunction3()
-            table_house += '<tbody><tr><th scope="row">'+(i+1)+'</th><td>'+House_Point[i].name+'</td><td>' + House_Point[i].point + '</td></tr><tbody>'
-            document.getElementById("table_house").innerHTML = table_house
         }
         function myFunction3() {
             House_Point.sort(function (a, b) { return b.point - a.point });
-            //console.log(Member)
         }
-    
+
         // ####################OPEN EVENT########################
 
         upcoming()
         function upcoming() {
             let display_OpenEvent = ""
             if (dataAll.openevent.length < 4) {
-                for (let i = 0; i < dataAll.openevent.length; i++) {
-                    display_OpenEvent += '<div class="card"  style="max-width: 25%; height="200"><img class="card-img-top rounded mx-auto d-block"  src="' + dataAll.openevent[i].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/:' + dataAll.openevent[i].OpenEvent_ID + '">' + dataAll.openevent[i].OpenEvent_Name + '</a><p class="card-text">ภาคการศึกษา : ' + dataAll.openevent[i].OpenEvent_Semeter + '<br>' + 'วันที่ : ' + dataAll.openevent[i].OpenEvent_StartDate + '<br>สถานที่ : ' + dataAll.openevent[i].OpenEvent_Location + '</p></div></div>'
-                    document.getElementById("display_card").innerHTML = display_OpenEvent
                     myFunction1()
+                for (let i = 0; i < dataAll.openevent.length; i++) {
+                    display_OpenEvent += '<div class="card"  style="max-width: 25%; ><img class="card-img-top rounded mx-auto d-block" height="150" src="' + dataAll.openevent[i].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/' + dataAll.openevent[i].OpenEvent_ID + '">' + dataAll.openevent[i].OpenEvent_Name + '</a><p class="card-text">ภาคการศึกษา : ' + dataAll.openevent[i].OpenEvent_Semeter + '<br>' + 'วันที่ : ' + dataAll.openevent[i].OpenEvent_StartDate + '<br>คะแนน : '+dataAll.openevent[i].OpenEvent_Point+'<br>สถานที่ : ' + dataAll.openevent[i].OpenEvent_Location + '</p></div></div>'
+                    document.getElementById("display_card").innerHTML = display_OpenEvent
                 }
             } else {
-                for (let i = 0; i < 4; i++) {
-                    display_OpenEvent += '<div class="card"  style="max-width: 25%; "  ><img class="card-img-top rounded mx-auto d-block " height="200" src="' + dataAll.openevent[i].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/:' + dataAll.openevent[i].OpenEvent_ID + '">' + dataAll.openevent[i].OpenEvent_Name + '</a><p class="card-text">ภาคการศึกษา : ' + dataAll.openevent[i].OpenEvent_Semeter + '<br>' + 'วันที่ : ' + dataAll.openevent[i].OpenEvent_StartDate + '<br>สถานที่ : ' + dataAll.openevent[i].OpenEvent_Location + '</p></div></div>'
-                    document.getElementById("display_card").innerHTML = display_OpenEvent
                     myFunction1()
+                for (let i = 0; i < 4; i++) {
+                    display_OpenEvent += '<div class="card"  style="max-width: 25%; "  ><img class="card-img-top rounded mx-auto d-block " height="150" src="' + dataAll.openevent[i].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/' + dataAll.openevent[i].OpenEvent_ID + '">' + dataAll.openevent[i].OpenEvent_Name + '</a><p class="card-text">ภาคการศึกษา : ' + dataAll.openevent[i].OpenEvent_Semeter + '<br>' + 'วันที่ : ' + dataAll.openevent[i].OpenEvent_StartDate + '<br>คะแนน : '+dataAll.openevent[i].OpenEvent_Point+'<br>สถานที่ : ' + dataAll.openevent[i].OpenEvent_Location + '</p></div></div>'
+                    document.getElementById("display_card").innerHTML = display_OpenEvent
                 }
             }
         };
         function myFunction1() {
-            dataAll.openevent.sort(function (a, b) { return a.OpenEvent_StartDate - b.OpenEvent_StartDate });
+            dataAll.openevent.sort(function (a, b) { return b.OpenEvent_StartDate - a.OpenEvent_StartDate });
             //console.log(Member)
         }
 
@@ -426,15 +429,15 @@
             let display_Reward = ""
             if (dataAll.reward.length <= 3) {
                 for (let i = 0; i < dataAll.reward.length; i++) {
-                    display_Reward += '<div class="card  " style="max-width: 25%;"><img class="card-img-top rounded mx-auto d-block" src="' + dataAll.reward[i].Reward_Photo + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayReward/:' + dataAll.reward[i].Reward_ID + '">' + dataAll.reward[i].Reward_Name + '</a><p class="card-text">จำนวนคงเหลือ : ' + dataAll.reward[i].Reward_Quantity + '<br>คะแนนที่ใช้ : ' + dataAll.reward[i].Reward_Point + '</p></div></div>'
                     Function2()
+                    display_Reward += '<div class="card  " style="max-width: 25%;"><img class="card-img-top rounded mx-auto d-block" height="150" src="' + dataAll.reward[i].Reward_Photo + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayReward/' + dataAll.reward[i].Reward_ID + '">' + dataAll.reward[i].Reward_Name + '</a><p class="card-text">จำนวนคงเหลือ : ' + dataAll.reward[i].Reward_Quantity + '<br>คะแนนที่ใช้ : ' + dataAll.reward[i].Reward_Point + '</p></div></div>'
                     document.getElementById("display_reward").innerHTML = display_Reward
                 }
             } else {
                 for (let i = 0; i < 4; i++) {
-                    display_Reward += '<div class="card  " style="max-width: 25%;"><img class="card-img-top rounded mx-auto d-block" height="200" src="' + dataAll.reward[i].Reward_Photo + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayReward/:' + dataAll.reward[i].Reward_ID + '">' + dataAll.reward[i].Reward_Name + '</a><p class="card-text">จำนวนคงเหลือ : ' + dataAll.reward[i].Reward_Quantity + '<br>คะแนนที่ใช้ : ' + dataAll.reward[i].Reward_Point + '</p></div></div>'
-                    document.getElementById("display_reward").innerHTML = display_Reward
                     Function2()
+                    display_Reward += '<div class="card  " style="max-width: 25%;"><img class="card-img-top rounded mx-auto d-block" height="150" src="' + dataAll.reward[i].Reward_Photo + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayReward/' + dataAll.reward[i].Reward_ID + '">' + dataAll.reward[i].Reward_Name + '</a><p class="card-text">จำนวนคงเหลือ : ' + dataAll.reward[i].Reward_Quantity + '<br>คะแนนที่ใช้ : ' + dataAll.reward[i].Reward_Point + '</p></div></div>'
+                    document.getElementById("display_reward").innerHTML = display_Reward
                 }
             }
         };

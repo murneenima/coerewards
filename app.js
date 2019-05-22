@@ -394,7 +394,7 @@ app.get('/Main', (req, res) => {
                     data.reward = dataReward
                     data.name = name
 
-                    House.find({},(err,dataHouse)=>{
+                    House.find({}, (err, dataHouse) => {
                         data.house = dataHouse
 
                         res.render('admin_Main.hbs', {
@@ -402,7 +402,7 @@ app.get('/Main', (req, res) => {
                         })
                     }, (err) => {
                         res.status(400).send(err)
-                    }) 
+                    })
                 })
             })
         })
@@ -874,36 +874,36 @@ app.post('/member/:edit', (req, res, next) => {
         }).then((dataMember) => {
             data.member = dataMember
 
-            JoinEvent.find({Member_ID:id},(err,data)=>{
+            JoinEvent.find({ Member_ID: id }, (err, data) => {
                 if (err) console.log(err)
-            }).then((dataJoinEvent)=>{
+            }).then((dataJoinEvent) => {
                 data.joinevent = dataJoinEvent
 
-                JoinBehavior.find({Member_ID:id},(err,data)=>{
-                    if(err) console.log(err)
-                }).then((dataJoinBehavior)=>{
+                JoinBehavior.find({ Member_ID: id }, (err, data) => {
+                    if (err) console.log(err)
+                }).then((dataJoinBehavior) => {
                     data.joinbehavior = dataJoinBehavior
 
-                    RedeemReward.find({Member_ID:id},(err,data)=>{
-                        if(err) console.log(err)
-                    }).then((dataRedeemReward)=>{
+                    RedeemReward.find({ Member_ID: id }, (err, data) => {
+                        if (err) console.log(err)
+                    }).then((dataRedeemReward) => {
                         data.redeemreward = dataRedeemReward
 
-                        Year.find({},(err,data)=>{
+                        Year.find({}, (err, data) => {
                             if (err) console.log(err)
-                        }).then((dataYear)=>{
+                        }).then((dataYear) => {
                             data.year = dataYear
-                            
+
                             res.render('admin_MemberEdit.hbs', {
                                 data: encodeURI(JSON.stringify(data))
                             })
                         }, (err) => {
                             res.status(400).send(err)
-                        }) 
+                        })
                     })
                 })
             })
-            
+
         })
     } else {
         res.redirect('/login')
@@ -921,7 +921,7 @@ app.post('/member/edit/data', (req, res) => {
             d.Member_House = req.body.Member_House
             d.Member_Status = req.body.Member_Status
             d.Member_Name = req.body.Member_Name
-    
+
             d.save().then((success) => {
                 console.log(' **** Success to edit Member ****')
                 Member.find({}, (err, dataMember) => {
@@ -1132,6 +1132,109 @@ app.post('/event/edit/:id', (req, res) => {
         res.redirect('/login')
     }
 
+})
+
+app.post('/editEventContent', upload.single('photos'), function (req, res) {
+    if (req.session.displayName) {
+        let img_base64 = ""
+        let id = req.body.Event_ID
+
+        if (req.file == undefined) {
+            console.log('didnot change file')
+
+            AllEvent.findOne({ AllEvent_ID: id }).then((d) => {
+                d.AllEvent_Name = req.body.Event_Name
+                d.AllEvent_Point = req.body.Event_Point
+                d.AllEvent_Semeter = req.body.Event_Semester
+                d.EventType_ID = req.body.Event_Type
+                d.CreatedBy_ID = req.body.Event_CreatedBy
+                d.AllEvent_Location = req.body.Event_Location
+                d.AllEvent_Descrip = req.body.Event_Description
+
+                d.save().then((success) => {
+                    console.log('#### Finish to edit EVENT Content')
+                    res.redirect('/AllEvent')
+                }, (e) => {
+                    res.status(400).send(e)
+                }, (err) => {
+                    res.status(400).send(err)
+                })
+            })
+
+        } else {
+            console.log('==== Have picture file =====')
+            image2base64(req.file.path).then((response) => {
+                img_base64 = "data:" + req.file.mimetype + ";base64," + response
+
+                AllEvent.findOne({ AllEvent_ID: id }).then((d) => {
+                    d.AllEvent_Name = req.body.Event_Name
+                    d.AllEvent_Point = req.body.Event_Point
+                    d.AllEvent_Semeter = req.body.Event_Semester
+                    d.EventType_ID = req.body.Event_Type
+                    d.CreatedBy_ID = req.body.Event_CreatedBy
+                    d.AllEvent_Picture = img_base64
+                    d.AllEvent_Location = req.body.Event_Location
+                    d.AllEvent_Descrip = req.body.Event_Description
+
+                    d.save().then((success) => {
+                        console.log('#### Finish to edit EVENT Content')
+                        res.redirect('/AllEvent')
+                    }, (e) => {
+                        res.status(400).send(e)
+                    }, (err) => {
+                        res.status(400).send(err)
+                    })
+                })
+
+
+            }).catch((error) => {
+                console.log(error); //Exepection error....
+            })
+        }
+
+    } else {
+        res.redirect('/login')
+    }
+})
+
+app.get('/displayOpenEvnt/:id' , function (req,res){
+    if(req.session.displayName){
+        let id =req.params.id
+        let data ={}
+        //console.log(id)
+        OpenEvent.find({OpenEvent_ID:id},(err,dataEvent)=>{
+            if(err) console.log(err)
+        }).then((data1)=>{
+            data.event = data1
+
+            CreatedBy.find({}, (err, data) => {
+                if (err) console.log(err)
+            }).then((createdby) => {
+                data.createdby = createdby
+
+                EventType.find({}, (err, data) => {
+                    if (err) console.log(err)
+                }).then((eventtype) => {
+                    data.eventtype = eventtype
+
+                    Year.find({}, (err, data) => {
+                        if (err) console.log(err)
+                    }).then((year) => {
+                        data.year = year
+
+                        res.render('admin_EventOpenDetail.hbs', {
+                            data: encodeURI(JSON.stringify(data))
+                        })
+                    }, (err) => {
+                        res.status(400).send(err)
+                    })
+                })
+            })
+            
+        })
+    }else{
+        res.redirect('/login')
+    }
 })
 
 var j = schedule.scheduleJob('* * * * *', function () {
@@ -1496,6 +1599,7 @@ app.post('/saveReward', upload.single('photos'), function (req, res) {
 app.post('/rewardedit/:id', (req, res) => {
     if (req.session.displayName) {
         let id = req.params.id
+        console.log(id)
         Reward.find({ Reward_ID: req.params.id }, (err, dataReaward) => {
             if (err) console.log(err)
         }).then((dataReward) => {
@@ -1551,6 +1655,23 @@ app.post('/saveEditReward', upload.single('photos'), function (req, res) {
         res.redirect('/login')
     }
 
+})
+
+app.get('/displayReward/:id', function (req, res) {
+    if (req.session.displayName) {
+        let id = req.params.id
+
+        Reward.find({ Reward_ID: id }, (err, dataReaward) => {
+            if (err) console.log(err)
+        }).then((dataReward) => {
+            res.render('admin_RewardEdit.hbs', {
+                dataReward: encodeURI(JSON.stringify(dataReward))
+            })
+        })
+
+    } else {
+        res.redirect('/login')
+    }
 })
 
 // บันทึกข้อมูลการแลกของรางวัล
@@ -1731,7 +1852,7 @@ app.post('/IncEventIndividual', (req, res) => {
         let newJoinEvent = new JoinEvent({
             Member_ID: req.body.Member_ID,
             OpenEvent_ID: req.body.OpenEvent_ID,
-            OpenEvent_Name:req.body.OpenEvent_Name,
+            OpenEvent_Name: req.body.OpenEvent_Name,
             OpenEvent_Point: req.body.OpenEvent_Point,
             JoinEvent_Date: date_save,
             JoinEvent_Admin: req.session.displayName,
@@ -1753,12 +1874,12 @@ app.post('/IncEventIndividual', (req, res) => {
                     d2.save().then((success) => {
                         console.log(' **** Success to edit Member_Point ****')
 
-                        House.findOne({House_MemberID:id}).then((house)=>{
+                        House.findOne({ House_MemberID: id }).then((house) => {
                             let house_member_point = parseFloat(house.House_MemberPoint)
                             let point = parseFloat(req.body.OpenEvent_Point)
                             house.House_MemberPoint = house_member_point + point;
 
-                            house.save().then((success)=>{
+                            house.save().then((success) => {
                                 console.log('@@@@ Update POINT in House table @@@@')
                                 res.redirect('/IncreasePoint')
 
@@ -1790,7 +1911,7 @@ app.post('/DecBehaviorIndividual', (req, res) => {
             Behavior_ID: req.body.Behavior_ID,
             Behavior_Point: req.body.Behavior_Point,
             JoinBehavior_Date: date_save,
-            Behavior_Name:req.body.Behavior_Name,
+            Behavior_Name: req.body.Behavior_Name,
             JoinBehavior_Admin: req.session.displayName,
             JoinBehavior_Year: academic_year
 
@@ -1812,12 +1933,12 @@ app.post('/DecBehaviorIndividual', (req, res) => {
                     d2.save().then((success) => {
                         console.log(' **** Success to edit Member_Point ****')
 
-                        House.findOne({House_MemberID:id}).then((house)=>{
+                        House.findOne({ House_MemberID: id }).then((house) => {
                             let house_member_point = parseFloat(house.House_MemberPoint)
                             let point = parseFloat(req.body.Behavior_Point)
                             house.House_MemberPoint = house_member_point - point;
 
-                            house.save().then((success)=>{
+                            house.save().then((success) => {
                                 console.log('@@@@ Update POINT in House table @@@@')
                                 res.redirect('/DecreasePoint')
 
@@ -1827,7 +1948,7 @@ app.post('/DecBehaviorIndividual', (req, res) => {
                         }, (err) => {
                             res.status(400).send(err)
                         })
-                        
+
                     })
             })
         }, (err) => {
@@ -1849,7 +1970,7 @@ app.post('/savePointByGroup', function (req, res) {
             Member_ID: req.body.id,
             OpenEvent_ID: req.body.id_event,
             OpenEvent_Point: req.body.point_event,
-            OpenEvent_Name:req.body.event_name,
+            OpenEvent_Name: req.body.event_name,
             JoinEvent_Date: date_save,
             JoinEvent_Admin: req.session.displayName,
             JoinEvent_Year: academic_year
@@ -1871,12 +1992,12 @@ app.post('/savePointByGroup', function (req, res) {
                         console.log(' **** Success to save Member_Point ****')
 
 
-                        House.findOne({House_MemberID:id}).then((house)=>{
+                        House.findOne({ House_MemberID: id }).then((house) => {
                             let house_member_point = parseFloat(house.House_MemberPoint)
                             let point = parseFloat(req.body.point_event)
                             house.House_MemberPoint = house_member_point + point;
 
-                            house.save().then((success)=>{
+                            house.save().then((success) => {
                                 console.log('@@@@ Update POINT in House table @@@@')
                                 res.redirect('/IncreasePoint')
                             })
@@ -1907,7 +2028,7 @@ app.post('/saveDecPointGroup', function (req, res) {
             Behavior_ID: req.body.id_behavior,
             Behavior_Point: req.body.point_behavior,
             JoinBehavior_Date: date_save,
-            Behavior_Name:req.body.behavior_name,
+            Behavior_Name: req.body.behavior_name,
             JoinBehavior_Admin: req.session.displayName,
             JoinBehavior_Year: academic_year
 
@@ -1927,13 +2048,13 @@ app.post('/saveDecPointGroup', function (req, res) {
                     d2.Member_Available = available - eventpoint,
                     d2.save().then((success) => {
                         console.log(' **** Success to ลบ Member_Point ****')
-                        
-                        House.findOne({House_MemberID:id}).then((house)=>{
+
+                        House.findOne({ House_MemberID: id }).then((house) => {
                             let house_member_point = parseFloat(house.House_MemberPoint)
                             let point = parseFloat(req.body.point_behavior)
                             house.House_MemberPoint = house_member_point - point;
 
-                            house.save().then((success)=>{
+                            house.save().then((success) => {
                                 console.log('@@@@ Update POINT in House table @@@@')
                                 res.redirect('/DecreasePoint')
 
@@ -2025,8 +2146,8 @@ app.get('/send_House', function (req, res, next) {
     });
 })
 //ข้อมูล ประวัติการแลกของรางวัล
-app.get('/send_RedeemReward',function (req,res, next){
-    RedeemReward.find({}).exec(function (error,redeemreward){
+app.get('/send_RedeemReward', function (req, res, next) {
+    RedeemReward.find({}).exec(function (error, redeemreward) {
         if (error) {
             res.send(error);
         } else {
@@ -2036,8 +2157,8 @@ app.get('/send_RedeemReward',function (req,res, next){
 })
 
 // ข้อมูลพฤติกรรม
-app.get('/send_Behavior',function (req,res, next){
-    Behavior.find({}).exec(function (error,Behavior){
+app.get('/send_Behavior', function (req, res, next) {
+    Behavior.find({}).exec(function (error, Behavior) {
         if (error) {
             res.send(error);
         } else {
@@ -2047,8 +2168,8 @@ app.get('/send_Behavior',function (req,res, next){
 })
 
 // ข้อมูลการเข้าร่วมกิจกรรมของนักศึกษา (Join Event)
-app.get('/send_JoinEvent',function (req,res, next){
-    JoinEvent.find({}).exec(function (error,JoinEvent){
+app.get('/send_JoinEvent', function (req, res, next) {
+    JoinEvent.find({}).exec(function (error, JoinEvent) {
         if (error) {
             res.send(error);
         } else {
@@ -2058,11 +2179,11 @@ app.get('/send_JoinEvent',function (req,res, next){
 })
 
 // ข้อมูลการทำผิด (Join  Behavior)
-app.get('/send_BehaviorHistory',function(req,res,next){
-    JoinBehavior.find({}).exec(function (error,JoinBehavior){
-        if(error){
+app.get('/send_BehaviorHistory', function (req, res, next) {
+    JoinBehavior.find({}).exec(function (error, JoinBehavior) {
+        if (error) {
             res.send(error);
-        }else{
+        } else {
             res.json(Joi)
         }
     })

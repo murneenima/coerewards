@@ -189,92 +189,15 @@
             </div>
 
             <div class="row">
-                <div class="container mt-2">
-                    <div class="card-deck m-3">
-                        <div class="card">
-                            <img class="card-img-top" src="http://fiscalsystems.wpengine.com/wp-content/uploads/2013/10/EVENTS.png" alt="Card image cap">
-                            <div class="card-body">
-                                <a href="#">Card Title</a>
-                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.
-                                    This content is a little bit longer.</p>
-
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img class="card-img-top" src="http://fiscalsystems.wpengine.com/wp-content/uploads/2013/10/EVENTS.png" alt="Card image cap">
-                            <div class="card-body">
-                                <a href="#">Card Title</a>
-                                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img class="card-img-top" src="http://fiscalsystems.wpengine.com/wp-content/uploads/2013/10/EVENTS.png" alt="Card image cap">
-                            <div class="card-body">
-                                <a href="#">Card Title</a>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
-                                    This card has even longer content than the first to show that equal height action.</p>
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="container mt-2">
-                    <div class="card-deck m-3">
-                        <div class="card">
-                            <img class="card-img-top" src="http://fiscalsystems.wpengine.com/wp-content/uploads/2013/10/EVENTS.png" alt="Card image cap">
-                            <div class="card-body">
-                                <a href="#">Card Title</a>
-                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.
-                                    This content is a little bit longer.</p>
-
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img class="card-img-top" src="http://fiscalsystems.wpengine.com/wp-content/uploads/2013/10/EVENTS.png" alt="Card image cap">
-                            <div class="card-body">
-                                <a href="#">Card Title</a>
-                                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img class="card-img-top" src="http://fiscalsystems.wpengine.com/wp-content/uploads/2013/10/EVENTS.png" alt="Card image cap">
-                            <div class="card-body">
-                                <a href="#">Card Title</a>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
-                                    This card has even longer content than the first to show that equal height action.</p>
-
-                            </div>
-                        </div>
-                    </div>
-
+                <div class="container mt-2" id="event_card">
                 </div>
             </div>
 
-            <div class="row mt-3 d-flex justify-content-center">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link" href="#">Previous</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">1</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">2</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">3</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+          <div class="row m-3 d-flex justify-content-between">
+                            <button type="button" onclick="prevPage()"  class="btn btn-outline-info btn-lg" id="btn_prev">Prev</button>
+                            <span style="font-weight: bold;" id="page"></span>
+                            <button type="button" onclick="nextPage()"  class="btn btn-outline-info btn-lg" id="btn_next">Next</button>
+                    </div>
 
         </div>
     </div>
@@ -297,17 +220,90 @@
         });
         document.getElementById("username").innerHTML = "User : "+ name
 
-        var data = "{{dataEvent}}"
+        var data = "{{data}}"
         var data2 = JSON.parse(decodeURI(data))
         var Event = [];
         var username = data2.name
+        var current_page = 1;
+        var records_per_page = 9;
 
-        //console.log(data2)
+
         for (let i = 0; i < data2.length; i++) {
             Event.push(data2[i])
         }
-        console.log(name)
-        //console.log(Event)
+        console.log(Event)
+
+        function sort_date() {
+            Event.sort(function (a, b) { return a.OpenEvent_StartDate - b.OpenEvent_StartDate });
+            //console.log(Member)
+        }
+
+        // ==========================Display data==================================
+        function prevPage(){  
+            if (current_page > 1) {
+                current_page--;
+                changePage(current_page);
+            }
+        }
+
+        function nextPage(){
+            if (current_page < numPages()) {
+                current_page++;
+                changePage(current_page);
+            }
+        }
+
+        function changePage(page){
+            var btn_next = document.getElementById("btn_next");
+            var btn_prev = document.getElementById("btn_prev");
+            let event_card = ""     
+            var page_span = document.getElementById("page");
+
+            // Validate page
+            if (page < 1) page = 1;
+            if (page > numPages()) page = numPages();
+
+            document.getElementById("event_card").innerHTML = ""; // แสดงผลข้อมูลตารางให้ว่าง
+
+            for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < Event.length; i++) {
+            
+                sort_date()
+                if(i%3 == 0){
+                    event_card += '<div class="card-deck m-3"><div class="card  " style="max-width: 30%;"><img class="card-img-top rounded mx-auto d-block" height="180" src="' + Event[i].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/' + Event[i].OpenEvent_ID + '">' + Event[i].OpenEvent_Name + '</a><p class="card-text">จำนวนคะแนน : ' + Event[i].OpenEvent_Point + '<br>วันเริ่มกิจกรรม : ' + Event[i].OpenEvent_StartDate +  '</p></div></div>'
+
+                }else if(i%3 == 2){
+                    event_card += '<div class="card  " style="max-width: 30%;"><img class="card-img-top rounded mx-auto d-block" height="180"  src="' + Event[i].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/' + Event[i].OpenEvent_ID + '">' + Event[i].OpenEvent_Name + '</a><p class="card-text">จำนวนคะแนน : ' + Event[i].OpenEvent_Point + '<br>วันเริ่มกิจกรรม : ' + Event[i].OpenEvent_StartDate +'</p></div></div></div>'
+
+                }else {
+                    event_card += '<div class="card  " style="max-width: 30%;"><img class="card-img-top rounded mx-auto d-block" height="180"  src="' + Event[i].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/' + Event[i].OpenEvent_ID + '">' + Event[i].OpenEvent_Name + '</a><p class="card-text">จำนวนคะแนน : ' + Event[i].OpenEvent_Point + '<br>วันเริ่มกิจกรรม : ' + Event[i].OpenEvent_StartDate +  '</p></div></div>'
+
+                } 
+                document.getElementById("event_card").innerHTML = event_card
+
+           
+            }
+            page_span.innerHTML = "Page " + page; // แสดงผลหน้า
+
+            if (page == 1) {
+                btn_prev.style.visibility = "hidden";
+            } else {
+                btn_prev.style.visibility = "visible";
+            }
+
+            if (page == numPages()) {
+                btn_next.style.visibility = "hidden";
+            } else {
+                btn_next.style.visibility = "visible";
+            }
+        }
+
+        function numPages(){
+            return Math.ceil(Event.length / records_per_page);
+        }
+
+        window.onload = function() {
+            changePage(1);
+        };
     </script>
 </body>
 
