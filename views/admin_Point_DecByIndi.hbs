@@ -155,7 +155,7 @@
 
         <!-- Page Content  -->
         <div id="content">
-            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>  
+            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 
@@ -336,6 +336,26 @@
         </div>
     </div>
 
+    {{!-- ########### No ID ############# --}}
+    <div class="modal" id="error_data" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p style="color: rgb(0, 0, 0);">Can't find data from ID, Please inter the correct ID.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Okay</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     {{!-- ############################################################################################################# --}}
 
@@ -352,21 +372,14 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-        document.getElementById("username").innerHTML = "User : "+ name
-        
+        document.getElementById("username").innerHTML = "User : " + name
+
         var data2 = "{{data}}"
         var data = JSON.parse(decodeURI(data2))
         var Behavior = []
-        var Member = [];
         for (let i = 0; i < data.Behavior.length; i++) {
             Behavior.push(data.Behavior[i])
         }
-        for (let i = 0; i < data.Member.length; i++) {
-            Member.push(data.Member[i])
-        }
-        //console.log(Behavior)
-        //console.log(Member)
-
         for (let i = 0; i < Behavior.length; i++) {
             document.getElementById("Behavior_ID").value = Behavior[0].Behavior_ID
             document.getElementById("Behavior_Name").value = Behavior[0].Behavior_Name
@@ -375,24 +388,40 @@
         }
         document.getElementById("button_save").disabled = true
 
+
+
         function search_id() {
-            document.getElementById("Member_ID").value = null
-            document.getElementById("Member_Name").value = null
-            document.getElementById("Member_Lastname").value = null
-            document.getElementById("Member_House").value = null
+            document.getElementById("Member_ID").value = ''
+            document.getElementById("Member_Name").value = ''
+            document.getElementById("Member_Lastname").value = ''
+            document.getElementById("Member_House").value = ''
 
             let id = document.getElementById("SearchData").value
             // console.log(id)
-            for (let i = 0; i < Member.length; i++) {
-                if (Member[i].Member_ID == id) {
-                    //console.log(Member[i].Member_ID)
-                    document.getElementById("Member_ID").value = Member[i].Member_ID
-                    document.getElementById("Member_Name").value = Member[i].Member_Name
-                    document.getElementById("Member_Lastname").value = Member[i].Member_Lastname
-                    document.getElementById("Member_House").value = Member[i].Member_House
-                    document.getElementById("button_save").disabled = false
-                    return 0;
+            let Member = [];
+            for (let i = 0; i < data.Member.length; i++) {
+                if (data.Member[i].Member_ID == id) {
+                    Member.push(data.Member[i])
                 }
+            }
+            if (Member.length == 1) {
+                document.getElementById("button_save").disabled = false
+
+                document.getElementById("Member_ID").value = Member[0].Member_ID
+                document.getElementById("Member_Name").value = Member[0].Member_Name
+                document.getElementById("Member_Lastname").value = Member[0].Member_Lastname
+                document.getElementById("Member_House").value = Member[0].Member_House
+
+                 return 0;
+            } else if (Member.length == 0) {
+                $('#error_data').modal({});
+                 document.getElementById("button_save").disabled = true
+                document.getElementById("Member_ID").value = ''
+                document.getElementById("Member_Name").value = ''
+                document.getElementById("Member_Lastname").value = ''
+                document.getElementById("Member_House").value = ''
+                 return 0;
+
             }
         }
     </script>

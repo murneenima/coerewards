@@ -279,7 +279,12 @@
         var Member = [];
         
         // =====================================
-        function prevPage(){  
+
+        if(data_Member.length == 0){
+            document.getElementById("btn_prev").hidden = true
+            document.getElementById("btn_next").hidden = true
+        }else{
+            function prevPage(){  
             if (current_page > 1) {
                 current_page--;
                 changePage(current_page);
@@ -333,6 +338,8 @@
         window.onload = function() {
             changePage(1);
         };
+        }
+        
         // ========================================
         for (let i = 0; i < data_Member.length; i++) {
             Member.push(data_Member[i])

@@ -155,7 +155,7 @@
 
         <!-- Page Content  -->
         <div id="content">
-            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>  
+            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 
@@ -381,8 +381,8 @@
         </div>
     </div>
 
-    {{!-- ################### Modal ######################### --}}
-    <div class="modal" id="myModal" tabindex="-1" role="dialog">
+    { {{!-- ########### No ID ############# --}}
+    <div class="modal" id="error_data" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -392,10 +392,10 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Please enter the correct ID.</p>
+                    <p style="color: rgb(0, 0, 0);">Can't find data from ID, Please inter the correct ID.</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Okay</button>
                 </div>
             </div>
         </div>
@@ -417,20 +417,18 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-        document.getElementById("username").innerHTML = "User : "+ name
+        document.getElementById("username").innerHTML = "User : " + name
 
         var data2 = "{{data}}"
         var data = JSON.parse(decodeURI(data2))
         var Event = []
-        var Member = [];
+
         for (let i = 0; i < data.OpenEvent.length; i++) {
             Event.push(data.OpenEvent[i])
         }
-        for (let i = 0; i < data.Member.length; i++) {
+        /*for (let i = 0; i < data.Member.length; i++) {
             Member.push(data.Member[i])
-        }
-        console.log(Event)
-        console.log(Member)
+        }*/
 
         for (let i = 0; i < Event.length; i++) {
             document.getElementById("OpenEvent_ID").value = Event[0].OpenEvent_ID
@@ -454,23 +452,26 @@
 
             let id = document.getElementById("SearchData").value
             // console.log(id)
-            for (let i = 0; i < Member.length; i++) {
-                if (Member[i].Member_ID === id) {
+            let Member = [];
+            for (let i = 0; i < data.Member.length; i++) {
+                if (data.Member[i].Member_ID === id) {
                     //console.log(Member[i].Member_ID)
-                    document.getElementById("Member_ID").value = Member[i].Member_ID
-                    document.getElementById("Member_Name").value = Member[i].Member_Name
-                    document.getElementById("Member_Lastname").value = Member[i].Member_Lastname
-                    document.getElementById("Member_House").value = Member[i].Member_House
-                    document.getElementById("button_save").disabled = false
-                    
+                    Member.push(data.Member[i])
                 }
-                /*else {
-                            if (id !== Member[i].Member_ID) {
-                                $('#myModal').modal('show')
-                                return false;
-                            }
-                        } */
-
+            }
+            if (Member.length == 1) {
+                document.getElementById("Member_ID").value = Member[0].Member_ID
+                document.getElementById("Member_Name").value = Member[0].Member_Name
+                document.getElementById("Member_Lastname").value = Member[0].Member_Lastname
+                document.getElementById("Member_House").value = Member[0].Member_House
+                document.getElementById("button_save").disabled = false
+            } else if (Member.length == 0) {
+                $('#error_data').modal({});
+                document.getElementById("button_save").disabled = true
+                document.getElementById("Member_ID").value = ''
+                document.getElementById("Member_Name").value = ''
+                document.getElementById("Member_Lastname").value = ''
+                document.getElementById("Member_House").value = ''
             }
         }
     </script>

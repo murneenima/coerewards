@@ -56,7 +56,8 @@ var JoinEvent = require('./Model/JoinEventModel')
 var JoinBehavior = require('./Model/JoinBehaviorModal')
 var Year = require('./Model/YearModel')
 var Admin = require('./Model/AdminModel')
-var RedeemReward = require('./Model/RedeemRewardMode')
+var RedeemReward = require('./Model/RedeemRewardModel')
+var Alumni = require('./Model/AlumniModel')
 
 //=========================================
 mongoose.connect('mongodb://localhost:27017/DBcoe').then((doc) => {
@@ -114,9 +115,16 @@ app.get('/forAdmin', (req, res) => {
 // 2 Alumni 
 app.get('/Alumni', (req, res) => {
     let name = req.session.displayName
+    let data = {}
     if (req.session.displayName) {
-        res.render('admin_Alumni.hbs', {
-            data: encodeURI(JSON.stringify(name))
+            data.name = name
+        Alumni.find({},(err,data)=>{
+            if(err) console.log(err)
+        }).then((dataAlumni)=>{
+            data.alumni = dataAlumni
+            res.render('admin_Alumni.hbs', {
+                data: encodeURI(JSON.stringify(data))
+            })
         })
     } else {
         res.redirect('/login')
@@ -942,6 +950,81 @@ app.post('/member/edit/data', (req, res) => {
     }
 })
 
+app.post('/moveMember', (req, res) => {
+    if (req.session.displayName) {
+        console.log('Move House')
+        console.log(req.body.idMember)
+        console.log(req.body.houseMember)
+
+        Member.findOne({ Member_ID: req.body.idMember }).then((d) => {
+            d.Member_House = req.body.houseMember
+
+            d.save().then((success) => {
+                console.log(' **** Success to Move HOUSE ****')
+
+                House.findOne({ House_MemberID: req.body.idMember }).then((d2) => {
+                    d2.House_name = req.body.houseMember
+
+                    d2.save().then((success) => {
+                        console.log(' **** Success to edit HOUSE name ****')
+
+                    }, (e) => {
+                        res.status(400).send(e)
+                    }, (err) => {
+                        res.status(400).send(err)
+                    })
+                })
+
+            }, (e) => {
+                res.status(400).send(e)
+            }, (err) => {
+                res.status(400).send(err)
+            })
+        })
+
+    } else {
+        res.redirect('/login')
+    }
+})
+
+app.post('/moveToAlumni', (req, res) => {
+    if (req.session.displayName) {
+        console.log(req.body.idMember)
+        Member.findOne({ Member_ID: req.body.idMember }).then((d2) => {
+            let newAlumni = new Alumni({
+                Alumni_Profile:     d2.Member_Profile,
+                Alumni_ID:          d2.Member_ID,
+                Alumni_Password:    d2.Member_Password,
+                Alumni_Name:        d2.Member_Name,
+                Alumni_Lastname:    d2.Member_Lastname,
+                Alumni_Total:       d2.Member_Total,
+                Alumni_Available:   d2.Member_Available,
+                Alumni_House:       d2.Member_House,
+                Alumni_Tel:         d2.Member_Tel,
+                Alumni_Admin:       d2.Member_Admin,
+            })
+
+            newAlumni.save().then((doc) => {
+                console.log('@@@ Moving Member to ALUMNI @@@')
+
+                House.deleteOne({ House_MemberID: req.body.idMember }).then((data) => {
+                    console.log('!!!!!! Remove DATA in HOUSE success !!!!!!')
+
+                    Member.deleteOne({ Member_ID: req.body.idMember }).then((member) => {
+                        res.redirect('/MemberAll')
+                        console.log('!!!!!! Remove DATA in MEMBER success !!!!!!')
+                        
+                    }, (err) => {
+                        res.status(400).send(err)
+                    })
+                })
+            })
+
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
 // ============== Event Type ===================
 app.post('/saveEventType', (req, res) => {
     if (req.session.displayName) {
@@ -1197,14 +1280,14 @@ app.post('/editEventContent', upload.single('photos'), function (req, res) {
     }
 })
 
-app.get('/displayOpenEvnt/:id' , function (req,res){
-    if(req.session.displayName){
-        let id =req.params.id
-        let data ={}
+app.get('/displayOpenEvnt/:id', function (req, res) {
+    if (req.session.displayName) {
+        let id = req.params.id
+        let data = {}
         //console.log(id)
-        OpenEvent.find({OpenEvent_ID:id},(err,dataEvent)=>{
-            if(err) console.log(err)
-        }).then((data1)=>{
+        OpenEvent.find({ OpenEvent_ID: id }, (err, dataEvent) => {
+            if (err) console.log(err)
+        }).then((data1) => {
             data.event = data1
 
             CreatedBy.find({}, (err, data) => {
@@ -1230,9 +1313,9 @@ app.get('/displayOpenEvnt/:id' , function (req,res){
                     })
                 })
             })
-            
+
         })
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
@@ -2184,7 +2267,7 @@ app.get('/send_BehaviorHistory', function (req, res, next) {
         if (error) {
             res.send(error);
         } else {
-            res.json(Joi)
+            res.json(JoinBehavior)
         }
     })
 })

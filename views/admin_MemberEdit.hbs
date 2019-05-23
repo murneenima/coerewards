@@ -23,6 +23,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
     <style>
+
     </style>
 
 
@@ -195,12 +196,13 @@
                                     data-toggle='modal' data-target='#edit' onclick="ShowModal_Edit()">Edit Profile</button>
                             </div>
                             <div class="row mt-2  d-flex justify-content-center">
-
                                 <button class='btn btn-primary btn-sm btn-block' data-title='Delete' data-toggle='modal' data-target='#delete' onclick="ShowModal()">Reset Password</button>
-
                             </div>
                             <div class="row mt-2 d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary btn-sm btn-block">ย้ายบ้าน</button>
+                                <button class='btn btn-primary btn-sm btn-block' data-title='Move' data-toggle='modal' data-target='#move' onclick="ShowModalMove()">ย้ายบ้าน</button>
+                            </div>
+                            <div class="row mt-2 d-flex justify-content-center">
+                                <button class='btn btn-primary btn-sm btn-block' data-title='Alumni' data-toggle='Alumni' data-target='#Alumni' onclick="ShowModalAlumni()">Alumni</button>
                             </div>
                         </div>
                         {{!-- data --}}
@@ -422,9 +424,9 @@
                                         </div>
                                         <div class="col">
                                             <select class="form-control" id="Member_Status1" name="Member_Status1" required>
-                                                <option value="">Please select</option>
+                                                <option value="" selected disabled>Please select</option>
                                                 <option value="Active">Active</option>
-                                                <option value="Alumni">Alumni</option>
+                                                {{!-- <option value="Alumni">Alumni</option> --}}
                                             </select>
                                         </div>
 
@@ -465,6 +467,81 @@
                         <div class="modal-footer ">
 
                             <button onclick="POST_Reset()" type="submit" class="btn btn-success">
+                                <span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                <span class="glyphicon glyphicon-remove"></span> No</button>
+
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+
+            {{!-- ############################# ย้ายบ้าน ################# --}}
+            <div class="modal fade" id="move" data-curid="" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </button>
+                            <h4 class="modal-title custom_align" style="color:red;font-weight: bold;" id="Heading">Please Select House </h4>
+                        </div>
+                        <!--///////////////// Form Edit ///////////////////////////-->
+                        <div class="modal-body">
+                            <form action="http://localhost:3000/moveMember" method="post">
+                                <div class="container">
+                                    <div class="row m-4">
+                                        <div class="col">
+                                            <label for="House">Status :</label>
+                                        </div>
+                                        <div class="col">
+                                            <select class="form-control" id="Member_MoveHouse" name="Member_MoveHouse" required>
+                                                <option value="" selected disabled>Please select</option>
+                                                <option value="Bill Gates">Bill Gates</option>
+                                                <option value="Larry Page">Larry Page</option>
+                                                <option value="Elon Mask">Elon Mask</option>
+                                                <option value="Mark Zuckerberg">Mark Zuckerberg</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="modal-footer ">
+                                        <button type="button" class="btn btn-warning btn-lg" onclick="POST_Move()" style="width: 100%;">
+                                            <span class="glyphicon glyphicon-ok-sign"></span> Update</button>
+                                    </div>
+
+                                </div>
+                            </form>
+
+                        </div>
+
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+
+            {{!-- ############################# Alumni ################# --}}
+            <div class="modal fade" id="Alumni" data-curid="" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </button>
+                            <h4 class="modal-title custom_align" style="color:red;font-weight: bold;" id="Heading">Attention !</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="alert alert-danger">
+                                <span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to moving this member to Alumni ?</div>
+                        </div>
+                        <div class="modal-footer ">
+
+                            <button onclick="POST_Alumni()" type="submit" class="btn btn-success">
                                 <span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">
                                 <span class="glyphicon glyphicon-remove"></span> No</button>
@@ -666,6 +743,41 @@
                     })
                 }
             })
+
+            // ================================== ย้ายบ้าน =============================
+
+            function POST_Move() {
+                let idMember = Member[0].Member_ID
+                let houseMember = document.getElementById("Member_MoveHouse").value
+                console.log('id will move House ' + idMember)
+                $.ajax('http://localhost:3000/moveMember', {
+                    data: JSON.stringify({ idMember,houseMember }),
+                    contentType: 'application/json',
+                    type: 'POST',
+                })
+                location.reload();
+            }
+            function ShowModalMove(index) {
+                $('#move').data('curid', index); // curid = index
+                $('#move').modal('show');
+            }
+
+            // ================================= Alumni =====================================
+             function POST_Alumni() {
+                let idMember = Member[0].Member_ID
+                console.log('id will move to Alumni ' + idMember)
+                $.ajax('http://localhost:3000/moveToAlumni', {
+                    data: JSON.stringify({ idMember }),
+                    contentType: 'application/json',
+                    type: 'POST',
+                })
+                location.href = 'http://localhost:3000/MemberAll';
+            }
+            function ShowModalAlumni(index) {
+                $('#Alumni').data('curid', index); // curid = index
+                $('#Alumni').modal('show');
+            }
+
         </script>
 </body>
 

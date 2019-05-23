@@ -147,7 +147,7 @@
 
         <!-- Page Content  -->
         <div id="content">
-            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>  
+            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 
@@ -200,9 +200,9 @@
                         </table>
                     </div>
                     <div class="row m-3 d-flex justify-content-between">
-                            <button type="button" onclick="prevPage()"  class="btn btn-outline-info btn-lg" id="btn_prev">Prev</button>
-                            <span style="font-weight: bold;" id="page"></span>
-                            <button type="button" onclick="nextPage()"  class="btn btn-outline-info btn-lg" id="btn_next">Next</button>
+                        <button type="button" onclick="prevPage()" class="btn btn-outline-info btn-lg" id="btn_prev">Prev</button>
+                        <span style="font-weight: bold;" id="page"></span>
+                        <button type="button" onclick="nextPage()" class="btn btn-outline-info btn-lg" id="btn_next">Next</button>
                     </div>
                 </div>
             </div>
@@ -222,7 +222,7 @@
             });
         });
 
-        document.getElementById("username").innerHTML = "User : "+ name
+        document.getElementById("username").innerHTML = "User : " + name
         var current_page = 1;
         var records_per_page = 20;
 
@@ -230,68 +230,68 @@
         var data_Larry = JSON.parse(decodeURI(dataHouse))
         var House_Larry = [];
 
-        if(data_Larry.length == 0){
+        if (data_Larry.length == 0) {
             document.getElementById("btn_prev").hidden = true
             document.getElementById("btn_next").hidden = true
-    
-        }else{
-             // ==============Display data================
-        function prevPage(){  
-            if (current_page > 1) {
-                current_page--;
-                changePage(current_page);
-            }
-        }
 
-        function nextPage(){
-            if (current_page < numPages()) {
-                current_page++;
-                changePage(current_page);
-            }
-        }
+        } else {
 
-        function changePage(page){
-            var btn_next = document.getElementById("btn_next");
-            var btn_prev = document.getElementById("btn_prev");
-            let display_MemberAll = "<thead><th>No</th><th>Member ID</th><th>Name</th><th>Last Name</th><th>Total Point</th><th>Available Point</th></thead>";
-            var page_span = document.getElementById("page");
-
-            // Validate page
-            if (page < 1) page = 1;
-            if (page > numPages()) page = numPages();
-
-            document.getElementById("member_larry").innerHTML = ""; // แสดงผลข้อมูลตารางให้ว่าง
-
-            for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < data_Larry.length; i++) {
-                display_MemberAll += "<tbody><tr><td>" + (i + 1) + "</td><td>" + data_Larry[i].Member_ID + "</td><td>" + data_Larry[i].Member_Name + "</td><td>" + data_Larry[i].Member_Lastname + "</td><td>" + data_Larry[i].Member_Total + "</td><td>" + data_Larry[i].Member_Available + "</td></tr></tbody>"
-                document.getElementById("member_larry").innerHTML = display_MemberAll
-            }
-            page_span.innerHTML = "Page " + page; // แสดงผลหน้า
-
-            if (page == 1) {
-                btn_prev.style.visibility = "hidden";
-            } else {
-                btn_prev.style.visibility = "visible";
+            function prevPage() {
+                if (current_page > 1) {
+                    current_page--;
+                    changePage(current_page);
+                }
             }
 
-            if (page == numPages()) {
-                btn_next.style.visibility = "hidden";
-            } else {
-                btn_next.style.visibility = "visible";
+            function nextPage() {
+                if (current_page < numPages()) {
+                    current_page++;
+                    changePage(current_page);
+                }
             }
+
+            function changePage(page) {
+                var btn_next = document.getElementById("btn_next");
+                var btn_prev = document.getElementById("btn_prev");
+                let display_MemberAll = "<thead><th>No</th><th>Member ID</th><th>Name</th><th>Last Name</th><th>Total Point</th><th>Available Point</th></thead>";
+                var page_span = document.getElementById("page");
+
+                // Validate page
+                if (page < 1) page = 1;
+                if (page > numPages()) page = numPages();
+
+                document.getElementById("member_larry").innerHTML = ""; // แสดงผลข้อมูลตารางให้ว่าง
+
+                for (var i = (page - 1) * records_per_page; i < (page * records_per_page) && i < data_Larry.length; i++) {
+                    display_MemberAll += "<tbody><tr><td>" + (i + 1) + "</td><td>" + data_Larry[i].Member_ID + "</td><td>" + data_Larry[i].Member_Name + "</td><td>" + data_Larry[i].Member_Lastname + "</td><td>" + data_Larry[i].Member_Total + "</td><td>" + data_Larry[i].Member_Available + "</td></tr></tbody>"
+                    document.getElementById("member_larry").innerHTML = display_MemberAll
+                }
+                page_span.innerHTML = "Page " + page; // แสดงผลหน้า
+
+                if (page == 1) {
+                    btn_prev.style.visibility = "hidden";
+                } else {
+                    btn_prev.style.visibility = "visible";
+                }
+
+                if (page == numPages()) {
+                    btn_next.style.visibility = "hidden";
+                } else {
+                    btn_next.style.visibility = "visible";
+                }
+            }
+
+            function numPages() {
+                return Math.ceil(data_Larry.length / records_per_page);
+            }
+
+            window.onload = function () {
+                changePage(1);
+            };
         }
 
-        function numPages(){
-            return Math.ceil(data_Larry.length / records_per_page);
-        }
 
-        window.onload = function() {
-            changePage(1);
-        };
-        }
 
-        
-        
 
         document.getElementById("total").innerHTML = "Member Total = " + data_Larry.length
 
