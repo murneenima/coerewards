@@ -224,21 +224,6 @@
                     </div>
                     <div class="row m-4">
                         <div class="col-2">
-                            <label for="House">House</label>
-                        </div>
-                        <div class="col-3">
-                            <select class="form-control" id="Member_House" name="Member_House" required>
-                                <option value="" disabled selected>Please select</option>
-                                <option value="Bill Gates">Bill Gates</option>
-                                <option value="Larry Page">Larry Page</option>
-                                <option value="Elon Mask">Elon Mask</option>
-                                <option value="Mark Zuckerberg">Mark Zuckerberg</option>
-                            </select>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                        <div class="col-2">
                             <label for="House">Tel</label>
                         </div>
                         <div class="col-3">
@@ -248,6 +233,18 @@
                         <div class="col-1">
                             <h4>*</h4>
                         </div>
+                        <div class="col-2">
+                            <label for="House">House</label>
+                        </div>
+                        <div class="col-3">
+                            <select class="form-control" id="Member_House" name="Member_House" required>
+                               
+                            </select>
+                        </div>
+                        <div class="col-1">
+                            <h4>*</h4>
+                        </div>
+                        
                     </div>
                     <div class="row m-4">
                         <div class="col-2">
@@ -264,7 +261,7 @@
                             <label for="House">Profile</label>
                         </div>
                         <div class="col-3">
-                            <input type="file" onchange="previewFile()" id="photos" name="photos" multiple required accept=".png, .jpg, .jpeg">
+                            <input type="file" onchange="previewFile()" id="photos" name="photos" multiple  accept=".png, .jpg, .jpeg">
                             <img src="" height="200" alt=""> {{!--
                             <input type="submit" value="upload"> --}}
                         </div>
@@ -302,9 +299,43 @@
                 $('#sidebar').toggleClass('active');
             });
         });
+        var data2 ="{{data}}"
+        var data = JSON.parse(decodeURI(data2))
         var imageURL = ""
+        let option_house = '<option value="" disabled selected>Please select</option>'
+        console.log(data)
+        document.getElementById("username").innerHTML = "User : " + data.name
 
-        document.getElementById("username").innerHTML = "User : " + name
+        let count_bill = 0;
+        let count_larry = 0;
+        let count_elon = 0;
+        let count_mark = 0;
+        for(let i=0 ;i<data.house.length ; i++){
+            if(data.house[i].House_name == "Bill Gates"){
+                count_bill ++ 
+
+            }
+            if(data.house[i].House_name == "Larry Page"){
+                count_larry ++        
+            }
+            if(data.house[i].House_name == "Elon Mask"){
+                count_elon ++ 
+            }
+            if(data.house[i].House_name == "Mark Zuckerberg"){
+                count_mark ++ 
+            }
+        }
+        console.log(count_bill)
+        console.log(count_larry)
+        console.log(count_elon)
+        console.log(count_mark)
+
+        option_house += '<option value="Bill Gates">Bill Gates ( Total '+count_bill+' )</option>'
+        option_house += '<option value="Larry Page">Larry Page ( Total '+count_larry+' )</option>'
+        option_house += '<option value="Elon Mask">Elon Mask ( Total '+count_elon+' )</option>'
+        option_house += '<option value="Mark Zuckerberg">Mark Zuckerberg ( Total '+count_mark+' )</option>'
+
+        document.getElementById("Member_House").innerHTML = option_house
         function previewFile() {
             var preview = document.querySelector('img');
             var file = document.querySelector('input[type=file]').files[0];

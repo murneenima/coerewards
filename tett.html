@@ -1,39 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Document</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Success</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+        crossorigin="anonymous">
+    <style>
+        @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+        h4 {
+            color: crimson;
+        }
+
+        p {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1em;
+            font-weight: 300;
+            line-height: 1.7em;
+            color: #999;
+        }
+    </style>
 </head>
 <body>
+    <div class="container d-flex justify-content-center align-items-center" >
+        <div class="row mt-5 ">
 
-    <img src="data:image/jpg;base64, NDc2OTA1MjRfMjM2OTg4Njk1OTkwNTk0M184MjkwMjQwNTkwMzQ3NDczNjE4X24uanBn" alt="">
-	<script>
-		function convertFileToBase64viaFileReader(url, callback){
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'blob';
-    xhr.onload = function() {
-      var reader  = new FileReader();
-      reader.onloadend = function () {
-          callback(reader.result);
-      }
-      reader.readAsDataURL(xhr.response);
-    };
-    xhr.open('GET', url);
-    xhr.send();
-}
-convertFileToBase64viaFileReader('http://bit.ly/18g0VNp', function(base64Img){
-    // Base64DataURL
-});
-
-/*
-function sortNumber(a, b) {
-    return b - a;
-}
-
-Point.sort(sortNumber);
-*/
-		</script>
+            <div class="alert alert-success" role="alert" style="height:100%; width:500px;" >
+                <h3 class="alert-heading">Succes !</h3>
+                <p style="font-size: 20px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลนักศึกษาลงฐานข้อมูลสำเร็จ !</p>
+                <hr>
+                <p class="d-flex justify-content-end">
+                        <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/MemberInsert" role="button">ตกลง</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="line"></div>
 </body>
+
 </html>

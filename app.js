@@ -41,6 +41,7 @@ const upload = multer({
 })
 
 //var upload = multer({ dest: 'uploads/' })
+//==================================
 
 //===================================
 const MemberRounter = require('./member')
@@ -443,8 +444,17 @@ app.get('/MemberAll', (req, res) => {
 //25 admin_MemberInsert.hbs
 app.get('/MemberInsert', (req, res) => {
     let name = req.session.displayName
+    let data = {}
     if (req.session.displayName) {
-        res.render('admin_MemberInsert.hbs', {})
+        data.name = name
+        House.find({}, (err, data) => {
+            if (err) console.log(err)
+        }).then((dataHouse) => {
+            data.house = dataHouse
+            res.render('admin_MemberInsert.hbs', {
+                data: encodeURI(JSON.stringify(data))
+            })
+        })
     } else {
         res.redirect('/login')
     }
@@ -779,6 +789,7 @@ app.get('/logout', function (req, res) {
 // ==================== save data and upload photo =====================
 app.post('/save', upload.single('photos'), function (req, res) {
     if (req.session.displayName) {
+        let member_profile = "https://www.sccpre.cat/mypng/full/8-87398_computer-icons-login-person-black-black-and-white.png"
         let data = {};
         //console.log(req.file)
         let point = req.body.Member_Point
@@ -812,57 +823,181 @@ app.post('/save', upload.single('photos'), function (req, res) {
 
 
                     if (req.file == undefined) {
-                        res.render('admin_errorFile.hbs')
-                        return 0;
-                    } else {
-                        image2base64(req.file.path) // you can also to use url
-                            .then(
-                                (response) => {
-                                    img_base64 = "data:" + req.file.mimetype + ";base64," + response
-                                    //console.log(response); //cGF0aC90by9maWxlLmpwZw==
-                                    bcrypt.hash(req.body.Member_ID, 10, (err, hash) => {
-                                        if (err) {
-                                            return res.status(500).json({
-                                                error: err
-                                            })
-                                        } else {
-                                            let newMember = new Member({
-                                                Member_ID: req.body.Member_ID,
-                                                Member_Password: hash,
-                                                Member_Name: req.body.Member_Name,
-                                                Member_Lastname: req.body.Member_Lastname,
-                                                Member_House: req.body.Member_House,
-                                                Member_Profile: img_base64,
-                                                Member_Tel: req.body.Member_Tel,
-                                                Member_Total: point,
-                                                Member_Available: point,
-                                                Member_Admin: req.session.displayName
-                                            })
+                        bcrypt.hash(req.body.Member_ID, 10, (err, hash) => {
+                            if (err) {
+                                return res.status(500).json({
+                                    error: err
+                                })
+                            } else {
+                                let newMember = new Member({
+                                    Member_ID: req.body.Member_ID,
+                                    Member_Password: hash,
+                                    Member_Name: req.body.Member_Name,
+                                    Member_Lastname: req.body.Member_Lastname,
+                                    Member_House: req.body.Member_House,
+                                    Member_Profile: member_profile,
+                                    Member_Tel: req.body.Member_Tel,
+                                    Member_Total: point,
+                                    Member_Available: point,
+                                    Member_Admin: req.session.displayName
+                                })
 
-                                            newMember.save().then((doc1) => {
+                                newMember.save().then((doc1) => {
 
-                                                let newHouse = new House({
-                                                    House_name: req.body.Member_House,
-                                                    House_MemberID: req.body.Member_ID,
-                                                    House_MemberPoint: point
-                                                })
+                                    let newHouse = new House({
+                                        House_name: req.body.Member_House,
+                                        House_MemberID: req.body.Member_ID,
+                                        House_MemberPoint: point
+                                    })
 
-                                                newHouse.save().then((doc) => {
+                                    newHouse.save().then((doc) => {
 
-                                                    res.render('admin_MemberInsert.hbs', {})
-                                                }, (err) => {
-                                                    //res.render('admin_error.hbs',{})
-                                                    res.status(400).send(err)
-                                                })
-                                            })
-                                        }
+                                        // res.render('admin_MemberInsert.hbs', {})
+                                        res.send(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <meta charset="utf-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                    
+                        <title>Success</title>
+                    
+                        <!-- Bootstrap CSS CDN -->
+                        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                            crossorigin="anonymous">
+                        <style>
+                            @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                            h4 {
+                                color: crimson;
+                            }
+                    
+                            p {
+                                font-family: 'Poppins', sans-serif;
+                                font-size: 1.1em;
+                                font-weight: 300;
+                                line-height: 1.7em;
+                                color: #999;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="container d-flex justify-content-center align-items-center">
+                            <div class="row mt-5 ">
+                    
+                                <div class="alert alert-success" role="alert" style="height:100%; width:500px;">
+                                    <h3 class="alert-heading">Succes !</h3>
+                                    <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลนักศึกษาลงฐานข้อมูลสำเร็จ !</p>
+                                    <hr>
+                                    <p class="d-flex justify-content-end">
+                                            <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/MemberInsert" role="button">ตกลง</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="line"></div>
+                    </body>
+                    
+                    </html>
+                    `)
+                                    }, (err) => {
+                                        //res.render('admin_error.hbs',{})
+                                        res.status(400).send(err)
                                     })
                                 })
-                            .catch(
-                                (error) => {
-                                    console.log(error);
+                            }
+                        })
+                    } else {
+                        image2base64(req.file.path).then((response) => {
+                            img_base64 = "data:" + req.file.mimetype + ";base64," + response
+                            //console.log(response); //cGF0aC90by9maWxlLmpwZw==
+                            bcrypt.hash(req.body.Member_ID, 10, (err, hash) => {
+                                if (err) {
+                                    return res.status(500).json({
+                                        error: err
+                                    })
+                                } else {
+                                    let newMember = new Member({
+                                        Member_ID: req.body.Member_ID,
+                                        Member_Password: hash,
+                                        Member_Name: req.body.Member_Name,
+                                        Member_Lastname: req.body.Member_Lastname,
+                                        Member_House: req.body.Member_House,
+                                        Member_Profile: img_base64,
+                                        Member_Tel: req.body.Member_Tel,
+                                        Member_Total: point,
+                                        Member_Available: point,
+                                        Member_Admin: req.session.displayName
+                                    })
+
+                                    newMember.save().then((doc1) => {
+
+                                        let newHouse = new House({
+                                            House_name: req.body.Member_House,
+                                            House_MemberID: req.body.Member_ID,
+                                            House_MemberPoint: point
+                                        })
+
+                                        newHouse.save().then((doc) => {
+
+                                            // res.render('admin_MemberInsert.hbs', {})
+                                            res.send(`
+                                        <!DOCTYPE html>
+                                        <html>
+                                        <head>
+                                            <meta charset="utf-8">
+                                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                                        
+                                            <title>Success</title>
+                                        
+                                            <!-- Bootstrap CSS CDN -->
+                                            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                                                crossorigin="anonymous">
+                                            <style>
+                                                @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                                                h4 {
+                                                    color: crimson;
+                                                }
+                                        
+                                                p {
+                                                    font-family: 'Poppins', sans-serif;
+                                                    font-size: 1.1em;
+                                                    font-weight: 300;
+                                                    line-height: 1.7em;
+                                                    color: #999;
+                                                }
+                                            </style>
+                                        </head>
+                                        <body>
+                                            <div class="container d-flex justify-content-center align-items-center"  style="height:100%; width:500px;"  >
+                                                <div class="row mt-5 ">
+                                        
+                                                    <div class="alert alert-success" role="alert" >
+                                                        <h3 class="alert-heading">Succes !</h3>
+                                                        <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลนักศึกษาลงฐานข้อมูลสำเร็จ !</p>
+                                                        <hr>
+                                                        <p class="d-flex justify-content-end">
+                                                                <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/MemberInsert" role="button">ตกลง</a>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="line"></div>
+                                        </body>
+                                        
+                                        </html>`)
+                                        }, (err) => {
+                                            //res.render('admin_error.hbs',{})
+                                            res.status(400).send(err)
+                                        })
+                                    })
                                 }
-                            )
+                            })
+                        })
+                            .catch((error) => {
+                                console.log(error);
+                            })
                     }
 
                 }
@@ -2424,9 +2559,9 @@ app.post('/login/member', (req, res, next) => {
                     if (result) {
                         const token = jwt.sign({
                             Member_Name: member[0].Member_Name,
-                            Member_Lastname:member[0].Member_Lastname,
-                            Member_House:member[0].Member_House,
-                            Member_ID:member[0].Member_ID
+                            Member_Lastname: member[0].Member_Lastname,
+                            Member_House: member[0].Member_House,
+                            Member_ID: member[0].Member_ID
                         },
                             'secret',
                             {
@@ -2436,7 +2571,7 @@ app.post('/login/member', (req, res, next) => {
                         console.log('login success')
                         return res.status(200).json({
                             message: 'Succesful',
-                            token:token
+                            token: token
                         })
                     }
                     if (err) {
