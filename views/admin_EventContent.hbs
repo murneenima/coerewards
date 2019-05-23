@@ -199,7 +199,7 @@
                         </div>
                         <div class="col-3">
                             <select class="form-control" id="Event_Semester" name="Event_Semester" required>
-                                <option value="">Please select</option>
+                                <option value="" disabled selected>Please select</option>
                                 <option value="1">Semester 1</option>
                                 <option value="2">Semester 2</option>
                                 <option value="3">Semester 3</option>
@@ -226,7 +226,7 @@
                         </div>
                         <div class="col-3">
                             <select class="form-control" id="Event_CreatedBy" name="Event_CreatedBy" required>
-                                <option value="">Please select</option>
+                                <option value="" disabled selected >Please select</option>
                             </select>
                         </div>
                         <div class="col-1">
@@ -302,8 +302,8 @@
         var dataAll = JSON.parse(decodeURI(data))
         var EventType = [];
         var CreatedBy = [];
-        var Select_EventType = '<option value="">Please select</option>'
-        var Select_CreatedBy = '<option value="">Please select</option>'
+        var Select_EventType = '<option value="" disabled selected>Please select</option>'
+        var Select_CreatedBy = '<option value="" disabled selected>Please select</option>'
 
         for (let i = 0; i < dataAll.EventType.length; i++) {
             EventType.push(dataAll.EventType[i])
