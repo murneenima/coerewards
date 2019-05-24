@@ -23,7 +23,6 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
     <style>
-
     </style>
 
 
@@ -46,7 +45,7 @@
                     <a href="#MemberSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Member</a>
                     <ul class="collapse list-unstyled" id="MemberSubmenu">
                         <li>
-                            <a href="http://localhost:3000/MemberInsert">Insert Member</a>
+                            <a href="http://localhost:3000/MemberInsert">Add Member</a>
                         </li>
                         <li>
                             <a href="http://localhost:3000/MemberAll">All Members</a>
@@ -77,13 +76,19 @@
                             <a href="http://localhost:3000/EventContent">New Event</a>
                         </li>
                         <li>
-                            <a href="http://localhost:3000/AllEvent">All Events</a>
+                            <a href="http://localhost:3000/AllEvent">กิจกรรมที่มี</a>
                         </li>
                         <li>
-                            <a href="http://localhost:3000/EventTypeDisplay">Event Type</a>
+                            <a href="http://localhost:3000/UpcomingEvent">กิจกรรมที่เปิดแล้ว</a>
                         </li>
                         <li>
-                            <a href="http://localhost:3000/CreatedByDisplay">Created By</a>
+                            <a href="http://localhost:3000/ClosedEvent">กิจกรรมที่สิ้นสุดแล้ว</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/EventTypeDisplay">ประเภทกิจกรรม</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/CreatedByDisplay">ผู้จัดกิจกรรม</a>
                         </li>
                     </ul>
                 </li>
@@ -91,10 +96,10 @@
                     <a href="#BehaviorSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Behavior</a>
                     <ul class="collapse list-unstyled" id="BehaviorSubmenu">
                         <li>
-                            <a href="http://localhost:3000/BehaviorContent">Insert Behavior Content</a>
+                            <a href="http://localhost:3000/BehaviorContent">เพิ่มข่อมูลพฤติกรรม</a>
                         </li>
                         <li>
-                            <a href="http://localhost:3000/EditBehavior">Edit Behavior</a>
+                            <a href="http://localhost:3000/EditBehavior">ข้อมูลพฤติกรรมทั้งหมด</a>
                         </li>
                     </ul>
                 </li>
@@ -102,10 +107,10 @@
                     <a href="#PointSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Point</a>
                     <ul class="collapse list-unstyled" id="PointSubmenu">
                         <li>
-                            <a href="http://localhost:3000/IncreasePoint">Increase Point</a>
+                            <a href="http://localhost:3000/IncreasePoint">เพิ่มคะแนน</a>
                         </li>
                         <li>
-                            <a href="http://localhost:3000/DecreasePoint">Decrease Point</a>
+                            <a href="http://localhost:3000/DecreasePoint">ลบคะแนน</a>
                         </li>
                     </ul>
                 </li>
@@ -113,10 +118,10 @@
                     <a href="#RewardSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Rewards</a>
                     <ul class="collapse list-unstyled" id="RewardSubmenu">
                         <li>
-                            <a href="http://localhost:3000/rewardContent">Insert Reward Content</a>
+                            <a href="http://localhost:3000/rewardContent">เพิ่มข้อมูลของรางวัล</a>
                         </li>
                         <li>
-                            <a href="http://localhost:3000/editReward">Edit Rewards</a>
+                            <a href="http://localhost:3000/editReward">ข้อมูลของรางวัลทั้งหมด</a>
                         </li>
                         <li>
                             <a href="http://localhost:3000/RedeemRewards">Redeem Rewards</a>
@@ -124,7 +129,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="http://localhost:3000/getYear">Calender for Academic Year</a>
+                    <a href="http://localhost:3000/getYear">ปฏิทินการศึกษา</a>
                 </li>
                 <li>
                     <a href="http://localhost:3000/forAdmin">Admin</a>
@@ -139,10 +144,6 @@
                 <li>
                     <a href="http://localhost:3000/Alumni">Alumni</a>
                 </li>
-                {{!--
-                <li>
-                    <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-                </li> --}}
             </ul>
         </nav>
 
@@ -426,7 +427,8 @@
                                             <select class="form-control" id="Member_Status1" name="Member_Status1" required>
                                                 <option value="" selected disabled>Please select</option>
                                                 <option value="Active">Active</option>
-                                                {{!-- <option value="Alumni">Alumni</option> --}}
+                                                {{!--
+                                                <option value="Alumni">Alumni</option> --}}
                                             </select>
                                         </div>
 
@@ -498,11 +500,12 @@
                                         </div>
                                         <div class="col">
                                             <select class="form-control" id="Member_MoveHouse" name="Member_MoveHouse" required>
+                                                {{!--
                                                 <option value="" selected disabled>Please select</option>
                                                 <option value="Bill Gates">Bill Gates</option>
                                                 <option value="Larry Page">Larry Page</option>
                                                 <option value="Elon Mask">Elon Mask</option>
-                                                <option value="Mark Zuckerberg">Mark Zuckerberg</option>
+                                                <option value="Mark Zuckerberg">Mark Zuckerberg</option> --}}
                                             </select>
                                         </div>
 
@@ -698,7 +701,7 @@
                         } else {
                             $(this).hide()
                         }
-                        if(value == 'All'){
+                        if (value == 'All') {
                             $(this).show()
                         }
                     })
@@ -711,7 +714,7 @@
 
             for (let i = 0; i < data_All.redeemreward.length; i++) {
                 RedeemReward.push(data_All.redeemreward[i])
-                table_reward += '<tbody><tr><td>' + data_All.redeemreward[i].RedeemReward_Year + '</td><td><a href="#" class="alert-link">'+ data_All.redeemreward[i].Reward_Name + '</a></td><td class="text-center">' + data_All.redeemreward[i].Reward_Point + '</td></tr>'
+                table_reward += '<tbody><tr><td>' + data_All.redeemreward[i].RedeemReward_Year + '</td><td><a href="#" class="alert-link">' + data_All.redeemreward[i].Reward_Name + '</a></td><td class="text-center">' + data_All.redeemreward[i].Reward_Point + '</td></tr>'
 
             }
             document.getElementById("table_reward").innerHTML = table_reward
@@ -737,7 +740,7 @@
                         } else {
                             $(this).hide()
                         }
-                        if(value == 'All'){
+                        if (value == 'All') {
                             $(this).show()
                         }
                     })
@@ -751,19 +754,33 @@
                 let houseMember = document.getElementById("Member_MoveHouse").value
                 console.log('id will move House ' + idMember)
                 $.ajax('http://localhost:3000/moveMember', {
-                    data: JSON.stringify({ idMember,houseMember }),
+                    data: JSON.stringify({ idMember, houseMember }),
                     contentType: 'application/json',
                     type: 'POST',
                 })
                 location.reload();
             }
             function ShowModalMove(index) {
+                let option_movehouse = '<option value="" selected disabled>Please select</option>'
                 $('#move').data('curid', index); // curid = index
                 $('#move').modal('show');
+
+                let house2 = Member[0].Member_House
+                console.log(house2)
+                if (house2 == "Bill Gates") {
+                    option_movehouse += ' <option value="Larry Page">Larry Page</option><option value="Elon Mask">Elon Mask</option><option value="Mark Zuckerberg">Mark Zuckerberg</option>'
+                } else if (house2 == "Larry Page") {
+                    option_movehouse += ' <option value="Bill Gates">Bill Gates</option><option value="Elon Mask">Elon Mask</option><option value="Mark Zuckerberg">Mark Zuckerberg</option>'
+                } else if (house2 == "Elon Mask") {
+                    option_movehouse += ' <option value="Bill Gates">Bill Gates</option><option value="Larry Page">Larry Page</option><option value="Mark Zuckerberg">Mark Zuckerberg</option>'
+                } else if (house2 == "Mark Zuckerberg") {
+                    option_movehouse += ' <option value="Bill Gates">Bill Gates</option><option value="Larry Page">Larry Page</option><option value="Elon Mask">Elon Mask</option>'
+                }
+                document.getElementById("Member_MoveHouse").innerHTML = option_movehouse
             }
 
             // ================================= Alumni =====================================
-             function POST_Alumni() {
+            function POST_Alumni() {
                 let idMember = Member[0].Member_ID
                 console.log('id will move to Alumni ' + idMember)
                 $.ajax('http://localhost:3000/moveToAlumni', {

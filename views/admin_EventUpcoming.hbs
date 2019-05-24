@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Insert Member</title>
+    <title>กิจกรรมที่เปิดแล้ว</title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
@@ -19,14 +19,6 @@
         crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
         crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> {{!-- AJAX FORM --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i"
-        crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-        crossorigin="anonymous"></script>
-
     <style>
         h4 {
             color: crimson;
@@ -155,7 +147,6 @@
 
         <!-- Page Content  -->
         <div id="content">
-
             <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
@@ -179,115 +170,17 @@
                 </div>
             </nav>
 
-            <h2 class="m-2 p-3 mb-2 bg-info text-white">Insert Member</h2>
-            <div class="container">
-                <form action="http://localhost:3000/save" method="POST" enctype="multipart/form-data">
-                    <div class="row m-4 mt-5">
-                        <div class="col-2">
-                            <label for="StudentID">Student ID</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="tel" class="form-control" placeholder="58XXXXXX" pattern="[0-9]{8}" maxlength="8" id="Member_ID" name="Member_ID"
-                                placeholder="Student ID" required>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                        <div class="col-2">
-                            <label for="Password">Password</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="password" class="form-control" id="Member_Password" name="Member_Password" minlength="5" placeholder="Password"
-                                required>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                    </div>
-                    <div class="row m-4">
-                        <div class="col-2">
-                            <label for="FirstName">First Name</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="text" class="form-control" id="Member_Name" name="Member_Name" placeholder="First Name" required>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                        <div class="col-2">
-                            <label for="LastName">Last Name</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="text" class="form-control" id="Member_Lastname" name="Member_Lastname" placeholder="Last Name" required>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                    </div>
-                    <div class="row m-4">
-                        <div class="col-2">
-                            <label for="House">Tel</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="tel" placeholder="0888888888" pattern="[0-0]{1}[1-9]{1}[0-9]{8}" maxlength="10" title="Ten digits code"
-                                required class="form-control" id="Member_Tel" name="Member_Tel" placeholder="Telephone" required>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                        <div class="col-2">
-                            <label for="House">House</label>
-                        </div>
-                        <div class="col-3">
-                            <select class="form-control" id="Member_House" name="Member_House" required>
-                               
-                            </select>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                        
-                    </div>
-                    <div class="row m-4">
-                        <div class="col-2">
-                            <label for="Point">Point</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="number" class="form-control" id="Member_Point" name="Member_Point" placeholder="Point">
-                        </div>
+            <h2 class="m-2 p-3 mb-2 bg-info text-white">กิจกรรมที่เปิดแล้ว</h2>
+      
 
-
-                    </div>
-                    <div class="row m-4">
-                        <div class="col-2">
-                            <label for="House">Profile</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="file" onchange="previewFile()" id="photos" name="photos" multiple  accept=".png, .jpg, .jpeg">
-                            <img src="" height="200" alt=""> {{!--
-                            <input type="submit" value="upload"> --}}
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-
-                    </div>
-                    <div class="row-4 mr-3 d-flex justify-content-end">
-                        <div class="col-2">
-                            <button type="submit" value="upload" class="btn btn-primary btn-lg btn-block">Save</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
             <div class="line"></div>
 
         </div>
     </div>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
-    {{!--
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script> --}}
+        crossorigin="anonymous"></script>
     <!-- Popper.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
         crossorigin="anonymous"></script>
@@ -301,54 +194,10 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-        var data2 ="{{data}}"
+         var data2 = "{{data}}"
         var data = JSON.parse(decodeURI(data2))
-        var imageURL = ""
-        let option_house = '<option value="" disabled selected>Please select</option>'
-        //console.log(data)
+
         document.getElementById("username").innerHTML = "User : " + data.name
-
-        let count_bill = 0;
-        let count_larry = 0;
-        let count_elon = 0;
-        let count_mark = 0;
-        for(let i=0 ;i<data.house.length ; i++){
-            if(data.house[i].House_name == "Bill Gates"){
-                count_bill ++ 
-
-            }
-            if(data.house[i].House_name == "Larry Page"){
-                count_larry ++        
-            }
-            if(data.house[i].House_name == "Elon Mask"){
-                count_elon ++ 
-            }
-            if(data.house[i].House_name == "Mark Zuckerberg"){
-                count_mark ++ 
-            }
-        }
-       
-        option_house += '<option value="Bill Gates">Bill Gates ( Total '+count_bill+' )</option>'
-        option_house += '<option value="Larry Page">Larry Page ( Total '+count_larry+' )</option>'
-        option_house += '<option value="Elon Mask">Elon Mask ( Total '+count_elon+' )</option>'
-        option_house += '<option value="Mark Zuckerberg">Mark Zuckerberg ( Total '+count_mark+' )</option>'
-
-        document.getElementById("Member_House").innerHTML = option_house
-        function previewFile() {
-            var preview = document.querySelector('img');
-            var file = document.querySelector('input[type=file]').files[0];
-            var reader = new FileReader();
-
-            reader.addEventListener("load", function () {
-                preview.src = reader.result;
-                imageURL = reader.result
-            }, false);
-
-            if (file) {
-                reader.readAsDataURL(file);
-
-            }
-        }
 
     </script>
 </body>

@@ -247,6 +247,43 @@ app.get('/AllEvent', (req, res) => {
     }
 })
 
+app.get('/UpcomingEvent', (req, res) => {
+    let name = req.session.displayName
+    let data = {}
+    if (req.session.displayName) {
+        data.name = name
+        OpenEvent.find({}, (err, dataEvent) => {
+            if (err) console.log(err)
+        }).then((data) => {
+            data.openevent = data
+            res.render('admin_EventUpcoming.hbs', {
+                data: encodeURI(JSON.stringify(data))
+            })
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
+app.get('/ClosedEvent', (req, res) => {
+    let name = req.session.displayName
+    let data = {}
+    if (req.session.displayName) {
+        data.name = name
+        OpenEvent.find({}, (err, dataEvent) => {
+            if (err) console.log(err)
+        }).then((data) => {
+            data.openevent = data
+            res.render('admin_EventUpcoming.hbs', {
+                data: encodeURI(JSON.stringify(data))
+            })
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
+
 //11 admin_EventCard
 app.get('/SeeMoreEvent', (req, res) => {
     if (req.session.displayName) {
@@ -427,12 +464,20 @@ app.get('/Main', (req, res) => {
 //23 admin_MemberAll.hbs
 app.get('/MemberAll', (req, res) => {
     let name = req.session.displayName
+    let data = {}
     if (req.session.displayName) {
         Member.find({}, (err, dataMember) => {
             if (err) console.log(err)
         }).then((dataMember) => {
-            res.render('admin_MemberAll.hbs', {
-                dataMember: encodeURI(JSON.stringify(dataMember))
+            data.member = dataMember
+
+            House.find({},(err,data)=>{
+                if(err) console.log(err)
+            }).then((dataHouse)=>{
+                data.house = dataHouse 
+                res.render('admin_MemberAll.hbs', {
+                    data: encodeURI(JSON.stringify(data))
+                })
             })
         })
     } else {
