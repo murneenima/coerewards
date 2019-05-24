@@ -252,10 +252,10 @@ app.get('/UpcomingEvent', (req, res) => {
     let data = {}
     if (req.session.displayName) {
         data.name = name
-        OpenEvent.find({}, (err, dataEvent) => {
+        OpenEvent.find({}, (err, data) => {
             if (err) console.log(err)
-        }).then((data) => {
-            data.openevent = data
+        }).then((dataEvent) => {
+            data.openevent = dataEvent
             res.render('admin_EventUpcoming.hbs', {
                 data: encodeURI(JSON.stringify(data))
             })
