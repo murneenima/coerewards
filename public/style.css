@@ -1,7 +1,10 @@
 
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+@import "https://fonts.googleapis.com/css?family=Muli";
+@import "https://fonts.googleapis.com/css?family=Kanit";
 body {
-    font-family: 'Poppins', sans-serif;
+    /* font-family: 'Poppins', sans-serif; */
+    font-family: 'Kanit', sans-serif !important;
     background: #fafafa;
 }
 

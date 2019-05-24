@@ -40,7 +40,7 @@
 <body>
     <div class="wrapper">
         <!-- Sidebar  -->
-       <nav id="sidebar">
+        <nav id="sidebar">
             <div class="sidebar-header">
                 <h3>COE REWARD</h3>
             </div>
@@ -86,12 +86,6 @@
                         </li>
                         <li>
                             <a href="http://localhost:3000/AllEvent">กิจกรรมที่มี</a>
-                        </li>
-                        <li>
-                            <a href="http://localhost:3000/UpcomingEvent">กิจกรรมที่เปิดแล้ว</a>
-                        </li>
-                        <li>
-                            <a href="http://localhost:3000/ClosedEvent">กิจกรรมที่สิ้นสุดแล้ว</a>
                         </li>
                         <li>
                             <a href="http://localhost:3000/EventTypeDisplay">ประเภทกิจกรรม</a>
@@ -156,9 +150,10 @@
             </ul>
         </nav>
 
+
         <!-- Page Content  -->
         <div id="content">
-            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>  
+            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 
@@ -185,7 +180,7 @@
                 <h2 class="m-2 p-3 mb-2 bg-info text-white">Event Information</h2>
 
                 <form action="http://localhost:3000/saveOpenEvent" method="POST" enctype="multipart/form-data">
-        
+
                     <div class="row">
                         <div class="col-md-4 well text-center">
                             <div class="col-md-12 ">
@@ -199,7 +194,7 @@
                                         <h6 class="text-center">Change Picture</h6>
                                     </div>
                                     <div class="col">
-                                        <input type="file"  onchange="previewFile()"  name="photos" multiple class="form-control" accept=".png, .jpg, .jpeg">
+                                        <input type="file" onchange="previewFile()" name="photos" multiple class="form-control" accept=".png, .jpg, .jpeg">
                                     </div>
                                 </div>
                             </div>
@@ -288,7 +283,7 @@
                                 </div>
                                 <div class="col-5">
                                     <select type="text" class="form-control" id="Event_Year" name="Event_Year" required>
-                                       
+
                                     </select>
                                 </div>
                                 <div class="col-1">
@@ -378,10 +373,10 @@
         crossorigin="anonymous"></script>
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
-        crossorigin="anonymous"></script>
-        {{!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> --}}
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        crossorigin="anonymous"></script> {{!--
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> --}}
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -393,7 +388,7 @@
 
         document.getElementsByName("Event_StartDate")[0].setAttribute('min', today);
         document.getElementsByName("Event_EndDate")[0].setAttribute('min', today);
-        document.getElementById("username").innerHTML = "User : "+ name
+        document.getElementById("username").innerHTML = "User : " + name
 
         $('#Event_StartDate').change(function () {
             var start_date = $('#Event_StartDate').val();
@@ -433,7 +428,7 @@
         }
         //console.log(EventType)
 
-        var image2 = "<img id='img1'  height='200' src='"+ dataEvent[0].AllEvent_Picture + "' style='width: 80%;height: auto;margin: 20px;'>"
+        var image2 = "<img id='img1'  height='200' src='" + dataEvent[0].AllEvent_Picture + "' style='width: 80%;height: auto;margin: 20px;'>"
         document.getElementById("Event_ID").value = dataEvent[0].AllEvent_ID
         document.getElementById("Event_Name").value = dataEvent[0].AllEvent_Name
         document.getElementById("Event_Point").value = dataEvent[0].AllEvent_Point
@@ -472,7 +467,7 @@
 
             }
         }
-        
+
 
     </script>
 </body>

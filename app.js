@@ -274,7 +274,7 @@ app.get('/ClosedEvent', (req, res) => {
             if (err) console.log(err)
         }).then((data) => {
             data.openevent = data
-            res.render('admin_EventUpcoming.hbs', {
+            res.render('admin_EventClosed.hbs', {
                 data: encodeURI(JSON.stringify(data))
             })
         })

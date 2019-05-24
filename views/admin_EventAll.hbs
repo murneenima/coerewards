@@ -76,12 +76,6 @@
                             <a href="http://localhost:3000/AllEvent">กิจกรรมที่มี</a>
                         </li>
                         <li>
-                            <a href="http://localhost:3000/UpcomingEvent">กิจกรรมที่เปิดแล้ว</a>
-                        </li>
-                        <li>
-                            <a href="http://localhost:3000/ClosedEvent">กิจกรรมที่สิ้นสุดแล้ว</a>
-                        </li>
-                        <li>
                             <a href="http://localhost:3000/EventTypeDisplay">ประเภทกิจกรรม</a>
                         </li>
                         <li>
@@ -168,11 +162,18 @@
                     </div>
                 </div>
             </nav>
-            <h2 class="m-2 p-3 mb-2 bg-info text-white">All Event </h2>
+            <h2 class="m-2 p-3 mb-2 bg-info text-white">กิจกรรมที่มี</h2>
             <div class="container">
-                <div class="row mt-3 d-flex justify-content-end">
-                    <a class="btn btn-outline-info btn-lg " href="http://localhost:3000/SeeMoreEvent" role="button">Upcoming Events</a>
+                <div class="d-flex flex-row-reverse">
+                    <div class="p-2">
+                        <a class="btn btn-outline-info btn-lg " href="http://localhost:3000/UpcomingEvent" role="button">กิจกรรมที่เปิดแล้ว</a>
+                    </div>
+                    <div class="p-2">
+                        <a class="btn btn-outline-info btn-lg " href="http://localhost:3000/ClosedEvent" role="button">กิจกรรมที่สิ้นสุดแล้ว</a>
+                    </div>
+                   
                 </div>
+            
                 <div class="row mt-2">
                     <div class="container">
                         <div class="table-responsive mt-3">
