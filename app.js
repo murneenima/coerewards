@@ -1901,7 +1901,7 @@ app.get('/IncreasePointMember',(req,res)=>{
         let data ={}
             data.name = name
 
-            res.render('admin_IncPoint.hbs',{
+            res.render('admin_Point_Inc_Normal.hbs',{
                 data:encodeURI(JSON.stringify(data))
             })
     }else{
@@ -1971,9 +1971,11 @@ app.post('/DecPointHouse/:id', (req, res) => {
     if (req.session.displayName) {
         let data = {}
         let id = req.params.id
+        let name = req.session.displayName
         Behavior.find({ Behavior_ID: id }, (err, dataBehavior) => {
             if (err) console.log(err)
         }).then((dataBehavior) => {
+            data.name = name
             data.Behavior = dataBehavior
 
             Member.find({}, (err, data) => {
@@ -2020,45 +2022,48 @@ app.post('/DecPointGroup/:id', (req, res) => {
     }
 })
 
-// save คะแนนรายบ้าน
-app.post('/IncEventByHouse', (req, res) => {
+// save เพิ่มคะแนนรายบ้าน
+app.post('/saveIncEventByHouse', function (req, res){
     if (req.session.displayName) {
+        //console.log('hello')
         let date_save = moment().format('DD-MM-YYYY');
         let name = req.session.displayName
-        let newJoinEvent = new JoinEvent({
-            Member_ID: req.body.Member_ID,
-            OpenEvent_ID: req.body.OpenEvent_ID,
-            OpenEvent_Name: req.body.OpenEvent_Name,
-            OpenEvent_Point: req.body.OpenEvent_Point,
+        let event_point = req.body.point_event
+       
+        let newJoinEvent2 = new JoinEvent({
+            Member_ID: req.body.id,
+            OpenEvent_ID: req.body.id_event,
+            OpenEvent_Point: req.body.point_event,
+            OpenEvent_Name: req.body.event_name,
             JoinEvent_Date: date_save,
             JoinEvent_Admin: req.session.displayName,
             JoinEvent_Year: academic_year
         })
 
-        newJoinEvent.save().then((doc) => {
-            console.log('!!! JOIN EVENT save success !!!')
 
-            let id = req.body.Member_ID
-            //console.log(id)
+        newJoinEvent2.save().then((doc) => {
+            console.log('@@@@ save DATA in JOIN EVENT @@@@')
+
             Member.findOne({ Member_ID: id }).then((d2) => {
                 let total = parseFloat(d2.Member_Total)
                 let available = parseFloat(d2.Member_Available)
-                let eventpoint = parseFloat(req.body.OpenEvent_Point)
+                let eventpoint = parseFloat(req.body.point_event)
                 console.log(d2.Member_Total)
                 d2.Member_Total = total + eventpoint,
                     d2.Member_Available = available + eventpoint,
                     d2.save().then((success) => {
-                        console.log(' **** Success to edit Member_Point ****')
+                        console.log(d2.Member_Total)
+                        console.log(' **** Success to save Member_Point ****')
+
 
                         House.findOne({ House_MemberID: id }).then((house) => {
                             let house_member_point = parseFloat(house.House_MemberPoint)
-                            let point = parseFloat(req.body.OpenEvent_Point)
+                            let point = parseFloat(req.body.point_event)
                             house.House_MemberPoint = house_member_point + point;
 
                             house.save().then((success) => {
                                 console.log('@@@@ Update POINT in House table @@@@')
                                 res.redirect('/IncreasePoint')
-
                             })
                         }, (e) => {
                             res.status(400).send(e)
@@ -2067,7 +2072,6 @@ app.post('/IncEventByHouse', (req, res) => {
                         })
                     })
             })
-
         }, (err) => {
             res.status(400).send(err)
         })
@@ -2077,6 +2081,7 @@ app.post('/IncEventByHouse', (req, res) => {
 
 
 })
+
 // ลบคะแนนรายบุุคล
 app.post('/DecBehaviorHouse', (req, res) => {
     if (req.session.displayName) {
@@ -2134,7 +2139,8 @@ app.post('/DecBehaviorHouse', (req, res) => {
         res.redirect('/login')
     }
 })
-// เพิ่มคะแนนรายกลุ่ม
+
+// เพิ่มคะแนนรายกลุ่ม และรายบ้าน
 app.post('/savePointByGroup', function (req, res) {
     let date_save = moment().format('DD-MM-YYYY');
     let name = req.session.displayName
@@ -2191,7 +2197,7 @@ app.post('/savePointByGroup', function (req, res) {
         res.redirect('/login')
     }
 })
-// ลบคะแนนรายกลุ่ม
+// ลบคะแนนรายกลุ่ม และรายบ้าน
 app.post('/saveDecPointGroup', function (req, res) {
     let date_save = moment().format('DD-MM-YYYY');
     let name = req.session.displayName
@@ -2215,6 +2221,7 @@ app.post('/saveDecPointGroup', function (req, res) {
 
             //console.log(id)
             Member.findOne({ Member_ID: id }).then((d2) => {
+                
                 let total = parseFloat(d2.Member_Total)
                 let available = parseFloat(d2.Member_Available)
                 let eventpoint = parseFloat(req.body.point_behavior)

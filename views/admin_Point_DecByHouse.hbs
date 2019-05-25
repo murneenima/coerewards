@@ -182,249 +182,221 @@
                 <div class="row m-4">
                     <h3 class="font-weight-bold" style="text-decoration: underline;"> ข้อมูลคะแนนพฤติกรรม</h3>
                 </div>
-                <form action="http://localhost:3000/DecBehaviorHouse" method="POST">
-                    <div class="row mt-3">
-                        <div class="col-3">
-                            <div class="form-group">
-                                <label for="Event_Name">รหัสข้อมูลคะแนนพฤติกรรม :</label>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="form-group">
-                                <input type="text" name="Behavior_ID" id="Behavior_ID" class="form-control input-lg" readonly>
-                            </div>
+
+                <div class="row mt-3">
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label for="Event_Name">รหัสข้อมูลคะแนนพฤติกรรม :</label>
                         </div>
                     </div>
-                    <div class="row mt-3">
-                        <div class="col-3">
-                            <div class="form-group">
-                                <label for="Behavior_Name">ข้อมูลคะแนนพฤติกรรม :</label>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="form-group">
-                                <input type="text" name="Behavior_Name" id="Behavior_Name" class="form-control input-lg" readonly>
-                            </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <input type="text" name="Behavior_ID" id="Behavior_ID" class="form-control input-lg" readonly>
                         </div>
                     </div>
-                    <div class="row mt-3">
-                        <div class="col-3">
-                            <div class="form-group">
-                                <label for="Event_Name">คะแนน :</label>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="form-group">
-                                <input type="number" name="Behavior_Point" id="Behavior_Point" class="form-control input-lg" readonly>
-                            </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label for="Behavior_Name">ข้อมูลคะแนนพฤติกรรม :</label>
                         </div>
                     </div>
-                    <div class="row mt-1">
-                        <div class="col-3">
-                            <div class="form-group">
-                                <label for="Event_Name">คำอธิบาย :</label>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="form-group">
-                                <textarea type="text" name="Behavior_Description" id="Behavior_Description" class="form-control input-lg" rows="3" readonly></textarea>
-                            </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <input type="text" name="Behavior_Name" id="Behavior_Name" class="form-control input-lg" readonly>
                         </div>
                     </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label for="Event_Name">คะแนน :</label>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <input type="number" name="Behavior_Point" id="Behavior_Point" class="form-control input-lg" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label for="Event_Name">คำอธิบาย :</label>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <textarea type="text" name="Behavior_Description" id="Behavior_Description" class="form-control input-lg" rows="3" readonly></textarea>
+                        </div>
+                    </div>
+                </div>
             </div>
             <hr>
-            <div class="container">
-
+            <div class="container ">
                 <div class="row m-4">
                     <h3 class="font-weight-bold" style="text-decoration: underline;">เพิ่มข้อมูลสมาชิก</h3>
                 </div>
-                <div class="row ">
-                    <div class="col d-flex justify-content-end">
-                        <p>ค้นหาข้อมูลสมาชิก</p>
-                    </div>
-                    <div class="col d-flex justify-content-end">
-                        <div class="input-group">
-                            <input class="form-control border-info py-2" type="text" pattern="[0-9]{8}" maxlength="8" placeholder="Search By Id" id="SearchData">
-                            <div class="input-group-append">
-                                <button onclick="search_id()" class="btn btn-outline-secondary" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="row mt-3">
-                    <div class="container">
-                        <div class="row mt-3">
-                            <div class="col-2">
-                                <div class="form-group">
-                                    <label for="Event_Name">รหัสนักศึกษา :</label>
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="form-group">
-                                    <input type="text" name="Member_ID" id="Member_ID" class="form-control input-lg" readonly>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-2">
-                                <div class="form-group">
-                                    <label for="Event_Name">ชื่อนักศึกษา :</label>
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="form-group">
-                                    <input type="text" name="Member_Name" id="Member_Name" class="form-control input-lg" readonly>
-                                </div>
-                            </div>
-                            <div class="col-2">
-                                <div class="form-group">
-                                    <label for="Event_Name">นามสกุล :</label>
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="form-group">
-                                    <input type="text" name="Member_Lastname" id="Member_Lastname" class="form-control input-lg" readonly>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mt-1">
-                            <div class="col-2">
-                                <div class="form-group">
-                                    <label for="Event_Name">House :</label>
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="form-group">
-                                    <input type="text" name="Member_House" id="Member_House" class="form-control input-lg" readonly>
-                                </div>
-                            </div>
-                        </div>
+                <div class="row m-4 d-flex justify-content-end align-items-center">
+                    <div class="col-1">
+                        <h4 for="Event_Name">House</h4>
+                    </div>
+                    <div class="col-1/2">
+                        <h4 for="Event_Name">:</h4>
+                    </div>
+                    <div class="col-4">
+                        <select name="house" id="house" class="form-control">
+                            <option value="" disabled selected>-Please Select-</option>
+                            <option value="All" selected>All Members</option>
+                            <option value="Bill Gates">Bill Gates</option>
+                            <option value="Larry Page">Larry Page</option>
+                            <option value="Elon Musk">Elon Musk</option>
+                            <option value="Mark Zuckerberg">Mark Zuckerberg</option>
+                        </select>
                     </div>
                 </div>
                 <hr>
-                <div class="row mt-4 mr-5 justify-content-end">
+                <div class="row m-4">
+                    <table id="table_member" class="table table-bordred table-striped justify-content-center text-center">
+                        <thead class="thead-light">
+                            <th>Member ID</th>
+                            <th>Name</th>
+                            <th>Last Name</th>
+                            <th>House</th>
+                            <th>Select</th>
+                        </thead>
+                    </table>
+                </div>
+                <div class="row mt-4 mr-2 justify-content-end">
                     <div class="col-2">
-                        <button type="submit" class="btn btn-primary btn-lg btn-block" id="button_save">Save</button>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block" id="button_save">บันทึกคะแนน</button>
                     </div>
                 </div>
-                </form>
+
             </div>
         </div>
-    </div>
-
-    {{!-- ################### Modal ######################### --}}
-    <div class="modal" id="myModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Please enter the correct ID.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{!-- ########### No ID ############# --}}
-    <div class="modal" id="error_data" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p style="color: rgb(0, 0, 0);">Can't find data from ID, Please inter the correct ID.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Okay</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
-    {{!-- ############################################################################################################# --}}
 
-    <!-- Popper.JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
-        crossorigin="anonymous"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
-        crossorigin="anonymous"></script>
+        {{!-- ############################################################################################################# --}}
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar').toggleClass('active');
+        <!-- Popper.JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+            crossorigin="anonymous"></script>
+        <!-- Bootstrap JS -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+            crossorigin="anonymous"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#sidebarCollapse').on('click', function () {
+                    $('#sidebar').toggleClass('active');
+                });
             });
-        });
-        document.getElementById("username").innerHTML = "User : " + name
 
-        var data2 = "{{data}}"
-        var data = JSON.parse(decodeURI(data2))
-        var Behavior = []
-        for (let i = 0; i < data.Behavior.length; i++) {
-            Behavior.push(data.Behavior[i])
-        }
-        for (let i = 0; i < Behavior.length; i++) {
-            document.getElementById("Behavior_ID").value = Behavior[0].Behavior_ID
-            document.getElementById("Behavior_Name").value = Behavior[0].Behavior_Name
-            document.getElementById("Behavior_Point").value = Behavior[0].Behavior_Point
-            document.getElementById("Behavior_Description").value = Behavior[0].Behavior_Description
-        }
-        document.getElementById("button_save").disabled = true
+            var data2 = "{{data}}"
+            var data = JSON.parse(decodeURI(data2))
+            document.getElementById("username").innerHTML = "User : " + data.name
+            var Behavior = []
+            for (let i = 0; i < data.Behavior.length; i++) {
+                Behavior.push(data.Behavior[i])
+            }
+            for (let i = 0; i < Behavior.length; i++) {
+                document.getElementById("Behavior_ID").value = Behavior[0].Behavior_ID
+                document.getElementById("Behavior_Name").value = Behavior[0].Behavior_Name
+                document.getElementById("Behavior_Point").value = Behavior[0].Behavior_Point
+                document.getElementById("Behavior_Description").value = Behavior[0].Behavior_Description
+            }
+            document.getElementById("button_save").disabled = true
 
+            member()
+            function member() {
+                var Member = [];
+                var table_Member = '<thead class="thead-light"><tr><th scope="col">รหัสนักศึกษา</th><th scope="col">ชื่อ-นามสกุล</th><th scope="col" class="text-center">บ้าน</th><th scope="col" class="text-center">ลบ</th></tr></thead>'
 
-
-        function search_id() {
-            document.getElementById("Member_ID").value = ''
-            document.getElementById("Member_Name").value = ''
-            document.getElementById("Member_Lastname").value = ''
-            document.getElementById("Member_House").value = ''
-
-            let id = document.getElementById("SearchData").value
-            // console.log(id)
-            let Member = [];
-            for (let i = 0; i < data.Member.length; i++) {
-                if (data.Member[i].Member_ID == id) {
+                for (let i = 0; i < data.Member.length; i++) {
+                    myFunction()
                     Member.push(data.Member[i])
+                    table_Member += '<tbody><tr><td>' + data.Member[i].Member_ID + '</a></td><td class="text-center">' + data.Member[i].Member_Name + ' ' + data.Member[i].Member_Lastname + '</td><td>' + data.Member[i].Member_House + '</td><td><button type="button" class="btn btn-danger" onclick="removeSelectedRow()">Delete</button></td></tr>'
+
+                }
+                document.getElementById("table_member").innerHTML = table_Member
+            }
+
+            // select ปีการศึกษา
+            $(document).ready(function () {
+                document.getElementById("button_save").disabled = false
+                $('#house').on('change', function () {
+                    reward_select_year($(this).val())
+                    // console.log($(this).val())
+                });
+
+                function reward_select_year(value) {
+                    $('#table_member tbody').each(function () {
+                        var found = 'false';
+                        $(this).each(function () {
+                            //console.log($(this).text().toLocaleLowerCase().indexOf(value.toLocaleLowerCase()))
+                            if ($(this).text().toLocaleLowerCase().indexOf(value.toLocaleLowerCase()) >= 0) {
+                                found = 'true'
+                            }
+                        });
+                        if (found == 'true') {
+                            $(this).show()
+                        } else {
+                            $(this).hide()
+                        }
+                        if (value == 'All') {
+                            $(this).show()
+                        }
+                    })
+                }
+            })
+
+            function removeSelectedRow() {
+                let rIndex, table_data = document.getElementById("table_member");
+                for (let i = 0; i < table_data.rows.length; i++) {
+                    table_data.rows[i].onclick = function () {
+                        rIndex = this.rowIndex;
+                        // console.log(rIndex)
+                        table_data.deleteRow(rIndex);
+                    };
                 }
             }
-            if (Member.length == 1) {
-                document.getElementById("button_save").disabled = false
 
-                document.getElementById("Member_ID").value = Member[0].Member_ID
-                document.getElementById("Member_Name").value = Member[0].Member_Name
-                document.getElementById("Member_Lastname").value = Member[0].Member_Lastname
-                document.getElementById("Member_House").value = Member[0].Member_House
+            function myFunction() {
+                data.Member.sort(function (a, b) { return a.Member_ID - b.Member_ID });
+                //console.log(Member)
+            }
 
-                 return 0;
-            } else if (Member.length == 0) {
-                $('#error_data').modal({});
-                 document.getElementById("button_save").disabled = true
-                document.getElementById("Member_ID").value = ''
-                document.getElementById("Member_Name").value = ''
-                document.getElementById("Member_Lastname").value = ''
-                document.getElementById("Member_House").value = ''
-                 return 0;
+
+            $('#button_save').click(function () {
+            var dataArr = [];
+            let id_behavior = Behavior[0].Behavior_ID
+            let point_behavior = Behavior[0].Behavior_Point
+            let behavior_name = Behavior[0].Behavior_Name
+
+            $("td").each(function () {
+                dataArr.push($(this).html());
+            });
+            //console.log(dataArr)
+            //console.log(dataArr[5])
+            for (let i = 0; i < dataArr.length; i++) {
+                if (i % 4 == 0) {
+                    let id = dataArr[i]
+                    $.ajax('http://localhost:3000/saveDecPointGroup', {
+                        data: JSON.stringify({ id, id_behavior, point_behavior, behavior_name }),
+                        contentType: "application/json", // this
+                        dataType: "json",
+                        type: "POST",
+                    });
+                    location.reload();
+                }
 
             }
-        }
-    </script>
+        });
+
+        </script>
 </body>
 
 </html>

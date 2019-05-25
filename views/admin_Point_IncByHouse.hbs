@@ -32,8 +32,6 @@
             color: crimson;
         }
     </style>
-
-
 </head>
 
 <body>
@@ -152,7 +150,6 @@
             </ul>
         </nav>
 
-
         <!-- Page Content  -->
         <div id="content">
             <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>
@@ -178,11 +175,11 @@
                 </div>
             </nav>
             <h2 class="m-2 p-3 mb-2 bg-info text-white">จัดการคะแนนรายบ้าน</h2>
-            <div class="container">
+            <div class="container m-5">
                 <div class="row m-4">
                     <h3 class="font-weight-bold" style="text-decoration: underline;"> ข้อมูลกิจกรรม</h3>
                 </div>
-                <form action="http://localhost:3000/IncEventByHouse" method="POST">
+                {{!-- <form action="http://localhost:3000/IncEventByHouse" method="POST"> --}}
                     <div class="row mt-3">
                         <div class="col-2">
                             <div class="form-group">
@@ -298,7 +295,7 @@
                     </div>
             </div>
             <hr>
-            <div class="container">
+            <div class="container ">
                 <div class="row m-4">
                     <h3 class="font-weight-bold" style="text-decoration: underline;">เพิ่มข้อมูลสมาชิก</h3>
                 </div>
@@ -313,6 +310,7 @@
                    <div class="col-4">
                        <select name="house" id="house" class="form-control" >
                            <option value="" disabled selected>-Please Select-</option>
+                           <option value="All" selected>All Members</option>
                            <option value="Bill Gates">Bill Gates</option>
                            <option value="Larry Page">Larry Page</option>
                            <option value="Elon Musk">Elon Musk</option>
@@ -322,7 +320,7 @@
                </div>
 
                 <hr>
-                <div class="row">
+                <div class="row m-4">
                     <table id="table_member" class="table table-bordred table-striped justify-content-center text-center">
                         <thead class="thead-light">
                             <th>Member ID</th>
@@ -335,17 +333,15 @@
                 </div>
                 <div class="row mt-4 mr-2 justify-content-end">
                     <div class="col-2">
-                        <button type="submit" class="btn btn-primary btn-lg btn-block" id="button_save">Save</button>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block" id="button_save">บันทึกคะแนน</button>
                     </div>
                 </div>
-                </form>
+                {{!-- </form> --}}
             </div>
         </div>
     </div>
 
   
-
-
     {{!-- ############################################################################################################# --}}
 
     <!-- Popper.JS -->
@@ -388,11 +384,12 @@
         member()
         function member(){
             var Member = [];
-                var table_Member = '<thead class="thead-light"><tr><th scope="col">No</th><th scope="col">รหัสนักศึกษา</th><th scope="col">ชื่อ-นามสกุล</th><th scope="col" class="text-center">บ้าน</th><th scope="col" class="text-center">ลบ</th></tr></thead>'
+                var table_Member = '<thead class="thead-light"><tr><th scope="col">รหัสนักศึกษา</th><th scope="col">ชื่อ-นามสกุล</th><th scope="col" class="text-center">บ้าน</th><th scope="col" class="text-center">ลบ</th></tr></thead>'
 
                 for (let i = 0; i < data.Member.length; i++) {
+                    myFunction()
                     Member.push(data.Member[i])
-                    table_Member += '<tbody><tr><td>' + (i+1) + '</td><td>' + data.Member[i].Member_ID + '</a></td><td class="text-center">' + data.Member[i].Member_Name +' '+ data.Member[i].Member_Lastname+ '</td><td>'+data.Member[i].Member_House+'</td><td><button type="button" class="btn btn-danger" onclick="removeSelectedRow()">Delete</button></td></tr>'
+                    table_Member += '<tbody><tr><td>' + data.Member[i].Member_ID + '</a></td><td class="text-center">' + data.Member[i].Member_Name +' '+ data.Member[i].Member_Lastname+ '</td><td>'+data.Member[i].Member_House+'</td><td><button type="button" class="btn btn-danger" onclick="removeSelectedRow()">Delete</button></td></tr>'
 
                 }
                 document.getElementById("table_member").innerHTML = table_Member
@@ -426,6 +423,50 @@
                     })
                 }
             })
+
+            function removeSelectedRow() {
+            let rIndex, table_data = document.getElementById("table_member");
+            for (let i = 0; i < table_data.rows.length; i++) {
+                table_data.rows[i].onclick = function () {
+                    rIndex = this.rowIndex;
+                    // console.log(rIndex)
+                    table_data.deleteRow(rIndex);
+                };
+            }
+        }
+
+        function myFunction() {
+            data.Member.sort(function (a, b) { return a.Member_ID - b.Member_ID });
+            //console.log(Member)
+        }
+
+        // ====== send data to save ===========
+        $('#button_save').click(function () {
+            var dataArr = [];
+            let id_event = Event[0].OpenEvent_ID
+            let point_event = Event[0].OpenEvent_Point
+            let event_name = Event[0].OpenEvent_Name
+            //console.log(id_event)
+            $("td").each(function () {
+                dataArr.push($(this).html());
+            });
+            //console.log(dataArr)
+            //console.log(dataArr[1])
+            for (let i = 0; i < dataArr.length; i++) {
+                if (i % 4 == 0) {
+                    let id = dataArr[i]
+                    //console.log(id)
+                    $.ajax('http://localhost:3000/savePointByGroup', {
+                        data: JSON.stringify({ id, id_event, point_event,event_name }),
+                        contentType: "application/json", // this
+                        dataType: "json",
+                        type: "POST",
+                    });
+                  location.reload();
+                }
+
+            }
+        });
     </script>
 </body>
 
