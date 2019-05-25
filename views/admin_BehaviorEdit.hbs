@@ -19,9 +19,9 @@
         crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
         crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    {{!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> --}}
-    {{!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> --}}
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script> {{!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> --}} {{!--
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> --}}
 
     <style>
         h4 {
@@ -33,7 +33,7 @@
 <body>
     <div class="wrapper">
         <!-- Sidebar  -->
-       <nav id="sidebar">
+        <nav id="sidebar">
             <div class="sidebar-header">
                 <h3>COE REWARD</h3>
             </div>
@@ -103,10 +103,13 @@
                     <a href="#PointSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Point</a>
                     <ul class="collapse list-unstyled" id="PointSubmenu">
                         <li>
-                            <a href="http://localhost:3000/IncreasePoint">เพิ่มคะแนน</a>
+                            <a href="http://localhost:3000/IncreasePointMember">เพิ่มคะแนน</a>
                         </li>
                         <li>
-                            <a href="http://localhost:3000/DecreasePoint">ลบคะแนน</a>
+                            <a href="http://localhost:3000/IncreasePoint">จัดการคะแนนตามกิจกรรม</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/DecreasePoint">จัดการคะแนนตามพฤติกรรม</a>
                         </li>
                     </ul>
                 </li>
@@ -146,7 +149,7 @@
 
         <!-- Page Content  -->
         <div id="content">
-            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>  
+            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 
@@ -173,46 +176,47 @@
             <h2 class="m-2 p-3 mb-2 bg-info text-white">Edit Behavior</h2>
             <form action="http://localhost:3000/saveEditBehavior" method="post">
                 <div class="container ">
-                        <div class="row mt-3">
-                            <div class="col-2">
-                                <label for="Behavior_Name" class="col-form-label">Behavior ID</label>
-                            </div>
-                            <div class="col-6">
-                                <input class="form-control" id="Behavior_ID" name="Behavior_ID" rows="2" placeholder="ID" readonly></input>
-                            </div>
+                    <div class="row mt-3">
+                        <div class="col-2">
+                            <label for="Behavior_Name" class="col-form-label">Behavior ID</label>
                         </div>
-                        <div class="row mt-3">
-                            <div class="col-2">
-                                <label for="Behavior_Name" class="col-form-label">Behavior Name</label>
-                            </div>
-                            <div class="col-6">
-                                <textarea class="form-control" id="Behavior_Name" name="Behavior_Name" rows="2" placeholder="ชื่อพฤติกรรม"></textarea>
-                            </div>
+                        <div class="col-6">
+                            <input class="form-control" id="Behavior_ID" name="Behavior_ID" rows="2" placeholder="ID" readonly></input>
                         </div>
-                        <div class="row mt-3">
-                            <div class="col-2">
-                                <label for="Behavior_Point" class="col-form-label">Point</label>
-                            </div>
-                            <div class="col-3">
-                                <input type="number" class="form-control" id="Behavior_Point" name="Behavior_Point" placeholder="คะแนน" required>
-                            </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-2">
+                            <label for="Behavior_Name" class="col-form-label">Behavior Name</label>
                         </div>
-                        <div class="row mt-3">
-                            <div class="col-2">
-                                <label for="Behavior_Description" class="col-form-label">Description</label>
-                            </div>
-                            <div class="col-6">
-                                <textarea class="form-control" id="Behavior_Description" name="Behavior_Description" rows="3" placeholder="คำอธิบาย"></textarea>
-                            </div>
+                        <div class="col-6">
+                            <textarea class="form-control" id="Behavior_Name" name="Behavior_Name" rows="2" placeholder="ชื่อพฤติกรรม"></textarea>
                         </div>
-                        <div class="row mt-3 d-flex justify-content-end">
-                            <div class="col-2">
-                                <button type="button"  class="btn btn-primary m-2 btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">Save</button>
-                                {{!-- <button type="button" class="btn btn-danger m-2 btn-lg">Delete</button> --}}
-                            </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-2">
+                            <label for="Behavior_Point" class="col-form-label">Point</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="number" class="form-control" id="Behavior_Point" name="Behavior_Point" placeholder="คะแนน" required>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-2">
+                            <label for="Behavior_Description" class="col-form-label">Description</label>
+                        </div>
+                        <div class="col-6">
+                            <textarea class="form-control" id="Behavior_Description" name="Behavior_Description" rows="3" placeholder="คำอธิบาย"></textarea>
+                        </div>
+                    </div>
+                    <div class="row mt-3 d-flex justify-content-end">
+                        <div class="col-2">
+                            <button type="button" class="btn btn-primary m-2 btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">Save</button>
+                            {{!--
+                            <button type="button" class="btn btn-danger m-2 btn-lg">Delete</button> --}}
+                        </div>
 
-                        </div>
-                    
+                    </div>
+
 
                 </div>
 
@@ -239,7 +243,7 @@
                     </div>
                 </div>
             </form>
-        
+
 
         </div>
     </div>
@@ -257,7 +261,7 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-        document.getElementById("username").innerHTML = "User : "+ name
+        document.getElementById("username").innerHTML = "User : " + name
 
         var data = "{{dataBehavior}}"
         var dataBehavior = JSON.parse(decodeURI(data))
@@ -275,17 +279,20 @@
             document.getElementById("Behavior_Description").value = Behavior[i].Behavior_Description
         }
 
-        {{!-- function Edit_Behavior(){
-            //let index = $('#delete').data('curid')
-            let id = index
-            console.log('id will delete at ' + id)
-            $.ajax('http://localhost:3000/saveEditBehavior', {
-                data: JSON.stringify({ id }),
-                contentType: 'application/json',
-                type: 'POST',
-            })
-            //location.reload();
-        } --}}
+        {
+            {
+                !-- function Edit_Behavior() {
+                    //let index = $('#delete').data('curid')
+                    let id = index
+                    console.log('id will delete at ' + id)
+                    $.ajax('http://localhost:3000/saveEditBehavior', {
+                        data: JSON.stringify({ id }),
+                        contentType: 'application/json',
+                        type: 'POST',
+                    })
+                    //location.reload();
+                } --}
+        }
     </script>
 </body>
 

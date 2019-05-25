@@ -105,10 +105,12 @@ app.use(session({
 // ================ API Get ================
 // 1 Admin
 app.get('/forAdmin', (req, res) => {
-    let name = req.session.displayName
     if (req.session.displayName) {
+        let data ={}
+        let name = req.session.displayName
+        data.name = name
         res.render('admin_Admin.hbs', {
-            data: encodeURI(JSON.stringify(name))
+            data: encodeURI(JSON.stringify(data))
         })
     } else {
         res.redirect('/login')
@@ -117,14 +119,15 @@ app.get('/forAdmin', (req, res) => {
 
 // 2 Alumni 
 app.get('/Alumni', (req, res) => {
-    let name = req.session.displayName
-    let data = {}
     if (req.session.displayName) {
+        let name = req.session.displayName
+        let data = {}
         data.name = name
         Alumni.find({}, (err, data) => {
             if (err) console.log(err)
         }).then((dataAlumni) => {
             data.alumni = dataAlumni
+            data.name = name
             res.render('admin_Alumni.hbs', {
                 data: encodeURI(JSON.stringify(data))
             })
@@ -136,8 +139,9 @@ app.get('/Alumni', (req, res) => {
 
 // 3  Behavior_All
 app.get('/EditBehavior', (req, res) => {
-    let name = req.session.displayName
     if (req.session.displayName) {
+        let name = req.session.displayName
+        let data = {}
         Behavior.find({}, (err, dataBehavior) => {
             if (err) console.log(err)
         }).then((dataBehavior) => {
@@ -184,8 +188,8 @@ app.post('/behavior/:id', (req, res) => {
 
 //6 admin_CreatedByDisplay
 app.get('/CreatedByDisplay', (req, res) => {
-    let name = req.session.displayName
     if (req.session.displayName) {
+        let name = req.session.displayName
         CreatedBy.find({}, (err, data) => {
             if (err) console.log(err)
         }).then((dataCB) => {
@@ -200,8 +204,8 @@ app.get('/CreatedByDisplay', (req, res) => {
 
 // 7 admin_CreatedByInsert
 app.get('/CreatedByInsert', (req, res) => {
-    let name = req.session.displayName
     if (req.session.displayName) {
+        let name = req.session.displayName
         res.render('admin_CreatedByInsert.hbs', {})
     } else {
         res.redirect('/login')
@@ -210,8 +214,8 @@ app.get('/CreatedByInsert', (req, res) => {
 
 //8 admin_error
 app.get('/error', (req, res) => {
-    let name = req.session.displayName
     if (req.session.displayName) {
+        let name = req.session.displayName
         res.render('admin_error.hbs', {
             data: encodeURI(JSON.stringify(name))
         })
@@ -223,9 +227,10 @@ app.get('/error', (req, res) => {
 //9 admin_errorTel NO
 //10 admin_EventAll
 app.get('/AllEvent', (req, res) => {
-    let data = {}
-    let name = req.session.displayName
     if (req.session.displayName) {
+        let data = {}
+        let name = req.session.displayName
+
         AllEvent.find({}, (err, event) => {
             if (err) console.log(err)
         }).then((event) => {
@@ -248,11 +253,12 @@ app.get('/AllEvent', (req, res) => {
 })
 
 app.get('/UpcomingEvent', (req, res) => {
-    let name = req.session.displayName
-    let data = {}
     if (req.session.displayName) {
+        let name = req.session.displayName
+        let data = {}
+        let open = "Open_Event"
         data.name = name
-        OpenEvent.find({}, (err, data) => {
+        OpenEvent.find({OpenEvent_Status:open}, (err, data) => {
             if (err) console.log(err)
         }).then((dataEvent) => {
             data.openevent = dataEvent
@@ -266,14 +272,15 @@ app.get('/UpcomingEvent', (req, res) => {
 })
 
 app.get('/ClosedEvent', (req, res) => {
-    let name = req.session.displayName
-    let data = {}
     if (req.session.displayName) {
-        data.name = name
-        OpenEvent.find({}, (err, dataEvent) => {
+        let name = req.session.displayName
+        let data = {}
+        
+        OpenEvent.find({OpenEvent_Status : "Close_Event"}, (err, dataEvent) => {
             if (err) console.log(err)
-        }).then((data) => {
-            data.openevent = data
+        }).then((dataEvent) => {
+            data.name = name
+            data.openevent = dataEvent
             res.render('admin_EventClosed.hbs', {
                 data: encodeURI(JSON.stringify(data))
             })
@@ -283,11 +290,13 @@ app.get('/ClosedEvent', (req, res) => {
     }
 })
 
+//====================================
 
 //11 admin_EventCard
 app.get('/SeeMoreEvent', (req, res) => {
     if (req.session.displayName) {
-        OpenEvent.find({}, (err, dataEvent) => {
+        let open = "Open_Event"
+        OpenEvent.find({OpenEvent_Status:open}, (err, dataEvent) => {
             if (err) console.log(err)
         }).then((data) => {
             res.render('admin_EventCard.hbs', {
@@ -426,13 +435,14 @@ app.get('/Mark', (req, res) => {
 app.get('/Main', (req, res) => {
     let name = req.session.displayName
     let data = {}
+    let open = "Open_Event"
     if (req.session.displayName) {
         Member.find({}, (err, data) => {
             if (err) console.log(err)
         }).then((dataMember) => {
             data.member = dataMember
 
-            OpenEvent.find({}, (err, data) => {
+            OpenEvent.find({OpenEvent_Status:open}, (err, data) => {
                 if (err) console.log(err)
             }).then((dataOpenEvent) => {
                 data.openevent = dataOpenEvent
@@ -526,8 +536,9 @@ app.get('/DecreasePoint', (req, res) => {
 //27 admin_Point_Inc.hbs
 app.get('/IncreasePoint', (req, res) => {
     let name = req.session.displayName
+    let open = "Open_Event"
     if (req.session.displayName) {
-        OpenEvent.find({}, (err, dataOpenEvent) => {
+        OpenEvent.find({OpenEvent_Status:open}, (err, dataOpenEvent) => {
             if (err) console.log(err)
         }).then((dataOpenEvent) => {
             res.render('admin_Point_Inc.hbs', {
@@ -1499,7 +1510,7 @@ var j = schedule.scheduleJob('* * * * *', function () {
     // console.log(ymd)
     // console.log(time)
 
-    OpenEvent.find({ OpenEvent_StartDate: ymd, OpenEvent_StartTime: time }).then((d1) => {
+   /* OpenEvent.find({ OpenEvent_StartDate: ymd, OpenEvent_StartTime: time }).then((d1) => {
         //console.log(d)
         if (d1.length == 0) {
             return 0;
@@ -1537,7 +1548,9 @@ var j = schedule.scheduleJob('* * * * *', function () {
                 })
             }
         }
-    })
+    }) */
+
+
     Year.find({ Year_StartDate: ymd }).then((d3) => {
         for (let i = 0; i < d3.length; i++) {
             //console.log(academic_year)
@@ -1743,7 +1756,7 @@ app.get('/displayOpenEvnt/:id', function (req, res) {
         let id = req.params.id
         let data = {}
         //console.log(id)
-        OpenEvent.find({ OpenEvent_ID: id }, (err, dataEvent) => {
+        OpenEvent.find({ OpenEvent_ID: id}, (err, dataEvent) => {
             if (err) console.log(err)
         }).then((data1) => {
             data.event = data1
@@ -1778,7 +1791,31 @@ app.get('/displayOpenEvnt/:id', function (req, res) {
     }
 })
 
+// ================ ปิดกิจกรรม ====================
+// สิ้นสุดกิจกรรม
+app.post('/CloseEvent', (req,res)=>{
+    console.log(req.body.id)
+    console.log('Close Event')
 
+    OpenEvent.findOne({ OpenEvent_ID: req.body.id }).then((d1) => {
+        //console.log(d)
+        if (d1.length == 0) {
+            return 0;
+        } else {
+            console.log(d1.length)
+            
+                d1.OpenEvent_Status = "Close_Event"
+
+                d1.save().then((success) => {
+                    console.log('!! Update OPEN EVENT Status to CLOSE EVENT Success')
+                }, (e) => {
+                    res.status(400).send(e)
+                }, (err) => {
+                    res.status(400).send(err)
+                })
+        }
+    })
+})
 
 // ===================== Behavior ==================
 app.post('/saveBehavior', (req, res) => {
@@ -2110,12 +2147,28 @@ app.post('/saveRedeemReward', function (req, res) {
     }
 })
 //================== Point ===================
+// เพิ่มคะแนนแบบไม่อิงกิจกรรมหรือพฤติกรรม
+app.get('/IncreasePointMember',(req,res)=>{
+    if(req.session.displayName){
+        let name = req.session.displayName
+        let data ={}
+            data.name = name
+
+            res.render('admin_IncPoint.hbs',{
+                data:encodeURI(JSON.stringify(data))
+            })
+    }else{
+        res.redirect('/login')
+    }
+})
+
 // แสดงผลหน้า เพิ่มคะแนนรายบุคคล
 app.post('/IncPointIndividual/:id', (req, res) => {
     if (req.session.displayName) {
         let data = {}
         let id = req.params.id
-        OpenEvent.find({ OpenEvent_ID: id }, (err, dataOpenEvent) => {
+        let open = "Open_Event"
+        OpenEvent.find({ OpenEvent_ID: id ,OpenEvent_Status : open}, (err, dataOpenEvent) => {
             if (err) console.log(err)
         }).then((dataOpenEvent) => {
             data.OpenEvent = dataOpenEvent
@@ -2142,7 +2195,8 @@ app.post('/IncPointGroup/:id', (req, res) => {
     if (req.session.displayName) {
         let data = {}
         let id = req.params.id
-        OpenEvent.find({ OpenEvent_ID: id }, (err, dataOpenEvent) => {
+        let open = "Open_Event"
+        OpenEvent.find({ OpenEvent_ID: id ,OpenEvent_Status : open}, (err, dataOpenEvent) => {
             if (err) console.log(err)
         }).then((dataOpenEvent) => {
             data.OpenEvent = dataOpenEvent
@@ -2564,7 +2618,8 @@ app.get('/send_Member', function (req, res, next) {
 })
 // ข้อมูลกิจกรรมที่เปิด
 app.get('/send_OpenEvent', function (req, res, next) {
-    OpenEvent.find({}).exec(function (error, openevent) {
+    let open = "Open_Event"
+    OpenEvent.find({OpenEvent_Status:open}).exec(function (error, openevent) {
         if (error) {
             res.send(error);
         } else {

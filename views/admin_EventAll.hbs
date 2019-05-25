@@ -98,10 +98,13 @@
                     <a href="#PointSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Point</a>
                     <ul class="collapse list-unstyled" id="PointSubmenu">
                         <li>
-                            <a href="http://localhost:3000/IncreasePoint">เพิ่มคะแนน</a>
+                            <a href="http://localhost:3000/IncreasePointMember">เพิ่มคะแนน</a>
                         </li>
                         <li>
-                            <a href="http://localhost:3000/DecreasePoint">ลบคะแนน</a>
+                            <a href="http://localhost:3000/IncreasePoint">จัดการคะแนนตามกิจกรรม</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/DecreasePoint">จัดการคะแนนตามพฤติกรรม</a>
                         </li>
                     </ul>
                 </li>
@@ -217,6 +220,14 @@
         var AllEvent = [];
         var CreatedBy = [];
         // ==============Display data================
+        if(dataAll.event.length == 0){
+            document.getElementById("btn_prev").hidden = true
+            document.getElementById("btn_next").hidden = true
+        }else{
+            window.onload = function() {
+            changePage(1);
+            };
+        }
         function prevPage(){  
             if (current_page > 1) {
                 current_page--;
@@ -265,10 +276,6 @@
         function numPages(){
             return Math.ceil(dataAll.event.length / records_per_page);
         }
-
-        window.onload = function() {
-            changePage(1);
-        };
         
     
         //document.getElementById("total").innerHTML = "Member Total = " + data_Mark.length

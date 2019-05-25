@@ -62,7 +62,7 @@ var OpenEventSchema = new Schema({
     },
     OpenEvent_Status:{
         type:String,
-        default:"N/A"
+        default:"Open_Event"
     }    
 })
 OpenEventSchema.plugin(autoIncrement.plugin, {

@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <title>กิจกรรมที่เปิดแล้ว</title>
-
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
         crossorigin="anonymous">
@@ -19,6 +18,10 @@
         crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
         crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
     <style>
         h4 {
             color: crimson;
@@ -99,10 +102,13 @@
                     <a href="#PointSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Point</a>
                     <ul class="collapse list-unstyled" id="PointSubmenu">
                         <li>
-                            <a href="http://localhost:3000/IncreasePoint">เพิ่มคะแนน</a>
+                            <a href="http://localhost:3000/IncreasePointMember">เพิ่มคะแนน</a>
                         </li>
                         <li>
-                            <a href="http://localhost:3000/DecreasePoint">ลบคะแนน</a>
+                            <a href="http://localhost:3000/IncreasePoint">จัดการคะแนนตามกิจกรรม</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:3000/DecreasePoint">จัดการคะแนนตามพฤติกรรม</a>
                         </li>
                     </ul>
                 </li>
@@ -167,28 +173,58 @@
 
             <h2 class="m-2 p-3 mb-2 bg-info text-white">กิจกรรมที่เปิดแล้ว</h2>
 
-             <div class="row m-2 p3">
-                    <div class="container">
-                        <div class="table-responsive mt-3">
-                            <table id="event" class="table justify-content-center text-center ">
-                            </table>
-                        </div>
-                        <div class="row m-3 d-flex justify-content-between">
-                            <button type="button" onclick="prevPage()"  class="btn btn-outline-info btn-lg" id="btn_prev">Prev</button>
-                            <span style="font-weight: bold;" id="page"></span>
-                            <button type="button" onclick="nextPage()"  class="btn btn-outline-info btn-lg" id="btn_next">Next</button>
+            <div class="row m-2 p3">
+                <div class="container">
+                    <div class="table-responsive mt-3">
+                        <table id="event" class="table justify-content-center text-center ">
+                        </table>
                     </div>
+                    <div class="row m-3 d-flex justify-content-between">
+                        <button type="button" onclick="prevPage()" class="btn btn-outline-info btn-lg" id="btn_prev">Prev</button>
+                        <span style="font-weight: bold;" id="page"></span>
+                        <button type="button" onclick="nextPage()" class="btn btn-outline-info btn-lg" id="btn_next">Next</button>
                     </div>
                 </div>
+            </div>
 
             <div class="line"></div>
 
+            {{!--  Close Event  --}}
+            <div class="modal fade" id="close_event" data-curid="" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </button>
+                            <h4 class="modal-title custom_align" id="Heading">ปิดกิจกรรม</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="alert alert-danger">
+                                <span class="glyphicon glyphicon-warning-sign"></span>
+                                ปิดการเข้าร่วมกิจกรรม</div>
+
+                        </div>
+                        <div class="modal-footer ">
+
+                            <button onclick="POST_CloseEvent()" type="submit" class="btn btn-danger">
+                                <span class="glyphicon glyphicon-ok-sign"></span>ตกลง</button>
+                            <button type="button" class="btn btn-default btn-primary" data-dismiss="modal">
+                                <span class="glyphicon glyphicon-remove"></span> ยกเลิก</button>
+
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
         </div>
     </div>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+    {{!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script> --}}
     <!-- Popper.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
         crossorigin="anonymous"></script>
@@ -204,28 +240,30 @@
         });
         var data2 = "{{data}}"
         var data = JSON.parse(decodeURI(data2))
+        console.log(data)
         var current_page = 1;
         var records_per_page = 10;
 
         document.getElementById("username").innerHTML = "User : " + data.name
         //console.log(data)
 
-        // ==============Display data================
-        function prevPage(){  
+        // ==============Display data===============      
+        
+        function prevPage() {
             if (current_page > 1) {
                 current_page--;
                 changePage(current_page);
             }
         }
 
-        function nextPage(){
+        function nextPage() {
             if (current_page < numPages()) {
                 current_page++;
                 changePage(current_page);
             }
         }
 
-        function changePage(page){
+        function changePage(page) {
             var btn_next = document.getElementById("btn_next");
             var btn_prev = document.getElementById("btn_prev");
             let display_Event = "<thead class='table-secondary'><th>No</th><th>ชื่อกิจกรรม</th><th>คะแนน</th><th>จัดกิจกรรมโดย</th><th>สถานที่</th><th>แก้ไขข้อมูล</th><th>รายชื่อผู้เข้าร่วม</th><th>ปิดกิจกรรม</th></thead>";
@@ -237,8 +275,8 @@
 
             document.getElementById("event").innerHTML = ""; // แสดงผลข้อมูลตารางให้ว่าง
 
-            for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < data.openevent.length; i++) {
-                display_Event += "<tbody><tr><td>" + (i + 1) + "</td><td>" + data.openevent[i].OpenEvent_Name + "</td><td>" + data.openevent[i].OpenEvent_Point + "</td><td>" + data.openevent[i].CreatedBy_ID + "</td><td>" + data.openevent[i].OpenEvent_Location + "</td></td><td><form action='http://localhost:3000/displayOpenEvnt/" + data.openevent[i].OpenEvent_ID + "' method='GET' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'><i class='fas fa-edit'></i></button></p></form></td><td><form action='http://localhost:3000/EventMemberList/"+data.openevent[i].OpenEvent_ID+"' method='POST' enctype='multipart/form-data'><p><button class='btn btn-info btn-xs'><i class='fas fa-user-check'></i></button></p></form></td><td><form action='#' method='POST'><p><button class='btn btn-danger btn-xs'><i class='fas fa-window-close'></i></button></p></form></td></tr></tbody>"
+            for (var i = (page - 1) * records_per_page; i < (page * records_per_page) && i < data.openevent.length; i++) {
+                display_Event += "<tbody><tr><td>" + (i + 1) + "</td><td>" + data.openevent[i].OpenEvent_Name + "</td><td>" + data.openevent[i].OpenEvent_Point + "</td><td>" + data.openevent[i].CreatedBy_ID + "</td><td>" + data.openevent[i].OpenEvent_Location + "</td></td><td><form action='http://localhost:3000/displayOpenEvnt/" + data.openevent[i].OpenEvent_ID + "' method='GET' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'><i class='fas fa-edit'></i></button></p></form></td><td><form action='http://localhost:3000/EventMemberList/" + data.openevent[i].OpenEvent_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-info btn-xs'><i class='fas fa-user-check'></i></button></p></form></td><td><p data-placement='top' data-toggle='tooltip' title='Delete'><button onclick='ShowModal_closeEvent(" + i + ")' class='btn btn-danger btn-xs' data-title='Delete' data-toggle='modal'>Close</button></p></td></tr></tbody>"
                 document.getElementById("event").innerHTML = display_Event
             }
             page_span.innerHTML = "Page " + page; // แสดงผลหน้า
@@ -256,14 +294,31 @@
             }
         }
 
-        function numPages(){
+        function numPages() {
             return Math.ceil(data.openevent.length / records_per_page);
         }
 
-        window.onload = function() {
+        window.onload = function () {
             changePage(1);
-        };
+            };
 
+        // ================ Close Event =======================
+        function ShowModal_closeEvent(index) {
+            $('#close_event').data('curid', index); // curid = index
+            $('#close_event').modal('show');
+        }
+        function POST_CloseEvent() {
+            let index = $('#close_event').data('curid')
+            let id = data.openevent[index].OpenEvent_ID
+            console.log('Event will close at ' + id)
+            $.ajax('http://localhost:3000/CloseEvent', {
+                data: JSON.stringify({ id }),
+                contentType: 'application/json',
+                type: 'POST',
+            })
+           // alert(' Event Type ID : ' + id + ' was deleted')
+            location.reload();
+        }
     </script>
 </body>
 
