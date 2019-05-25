@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Decrease Point </title>
+    <title>จัดการคะแนนตามพฤติกรรม </title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
@@ -59,7 +59,7 @@
                             <a href="http://localhost:3000/Larry">Larry Page</a>
                         </li>
                         <li>
-                            <a href="http://localhost:3000/Elon">Elon Mask</a>
+                            <a href="http://localhost:3000/Elon">Elon Musk</a>
                         </li>
                         <li>
                             <a href="http://localhost:3000/Mark">Mark Zuckerberg</a>
@@ -166,7 +166,7 @@
                     </div>
                 </div>
             </nav>
-            <h2 class="mt-3 p-3 mb-2 bg-info text-white">Decrease Point </h2>
+            <h2 class="mt-3 p-3 mb-2 bg-info text-white">จัดการคะแนนตามพฤติกรรม</h2>
 
             <div class="row d-flex justify-content-end">
                 <div class="col-5 ">
@@ -254,7 +254,7 @@
         function changePage(page) {
             var btn_next = document.getElementById("btn_next");
             var btn_prev = document.getElementById("btn_prev");
-            var display_data = "<thead><tr><th>No</th><th>Behavior Name</th><th>คะแนน</th><th>Description</th><th>เพิ่มคะแนน<br>รายบุคคล</th><th>เพิ่มคะแนน<br>รายกลุ่ม</th></tr></thead>"
+            var display_data = "<thead><tr><th>No</th><th>ชื่อพฤติกรรม</th><th>คะแนน</th><th>คำอธิบาย</th><th>ลบคะแนน<br>รายบ้าน</th><th>ลบคะแนน<br>รายบุคคล</th></tr></thead>"
             var page_span = document.getElementById("page");
 
             // Validate page
@@ -264,7 +264,7 @@
             document.getElementById("table_data").innerHTML = ""; // แสดงผลข้อมูลตารางให้ว่าง
 
             for (var i = (page - 1) * records_per_page; i < (page * records_per_page) && i < dataBehavior.length; i++) {
-                display_data += "<th>" + (i + 1) + "</th><td>" + dataBehavior[i].Behavior_Name + "</td><td>" + "-" + dataBehavior[i].Behavior_Point + "</td><td>" + dataBehavior[i].Behavior_Description + "<td><form action='http://localhost:3000/DecPointIndividual/" + dataBehavior[i].Behavior_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-user-alt'></i></button></p></form></td><td><form action='http://localhost:3000/DecPointGroup/" + dataBehavior[i].Behavior_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-users'></i></button></p></form></td></tr>"
+                display_data += "<th>" + (i + 1) + "</th><td>" + dataBehavior[i].Behavior_Name + "</td><td>" + "-" + dataBehavior[i].Behavior_Point + "</td><td>" + dataBehavior[i].Behavior_Description + "<td><form action='http://localhost:3000/DecPointHouse/" + dataBehavior[i].Behavior_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-home'></button></p></form></td><td><form action='http://localhost:3000/DecPointGroup/" + dataBehavior[i].Behavior_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-users'></i></button></p></form></td></tr>"
                 document.getElementById("table_data").innerHTML = display_data
             }
             page_span.innerHTML = "Page " + page; // แสดงผลหน้า

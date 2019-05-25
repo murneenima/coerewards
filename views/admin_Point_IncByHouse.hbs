@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>เพิ่มคะแนนรายบุคคล</title>
+    <title>จัดการคะแนนตามกิจกรรม รายบ้าน</title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
@@ -70,7 +70,7 @@
                             <a href="http://localhost:3000/Larry">Larry Page</a>
                         </li>
                         <li>
-                            <a href="http://localhost:3000/Elon">Elon Mask</a>
+                            <a href="http://localhost:3000/Elon">Elon Musk</a>
                         </li>
                         <li>
                             <a href="http://localhost:3000/Mark">Mark Zuckerberg</a>
@@ -177,12 +177,12 @@
                     </div>
                 </div>
             </nav>
-            <h2 class="m-2 p-3 mb-2 bg-info text-white">Increase Point By Individual</h2>
+            <h2 class="m-2 p-3 mb-2 bg-info text-white">จัดการคะแนนรายบ้าน</h2>
             <div class="container">
                 <div class="row m-4">
                     <h3 class="font-weight-bold" style="text-decoration: underline;"> ข้อมูลกิจกรรม</h3>
                 </div>
-                <form action="http://localhost:3000/IncEventIndividual" method="POST">
+                <form action="http://localhost:3000/IncEventByHouse" method="POST">
                     <div class="row mt-3">
                         <div class="col-2">
                             <div class="form-group">
@@ -299,78 +299,40 @@
             </div>
             <hr>
             <div class="container">
-
                 <div class="row m-4">
                     <h3 class="font-weight-bold" style="text-decoration: underline;">เพิ่มข้อมูลสมาชิก</h3>
                 </div>
-                <div class="row ">
-                    <div class="col d-flex justify-content-end">
-                        <p>ค้นหาข้อมูลสมาชิก</p>
-                    </div>
-                    <div class="col d-flex justify-content-end">
-                        <div class="input-group">
-                            <input class="form-control border-info py-2" type="text" pattern="[0-9]{8}" maxlength="8" placeholder="Search By Id" id="SearchData">
-                            <div class="input-group-append">
-                                <button onclick="search_id()" class="btn btn-outline-secondary" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+               
+               <div class="row m-4 d-flex justify-content-end align-items-center">
+                   <div class="col-1">
+                        <h4 for="Event_Name">House</h4>                                
+                   </div>
+                   <div class="col-1/2">
+                        <h4 for="Event_Name">:</h4>                                
+                   </div>
+                   <div class="col-4">
+                       <select name="house" id="house" class="form-control" >
+                           <option value="" disabled selected>-Please Select-</option>
+                           <option value="Bill Gates">Bill Gates</option>
+                           <option value="Larry Page">Larry Page</option>
+                           <option value="Elon Musk">Elon Musk</option>
+                           <option value="Mark Zuckerberg">Mark Zuckerberg</option>
+                       </select>
+                   </div>
+               </div>
 
-                <div class="row mt-3">
-                    <div class="container">
-                        <div class="row mt-3">
-                            <div class="col-2">
-                                <div class="form-group">
-                                    <label for="Event_Name">รหัสนักศึกษา :</label>
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="form-group">
-                                    <input type="text" name="Member_ID" id="Member_ID" class="form-control input-lg" readonly>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-2">
-                                <div class="form-group">
-                                    <label for="Event_Name">ชื่อนักศึกษา :</label>
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="form-group">
-                                    <input type="text" name="Member_Name" id="Member_Name" class="form-control input-lg" readonly>
-                                </div>
-                            </div>
-                            <div class="col-2">
-                                <div class="form-group">
-                                    <label for="Event_Name">นามสกุล :</label>
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="form-group">
-                                    <input type="text" name="Member_Lastname" id="Member_Lastname" class="form-control input-lg" readonly>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mt-1">
-                            <div class="col-2">
-                                <div class="form-group">
-                                    <label for="Event_Name">House :</label>
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="form-group">
-                                    <input type="text" name="Member_House" id="Member_House" class="form-control input-lg" readonly>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <hr>
+                <div class="row">
+                    <table id="table_member" class="table table-bordred table-striped justify-content-center text-center">
+                        <thead class="thead-light">
+                            <th>Member ID</th>
+                            <th>Name</th>
+                            <th>Last Name</th>
+                            <th>House</th>
+                            <th>Select</th>
+                        </thead>
+                    </table>
+                </div>
                 <div class="row mt-4 mr-2 justify-content-end">
                     <div class="col-2">
                         <button type="submit" class="btn btn-primary btn-lg btn-block" id="button_save">Save</button>
@@ -381,25 +343,7 @@
         </div>
     </div>
 
-    { {{!-- ########### No ID ############# --}}
-    <div class="modal" id="error_data" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p style="color: rgb(0, 0, 0);">Can't find data from ID, Please inter the correct ID.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Okay</button>
-                </div>
-            </div>
-        </div>
-    </div>
+  
 
 
     {{!-- ############################################################################################################# --}}
@@ -417,19 +361,15 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-        document.getElementById("username").innerHTML = "User : " + name
 
         var data2 = "{{data}}"
         var data = JSON.parse(decodeURI(data2))
         var Event = []
+        document.getElementById("username").innerHTML = "User : " + data.name
 
         for (let i = 0; i < data.OpenEvent.length; i++) {
             Event.push(data.OpenEvent[i])
         }
-        /*for (let i = 0; i < data.Member.length; i++) {
-            Member.push(data.Member[i])
-        }*/
-
         for (let i = 0; i < Event.length; i++) {
             document.getElementById("OpenEvent_ID").value = Event[0].OpenEvent_ID
             document.getElementById("OpenEvent_Name").value = Event[0].OpenEvent_Name
@@ -444,36 +384,48 @@
         }
         document.getElementById("button_save").disabled = true
 
-        function search_id() {
-            document.getElementById("Member_ID").value = null
-            document.getElementById("Member_Name").value = null
-            document.getElementById("Member_Lastname").value = null
-            document.getElementById("Member_House").value = null
+        // =================================
+        member()
+        function member(){
+            var Member = [];
+                var table_Member = '<thead class="thead-light"><tr><th scope="col">No</th><th scope="col">รหัสนักศึกษา</th><th scope="col">ชื่อ-นามสกุล</th><th scope="col" class="text-center">บ้าน</th><th scope="col" class="text-center">ลบ</th></tr></thead>'
 
-            let id = document.getElementById("SearchData").value
-            // console.log(id)
-            let Member = [];
-            for (let i = 0; i < data.Member.length; i++) {
-                if (data.Member[i].Member_ID === id) {
-                    //console.log(Member[i].Member_ID)
+                for (let i = 0; i < data.Member.length; i++) {
                     Member.push(data.Member[i])
+                    table_Member += '<tbody><tr><td>' + (i+1) + '</td><td>' + data.Member[i].Member_ID + '</a></td><td class="text-center">' + data.Member[i].Member_Name +' '+ data.Member[i].Member_Lastname+ '</td><td>'+data.Member[i].Member_House+'</td><td><button type="button" class="btn btn-danger" onclick="removeSelectedRow()">Delete</button></td></tr>'
+
                 }
-            }
-            if (Member.length == 1) {
-                document.getElementById("Member_ID").value = Member[0].Member_ID
-                document.getElementById("Member_Name").value = Member[0].Member_Name
-                document.getElementById("Member_Lastname").value = Member[0].Member_Lastname
-                document.getElementById("Member_House").value = Member[0].Member_House
-                document.getElementById("button_save").disabled = false
-            } else if (Member.length == 0) {
-                $('#error_data').modal({});
-                document.getElementById("button_save").disabled = true
-                document.getElementById("Member_ID").value = ''
-                document.getElementById("Member_Name").value = ''
-                document.getElementById("Member_Lastname").value = ''
-                document.getElementById("Member_House").value = ''
-            }
+                document.getElementById("table_member").innerHTML = table_Member
         }
+
+            // select ปีการศึกษา
+            $(document).ready(function () {
+                document.getElementById("button_save").disabled = false
+                $('#house').on('change', function () {
+                    reward_select_year($(this).val())
+                    // console.log($(this).val())
+                });
+
+                function reward_select_year(value) {
+                    $('#table_member tbody').each(function () {
+                        var found = 'false';
+                        $(this).each(function () {
+                            //console.log($(this).text().toLocaleLowerCase().indexOf(value.toLocaleLowerCase()))
+                            if ($(this).text().toLocaleLowerCase().indexOf(value.toLocaleLowerCase()) >= 0) {
+                                found = 'true'
+                            }
+                        });
+                        if (found == 'true') {
+                            $(this).show()
+                        } else {
+                            $(this).hide()
+                        }
+                        if (value == 'All') {
+                            $(this).show()
+                        }
+                    })
+                }
+            })
     </script>
 </body>
 

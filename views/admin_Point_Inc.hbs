@@ -60,7 +60,7 @@
                             <a href="http://localhost:3000/Larry">Larry Page</a>
                         </li>
                         <li>
-                            <a href="http://localhost:3000/Elon">Elon Mask</a>
+                            <a href="http://localhost:3000/Elon">Elon Musk</a>
                         </li>
                         <li>
                             <a href="http://localhost:3000/Mark">Mark Zuckerberg</a>
@@ -265,7 +265,7 @@
             document.getElementById("table_data").innerHTML = ""; // แสดงผลข้อมูลตารางให้ว่าง
 
             for (var i = (page - 1) * records_per_page; i < (page * records_per_page) && i < dataOpentEvent.length; i++) {
-                display_OpenEvent += "<tbody><tr><th>" + (i + 1) + "</th><td>" + dataOpentEvent[i].OpenEvent_Name + "</td><td>" + dataOpentEvent[i].CreatedBy_ID + "</td><td>" + dataOpentEvent[i].OpenEvent_Semeter + "</td><td>" + dataOpentEvent[i].OpenEvent_StartDate + "<br> to <br>" + dataOpentEvent[i].OpenEvent_EndDate + "</td><td><form action='http://localhost:3000/IncPointIndividual/" + dataOpentEvent[i].OpenEvent_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-home'></i></button></p></form></td><td><form action='http://localhost:3000/IncPointGroup/" + dataOpentEvent[i].OpenEvent_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-users'></i></button></p></form></td></tr></tbody>"
+                display_OpenEvent += "<tbody><tr><th>" + (i + 1) + "</th><td>" + dataOpentEvent[i].OpenEvent_Name + "</td><td>" + dataOpentEvent[i].CreatedBy_ID + "</td><td>" + dataOpentEvent[i].OpenEvent_Semeter + "</td><td>" + dataOpentEvent[i].OpenEvent_StartDate + "<br> to <br>" + dataOpentEvent[i].OpenEvent_EndDate + "</td><td><form action='http://localhost:3000/IncPointHouse/" + dataOpentEvent[i].OpenEvent_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-home'></i></button></p></form></td><td><form action='http://localhost:3000/IncPointGroup/" + dataOpentEvent[i].OpenEvent_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-users'></i></button></p></form></td></tr></tbody>"
                 document.getElementById("table_data").innerHTML = display_OpenEvent
             }
             page_span.innerHTML = "Page " + page; // แสดงผลหน้า

@@ -703,7 +703,7 @@ app.get('/Larry', (req, res) => {
 
 //19 admin_HouseElon.hbs
 app.get('/Elon', (req, res) => {
-    let elon = 'Elon Mask'
+    let elon = 'Elon Musk'
     let name = req.session.displayName
     if (req.session.displayName) {
         Member.find({ Member_House: elon }, (err, dataHouse) => {
@@ -1910,14 +1910,16 @@ app.get('/IncreasePointMember',(req,res)=>{
 })
 
 // แสดงผลหน้า เพิ่มคะแนนรายบุคคล
-app.post('/IncPointIndividual/:id', (req, res) => {
+app.post('/IncPointHouse/:id', (req, res) => {
     if (req.session.displayName) {
         let data = {}
+        let name = req.session.displayName
         let id = req.params.id
         let open = "Open_Event"
         OpenEvent.find({ OpenEvent_ID: id ,OpenEvent_Status : open}, (err, dataOpenEvent) => {
             if (err) console.log(err)
         }).then((dataOpenEvent) => {
+            data.name = name
             data.OpenEvent = dataOpenEvent
 
             Member.find({}, (err, data) => {
@@ -1925,7 +1927,7 @@ app.post('/IncPointIndividual/:id', (req, res) => {
             }).then((Member) => {
                 data.Member = Member
 
-                res.render('admin_Point_IncByIndi.hbs', {
+                res.render('admin_Point_IncByHouse.hbs', {
                     data: encodeURI(JSON.stringify(data))
                 })
             }, (err) => {
@@ -1965,7 +1967,7 @@ app.post('/IncPointGroup/:id', (req, res) => {
     }
 })
 // แสดงผลหน้า ลบคะแนนรายบุคคล
-app.post('/DecPointIndividual/:id', (req, res) => {
+app.post('/DecPointHouse/:id', (req, res) => {
     if (req.session.displayName) {
         let data = {}
         let id = req.params.id
@@ -1979,7 +1981,7 @@ app.post('/DecPointIndividual/:id', (req, res) => {
             }).then((Member) => {
                 data.Member = Member
 
-                res.render('admin_Point_DecByIndi.hbs', {
+                res.render('admin_Point_DecByHouse.hbs', {
                     data: encodeURI(JSON.stringify(data))
                 })
             }, (err) => {
@@ -2018,8 +2020,8 @@ app.post('/DecPointGroup/:id', (req, res) => {
     }
 })
 
-// save คะแนนรายบุคคล
-app.post('/IncEventIndividual', (req, res) => {
+// save คะแนนรายบ้าน
+app.post('/IncEventByHouse', (req, res) => {
     if (req.session.displayName) {
         let date_save = moment().format('DD-MM-YYYY');
         let name = req.session.displayName
@@ -2076,7 +2078,7 @@ app.post('/IncEventIndividual', (req, res) => {
 
 })
 // ลบคะแนนรายบุุคล
-app.post('/DecBehaviorIndividual', (req, res) => {
+app.post('/DecBehaviorHouse', (req, res) => {
     if (req.session.displayName) {
         let date_save = moment().format('DD-MM-YYYY');
         let newJoinBehavior = new JoinBehavior({
