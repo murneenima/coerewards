@@ -22,11 +22,13 @@
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-
-
-
-
 </head>
+<style>
+    h4{
+        color: red;
+        
+    }
+</style>
 
 <body>
     <div class="wrapper">
@@ -171,7 +173,110 @@
             </nav>
 
             <h2 class="m-2 p-3 mb-2 bg-info text-white">เพิ่มคะแนน</h2>
-
+            <form action="http://localhost:3000/saveEvent" method="POST" enctype="multipart/form-data">
+                    <br>
+                    <div class="row m-4">
+                        <h2 style="font-weight: bold;">ข้อมูลกิจกรรม</h2>
+                    </div>
+                    <div class="row m-4 ">
+                        <div class="col-2">
+                            <label for="Event_Name" class="col-form-label">รหัสกิจกรรม</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="text" class="form-control" id="Event_ID" name="Event_ID" placeholder="รหัสกิจกรรม" required>
+                        </div>
+                        <div class="col-1">
+                            <h4>*</h4>
+                        </div>
+                    </div>
+                    <div class="row m-4 ">
+                        <div class="col-2">
+                            <label for="Event_Name" class="col-form-label">ชื่อกิจกรรม</label>
+                        </div>
+                        <div class="col-8">
+                            <input type="text" class="form-control" id="Event_Name" name="Event_Name" placeholder="ชื่อกิจกรรม" required>
+                        </div>
+                        <div class="col-1">
+                            <h4>*</h4>
+                        </div>
+                    </div>
+                    <div class="row m-4 ">
+                        <div class="col-2">
+                            <label for="Event_Point" class="col-form-label">Point</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="number" min="1" class="form-control" id="Event_Point" name="Event_Point" placeholder="คะแนน" required>
+                        </div>
+                        <div class="col-1">
+                            <h4>*</h4>
+                        </div>
+                    </div>
+                    <br>
+                    <hr>
+                    <div class="row m-4">
+                        <h2 style="font-weight: bold;">ข้อมูลสมาชิก</h2>
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="StudentID">รหัสนักศึกษา</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="tel" class="form-control" placeholder="58XXXXXX" pattern="[0-9]{8}" maxlength="8" id="Member_ID" name="Member_ID"
+                                placeholder="Student ID" required>
+                        </div>
+                        <div class="col-1">
+                            <h4>*</h4>
+                        </div>
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="FirstName">ชื่่อ</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="text" class="form-control" id="Member_Name" name="Member_Name" placeholder="First Name" required>
+                        </div>
+                        <div class="col-1">
+                            <h4>*</h4>
+                        </div>
+                        <div class="col-2">
+                            <label for="LastName">นามสกุล</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="text" class="form-control" id="Member_Lastname" name="Member_Lastname" placeholder="Last Name" required>
+                        </div>
+                        <div class="col-1">
+                            <h4>*</h4>
+                        </div>
+                    </div> 
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="House">House</label>
+                        </div>
+                        <div class="col-3">
+                            <select class="form-control" id="Member_House" name="Member_House" required>
+                               
+                            </select>
+                        </div>
+                        <div class="col-1">
+                            <h4>*</h4>
+                        </div>
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="Point">คะแนน</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="number" class="form-control" id="Member_Point" name="Member_Point" placeholder="Point">
+                        </div>
+                    </div>
+                   
+                    
+                    <div class="row-4 mr-2 d-flex justify-content-end">
+                        <div class="col-2">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">บันทึกคะแนน</button>
+                        </div>
+                    </div>
+                </form>
         </div>
     </div>
     <!-- Popper.JS -->

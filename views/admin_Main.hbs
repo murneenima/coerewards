@@ -408,7 +408,7 @@
             if (dataAll.openevent.length < 4) {
                     myFunction1()
                 for (let i = 0; i < dataAll.openevent.length; i++) {
-                    display_OpenEvent += '<div class="card"  style="max-width: 25%; ><img class="card-img-top rounded mx-auto d-block" height="150" src="' + dataAll.openevent[i].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/' + dataAll.openevent[i].OpenEvent_ID + '">' + dataAll.openevent[i].OpenEvent_Name + '</a><p class="card-text">ภาคการศึกษา : ' + dataAll.openevent[i].OpenEvent_Semeter + '<br>' + 'วันที่ : ' + dataAll.openevent[i].OpenEvent_StartDate + '<br>คะแนน : '+dataAll.openevent[i].OpenEvent_Point+'<br>สถานที่ : ' + dataAll.openevent[i].OpenEvent_Location + '</p></div></div>'
+                    display_OpenEvent += '<div class="card"  style="max-width: 25%;" ><img class="card-img-top rounded mx-auto d-block" height="150" src="' + dataAll.openevent[i].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/' + dataAll.openevent[i].OpenEvent_ID + '">' + dataAll.openevent[i].OpenEvent_Name + '</a><p class="card-text">ภาคการศึกษา : ' + dataAll.openevent[i].OpenEvent_Semeter + '<br>' + 'วันที่ : ' + dataAll.openevent[i].OpenEvent_StartDate + '<br>คะแนน : '+dataAll.openevent[i].OpenEvent_Point+'<br>สถานที่ : ' + dataAll.openevent[i].OpenEvent_Location + '</p></div></div>'
                     document.getElementById("display_card").innerHTML = display_OpenEvent
                 }
             } else {
@@ -431,7 +431,7 @@
             if (dataAll.reward.length <= 3) {
                 for (let i = 0; i < dataAll.reward.length; i++) {
                     Function2()
-                    display_Reward += '<div class="card  " style="max-width: 25%;"><img class="card-img-top rounded mx-auto d-block " height="150" src="' + dataAll.reward[i].Reward_Photo + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayReward/' + dataAll.reward[i].Reward_ID + '">' + dataAll.reward[i].Reward_Name + '</a><p class="card-text">จำนวนคงเหลือ : ' + dataAll.reward[i].Reward_Quantity + '<br>คะแนนที่ใช้ : ' + dataAll.reward[i].Reward_Point + '</p></div></div>'
+                    display_Reward += '<div class="card" style="max-width: 25%;"><img class="card-img-top rounded mx-auto d-block " height="150" src="' + dataAll.reward[i].Reward_Photo + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayReward/' + dataAll.reward[i].Reward_ID + '">' + dataAll.reward[i].Reward_Name + '</a><p class="card-text">จำนวนคงเหลือ : ' + dataAll.reward[i].Reward_Quantity + '<br>คะแนนที่ใช้ : ' + dataAll.reward[i].Reward_Point + '</p></div></div>'
                     document.getElementById("display_reward").innerHTML = display_Reward
                 }
             } else {
