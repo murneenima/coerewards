@@ -102,117 +102,8 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }))
-// ================ API Get ================
-// 1 Admin
-app.get('/forAdmin', (req, res) => {
-    if (req.session.displayName) {
-        let data ={}
-        let name = req.session.displayName
-        data.name = name
-        res.render('admin_Admin.hbs', {
-            data: encodeURI(JSON.stringify(data))
-        })
-    } else {
-        res.redirect('/login')
-    }
-})
+// ================ Error ================
 
-// 2 Alumni 
-app.get('/Alumni', (req, res) => {
-    if (req.session.displayName) {
-        let name = req.session.displayName
-        let data = {}
-        data.name = name
-        Alumni.find({}, (err, data) => {
-            if (err) console.log(err)
-        }).then((dataAlumni) => {
-            data.alumni = dataAlumni
-            data.name = name
-            res.render('admin_Alumni.hbs', {
-                data: encodeURI(JSON.stringify(data))
-            })
-        })
-    } else {
-        res.redirect('/login')
-    }
-})
-
-// 3  Behavior_All
-app.get('/EditBehavior', (req, res) => {
-    if (req.session.displayName) {
-        let name = req.session.displayName
-        let data = {}
-        Behavior.find({}, (err, dataBehavior) => {
-            if (err) console.log(err)
-        }).then((dataBehavior) => {
-            res.render('admin_BehaviorAll.hbs', {
-                dataBehavior: encodeURI(JSON.stringify(dataBehavior))
-            })
-        })
-        // res.render('admin_Alumni.hbs', {
-        //     data : encodeURI(JSON.stringify(name))
-        // })
-    } else {
-        res.redirect('/login')
-    }
-})
-
-//4 admin_BehaviorContent
-app.get('/BehaviorContent', (req, res) => {
-    let name = req.session.displayName
-    if (req.session.displayName) {
-        res.render('admin_BehaviorContent.hbs', {
-            data: encodeURI(JSON.stringify(name))
-        })
-    } else {
-        res.redirect('/login')
-    }
-})
-
-//5 admin_BehaviorEdit
-app.post('/behavior/:id', (req, res) => {
-    let id = req.params.id
-    let name = req.session.displayName
-    if (req.session.displayName) {
-        Behavior.find({ Behavior_ID: id }, (err, data) => {
-            if (err) console.log(err)
-        }).then((data) => {
-            res.render('admin_BehaviorEdit.hbs', {
-                dataBehavior: encodeURI(JSON.stringify(data))
-            })
-        })
-    } else {
-        res.redirect('/login')
-    }
-})
-
-//6 admin_CreatedByDisplay
-app.get('/CreatedByDisplay', (req, res) => {
-    if (req.session.displayName) {
-        let name = req.session.displayName
-        CreatedBy.find({}, (err, data) => {
-            if (err) console.log(err)
-        }).then((dataCB) => {
-            res.render('admin_CreatedByDisplay.hbs', {
-                dataCB: encodeURI(JSON.stringify(dataCB))
-            })
-        })
-    } else {
-        res.redirect('/login')
-    }
-})
-
-// 7 admin_CreatedByInsert
-app.get('/CreatedByInsert', (req, res) => {
-    if (req.session.displayName) {
-        let name = req.session.displayName
-        res.render('admin_CreatedByInsert.hbs', {})
-    } else {
-        res.redirect('/login')
-    }
-})
-
-//8 admin_error
 app.get('/error', (req, res) => {
     if (req.session.displayName) {
         let name = req.session.displayName
@@ -224,214 +115,7 @@ app.get('/error', (req, res) => {
     }
 })
 
-//9 admin_errorTel NO
-//10 admin_EventAll
-app.get('/AllEvent', (req, res) => {
-    if (req.session.displayName) {
-        let data = {}
-        let name = req.session.displayName
-
-        AllEvent.find({}, (err, event) => {
-            if (err) console.log(err)
-        }).then((event) => {
-            data.event = event
-
-            CreatedBy.find({}, (err, data) => {
-                if (err) console.log(err)
-            }).then((CB) => {
-                data.createdby = CB
-                res.render('admin_EventAll.hbs', {
-                    data: encodeURI(JSON.stringify(data))
-                })
-            }, (err) => {
-                res.status(400).send(err)
-            })
-        })
-    } else {
-        res.redirect('/login')
-    }
-})
-
-app.get('/UpcomingEvent', (req, res) => {
-    if (req.session.displayName) {
-        let name = req.session.displayName
-        let data = {}
-        let open = "Open_Event"
-        data.name = name
-        OpenEvent.find({OpenEvent_Status:open}, (err, data) => {
-            if (err) console.log(err)
-        }).then((dataEvent) => {
-            data.openevent = dataEvent
-            res.render('admin_EventUpcoming.hbs', {
-                data: encodeURI(JSON.stringify(data))
-            })
-        })
-    } else {
-        res.redirect('/login')
-    }
-})
-
-app.get('/ClosedEvent', (req, res) => {
-    if (req.session.displayName) {
-        let name = req.session.displayName
-        let data = {}
-        
-        OpenEvent.find({OpenEvent_Status : "Close_Event"}, (err, dataEvent) => {
-            if (err) console.log(err)
-        }).then((dataEvent) => {
-            data.name = name
-            data.openevent = dataEvent
-            res.render('admin_EventClosed.hbs', {
-                data: encodeURI(JSON.stringify(data))
-            })
-        })
-    } else {
-        res.redirect('/login')
-    }
-})
-
-//====================================
-
-//11 admin_EventCard
-app.get('/SeeMoreEvent', (req, res) => {
-    if (req.session.displayName) {
-        let open = "Open_Event"
-        OpenEvent.find({OpenEvent_Status:open}, (err, dataEvent) => {
-            if (err) console.log(err)
-        }).then((data) => {
-            res.render('admin_EventCard.hbs', {
-                data: encodeURI(JSON.stringify(data))
-            })
-        })
-    } else {
-        res.redirect('/login')
-    }
-})
-
-//12 admin_EventContent
-app.get('/EventContent', (req, res) => {
-    let data = {}
-    let name = req.session.displayName
-    if (req.session.displayName) {
-        EventType.find({}, (err, data) => {
-            if (err) console.log(err)
-        }).then((dataEV) => {
-            data.EventType = dataEV
-
-            CreatedBy.find({}, (err, data) => {
-                if (err) console.log(err)
-            }).then((dataCB) => {
-                data.CreatedBy = dataCB
-                res.render('admin_EventContent.hbs', {
-                    data: encodeURI(JSON.stringify(data))
-                })
-            }, (err) => {
-                res.status(400).send(err)
-            })
-        })
-    } else {
-        res.redirect('/login')
-    }
-})
-
-//13 admin_EventEdit.hbs
-//14 admin_EventOpen.hbs
-//15 admin_EventTypeDisplay.hbs
-app.get('/EventTypeDisplay', (req, res) => {
-    let name = req.session.displayName
-    if (req.session.displayName) {
-        EventType.find({}, (err, data) => {
-            if (err) console.log(err)
-        }).then((dataEV) => {
-            res.render('admin_EventTypeDisplay.hbs', {
-                dataEV: encodeURI(JSON.stringify(dataEV))
-            })
-        })
-    } else {
-        res.redirect('/login')
-    }
-})
-
-//16 admin_EventTypeInsert.hbs
-app.get('/EventTypeInsert', (req, res) => {
-    let name = req.session.displayName
-    if (req.session.displayName) {
-        res.render('admin_EventTypeInsert.hbs', {})
-    } else {
-        res.redirect('/login')
-    }
-})
-
-//17 admin_HouseBill.hbs
-app.get('/Bill', (req, res) => {
-    let bill = 'Bill Gates'
-    let name = req.session.displayName
-    if (req.session.displayName) {
-        Member.find({ Member_House: bill }, (err, dataHouse) => {
-            if (err) console.log(err)
-        }).then((dataHouse) => {
-            res.render('admin_HouseBill.hbs', {
-                dataHouse: encodeURI(JSON.stringify(dataHouse))
-            })
-        })
-    } else {
-        res.redirect('/login')
-    }
-})
-
-//18 admin_HouseLarry.hbs
-app.get('/Larry', (req, res) => {
-    let larry = 'Larry Page'
-    let name = req.session.displayName
-    if (req.session.displayName) {
-        Member.find({ Member_House: larry }, (err, dataHouse) => {
-            if (err) console.log(err)
-        }).then((dataHouse) => {
-            res.render('admin_HouseLarry.hbs', {
-                dataHouse: encodeURI(JSON.stringify(dataHouse))
-            })
-        })
-    } else {
-        res.redirect('/login')
-    }
-})
-
-//19 admin_HouseElon.hbs
-app.get('/Elon', (req, res) => {
-    let elon = 'Elon Mask'
-    let name = req.session.displayName
-    if (req.session.displayName) {
-        Member.find({ Member_House: elon }, (err, dataHouse) => {
-            if (err) console.log(err)
-        }).then((dataHouse) => {
-            res.render('admin_HouseElon.hbs', {
-                dataHouse: encodeURI(JSON.stringify(dataHouse))
-            })
-        })
-    } else {
-        res.redirect('/login')
-    }
-})
-
-//20 admin_HouseMark.hbs
-app.get('/Mark', (req, res) => {
-    let mark = 'Mark Zuckerberg'
-    let name = req.session.displayName
-    if (req.session.displayName) {
-        Member.find({ Member_House: mark }, (err, dataHouse) => {
-            if (err) console.log(err)
-        }).then((dataHouse) => {
-            res.render('admin_HouseMark.hbs', {
-                dataHouse: encodeURI(JSON.stringify(dataHouse))
-            })
-        })
-    } else {
-        res.redirect('/login')
-    }
-})
-
-//21 admin_Login
-//22 admin_Main.hbs
+//================ Main ================
 app.get('/Main', (req, res) => {
     let name = req.session.displayName
     let data = {}
@@ -471,23 +155,13 @@ app.get('/Main', (req, res) => {
     }
 })
 
-//23 admin_MemberAll.hbs
-app.get('/MemberAll', (req, res) => {
-    let name = req.session.displayName
-    let data = {}
+app.get('/SeeMoreReward', (req, res) => {
     if (req.session.displayName) {
-        Member.find({}, (err, dataMember) => {
+        Reward.find({}, (err, dataEvent) => {
             if (err) console.log(err)
-        }).then((dataMember) => {
-            data.member = dataMember
-
-            House.find({},(err,data)=>{
-                if(err) console.log(err)
-            }).then((dataHouse)=>{
-                data.house = dataHouse 
-                res.render('admin_MemberAll.hbs', {
-                    data: encodeURI(JSON.stringify(data))
-                })
+        }).then((dataReward) => {
+            res.render('admin_RewardCard.hbs', {
+                data: encodeURI(JSON.stringify(dataReward))
             })
         })
     } else {
@@ -495,8 +169,26 @@ app.get('/MemberAll', (req, res) => {
     }
 })
 
-//24 MemberEdit
-//25 admin_MemberInsert.hbs
+//11 admin_EventCard.hbs
+// แสดงหน้า กิจกรรมที่เปิด แบบ Card
+app.get('/SeeMoreEvent', (req, res) => {
+    if (req.session.displayName) {
+        let open = "Open_Event"
+        OpenEvent.find({OpenEvent_Status:open}, (err, dataEvent) => {
+            if (err) console.log(err)
+        }).then((data) => {
+            res.render('admin_EventCard.hbs', {
+                data: encodeURI(JSON.stringify(data))
+            })
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
+// ====================== API Post =============================
+// ========================= Member ====================================
+// admin_MemberInsert.hbs เพิ่มข้อมูล
 app.get('/MemberInsert', (req, res) => {
     let name = req.session.displayName
     let data = {}
@@ -515,334 +207,7 @@ app.get('/MemberInsert', (req, res) => {
     }
 })
 
-// 26 admin_Point_Dec.hbs
-app.get('/DecreasePoint', (req, res) => {
-    let name = req.session.displayName
-    if (req.session.displayName) {
-        Behavior.find({}, (err, dataBehavior) => {
-            if (err) console.log(err)
-        }).then((dataBehavior) => {
-            res.render('admin_Point_Dec.hbs', {
-                dataBehavior: encodeURI(JSON.stringify(dataBehavior))
-            })
-        }, (err) => {
-            res.status(400).send(err)
-        })
-    } else {
-        res.redirect('/login')
-    }
-})
-
-//27 admin_Point_Inc.hbs
-app.get('/IncreasePoint', (req, res) => {
-    let name = req.session.displayName
-    let open = "Open_Event"
-    if (req.session.displayName) {
-        OpenEvent.find({OpenEvent_Status:open}, (err, dataOpenEvent) => {
-            if (err) console.log(err)
-        }).then((dataOpenEvent) => {
-            res.render('admin_Point_Inc.hbs', {
-                dataOpenEvent: encodeURI(JSON.stringify(dataOpenEvent))
-            })
-        }, (err) => {
-            res.status(400).send(err)
-        })
-    } else {
-        res.redirect('/login')
-    }
-})
-
-//28 admin_Point_IncByGroup.hbs
-//29 admin_Point_IncByIndi.hbs
-//30 dmin_Report.hbs
-app.get('/getReport', (req, res) => {
-    let name = req.session.displayName
-    if (req.session.displayName) {
-        res.render('admin_Report.hbs', {})
-    } else {
-        res.redirect('/login')
-    }
-})
-
-//31 admin_RewardAll.hbs
-app.get('/editReward', (req, res) => {
-    let name = req.session.displayName
-    if (req.session.displayName) {
-        Reward.find({}, (err, dataReaward) => {
-            if (err) console.log(err)
-        }).then((dataReward) => {
-            res.render('admin_RewardAll.hbs', {
-                dataReward: encodeURI(JSON.stringify(dataReward))
-            })
-        }, (err) => {
-            res.status(400).send(err)
-        })
-    } else {
-        res.redirect('/login')
-    }
-})
-
-//32 admin_RewardContent.hbs
-app.get('/rewardContent', (req, res) => {
-    let name = req.session.displayName
-    if (req.session.displayName) {
-        res.render('admin_RewardContent.hbs', {})
-    } else {
-        res.redirect('/login')
-    }
-    //console.log('hello')
-})
-
-//33 admin_RewardEdit.hbs
-//34 admin_Year.hbs
-app.get('/getYear', (req, res) => {
-    let name = req.session.displayName
-    if (req.session.displayName) {
-        res.render('admin_Year.hbs', {})
-    } else {
-        res.redirect('/login')
-    }
-})
-
-app.get('/SeeMoreReward', (req, res) => {
-    if (req.session.displayName) {
-        Reward.find({}, (err, dataEvent) => {
-            if (err) console.log(err)
-        }).then((dataReward) => {
-            res.render('admin_RewardCard.hbs', {
-                data: encodeURI(JSON.stringify(dataReward))
-            })
-        })
-    } else {
-        res.redirect('/login')
-    }
-})
-
-app.get('/RedeemRewards', (req, res) => {
-    if (req.session.displayName) {
-        let stock = "in stock"
-        let data = {}
-        Reward.find({ Reward_Status: stock }, (err, data) => {
-            if (err) console.log(err)
-        }).then((dataReward) => {
-            data.reward = dataReward
-
-            Member.find({}, (err, data) => {
-                if (err) console.log(err)
-            }).then((dataMember) => {
-                data.member = dataMember
-
-                res.render('admin_RewardRedeem.hbs', {
-                    data: encodeURI(JSON.stringify(data))
-                })
-            })
-        })
-    } else {
-        res.redirect('/login')
-    }
-})
-
-// ****************************************************************************************
-// ====================== API Post =============================
-app.post('/admin/save', function (req, res) {
-    let name = req.session.displayName
-    if (req.session.displayName) {
-        // res.render('admin_Admin.hbs', {
-        //     data : encodeURI(JSON.stringify(name))
-        // })
-        let newAdmin = new Admin({
-            Admin_Name: req.body.Admin_Name,
-            Admin_Surname: req.body.Admin_Surname,
-            Admin_Username: req.body.Admin_Username,
-            Admin_Password: req.body.Admin_Password
-        })
-        newAdmin.save().then((doc) => {
-            res.send(`
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset="utf-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            
-                <title>Success</title>
-            
-                <!-- Bootstrap CSS CDN -->
-                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
-                    crossorigin="anonymous">
-                <style>
-                    @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-                    h4 {
-                        color: crimson;
-                    }
-            
-                    p {
-                        font-family: 'Poppins', sans-serif;
-                        font-size: 1.1em;
-                        font-weight: 300;
-                        line-height: 1.7em;
-                        color: #999;
-                    }
-                </style>
-            </head>
-            <body>
-                <div class="container d-flex justify-content-center align-items-center">
-                    <div class="row mt-5 ">
-            
-                        <div class="alert alert-success" role="alert">
-                            <h3 class="alert-heading">Succes !</h3>
-                            <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูล Admin ลงฐานข้อมูลสำเร็จ </p>
-                            <hr>
-                            <p class="d-flex justify-content-end">
-                                    <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/forAdmin" role="button">ตกลง</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="line"></div>
-            </body>
-            
-            </html>
-            `)
-        }, (err) => {
-            //res.render('admin_error.hbs',{})
-            res.status(400).send(err)
-        })
-    } else {
-        res.redirect('/login')
-    }
-
-
-})
-
-// ================= Login/Logout ============
-app.get('/login', (req, res) => {
-    res.render('admin_Login.hbs', {})
-})
-
-app.post('/login/admin', (req, res, next) => {
-    let username = req.body.Username
-    let password = req.body.Password
-    let admin_error = ` <!DOCTYPE html>
-    <html lang="en">  
-    <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>ระบบจัดการคะแนนและกลุ่มบ้าน</title>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-        crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-        crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet">
-
-        <style>
-            body {
-                margin: 0;
-                padding: 0;
-                font-family: 'Kanit', sans-serif !important;
-            }
-    
-            a {
-                font-family: 'Kanit', sans-serif !important;
-                color:black;
-            }
-        </style>
-    </head>
-    
-    <body>
-        <div class="container text-white ">
-            <div class="row mt-5 justify-content-center ">
-                <div class="col-lg-4 mt-5 ">
-                    <div class="card bg-info text-white text-center ">
-                        <div class="card-body">
-                            <h3 class="pb-1">Please Login Again !!</h3>
-                            <form action="http://localhost:3000/login/admin" method="POST">
-                                <div class="form-group">
-                                    <input name="Username" type="text" class="input-font py-4 form-control" id="Username" aria-describedby="emailHelp" placeholder="Username">
-                                </div>
-                                <div class="form-group">
-                                    <input name="Password" type="password" class="input-font py-4 form-control" id="Password" placeholder="Password">
-                                </div>
-    
-                                <button type="submit" class="input-font btn btn-block btn-outline-light">Submit</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </body>
-    
-    </html>`
-
-    Admin.find({ Admin_Username: req.body.Username })
-        .exec()
-        .then(user => {
-            if (user.length < 1) {
-                res.render(admin_error)
-            } else {
-                bcrypt.compare(req.body.Password, user[0].Admin_Password, function (err, result) {
-
-                    if (result) {
-                        // const token = jwt.sign({
-                        //     Admin_Username: user[0].Admin_Username
-                        // },
-                        //     'secret',
-                        //     {
-                        //         expiresIn: "1h"
-                        //     }
-                        // );
-                        req.session.displayName = user[0].Admin_Name
-                        res.redirect('/Main')
-                        console.log('login success')
-                        // return res.status(200).json({
-                        //     message: 'Succesful',
-                        //     token: token
-                        // })
-                    }
-                    if (err) {
-                        res.send(admin_error)
-                        // return res.status(400).json({
-                        //     message: 'Auth failed1'
-                        // });
-                    }
-                })
-            }
-        }).catch(err => {
-            console.log(err);
-            res.send(admin_error)
-        })
-    /* Admin.find({
-         Admin_Username: req.body.Username,
-     }).then((admin) => {
-         if (admin.length == 1) { //เจอข้อมูล 1 คน 
-             console.log(admin[0].Admin_Password)
-             //req.session.displayName = admin[0].Admin_Name
-             bcrypt.compare (req.body.Password,admin[0].Admin_Password, (err,result)=>{
-                 //console.log('Hello')
-                 if(result){
-                     //res.redirect('/Main')
-                     console.log('login success')
-                 }
-             })
-         } else if (admin.length == 0) {
-             res.send(admin_error)
-         }
-     }, (err) => {
-         res.send(400).send(err)
-     })*/
-})
-
-app.get('/logout', function (req, res) {
-    delete req.session.displayName
-    res.redirect('/login')
-})
-
-// ========================= Member ====================================
-// ==================== save data and upload photo =====================
+//  save data and upload photo 
 app.post('/save', upload.single('photos'), function (req, res) {
     if (req.session.displayName) {
         let member_profile = "https://www.sccpre.cat/mypng/full/8-87398_computer-icons-login-person-black-black-and-white.png"
@@ -1201,6 +566,7 @@ app.post('/member/edit/data', (req, res) => {
     }
 })
 
+//ย้ายบ้าน
 app.post('/moveMember', (req, res) => {
     if (req.session.displayName) {
         console.log('Move House')
@@ -1237,7 +603,7 @@ app.post('/moveMember', (req, res) => {
         res.redirect('/login')
     }
 })
-
+// ย้ายเป็นศิษย์เก่า
 app.post('/moveToAlumni', (req, res) => {
     if (req.session.displayName) {
         console.log(req.body.idMember)
@@ -1276,7 +642,126 @@ app.post('/moveToAlumni', (req, res) => {
         res.redirect('/login')
     }
 })
+
+//23 admin_MemberAll.hbs
+app.get('/MemberAll', (req, res) => {
+    let name = req.session.displayName
+    let data = {}
+    if (req.session.displayName) {
+        Member.find({}, (err, dataMember) => {
+            if (err) console.log(err)
+        }).then((dataMember) => {
+            data.member = dataMember
+
+            House.find({},(err,data)=>{
+                if(err) console.log(err)
+            }).then((dataHouse)=>{
+                data.house = dataHouse 
+                res.render('admin_MemberAll.hbs', {
+                    data: encodeURI(JSON.stringify(data))
+                })
+            })
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+// ============== House ===================
+//17 admin_HouseBill.hbs
+app.get('/Bill', (req, res) => {
+    let bill = 'Bill Gates'
+    let name = req.session.displayName
+    if (req.session.displayName) {
+        Member.find({ Member_House: bill }, (err, dataHouse) => {
+            if (err) console.log(err)
+        }).then((dataHouse) => {
+            res.render('admin_HouseBill.hbs', {
+                dataHouse: encodeURI(JSON.stringify(dataHouse))
+            })
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
+//18 admin_HouseLarry.hbs
+app.get('/Larry', (req, res) => {
+    let larry = 'Larry Page'
+    let name = req.session.displayName
+    if (req.session.displayName) {
+        Member.find({ Member_House: larry }, (err, dataHouse) => {
+            if (err) console.log(err)
+        }).then((dataHouse) => {
+            res.render('admin_HouseLarry.hbs', {
+                dataHouse: encodeURI(JSON.stringify(dataHouse))
+            })
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
+//19 admin_HouseElon.hbs
+app.get('/Elon', (req, res) => {
+    let elon = 'Elon Mask'
+    let name = req.session.displayName
+    if (req.session.displayName) {
+        Member.find({ Member_House: elon }, (err, dataHouse) => {
+            if (err) console.log(err)
+        }).then((dataHouse) => {
+            res.render('admin_HouseElon.hbs', {
+                dataHouse: encodeURI(JSON.stringify(dataHouse))
+            })
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
+//20 admin_HouseMark.hbs
+app.get('/Mark', (req, res) => {
+    let mark = 'Mark Zuckerberg'
+    let name = req.session.displayName
+    if (req.session.displayName) {
+        Member.find({ Member_House: mark }, (err, dataHouse) => {
+            if (err) console.log(err)
+        }).then((dataHouse) => {
+            res.render('admin_HouseMark.hbs', {
+                dataHouse: encodeURI(JSON.stringify(dataHouse))
+            })
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
 // ============== Event Type ===================
+//15 admin_EventTypeDisplay.hbs
+app.get('/EventTypeDisplay', (req, res) => {
+    let name = req.session.displayName
+    if (req.session.displayName) {
+        EventType.find({}, (err, data) => {
+            if (err) console.log(err)
+        }).then((dataEV) => {
+            res.render('admin_EventTypeDisplay.hbs', {
+                dataEV: encodeURI(JSON.stringify(dataEV))
+            })
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
+//16 admin_EventTypeInsert.hbs
+app.get('/EventTypeInsert', (req, res) => {
+    let name = req.session.displayName
+    if (req.session.displayName) {
+        res.render('admin_EventTypeInsert.hbs', {})
+    } else {
+        res.redirect('/login')
+    }
+})
+
 app.post('/saveEventType', (req, res) => {
     if (req.session.displayName) {
         let newEventType = new EventType({
@@ -1307,6 +792,32 @@ app.post('/removeEventType', (req, res) => {
 })
 
 // ============== Created By ===================
+//  admin_CreatedByInsert.hbs เพิ่มข้อมูล
+app.get('/CreatedByInsert', (req, res) => {
+    if (req.session.displayName) {
+        let name = req.session.displayName
+        res.render('admin_CreatedByInsert.hbs', {})
+    } else {
+        res.redirect('/login')
+    }
+})
+
+// admin_CreatedByDisplay.hbs
+app.get('/CreatedByDisplay', (req, res) => {
+    if (req.session.displayName) {
+        let name = req.session.displayName
+        CreatedBy.find({}, (err, data) => {
+            if (err) console.log(err)
+        }).then((dataCB) => {
+            res.render('admin_CreatedByDisplay.hbs', {
+                dataCB: encodeURI(JSON.stringify(dataCB))
+            })
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
 app.post('/saveCreatedBy', (req, res) => {
     if (req.session.displayName) {
         let newCreatedBy = new CreatedBy({
@@ -1338,8 +849,63 @@ app.post('/removeCreatedBy', (req, res) => {
 
 })
 
-// ============= All Event ===================
-// บันทึกข้อมูลกิจกรรมที่มี All Event
+// ======================== Event ===================
+
+// ################ กิจกรรมที่มี #################
+// admin_EventAll.hbs แสดงผลกิจกรรมทั้งหมด
+app.get('/AllEvent', (req, res) => {
+    if (req.session.displayName) {
+        let data = {}
+        let name = req.session.displayName
+
+        AllEvent.find({}, (err, event) => {
+            if (err) console.log(err)
+        }).then((event) => {
+            data.event = event
+
+            CreatedBy.find({}, (err, data) => {
+                if (err) console.log(err)
+            }).then((CB) => {
+                data.createdby = CB
+                res.render('admin_EventAll.hbs', {
+                    data: encodeURI(JSON.stringify(data))
+                })
+            }, (err) => {
+                res.status(400).send(err)
+            })
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
+// admin_EventContent.hbs เพิ่มข้อมูลกิจกรรมใหม่
+app.get('/EventContent', (req, res) => {
+    let data = {}
+    let name = req.session.displayName
+    if (req.session.displayName) {
+        EventType.find({}, (err, data) => {
+            if (err) console.log(err)
+        }).then((dataEV) => {
+            data.EventType = dataEV
+
+            CreatedBy.find({}, (err, data) => {
+                if (err) console.log(err)
+            }).then((dataCB) => {
+                data.CreatedBy = dataCB
+                res.render('admin_EventContent.hbs', {
+                    data: encodeURI(JSON.stringify(data))
+                })
+            }, (err) => {
+                res.status(400).send(err)
+            })
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
+// บันทึกข้อมูลกิจกรรมที่มี (all Event)
 app.post('/saveEvent', upload.single('photos'), function (req, res) {
     if (req.session.displayName) {
         let img_event = "http://togetherasonefoundation.org/wp-content/uploads/2019/01/EVENTS.png"
@@ -1433,7 +999,7 @@ app.post('/event/edit/:id', (req, res) => {
 
 })
 
-// แก้ไขข้อมูลกิจกรรมที่มี
+// บันทึกกการแก้ไขข้อมูลกิจกรรมที่มี
 app.post('/editEventContent', upload.single('photos'), function (req, res) {
     if (req.session.displayName) {
         let img_base64 = ""
@@ -1565,7 +1131,72 @@ var j = schedule.scheduleJob('* * * * *', function () {
 
 });
 
-// =============== แสดงรายชื่อผู้เข้าร่วม ===============
+// ################ กิจกรรมที่เปิด #################
+app.get('/UpcomingEvent', (req, res) => {
+    if (req.session.displayName) {
+        let name = req.session.displayName
+        let data = {}
+        let open = "Open_Event"
+        data.name = name
+        OpenEvent.find({OpenEvent_Status:open}, (err, data) => {
+            if (err) console.log(err)
+        }).then((dataEvent) => {
+            data.openevent = dataEvent
+            res.render('admin_EventUpcoming.hbs', {
+                data: encodeURI(JSON.stringify(data))
+            })
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
+// ################ กิจกรรมที่สิ้นสุดไปแล้ว #################
+app.get('/ClosedEvent', (req, res) => {
+    if (req.session.displayName) {
+        let name = req.session.displayName
+        let data = {}
+        
+        OpenEvent.find({OpenEvent_Status : "Close_Event"}, (err, dataEvent) => {
+            if (err) console.log(err)
+        }).then((dataEvent) => {
+            data.name = name
+            data.openevent = dataEvent
+            res.render('admin_EventClosed.hbs', {
+                data: encodeURI(JSON.stringify(data))
+            })
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
+// สิ้นสุดกิจกรรม
+app.post('/CloseEvent', (req,res)=>{
+    console.log(req.body.id)
+    console.log('Close Event')
+
+    OpenEvent.findOne({ OpenEvent_ID: req.body.id }).then((d1) => {
+        //console.log(d)
+        if (d1.length == 0) {
+            return 0;
+        } else {
+            console.log(d1.length)
+            
+                d1.OpenEvent_Status = "Close_Event"
+
+                d1.save().then((success) => {
+                    console.log('!! Update OPEN EVENT Status to CLOSE EVENT Success')
+                }, (e) => {
+                    res.status(400).send(e)
+                }, (err) => {
+                    res.status(400).send(err)
+                })
+        }
+    })
+})
+
+// แสดงรายชื่อผู้เข้าร่วม 
 app.post('/EventMemberList/:id', function (req,res){
     let id = req.params.id
     console.log(req.params.id)
@@ -1602,7 +1233,7 @@ app.post('/EventMemberList/:id', function (req,res){
     }
 })
 
-// ============= เปิดกิจกรรม ====================
+// ################ เปิดกิจกรรม ################
 // จัดการกิจกรรมเพื่อ เปิดกิจกรรม (Open Event)
 app.post('/event/:id', (req, res) => {
     if (req.session.displayName) {
@@ -1745,11 +1376,6 @@ app.post('/saveOpenEvent', upload.single('photos'), function (req, res) {
     }
 })
 
-//แก้ไขข้อมูล กินกรรมที่เปิดแล้ว
-app.post('/editOpenEvent' ,(req,res)=>{
-    console.log('แก้ไขข้อมูลกิจกรรมที่เปิดแล้ว')
-})
-
 // แสดงผล ข้อมูลกิจกรรมที่เปิดแล้วเพื่อแก้ไข
 app.get('/displayOpenEvnt/:id', function (req, res) {
     if (req.session.displayName) {
@@ -1791,33 +1417,62 @@ app.get('/displayOpenEvnt/:id', function (req, res) {
     }
 })
 
-// ================ ปิดกิจกรรม ====================
-// สิ้นสุดกิจกรรม
-app.post('/CloseEvent', (req,res)=>{
-    console.log(req.body.id)
-    console.log('Close Event')
-
-    OpenEvent.findOne({ OpenEvent_ID: req.body.id }).then((d1) => {
-        //console.log(d)
-        if (d1.length == 0) {
-            return 0;
-        } else {
-            console.log(d1.length)
-            
-                d1.OpenEvent_Status = "Close_Event"
-
-                d1.save().then((success) => {
-                    console.log('!! Update OPEN EVENT Status to CLOSE EVENT Success')
-                }, (e) => {
-                    res.status(400).send(e)
-                }, (err) => {
-                    res.status(400).send(err)
-                })
-        }
-    })
+//แก้ไขข้อมูล กินกรรมที่เปิดแล้ว
+app.post('/editOpenEvent' ,(req,res)=>{
+    console.log('แก้ไขข้อมูลกิจกรรมที่เปิดแล้ว')
 })
 
 // ===================== Behavior ==================
+// admin_BehaviorEdit.hbs แสดงผลข้อมูลทั้งหมดของ พฤติกรรม
+app.get('/EditBehavior', (req, res) => {
+    if (req.session.displayName) {
+        let name = req.session.displayName
+        let data = {}
+        Behavior.find({}, (err, dataBehavior) => {
+            if (err) console.log(err)
+        }).then((dataBehavior) => {
+            res.render('admin_BehaviorAll.hbs', {
+                dataBehavior: encodeURI(JSON.stringify(dataBehavior))
+            })
+        })
+        // res.render('admin_Alumni.hbs', {
+        //     data : encodeURI(JSON.stringify(name))
+        // })
+    } else {
+        res.redirect('/login')
+    }
+})
+
+// admin_BehaviorEdit.hbs แก้ไขข้อมูลพฤติกรรม
+app.post('/behavior/:id', (req, res) => {
+    let id = req.params.id
+    let name = req.session.displayName
+    if (req.session.displayName) {
+        Behavior.find({ Behavior_ID: id }, (err, data) => {
+            if (err) console.log(err)
+        }).then((data) => {
+            res.render('admin_BehaviorEdit.hbs', {
+                dataBehavior: encodeURI(JSON.stringify(data))
+            })
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
+// admin_BehaviorContent.hbs    เพิ่มข้อมูลพฤติกรรม
+app.get('/BehaviorContent', (req, res) => {
+    let name = req.session.displayName
+    if (req.session.displayName) {
+        res.render('admin_BehaviorContent.hbs', {
+            data: encodeURI(JSON.stringify(name))
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
+// บันทึกข้อมูลพฤติกรรมใหม่
 app.post('/saveBehavior', (req, res) => {
     if (req.session.displayName) {
         let newBehavior = new Behavior({
@@ -1837,6 +1492,7 @@ app.post('/saveBehavior', (req, res) => {
     }
 })
 
+// บันทึกการแก้ไขข้อมูล
 app.post('/saveEditBehavior', (req, res) => {
     if (req.session.displayName) {
         Behavior.findOne({ Behavior_ID: req.body.Behavior_ID }).then((d) => {
@@ -1869,6 +1525,35 @@ app.post('/saveEditBehavior', (req, res) => {
 })
 
 // ====================== Reward ================
+//31 admin_RewardAll.hbs
+app.get('/editReward', (req, res) => {
+    let name = req.session.displayName
+    if (req.session.displayName) {
+        Reward.find({}, (err, dataReaward) => {
+            if (err) console.log(err)
+        }).then((dataReward) => {
+            res.render('admin_RewardAll.hbs', {
+                dataReward: encodeURI(JSON.stringify(dataReward))
+            })
+        }, (err) => {
+            res.status(400).send(err)
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
+//32 admin_RewardContent.hbs
+app.get('/rewardContent', (req, res) => {
+    let name = req.session.displayName
+    if (req.session.displayName) {
+        res.render('admin_RewardContent.hbs', {})
+    } else {
+        res.redirect('/login')
+    }
+    //console.log('hello')
+})
+
 app.post('/saveReward', upload.single('photos'), function (req, res) {
     if (req.session.displayName) {
         let img_re = "data:image/png;base64,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"
@@ -2146,7 +1831,69 @@ app.post('/saveRedeemReward', function (req, res) {
         res.redirect('/login')
     }
 })
+
+//แลกของรางวัล
+app.get('/RedeemRewards', (req, res) => {
+    if (req.session.displayName) {
+        let stock = "in stock"
+        let data = {}
+        Reward.find({ Reward_Status: stock }, (err, data) => {
+            if (err) console.log(err)
+        }).then((dataReward) => {
+            data.reward = dataReward
+
+            Member.find({}, (err, data) => {
+                if (err) console.log(err)
+            }).then((dataMember) => {
+                data.member = dataMember
+
+                res.render('admin_RewardRedeem.hbs', {
+                    data: encodeURI(JSON.stringify(data))
+                })
+            })
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
 //================== Point ===================
+
+// 26 admin_Point_Dec.hbs ลบคะแนนตามพฤติกรรม
+app.get('/DecreasePoint', (req, res) => {
+    let name = req.session.displayName
+    if (req.session.displayName) {
+        Behavior.find({}, (err, dataBehavior) => {
+            if (err) console.log(err)
+        }).then((dataBehavior) => {
+            res.render('admin_Point_Dec.hbs', {
+                dataBehavior: encodeURI(JSON.stringify(dataBehavior))
+            })
+        }, (err) => {
+            res.status(400).send(err)
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
+//27 admin_Point_Inc.hbs เพิ่มคะแนนตามกิจกรรม
+app.get('/IncreasePoint', (req, res) => {
+    let name = req.session.displayName
+    let open = "Open_Event"
+    if (req.session.displayName) {
+        OpenEvent.find({OpenEvent_Status:open}, (err, dataOpenEvent) => {
+            if (err) console.log(err)
+        }).then((dataOpenEvent) => {
+            res.render('admin_Point_Inc.hbs', {
+                dataOpenEvent: encodeURI(JSON.stringify(dataOpenEvent))
+            })
+        }, (err) => {
+            res.status(400).send(err)
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
 // เพิ่มคะแนนแบบไม่อิงกิจกรรมหรือพฤติกรรม
 app.get('/IncreasePointMember',(req,res)=>{
     if(req.session.displayName){
@@ -2525,8 +2272,113 @@ app.post('/saveYear', function (req, res) {
 
 })
 
+// admin_Year.hbs
+app.get('/getYear', (req, res) => {
+    let name = req.session.displayName
+    if (req.session.displayName) {
+        res.render('admin_Year.hbs', {})
+    } else {
+        res.redirect('/login')
+    }
+})
+
 // ============== Report =============
-// ###################### register ######################
+// admin_Report.hbs
+app.get('/getReport', (req, res) => {
+    let name = req.session.displayName
+    if (req.session.displayName) {
+        res.render('admin_Report.hbs', {})
+    } else {
+        res.redirect('/login')
+    }
+})
+
+// ======================= Admin =========================
+// Admin_admin.hbs
+app.get('/forAdmin', (req, res) => {
+    if (req.session.displayName) {
+        let data ={}
+        let name = req.session.displayName
+        data.name = name
+        res.render('admin_Admin.hbs', {
+            data: encodeURI(JSON.stringify(data))
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
+app.post('/admin/save', function (req, res) {
+    let name = req.session.displayName
+    if (req.session.displayName) {
+        // res.render('admin_Admin.hbs', {
+        //     data : encodeURI(JSON.stringify(name))
+        // })
+        let newAdmin = new Admin({
+            Admin_Name: req.body.Admin_Name,
+            Admin_Surname: req.body.Admin_Surname,
+            Admin_Username: req.body.Admin_Username,
+            Admin_Password: req.body.Admin_Password
+        })
+        newAdmin.save().then((doc) => {
+            res.send(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            
+                <title>Success</title>
+            
+                <!-- Bootstrap CSS CDN -->
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                    crossorigin="anonymous">
+                <style>
+                    @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                    h4 {
+                        color: crimson;
+                    }
+            
+                    p {
+                        font-family: 'Poppins', sans-serif;
+                        font-size: 1.1em;
+                        font-weight: 300;
+                        line-height: 1.7em;
+                        color: #999;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container d-flex justify-content-center align-items-center">
+                    <div class="row mt-5 ">
+            
+                        <div class="alert alert-success" role="alert">
+                            <h3 class="alert-heading">Succes !</h3>
+                            <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูล Admin ลงฐานข้อมูลสำเร็จ </p>
+                            <hr>
+                            <p class="d-flex justify-content-end">
+                                    <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/forAdmin" role="button">ตกลง</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="line"></div>
+            </body>
+            
+            </html>
+            `)
+        }, (err) => {
+            //res.render('admin_error.hbs',{})
+            res.status(400).send(err)
+        })
+    } else {
+        res.redirect('/login')
+    }
+
+
+})
+
 app.get('/register', function (req, res, next) {
     res.render('register.hbs', {})
 })
@@ -2601,12 +2453,155 @@ app.post('/admin/register', function (req, res) {
 
 
 })
-//===================================================
-app.listen(3000, () => {
-    console.log('listin port 3000')
+
+// ======================= alumni ===============
+//  admin_alumni.hbs
+app.get('/Alumni', (req, res) => {
+    if (req.session.displayName) {
+        let name = req.session.displayName
+        let data = {}
+        data.name = name
+        Alumni.find({}, (err, data) => {
+            if (err) console.log(err)
+        }).then((dataAlumni) => {
+            data.alumni = dataAlumni
+            data.name = name
+            res.render('admin_Alumni.hbs', {
+                data: encodeURI(JSON.stringify(data))
+            })
+        })
+    } else {
+        res.redirect('/login')
+    }
 })
 
-// ======= API for Mobile ====================
+// ================= Login/Logout ============
+app.get('/login', (req, res) => {
+    res.render('admin_Login.hbs', {})
+})
+
+app.post('/login/admin', (req, res, next) => {
+    let username = req.body.Username
+    let password = req.body.Password
+    let admin_error = ` <!DOCTYPE html>
+    <html lang="en">  
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ระบบจัดการคะแนนและกลุ่มบ้าน</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet">
+
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: 'Kanit', sans-serif !important;
+            }
+    
+            a {
+                font-family: 'Kanit', sans-serif !important;
+                color:black;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <div class="container text-white ">
+            <div class="row mt-5 justify-content-center ">
+                <div class="col-lg-4 mt-5 ">
+                    <div class="card bg-info text-white text-center ">
+                        <div class="card-body">
+                            <h3 class="pb-1">Please Login Again !!</h3>
+                            <form action="http://localhost:3000/login/admin" method="POST">
+                                <div class="form-group">
+                                    <input name="Username" type="text" class="input-font py-4 form-control" id="Username" aria-describedby="emailHelp" placeholder="Username">
+                                </div>
+                                <div class="form-group">
+                                    <input name="Password" type="password" class="input-font py-4 form-control" id="Password" placeholder="Password">
+                                </div>
+    
+                                <button type="submit" class="input-font btn btn-block btn-outline-light">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    
+    </html>`
+
+    Admin.find({ Admin_Username: req.body.Username })
+        .exec()
+        .then(user => {
+            if (user.length < 1) {
+                res.render(admin_error)
+            } else {
+                bcrypt.compare(req.body.Password, user[0].Admin_Password, function (err, result) {
+
+                    if (result) {
+                        // const token = jwt.sign({
+                        //     Admin_Username: user[0].Admin_Username
+                        // },
+                        //     'secret',
+                        //     {
+                        //         expiresIn: "1h"
+                        //     }
+                        // );
+                        req.session.displayName = user[0].Admin_Name
+                        res.redirect('/Main')
+                        console.log('login success')
+                        // return res.status(200).json({
+                        //     message: 'Succesful',
+                        //     token: token
+                        // })
+                    }
+                    if (err) {
+                        res.send(admin_error)
+                        // return res.status(400).json({
+                        //     message: 'Auth failed1'
+                        // });
+                    }
+                })
+            }
+        }).catch(err => {
+            console.log(err);
+            res.send(admin_error)
+        })
+    /* Admin.find({
+         Admin_Username: req.body.Username,
+     }).then((admin) => {
+         if (admin.length == 1) { //เจอข้อมูล 1 คน 
+             console.log(admin[0].Admin_Password)
+             //req.session.displayName = admin[0].Admin_Name
+             bcrypt.compare (req.body.Password,admin[0].Admin_Password, (err,result)=>{
+                 //console.log('Hello')
+                 if(result){
+                     //res.redirect('/Main')
+                     console.log('login success')
+                 }
+             })
+         } else if (admin.length == 0) {
+             res.send(admin_error)
+         }
+     }, (err) => {
+         res.send(400).send(err)
+     })*/
+})
+
+app.get('/logout', function (req, res) {
+    delete req.session.displayName
+    res.redirect('/login')
+})
+
+// ==================== API for Mobile ====================
 app.get('/send_Member', function (req, res, next) {
     Member.find({}).exec(function (error, member) {
         if (error) {
@@ -2739,4 +2734,9 @@ app.post('/login/member', (req, res, next) => {
         })
 })
 
+
+//================== Port ========================
+app.listen(3000, () => {
+    console.log('listin port 3000')
+})
 
