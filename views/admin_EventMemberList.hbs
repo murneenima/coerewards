@@ -6,19 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>กิจกรรมที่เปิดแล้ว</title>
+    <title>รายชื่อผู้เข้าร่วมกิจกรรม</title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
         crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
 
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
         crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
         crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script> {{!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> --}} {{!--
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> --}}
+
     <style>
         h4 {
             color: crimson;
@@ -165,12 +169,46 @@
                 </div>
             </nav>
 
-            <h2 class="m-2 p-3 mb-2 bg-info text-white">กิจกรรมที่เปิดแล้ว</h2>
+            <h2 class="m-2 p-3 mb-2 bg-info text-white">รายชื่อผู้เข้าร่วมกิจกรรม</h2>
+            <div class="container " >
+                <div class="row m-3 d-flex align-items-center">
+                    <div class="col-2">
+                        <label for="Event_Semester" class="col-form-label">ชื่อกิจกรรม</label>
+                    </div>
+                    <div class="col-6">
+                        <label type="text"  class="form-control" id="Event_Name" name="Event_Name" placeholder="ชื่อกิจกรรม" required>
+                    </div>
+                </div>
+                <div class="row m-3 d-flex align-items-center">
+                    <div class="col-2">
+                        <label for="Event_Semester" class="col-form-label">คะแนน</label>
+                    </div>
+                    <div class="col-2">
+                        <label type="number"  class="form-control" id="Event_Point" name="Event_Point" placeholder="คะแนน" required>
+                    </div>
 
-             <div class="row m-2 p3">
+                </div>
+                <div class="row m-3 d-flex align-items-center" >
+                    <div class="col-2">
+                        <label for="Event_Semester" class="col-form-label">วันที่</label>
+                    </div>
+                    <div class="col-2">
+                        <label type="date" class="form-control" id="Event_StartDate" name="Event_StartDate" required>
+                    </div>
+                    <div class="col-1/2 " >
+                        <h6>ถึง</h6>
+                    </div>
+                    <div class="col-2">
+                        <label type="date" class="form-control" id="Event_EndDate" name="Event_EndDate"  required>
+                    </div>
+                </div>
+            </div>
+            <div class="line"></div>
+
+            <div class="row mt-2">
                     <div class="container">
                         <div class="table-responsive mt-3">
-                            <table id="event" class="table justify-content-center text-center ">
+                            <table id="list_member" class="table justify-content-center text-center ">
                             </table>
                         </div>
                         <div class="row m-3 d-flex justify-content-between">
@@ -180,8 +218,6 @@
                     </div>
                     </div>
                 </div>
-
-            <div class="line"></div>
 
         </div>
     </div>
@@ -202,16 +238,37 @@
                 $('#sidebar').toggleClass('active');
             });
         });
+
         var data2 = "{{data}}"
         var data = JSON.parse(decodeURI(data2))
+        var Member = []
+        console.log(data)
         var current_page = 1;
-        var records_per_page = 10;
+        var records_per_page = 20;
 
         document.getElementById("username").innerHTML = "User : " + data.name
-        //console.log(data)
 
-        // ==============Display data================
-        function prevPage(){  
+        // รายละเอียด กิจกรรม
+        document.getElementById("Event_Name").innerHTML = data.openevent[0].OpenEvent_Name
+        document.getElementById("Event_Point").innerHTML = data.openevent[0].OpenEvent_Point
+        document.getElementById("Event_StartDate").innerHTML = data.openevent[0].OpenEvent_StartDate
+        document.getElementById("Event_EndDate").innerHTML = data.openevent[0].OpenEvent_EndDate
+
+        //แสดงผลกิจกรรม
+        member_list()
+        function member_list(){
+            
+            for(let i=0 ; i<data.joinevent.length ; i++){
+                for(let j=0;j<data.member.length;j++){
+                    if(data.joinevent[i].Member_ID == data.member[j].Member_ID){
+                        Member.push(data.member[j])
+                    }
+                }
+            }
+            
+        }
+
+         function prevPage(){  
             if (current_page > 1) {
                 current_page--;
                 changePage(current_page);
@@ -228,19 +285,22 @@
         function changePage(page){
             var btn_next = document.getElementById("btn_next");
             var btn_prev = document.getElementById("btn_prev");
-            let display_Event = "<thead class='table-secondary'><th>No</th><th>ชื่อกิจกรรม</th><th>คะแนน</th><th>จัดกิจกรรมโดย</th><th>สถานที่</th><th>แก้ไขข้อมูล</th><th>รายชื่อผู้เข้าร่วม</th><th>ปิดกิจกรรม</th></thead>";
             var page_span = document.getElementById("page");
+            let display_list = "<thead class='table-secondary'><th>ลำดับ</th><th>รหัสนักศึกษา</th><th>ชื่อ สกุล</th><th>บ้าน</th></thead>";
+
 
             // Validate page
             if (page < 1) page = 1;
             if (page > numPages()) page = numPages();
 
-            document.getElementById("event").innerHTML = ""; // แสดงผลข้อมูลตารางให้ว่าง
+            document.getElementById("list_member").innerHTML = ""; // แสดงผลข้อมูลตารางให้ว่าง
 
-            for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < data.openevent.length; i++) {
-                display_Event += "<tbody><tr><td>" + (i + 1) + "</td><td>" + data.openevent[i].OpenEvent_Name + "</td><td>" + data.openevent[i].OpenEvent_Point + "</td><td>" + data.openevent[i].CreatedBy_ID + "</td><td>" + data.openevent[i].OpenEvent_Location + "</td></td><td><form action='http://localhost:3000/displayOpenEvnt/" + data.openevent[i].OpenEvent_ID + "' method='GET' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'><i class='fas fa-edit'></i></button></p></form></td><td><form action='http://localhost:3000/EventMemberList/"+data.openevent[i].OpenEvent_ID+"' method='POST' enctype='multipart/form-data'><p><button class='btn btn-info btn-xs'><i class='fas fa-user-check'></i></button></p></form></td><td><form action='#' method='POST'><p><button class='btn btn-danger btn-xs'><i class='fas fa-window-close'></i></button></p></form></td></tr></tbody>"
-                document.getElementById("event").innerHTML = display_Event
+            for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < Member.length; i++) {
+                myFunction()
+                display_list +=  "<tbody><tr><td>" + (i + 1) + "</td><td>" + Member[i].Member_ID + "</td><td>" + Member[i].Member_Name +" "+  Member[i].Member_Lastname+ "</td><td>" +  Member[i].Member_House + "</td></tr></tbody>"
             }
+
+            document.getElementById("list_member").innerHTML += display_list
             page_span.innerHTML = "Page " + page; // แสดงผลหน้า
 
             if (page == 1) {
@@ -257,12 +317,17 @@
         }
 
         function numPages(){
-            return Math.ceil(data.openevent.length / records_per_page);
+            return Math.ceil(Member.length / records_per_page);
+        }
+        function myFunction() {
+            Member.sort(function (a, b) { return a.Member_ID - b.Member_ID });
+            //console.log(Member)
         }
 
         window.onload = function() {
             changePage(1);
         };
+        
 
     </script>
 </body>

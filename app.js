@@ -1328,6 +1328,7 @@ app.post('/removeCreatedBy', (req, res) => {
 })
 
 // ============= All Event ===================
+// บันทึกข้อมูลกิจกรรมที่มี All Event
 app.post('/saveEvent', upload.single('photos'), function (req, res) {
     if (req.session.displayName) {
         let img_event = "http://togetherasonefoundation.org/wp-content/uploads/2019/01/EVENTS.png"
@@ -1387,43 +1388,7 @@ app.post('/saveEvent', upload.single('photos'), function (req, res) {
 
 })
 
-app.post('/event/:id', (req, res) => {
-    if (req.session.displayName) {
-        let id = req.params.id
-        let data = {}
-        AllEvent.find({ AllEvent_ID: id }, (err, data) => {
-            if (err) console.log(err)
-        }).then((event) => {
-            data.event = event
-
-            CreatedBy.find({}, (err, data) => {
-                if (err) console.log(err)
-            }).then((createdby) => {
-                data.createdby = createdby
-
-                EventType.find({}, (err, data) => {
-                    if (err) console.log(err)
-                }).then((eventtype) => {
-                    data.eventtype = eventtype
-
-                    Year.find({}, (err, data) => {
-                        if (err) console.log(err)
-                    }).then((year) => {
-                        data.year = year
-                        res.render('admin_EventOpen.hbs', {
-                            data: encodeURI(JSON.stringify(data))
-                        })
-                    }, (err) => {
-                        res.status(400).send(err)
-                    })
-                })
-            })
-        })
-    } else {
-        res.redirect('/login')
-    }
-})
-
+// แก้ไขข้อมูลกิจกรรมที่มี
 app.post('/event/edit/:id', (req, res) => {
     if (req.session.displayName) {
         let id = req.params.id
@@ -1457,6 +1422,7 @@ app.post('/event/edit/:id', (req, res) => {
 
 })
 
+// แก้ไขข้อมูลกิจกรรมที่มี
 app.post('/editEventContent', upload.single('photos'), function (req, res) {
     if (req.session.displayName) {
         let img_base64 = ""
@@ -1515,46 +1481,6 @@ app.post('/editEventContent', upload.single('photos'), function (req, res) {
             })
         }
 
-    } else {
-        res.redirect('/login')
-    }
-})
-
-app.get('/displayOpenEvnt/:id', function (req, res) {
-    if (req.session.displayName) {
-        let id = req.params.id
-        let data = {}
-        //console.log(id)
-        OpenEvent.find({ OpenEvent_ID: id }, (err, dataEvent) => {
-            if (err) console.log(err)
-        }).then((data1) => {
-            data.event = data1
-
-            CreatedBy.find({}, (err, data) => {
-                if (err) console.log(err)
-            }).then((createdby) => {
-                data.createdby = createdby
-
-                EventType.find({}, (err, data) => {
-                    if (err) console.log(err)
-                }).then((eventtype) => {
-                    data.eventtype = eventtype
-
-                    Year.find({}, (err, data) => {
-                        if (err) console.log(err)
-                    }).then((year) => {
-                        data.year = year
-
-                        res.render('admin_EventOpenDetail.hbs', {
-                            data: encodeURI(JSON.stringify(data))
-                        })
-                    }, (err) => {
-                        res.status(400).send(err)
-                    })
-                })
-            })
-
-        })
     } else {
         res.redirect('/login')
     }
@@ -1626,7 +1552,83 @@ var j = schedule.scheduleJob('* * * * *', function () {
 
 });
 
+// =============== แสดงรายชื่อผู้เข้าร่วม ===============
+app.post('/EventMemberList/:id', function (req,res){
+    let id = req.params.id
+    console.log(req.params.id)
+    if(req.session.displayName){
+        let name = req.session.displayName
+        let data = {}
+
+        data.name = name
+
+        OpenEvent.find({OpenEvent_ID : req.params.id },(err,data)=>{
+            if(err) console.log(err)
+        }).then((dataOpenEvent)=>{
+            data.openevent = dataOpenEvent
+
+            JoinEvent.find({OpenEvent_ID:req.params.id},(err,data)=>{
+                if(err) console.log(err)
+            }).then((dataJoinEvent)=>{
+                data.joinevent = dataJoinEvent
+                
+                    Member.find({},(err,data)=>{
+                        if (err) console.log(err)
+                    }).then((dataMember)=>{
+                        data.member = dataMember
+                        
+                        res.render('admin_EventMemberList.hbs',{
+                            data:encodeURI(JSON.stringify(data))
+                        })
+                    })       
+            })       
+        })
+     
+    }else{
+        res.redirect('/login')
+    }
+})
+
 // ============= เปิดกิจกรรม ====================
+// จัดการกิจกรรมเพื่อ เปิดกิจกรรม (Open Event)
+app.post('/event/:id', (req, res) => {
+    if (req.session.displayName) {
+        let id = req.params.id
+        let data = {}
+        AllEvent.find({ AllEvent_ID: id }, (err, data) => {
+            if (err) console.log(err)
+        }).then((event) => {
+            data.event = event
+
+            CreatedBy.find({}, (err, data) => {
+                if (err) console.log(err)
+            }).then((createdby) => {
+                data.createdby = createdby
+
+                EventType.find({}, (err, data) => {
+                    if (err) console.log(err)
+                }).then((eventtype) => {
+                    data.eventtype = eventtype
+
+                    Year.find({}, (err, data) => {
+                        if (err) console.log(err)
+                    }).then((year) => {
+                        data.year = year
+                        res.render('admin_EventOpen.hbs', {
+                            data: encodeURI(JSON.stringify(data))
+                        })
+                    }, (err) => {
+                        res.status(400).send(err)
+                    })
+                })
+            })
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
+//บันทึกข้อมูล กิจกรรมที่เปิดแล้ว
 app.post('/saveOpenEvent', upload.single('photos'), function (req, res) {
     if (req.session.displayName) {
         let img_event = "http://togetherasonefoundation.org/wp-content/uploads/2019/01/EVENTS.png"
@@ -1729,6 +1731,54 @@ app.post('/saveOpenEvent', upload.single('photos'), function (req, res) {
         res.redirect('/login')
     }
 })
+
+//แก้ไขข้อมูล กินกรรมที่เปิดแล้ว
+app.post('/editOpenEvent' ,(req,res)=>{
+    console.log('แก้ไขข้อมูลกิจกรรมที่เปิดแล้ว')
+})
+
+// แสดงผล ข้อมูลกิจกรรมที่เปิดแล้วเพื่อแก้ไข
+app.get('/displayOpenEvnt/:id', function (req, res) {
+    if (req.session.displayName) {
+        let id = req.params.id
+        let data = {}
+        //console.log(id)
+        OpenEvent.find({ OpenEvent_ID: id }, (err, dataEvent) => {
+            if (err) console.log(err)
+        }).then((data1) => {
+            data.event = data1
+
+            CreatedBy.find({}, (err, data) => {
+                if (err) console.log(err)
+            }).then((createdby) => {
+                data.createdby = createdby
+
+                EventType.find({}, (err, data) => {
+                    if (err) console.log(err)
+                }).then((eventtype) => {
+                    data.eventtype = eventtype
+
+                    Year.find({}, (err, data) => {
+                        if (err) console.log(err)
+                    }).then((year) => {
+                        data.year = year
+
+                        res.render('admin_EventOpenDetail.hbs', {
+                            data: encodeURI(JSON.stringify(data))
+                        })
+                    }, (err) => {
+                        res.status(400).send(err)
+                    })
+                })
+            })
+
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
+
 
 // ===================== Behavior ==================
 app.post('/saveBehavior', (req, res) => {

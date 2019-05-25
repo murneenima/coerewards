@@ -169,7 +169,7 @@
                 </div>
             </nav>
 
-            <h2 class="m-2 p-3 mb-2 bg-info text-white">Event Detail</h2>
+            <h2 class="m-2 p-3 mb-2 bg-info text-white">รายละเอียดกิจกรรม</h2>
             <div class="container">
                 <form action="http://localhost:3000/editOpenEvent" method="POST" enctype="multipart/form-data">
                     <div class="row m-4 d-flex justify-content-center" >
@@ -193,10 +193,10 @@
                     </div>
                     <hr>
                     <div class="row mt-4">
-                        <div class="col-7">
+                        <div class="col">
                             <div class="row m-4 ">
                                 <div class="col-4">
-                                    <label for="Event_Name" class="col-form-label">Event ID</label>
+                                    <label for="Event_Name" class="col-form-label">รหัสกิจกรรม</label>
                                 </div>
                                 <div class="col-5">
                                     <input type="text" class="form-control" id="Event_ID" name="Event_ID" placeholder="ID" readonly>
@@ -207,7 +207,7 @@
                             </div>
                             <div class="row m-4 ">
                                 <div class="col-4">
-                                    <label for="Event_Name" class="col-form-label">Event Name</label>
+                                    <label for="Event_Name" class="col-form-label">ชื่อกิจกรรม</label>
                                 </div>
                                 <div class="col-7">
                                     <textarea type="text" class="form-control" id="Event_Name" name="Event_Name" placeholder="ชื่อกิจกรรม" rows="3" required></textarea>
@@ -218,9 +218,9 @@
                             </div>
                             <div class="row m-4 ">
                                 <div class="col-4">
-                                    <label for="Event_Point" class="col-form-label">Point</label>
+                                    <label for="Event_Point" class="col-form-label">คะแนน</label>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-5">
                                     <input type="number" class="form-control" id="Event_Point" name="Event_Point" placeholder="คะแนน" required>
                                 </div>
                                 <div class="col-1">
@@ -229,7 +229,7 @@
                             </div>
                             <div class="row m-4">
                                 <div class="col-4">
-                                    <label for="Event_StartDate" class="col-form-label">Start Date</label>
+                                    <label for="Event_StartDate" class="col-form-label">วันที่เริ่มต้น</label>
                                 </div>
                                 <div class="col-5">
                                     <input type="date" class="form-control" id="Event_StartDate" name="Event_StartDate" required>
@@ -240,7 +240,7 @@
                             </div>
                             <div class="row m-4">
                                 <div class="col-4">
-                                    <label for="Event_EndDate" class="col-form-label">End Date</label>
+                                    <label for="Event_EndDate" class="col-form-label">วันที่สิ้นสุด</label>
                                 </div>
                                 <div class="col-5">
                                     <input type="date" class="form-control" id="Event_EndDate" name="Event_EndDate" required>
@@ -257,7 +257,10 @@
                                     <input type="time" min="8:00" max="22:00" required class="form-control" id="Event_StartTime" name="Event_StartTime">
                                 </div>
                                 <div class="col-3">
-                                    <h6>* 8:00 - 22:00</h6>
+                                    <h4>* </h4>
+                                </div>
+                                <div class="row ml-4">
+                                    <h6>8:00 - 22:00</h6>
                                 </div>
                             </div>
                             <div class="row m-4">
@@ -268,16 +271,19 @@
                                     <input type="time" min="8:00" max="22:00" required class="form-control" id="Event_EndTime" name="Event_EndTime">
                                 </div>
                                 <div class="col-3">
-                                    <h6>* 8:00 - 22:00</h6>
+                                    <h4>*</h4>
+                                </div>
+                                <div class="row ml-4">
+                                    <h6>8:00 - 22:00</h6>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-5 personal-info">
+                        <div class="col personal-info">
                             <div class="row m-4">
                                 <div class="col-4">
-                                    <label for="Event_Semester" class="col-form-label">Year</label>
+                                    <label for="Event_Semester" class="col-form-label">ปีการศึกษา</label>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-7">
                                     <select type="text" class="form-control" id="Event_Year" name="Event_Year" required>
 
                                     </select>
@@ -288,9 +294,9 @@
                             </div>
                             <div class="row m-4">
                                 <div class="col-4">
-                                    <label for="Event_Semester" class="col-form-label">Semester</label>
+                                    <label for="Event_Semester" class="col-form-label">ภาคการศึกษา</label>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-7">
                                     <select type="text" class="form-control" id="Event_Semester" name="Event_Semester" required>
                                         <option value="">-Please Select-</option>
                                         <option value="1">Semester 1</option>
@@ -306,7 +312,7 @@
                                 <div class="col-5">
                                     <label for="Event_Type" class="col-form-label">ประเภทของกิจกรรม</label>
                                 </div>
-                                <div class="col-5">
+                                <div class="col-6">
                                     <select type="text" class="form-control" id="Event_Type" name="Event_Type" required>
                                     </select>
                                 </div>
@@ -315,10 +321,10 @@
                                 </div>
                             </div>
                             <div class="row m-4">
-                                <div class="col-5">
+                                <div class="col-2">
                                     <label for="Event_CreatedBy" class="col-form-label">จัดโดย</label>
                                 </div>
-                                <div class="col-5">
+                                <div class="col-9">
                                     <select type="text" class="form-control" id="Event_CreatedBy" name="Event_CreatedBy" required>
 
                                     </select>
@@ -328,10 +334,10 @@
                                 </div>
                             </div>
                             <div class="row m-4">
-                                <div class="col-5">
-                                    <label for="Event_Location" class="col-form-label">Location</label>
+                                <div class="col-2">
+                                    <label for="Event_Location" class="col-form-label">สถานที่</label>
                                 </div>
-                                <div class="col-5">
+                                <div class="col-9">
                                     <textarea type="text" class="form-control" id="Event_Location" name="Event_Location" rows="2" placeholder="สถานที่" required></textarea>
                                 </div>
                                 <div class="col-1">
@@ -339,10 +345,10 @@
                                 </div>
                             </div>
                             <div class="row m-4">
-                                <div class="col-5">
-                                    <label for="Event_Description" class="col-form-label">Description</label>
+                                <div class="col-3">
+                                    <label for="Event_Description" class="col-form-label">หมายเหตุ</label>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-8">
                                     <textarea class="form-control" id="Event_Description" name="Event_Description" rows="5" required></textarea>
                                 </div>
                                 <div class="col-1">
@@ -422,7 +428,7 @@
         document.getElementById("Event_EndTime").value = dataEvent[0].OpenEvent_EndTime
         document.getElementById("Event_Semester").value = dataEvent[0].OpenEvent_Semeter
         document.getElementById("Event_Description").value = dataEvent[0].OpenEvent_Descrip
-
+        
 
         for (let i = 0; i < EventType.length; i++) {
             display_et += "<option value=" + EventType[i].EventType_Name + ">" + EventType[i].EventType_Name + "</option>"
@@ -436,8 +442,12 @@
         document.getElementById("Event_Type").innerHTML = display_et
         document.getElementById("Event_CreatedBy").innerHTML = display_cb
         document.getElementById("img1").innerHTML = image2
-
         document.getElementById("Event_Year").innerHTML = display_year
+
+        document.getElementById("Event_Year").value = dataEvent[0].OpenEvent_Year
+        document.getElementById("Event_CreatedBy").value = dataEvent[0].CreatedBy_ID
+        document.getElementById("Event_Type").value = dataEvent[0].EventType_ID
+
 
         var imageURL = ""
         function previewFile() {
