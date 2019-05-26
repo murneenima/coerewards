@@ -18,7 +18,11 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
         crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script> {{!-- AJAX --}}
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
 
 
     <style>
@@ -194,7 +198,7 @@
                         <div class="row ">
                             <div class="col">
                                 <div id="img1">
-                                   
+
                                 </div>
                             </div>
                         </div>
@@ -206,7 +210,8 @@
                                 </button>
                             </div>
                             <div class="col-5">
-                                <button type="button" class="btn btn-outline-dark btn-lg btn-block" data-toggle="tooltip" data-placement="bottom" title="Change Password">
+                                <button type="button" class="btn btn-outline-dark btn-lg btn-block" data-toggle="tooltip" onclick=" ShowModal_password()"
+                                    data-placement="bottom" title="Change Password">
                                     <i class="fas fa-lock"></i>
                                 </button>
                             </div>
@@ -259,31 +264,85 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body text-center">
-                            <div class="row ">
-                                <div  id="img_photo" style='min-width: 100%;height: auto;'>
+                        {{!--
+                        <form action="http://localhost:3000/changeProfile" method="post" enctype="multipart/form-data">
+                        --}}
+                            <div class="modal-body text-center">
+                                <div class="row ">
+                                    <div id="img_photo" style='min-width: 100%;height: auto;'>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
+                                <div class="row">
 
-                                <div class="col">
-                                    <input type="file" onchange="previewFile()" id="photos" name="photos" multiple class="form-control" accept=".png, .jpg, .jpeg">
+                                    <div class="col">
+                                        <input type="file" onchange="previewFile()" id="photos" name="photos" multiple class="form-control" accept=".png, .jpg, .jpeg"
+                                            required>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary" onclick="POST_Profile()">Change Profile</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                            {{!-- </form> --}}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="password" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header ">
+                            <h5 class="modal-title" id="exampleModalScrollableTitle">Change Password</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Change Profile</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
+                        <form action="http://localhost:3000/changePassword" method="post">
+                            <div class="modal-body text-center">
+                                <div class="row mt-4">
+                                    <div class="col-4">
+                                        <label for="FirstName">Username</label>
+                                    </div>
+                                    <div class="col-7">
+                                        <input type="text" class="form-control" id="Admin_Username2" name="Admin_Username2" placeholder="Username" readonly required>
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-4">
+                                        <label for="FirstName">รหัสผ่านใหม่</label>
+                                    </div>
+                                    <div class="col-7">
+                                        <input type="password" class="form-control" id="Admin_NewPassword" name="Admin_NewPassword" placeholder="รหัสผ่านใหม่" required>
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-4">
+                                        <label for="FirstName">ยืนยันรหัสผ่าน</label>
+                                    </div>
+                                    <div class="col-7">
+                                        <input type="password" class="form-control" id="Admin_ReNewPassword" onChange="checkPasswordMatch();" name="Admin_ReNewPassword" placeholder="ยืนยันรหัสผ่าน" required>
+                                    </div>
+                                </div>
+                                <div class="row ml-2 d-flex justify-content-center">
+                                    <div class="col">
+                                        <p style="color:red;" id="divCheckPasswordMatch"></p>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" id="change_password" class="btn btn-primary">Change Password</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- jQuery CDN - Slim version (=without AJAX) -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
     <!-- Popper.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
         crossorigin="anonymous"></script>
@@ -296,6 +355,15 @@
             $('#sidebarCollapse').on('click', function () {
                 $('#sidebar').toggleClass('active');
             });
+
+             $('input[name=Admin_ReNewPassword]').change(function() { 
+                $("#txtConfirmPassword").keyup(checkPasswordMatch);
+
+              });
+             $('input[name=Admin_NewPassword]').change(function() { 
+                $("#txtConfirmPassword").keyup(checkPasswordMatch);
+
+              });
         });
         var data2 = "{{data}}"
         var data = JSON.parse(decodeURI(data2))
@@ -312,12 +380,12 @@
             document.getElementById("Admin_Username").value = data.admin.Admin_Username
         }
 
+        var imageURL = ""
         function previewFile() {
-            var imageURL = ""
             var preview = document.querySelector('#img2');
             var file = document.querySelector('input[type=file]').files[0];
-            console.log(preview)
-            console.log(file)
+            // console.log(preview)
+            // console.log(file)
             var reader = new FileReader();
 
             reader.addEventListener("load", function () {
@@ -331,15 +399,47 @@
             }
 
         }
-
+        
         function ShowModal_Edit() {
             $('#profile').modal('show');
             let image3 = "<img id='img2'  src='" + data.admin.Admin_Profile + "' style='width: 40%;height: auto;;margin: 20px;object-fit: cover;object-position: center right;border-radius: 25px;border: 1px solid rgb(69, 73, 63);' class='img-circle img-thumbnail '>"
             document.getElementById("img_photo").innerHTML = image3
 
         }
+        function ShowModal_password() {
+            $('#password').modal('show');
+            document.getElementById("Admin_Username2").value = data.admin.Admin_Username
+            document.getElementById("change_password").disabled = true
+        }
 
-        function 
+        function POST_Profile() {
+            let username = data.admin.Admin_Username
+            //console.log('profile will change ' + username)
+            //console.log(imageURL)
+            $.ajax('http://localhost:3000/changeProfile', {
+                data: JSON.stringify({ username, imageURL }),
+                contentType: 'application/json',
+                type: 'POST',
+            })
+            location.reload();
+        }
+
+        function checkPasswordMatch() {
+            var password = $("#Admin_NewPassword").val();
+            var confirmPassword = $("#Admin_ReNewPassword").val();
+
+            if (password != confirmPassword){
+                document.getElementById("change_password").disabled = true
+                $("#divCheckPasswordMatch").html("Passwords doesn't match.");
+            }else{
+                document.getElementById("change_password").disabled = false
+                $("#divCheckPasswordMatch").html("Passwords match.");
+            }
+                
+        }
+
+            
+     
 
     </script>
 </body>
