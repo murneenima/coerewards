@@ -2763,6 +2763,28 @@ app.get('/getReport', (req, res) => {
     }
 })
 
+// ======================= alumni ===============
+//  admin_alumni.hbs
+app.get('/Alumni', (req, res) => {
+    if (req.session.displayName) {
+        let name = req.session.displayName
+        let data = {}
+        data.name = name
+        Alumni.find({}, (err, data) => {
+            if (err) console.log(err)
+        }).then((dataAlumni) => {
+            data.alumni = dataAlumni
+            data.name = name
+            res.render('admin_Alumni.hbs', {
+                data: encodeURI(JSON.stringify(data))
+            })
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
+
 // ======================= Admin =========================
 // Admin_admin.hbs
 app.get('/forAdmin', (req, res) => {
@@ -2780,67 +2802,74 @@ app.get('/forAdmin', (req, res) => {
 
 app.post('/admin/save', function (req, res) {
     let name = req.session.displayName
+    let member_profile = "https://www.sccpre.cat/mypng/full/8-87398_computer-icons-login-person-black-black-and-white.png"
     if (req.session.displayName) {
-        // res.render('admin_Admin.hbs', {
-        //     data : encodeURI(JSON.stringify(name))
-        // })
-        let newAdmin = new Admin({
-            Admin_Name: req.body.Admin_Name,
-            Admin_Surname: req.body.Admin_Surname,
-            Admin_Username: req.body.Admin_Username,
-            Admin_Password: req.body.Admin_Password
-        })
-        newAdmin.save().then((doc) => {
-            res.send(`
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset="utf-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            
-                <title>Success</title>
-            
-                <!-- Bootstrap CSS CDN -->
-                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
-                    crossorigin="anonymous">
-                <style>
-                    @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-                    h4 {
-                        color: crimson;
-                    }
-            
-                    p {
-                        font-family: 'Poppins', sans-serif;
-                        font-size: 1.1em;
-                        font-weight: 300;
-                        line-height: 1.7em;
-                        color: #999;
-                    }
-                </style>
-            </head>
-            <body>
-                <div class="container d-flex justify-content-center align-items-center">
-                    <div class="row mt-5 ">
-            
-                        <div class="alert alert-success" role="alert">
-                            <h3 class="alert-heading">Succes !</h3>
-                            <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูล Admin ลงฐานข้อมูลสำเร็จ </p>
-                            <hr>
-                            <p class="d-flex justify-content-end">
-                                    <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/forAdmin" role="button">ตกลง</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="line"></div>
-            </body>
-            
-            </html>
-            `)
-        }, (err) => {
-            //res.render('admin_error.hbs',{})
-            res.status(400).send(err)
+        bcrypt.hash(req.body.Admin_Password, 10, (err, hash) => {
+            if (err) {
+                return res.status(500).json({
+                    error: err
+                })
+            } else {
+                let newAdmin = new Admin({
+                    Admin_Name: req.body.Admin_Name,
+                    Admin_Surname: req.body.Admin_Surname,
+                    Admin_Username: req.body.Admin_Username,
+                    Admin_Password: hash,
+                    Admin_Profile : member_profile
+                })
+                newAdmin.save().then((doc) => {
+                    res.send(`
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <meta charset="utf-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                        
+                            <title>Success</title>
+                        
+                            <!-- Bootstrap CSS CDN -->
+                            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                                crossorigin="anonymous">
+                            <style>
+                                @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                                h4 {
+                                    color: crimson;
+                                }
+                        
+                                p {
+                                    font-family: 'Poppins', sans-serif;
+                                    font-size: 1.1em;
+                                    font-weight: 300;
+                                    line-height: 1.7em;
+                                    color: #999;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="container d-flex justify-content-center align-items-center">
+                                <div class="row mt-5 ">
+                        
+                                    <div class="alert alert-success" role="alert">
+                                        <h3 class="alert-heading">Succes !</h3>
+                                        <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูล Admin ลงฐานข้อมูลสำเร็จ </p>
+                                        <hr>
+                                        <p class="d-flex justify-content-end">
+                                                <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/forAdmin" role="button">ตกลง</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="line"></div>
+                        </body>
+                        
+                        </html>
+                        `)
+                }, (err) => {
+                    //res.render('admin_error.hbs',{})
+                    res.status(400).send(err)
+                })
+            }
         })
     } else {
         res.redirect('/login')
@@ -2854,6 +2883,7 @@ app.get('/register', function (req, res, next) {
 })
 
 app.post('/admin/register', function (req, res) {
+    let member_profile = "https://www.sccpre.cat/mypng/full/8-87398_computer-icons-login-person-black-black-and-white.png"
     bcrypt.hash(req.body.Admin_Password, 10, (err, hash) => {
         if (err) {
             return res.status(500).json({
@@ -2865,6 +2895,7 @@ app.post('/admin/register', function (req, res) {
                 Admin_Surname: req.body.Admin_Surname,
                 Admin_Username: req.body.Admin_Username,
                 Admin_Password: hash,
+                Admin_Profile : member_profile
             })
             newAdmin.save().then((doc) => {
                 res.send(`
@@ -2904,7 +2935,7 @@ app.post('/admin/register', function (req, res) {
                                     <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูล Admin ลงฐานข้อมูลสำเร็จ </p>
                                     <hr>
                                     <p class="d-flex justify-content-end">
-                                            <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/forAdmin" role="button">ตกลง</a>
+                                            <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/login" role="button">ตกลง</a>
                                     </p>
                                 </div>
                             </div>
@@ -2927,7 +2958,8 @@ app.post('/admin/register', function (req, res) {
 app.get('/adminProfile',(req,res)=>{
     if(req.session.displayName){
         let data ={}
-        Admin.findOne({Admin_Username:req.session.displayName},(err,data)=>{
+        let name = req.session.displayName
+        Admin.findOne({Admin_Username:name},(err,data)=>{
             if(err) console.log(err)
         }).then((dataAdmin)=>{
             data.name = req.session.displayName
@@ -2941,26 +2973,6 @@ app.get('/adminProfile',(req,res)=>{
     }
 })
 
-// ======================= alumni ===============
-//  admin_alumni.hbs
-app.get('/Alumni', (req, res) => {
-    if (req.session.displayName) {
-        let name = req.session.displayName
-        let data = {}
-        data.name = name
-        Alumni.find({}, (err, data) => {
-            if (err) console.log(err)
-        }).then((dataAlumni) => {
-            data.alumni = dataAlumni
-            data.name = name
-            res.render('admin_Alumni.hbs', {
-                data: encodeURI(JSON.stringify(data))
-            })
-        })
-    } else {
-        res.redirect('/login')
-    }
-})
 
 // ================= Login/Logout ============
 app.get('/login', (req, res) => {
@@ -2970,7 +2982,7 @@ app.get('/login', (req, res) => {
 app.post('/login/admin', (req, res, next) => {
     let username = req.body.Username
     let password = req.body.Password
-    let admin_error = ` <!DOCTYPE html>
+    let admin_error = `<!DOCTYPE html>
     <html lang="en">  
     <head>
     <meta charset="UTF-8">
@@ -3029,10 +3041,12 @@ app.post('/login/admin', (req, res, next) => {
         .exec()
         .then(user => {
             if (user.length < 1) {
-                res.render(admin_error)
+                res.send(admin_error)
             } else {
                 bcrypt.compare(req.body.Password, user[0].Admin_Password, function (err, result) {
-
+                    if(result == 0){
+                        res.send(admin_error)
+                        }
                     if (result) {
                         // const token = jwt.sign({
                         //     Admin_Username: user[0].Admin_Username
@@ -3042,13 +3056,14 @@ app.post('/login/admin', (req, res, next) => {
                         //         expiresIn: "1h"
                         //     }
                         // );
-                        req.session.displayName = user[0].Admin_Name
+                        req.session.displayName = user[0].Admin_Username
                         res.redirect('/Main')
                         console.log('login success')
                         // return res.status(200).json({
                         //     message: 'Succesful',
                         //     token: token
                         // })
+                        return 0;
                     }
                     if (err) {
                         res.send(admin_error)
@@ -3058,6 +3073,7 @@ app.post('/login/admin', (req, res, next) => {
                     }
                 })
             }
+
         }).catch(err => {
             console.log(err);
             res.send(admin_error)
@@ -3183,7 +3199,7 @@ app.post('/login/member', (req, res, next) => {
             if (member.length < 1) {
                 console.log('Error to find data')
                 return res.status(200).json({
-                    message: 'Error to find data'
+                    message: 'Error to find data // No ID '
                 })
 
             } else {
@@ -3214,6 +3230,10 @@ app.post('/login/member', (req, res, next) => {
                         });
                     }
                 })
+
+                return res.status(400).json({
+                    message: 'Wrong Password'
+                });
             }
         }).catch(err => {
             console.log(err);

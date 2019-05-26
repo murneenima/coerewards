@@ -20,10 +20,11 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
         crossorigin="anonymous"></script>
 
-    
+
     <style>
         h4 {
             color: crimson;
+
         }
     </style>
 </head>
@@ -31,7 +32,7 @@
 <body>
     <div class="wrapper">
         <!-- Sidebar  -->
-        <nav  id="sidebar">
+        <nav id="sidebar">
             <div class="sidebar-header">
                 <h3>COE REWARD</h3>
             </div>
@@ -128,10 +129,10 @@
                 <li>
                     <a href="#AdminSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Admin</a>
                     <ul class="collapse list-unstyled" id="AdminSubmenu">
-                         <li>
+                        <li>
                             <a href="http://localhost:3000/forAdmin">Add Admin</a>
                         </li>
-                         <li>
+                        <li>
                             <a href="http://localhost:3000/adminProfile">Admin Profile</a>
                         </li>
                     </ul>
@@ -142,12 +143,12 @@
                         <li>
                             <a href="http://localhost:3000/getYear">กำหนดปีการศึกษา</a>
                         </li>
-                         <li>
+                        <li>
                             <a href="http://localhost:3000/displayYear">ปฏิทินการศึกษา</a>
                         </li>
                     </ul>
                 </li>
-                
+
                 <li>
                     <a href="http://localhost:3000/getReport">Report</a>
                 </li>
@@ -187,9 +188,96 @@
             </nav>
 
             <h2 class="m-2 p-3 mb-2 bg-info text-white">Admin Profile</h2>
-        
-            <div class="line"></div>
+            <div class="container mt-4">
+                <div class="row m-2 d-flex justify-content-around">
+                    <div class="col-5 ">
+                        <div class="row ">
+                            <div class="col">
+                                <div id="img1">
+                                   
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                <button type="button" class="btn btn-outline-dark btn-lg btn-block" data-toggle="tooltip" onclick="ShowModal_Edit()" data-placement="bottom"
+                                    title="Change Profile">
+                                    <i class="fas fa-user-circle"></i>
+                                </button>
+                            </div>
+                            <div class="col-5">
+                                <button type="button" class="btn btn-outline-dark btn-lg btn-block" data-toggle="tooltip" data-placement="bottom" title="Change Password">
+                                    <i class="fas fa-lock"></i>
+                                </button>
+                            </div>
 
+                        </div>
+                    </div>
+                    <div class="col-5">
+                        <div class="row mt-5">
+                            <div class="col-4">
+                                <label for="StudentID">ชื่อ</label>
+                            </div>
+                            <div class="col-7">
+                                <input type="tel" class="form-control" id="Admin_Name" name="Admin_Name" placeholder="ชื่อ" required>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-4">
+                                <label for="Password">นามสกุล</label>
+                            </div>
+                            <div class="col-7">
+                                <input type="text" class="form-control" id="Admin_Lastname" name="Admin_Lastname" placeholder="Password" required>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-4">
+                                <label for="FirstName">Username</label>
+                            </div>
+                            <div class="col-7">
+                                <input type="text" class="form-control" id="Admin_Username" name="Admin_Username" placeholder="Username" required readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row-4 m-4 d-flex justify-content-end">
+                    <div class="col-2">
+                        <button type="submit" value="upload" class="btn btn-primary btn-lg btn-block">Save</button>
+                    </div>
+                </div>
+            </div>
+            <div class="line"></div>
+            <!-- Modal -->
+            <div class="modal fade" id="profile" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header ">
+                            <h5 class="modal-title" id="exampleModalScrollableTitle">Change Profile</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <div class="row ">
+                                <div  id="img_photo" style='min-width: 100%;height: auto;'>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col">
+                                    <input type="file" onchange="previewFile()" id="photos" name="photos" multiple class="form-control" accept=".png, .jpg, .jpeg">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Change Profile</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -213,6 +301,45 @@
         var data = JSON.parse(decodeURI(data2))
 
         document.getElementById("username").innerHTML = "User : " + data.name
+
+        // === display data ====
+        display_data()
+        function display_data() {
+            let image2 = "<img id='img1'  src='" + data.admin.Admin_Profile + "' style='width: 70%;height: auto;margin: 20px;object-fit: cover;object-position: center right;border-radius: 25px;border: 1px solid rgb(69, 73, 63);' class='img-circle img-thumbnail '>"
+            document.getElementById("img1").innerHTML = image2
+            document.getElementById("Admin_Name").value = data.admin.Admin_Name
+            document.getElementById("Admin_Lastname").value = data.admin.Admin_Surname
+            document.getElementById("Admin_Username").value = data.admin.Admin_Username
+        }
+
+        function previewFile() {
+            var imageURL = ""
+            var preview = document.querySelector('#img2');
+            var file = document.querySelector('input[type=file]').files[0];
+            console.log(preview)
+            console.log(file)
+            var reader = new FileReader();
+
+            reader.addEventListener("load", function () {
+                preview.src = reader.result;
+                imageURL = reader.result
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+
+            }
+
+        }
+
+        function ShowModal_Edit() {
+            $('#profile').modal('show');
+            let image3 = "<img id='img2'  src='" + data.admin.Admin_Profile + "' style='width: 40%;height: auto;;margin: 20px;object-fit: cover;object-position: center right;border-radius: 25px;border: 1px solid rgb(69, 73, 63);' class='img-circle img-thumbnail '>"
+            document.getElementById("img_photo").innerHTML = image3
+
+        }
+
+        function 
 
     </script>
 </body>

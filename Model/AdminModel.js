@@ -22,6 +22,9 @@ var AdminSchema = new Schema({
     Admin_Surname:{
         type:String,
         required:true
+    },
+    Admin_Profile:{
+        type:String
     }
 })
 
