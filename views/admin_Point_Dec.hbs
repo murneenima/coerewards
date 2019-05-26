@@ -228,13 +228,13 @@
             });
         });
 
-        document.getElementById("username").innerHTML = "User : " + name
         var current_page = 1;
         var records_per_page = 10;
 
-        var data = "{{dataBehavior}}"
-        var dataBehavior = JSON.parse(decodeURI(data))
+        var data2 = "{{data}}"
+        var data = JSON.parse(decodeURI(data2))
         var Behavior = [];
+        document.getElementById("username").innerHTML = "User : " + data.name
 
         // ==============Display data================
         function prevPage() {
@@ -263,8 +263,8 @@
 
             document.getElementById("table_data").innerHTML = ""; // แสดงผลข้อมูลตารางให้ว่าง
 
-            for (var i = (page - 1) * records_per_page; i < (page * records_per_page) && i < dataBehavior.length; i++) {
-                display_data += "<th>" + (i + 1) + "</th><td>" + dataBehavior[i].Behavior_Name + "</td><td>" + "-" + dataBehavior[i].Behavior_Point + "</td><td>" + dataBehavior[i].Behavior_Description + "<td><form action='http://localhost:3000/DecPointHouse/" + dataBehavior[i].Behavior_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-home'></button></p></form></td><td><form action='http://localhost:3000/DecPointGroup/" + dataBehavior[i].Behavior_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-users'></i></button></p></form></td></tr>"
+            for (var i = (page - 1) * records_per_page; i < (page * records_per_page) && i < data.behavior.length; i++) {
+                display_data += "<th>" + (i + 1) + "</th><td>" + data.behavior[i].Behavior_Name + "</td><td>" + "-" + data.behavior[i].Behavior_Point + "</td><td>" + data.behavior[i].Behavior_Description + "<td><form action='http://localhost:3000/DecPointHouse/" + data.behavior[i].Behavior_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-home'></button></p></form></td><td><form action='http://localhost:3000/DecPointGroup/" + data.behavior[i].Behavior_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-users'></i></button></p></form></td></tr>"
                 document.getElementById("table_data").innerHTML = display_data
             }
             page_span.innerHTML = "Page " + page; // แสดงผลหน้า
@@ -283,19 +283,19 @@
         }
 
         function numPages() {
-            return Math.ceil(dataBehavior.length / records_per_page);
+            return Math.ceil(data.behavior.length / records_per_page);
         }
 
         window.onload = function () {
             changePage(1);
         };
         // =================================
-        for (let i = 0; i < dataBehavior.length; i++) {
-            Behavior.push(dataBehavior[i])
+        for (let i = 0; i < data.behavior.length; i++) {
+            Behavior.push(data.behavior[i])
             myFunction()
         }
         function myFunction() {
-            dataBehavior.sort(function (a, b) { return b.Member_Total - a.Member_Total });
+            data.behavior.sort(function (a, b) { return b.Member_Total - a.Member_Total });
             //console.log(Member)
         }
 

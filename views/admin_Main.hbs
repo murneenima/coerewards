@@ -261,7 +261,6 @@
             });
         });
 
-        document.getElementById("username").innerHTML = "User : " + name
         var current_page = 1;
         var records_per_page = 4;
 
@@ -285,6 +284,7 @@
         { name: "Elon Musk", point: 0 },
         { name: "Mark Zuckerberg", point: 0 },]
         //console.log(dataAll)
+        document.getElementById("username").innerHTML = "User : " + dataAll.name
 
         // ==============Display data================
         function prevPage() {

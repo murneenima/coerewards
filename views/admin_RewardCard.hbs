@@ -226,18 +226,18 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-        document.getElementById("username").innerHTML = "User : "+ name
 
-        var data = "{{data}}"
-        var data2 = JSON.parse(decodeURI(data))
+        var data2 = "{{data}}"
+        var data = JSON.parse(decodeURI(data2))
         var Reward = [];
         var username = data2.name
         var current_page = 1;
         var records_per_page = 12;
+        document.getElementById("username").innerHTML = "User : "+ data.name
 
         //console.log(data2)
-        for (let i = 0; i < data2.length; i++) {
-            Reward.push(data2[i])
+        for (let i = 0; i < data.reward.length; i++) {
+            Reward.push(data.reward[i])
         }
         console.log(Reward)
 

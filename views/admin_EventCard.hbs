@@ -218,18 +218,18 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-        document.getElementById("username").innerHTML = "User : "+ name
 
-        var data = "{{data}}"
-        var data2 = JSON.parse(decodeURI(data))
+        var data2 = "{{data}}"
+        var data = JSON.parse(decodeURI(data2))
         var Event = [];
         var username = data2.name
         var current_page = 1;
         var records_per_page = 9;
 
+        document.getElementById("username").innerHTML = "User : "+ data.name
 
-        for (let i = 0; i < data2.length; i++) {
-            Event.push(data2[i])
+        for (let i = 0; i < data.openevent.length; i++) {
+            Event.push(data.openevent[i])
         }
         console.log(Event)
 

@@ -40,12 +40,6 @@ const upload = multer({
     fileFilter: fileFilter
 })
 
-//var upload = multer({ dest: 'uploads/' })
-//==================================
-
-//===================================
-const MemberRounter = require('./member')
-
 // ===========================================
 var Member = require('./Model/MemberModel')
 var House = require('./Model/HouseModel')
@@ -61,6 +55,7 @@ var Year = require('./Model/YearModel')
 var Admin = require('./Model/AdminModel')
 var RedeemReward = require('./Model/RedeemRewardModel')
 var Alumni = require('./Model/AlumniModel')
+var OtherEvent = require('./Model/OtherEventModel')
 
 //=========================================
 mongoose.connect('mongodb://localhost:27017/DBcoe').then((doc) => {
@@ -126,7 +121,7 @@ app.get('/Main', (req, res) => {
         }).then((dataMember) => {
             data.member = dataMember
 
-            OpenEvent.find({OpenEvent_Status:open}, (err, data) => {
+            OpenEvent.find({ OpenEvent_Status: open }, (err, data) => {
                 if (err) console.log(err)
             }).then((dataOpenEvent) => {
                 data.openevent = dataOpenEvent
@@ -156,12 +151,16 @@ app.get('/Main', (req, res) => {
 })
 
 app.get('/SeeMoreReward', (req, res) => {
+    let data ={}
+    let name = req.session.displayName
     if (req.session.displayName) {
         Reward.find({}, (err, dataEvent) => {
             if (err) console.log(err)
         }).then((dataReward) => {
+            data.name = name 
+            data.reward = dataReward
             res.render('admin_RewardCard.hbs', {
-                data: encodeURI(JSON.stringify(dataReward))
+                data: encodeURI(JSON.stringify(data))
             })
         })
     } else {
@@ -174,9 +173,13 @@ app.get('/SeeMoreReward', (req, res) => {
 app.get('/SeeMoreEvent', (req, res) => {
     if (req.session.displayName) {
         let open = "Open_Event"
-        OpenEvent.find({OpenEvent_Status:open}, (err, dataEvent) => {
+        let name = req.session.displayName
+        let data = {}
+        OpenEvent.find({ OpenEvent_Status: open }, (err, dataEvent) => {
             if (err) console.log(err)
-        }).then((data) => {
+        }).then((dataEV) => {
+            data.name = name 
+            data.openevent = dataEV
             res.render('admin_EventCard.hbs', {
                 data: encodeURI(JSON.stringify(data))
             })
@@ -186,8 +189,8 @@ app.get('/SeeMoreEvent', (req, res) => {
     }
 })
 
-// ====================== API Post =============================
-// ========================= Member ====================================
+// ====================== API Post ==========================
+// ====================== Member ============================
 // admin_MemberInsert.hbs เพิ่มข้อมูล
 app.get('/MemberInsert', (req, res) => {
     let name = req.session.displayName
@@ -244,7 +247,7 @@ app.post('/save', upload.single('photos'), function (req, res) {
 
 
                     if (req.file == undefined) {
-                        bcrypt.hash(req.body.Member_ID, 10, (err, hash) => {
+                        bcrypt.hash(req.body.Member_Password, 10, (err, hash) => {
                             if (err) {
                                 return res.status(500).json({
                                     error: err
@@ -444,7 +447,54 @@ app.post('/editMember', (req, res) => {
 
             d.save().then((success) => {
                 console.log(' **** Success to edit Member ****')
-                res.redirect('/MemberAll')
+                //res.redirect('/MemberAll')
+                res.send(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="utf-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                
+                    <title>Success</title>
+                
+                    <!-- Bootstrap CSS CDN -->
+                    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                        crossorigin="anonymous">
+                    <style>
+                        @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                        h4 {
+                            color: crimson;
+                        }
+                
+                        p {
+                            font-family: 'Poppins', sans-serif;
+                            font-size: 1.1em;
+                            font-weight: 300;
+                            line-height: 1.7em;
+                            color: #999;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="container d-flex justify-content-center align-items-center">
+                        <div class="row mt-5 ">
+                
+                            <div class="alert alert-success" role="alert" style="height:100%; width:500px;">
+                                <h3 class="alert-heading">Succes !</h3>
+                                <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">แก้ไขข้อมูลนักศึกษาลงฐานข้อมูลสำเร็จ !</p>
+                                <hr>
+                                <p class="d-flex justify-content-end">
+                                        <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/MemberAll" role="button">ตกลง</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="line"></div>
+                </body>
+                
+                </html>
+                `)
             }, (e) => {
                 res.status(400).send(e)
             }, (err) => {
@@ -472,7 +522,7 @@ app.post('/resetPassword', (req, res) => {
 
                     d.save().then((success) => {
                         console.log(' **** Success to reset password ****')
-                        res.redirect('/MemberAll')
+                       // res.redirect('/MemberAll')
                     }, (e) => {
                         res.status(400).send(e)
                     }, (err) => {
@@ -493,11 +543,12 @@ app.post('/member/:edit', (req, res, next) => {
     if (req.session.displayName) {
         let id = req.params.edit
         let data = {}
+        let name = req.session.displayName
         Member.find({ Member_ID: id }, (err, dataMember) => {
             if (err) console.log(err)
         }).then((dataMember) => {
             data.member = dataMember
-
+            data.name = name
             JoinEvent.find({ Member_ID: id }, (err, data) => {
                 if (err) console.log(err)
             }).then((dataJoinEvent) => {
@@ -517,6 +568,7 @@ app.post('/member/:edit', (req, res, next) => {
                             if (err) console.log(err)
                         }).then((dataYear) => {
                             data.year = dataYear
+                            
 
                             res.render('admin_MemberEdit.hbs', {
                                 data: encodeURI(JSON.stringify(data))
@@ -584,7 +636,7 @@ app.post('/moveMember', (req, res) => {
 
                     d2.save().then((success) => {
                         console.log(' **** Success to edit HOUSE name ****')
-
+                       
                     }, (e) => {
                         res.status(400).send(e)
                     }, (err) => {
@@ -630,7 +682,6 @@ app.post('/moveToAlumni', (req, res) => {
                     Member.deleteOne({ Member_ID: req.body.idMember }).then((member) => {
                         res.redirect('/MemberAll')
                         console.log('!!!!!! Remove DATA in MEMBER success !!!!!!')
-
                     }, (err) => {
                         res.status(400).send(err)
                     })
@@ -652,11 +703,11 @@ app.get('/MemberAll', (req, res) => {
             if (err) console.log(err)
         }).then((dataMember) => {
             data.member = dataMember
-
-            House.find({},(err,data)=>{
-                if(err) console.log(err)
-            }).then((dataHouse)=>{
-                data.house = dataHouse 
+            data.name = name
+            House.find({}, (err, data) => {
+                if (err) console.log(err)
+            }).then((dataHouse) => {
+                data.house = dataHouse
                 res.render('admin_MemberAll.hbs', {
                     data: encodeURI(JSON.stringify(data))
                 })
@@ -671,12 +722,15 @@ app.get('/MemberAll', (req, res) => {
 app.get('/Bill', (req, res) => {
     let bill = 'Bill Gates'
     let name = req.session.displayName
+    let data ={}
     if (req.session.displayName) {
         Member.find({ Member_House: bill }, (err, dataHouse) => {
             if (err) console.log(err)
         }).then((dataHouse) => {
+            data.name = name
+            data.house = dataHouse
             res.render('admin_HouseBill.hbs', {
-                dataHouse: encodeURI(JSON.stringify(dataHouse))
+                data: encodeURI(JSON.stringify(data))
             })
         })
     } else {
@@ -688,12 +742,15 @@ app.get('/Bill', (req, res) => {
 app.get('/Larry', (req, res) => {
     let larry = 'Larry Page'
     let name = req.session.displayName
+    let data ={}
     if (req.session.displayName) {
         Member.find({ Member_House: larry }, (err, dataHouse) => {
             if (err) console.log(err)
         }).then((dataHouse) => {
+            data.name = name
+            data.house = dataHouse
             res.render('admin_HouseLarry.hbs', {
-                dataHouse: encodeURI(JSON.stringify(dataHouse))
+                data: encodeURI(JSON.stringify(data))
             })
         })
     } else {
@@ -705,12 +762,15 @@ app.get('/Larry', (req, res) => {
 app.get('/Elon', (req, res) => {
     let elon = 'Elon Musk'
     let name = req.session.displayName
+    let data ={}
     if (req.session.displayName) {
         Member.find({ Member_House: elon }, (err, dataHouse) => {
             if (err) console.log(err)
         }).then((dataHouse) => {
+            data.name = name
+            data.house = dataHouse
             res.render('admin_HouseElon.hbs', {
-                dataHouse: encodeURI(JSON.stringify(dataHouse))
+                data: encodeURI(JSON.stringify(data))
             })
         })
     } else {
@@ -722,12 +782,15 @@ app.get('/Elon', (req, res) => {
 app.get('/Mark', (req, res) => {
     let mark = 'Mark Zuckerberg'
     let name = req.session.displayName
+    let data ={}
     if (req.session.displayName) {
         Member.find({ Member_House: mark }, (err, dataHouse) => {
             if (err) console.log(err)
         }).then((dataHouse) => {
+            data.name = name
+            data.house = dataHouse
             res.render('admin_HouseMark.hbs', {
-                dataHouse: encodeURI(JSON.stringify(dataHouse))
+                data: encodeURI(JSON.stringify(data))
             })
         })
     } else {
@@ -1076,45 +1139,45 @@ var j = schedule.scheduleJob('* * * * *', function () {
     // console.log(ymd)
     // console.log(time)
 
-   /* OpenEvent.find({ OpenEvent_StartDate: ymd, OpenEvent_StartTime: time }).then((d1) => {
-        //console.log(d)
-        if (d1.length == 0) {
-            return 0;
-        } else {
-            console.log(d1.length)
-            for (let i = 0; i < d1.length; i++) {
-                d1[i].OpenEvent_Status = open_status
-
-                d1[i].save().then((success) => {
-                    console.log('!! Update OPEN EVENT Status to ONLINE Success')
-                }, (e) => {
-                    res.status(400).send(e)
-                }, (err) => {
-                    res.status(400).send(err)
-                })
-            }
-
-        }
-    })
-
-    OpenEvent.find({ OpenEvent_EndDate: ymd, OpenEvent_EndTime: time }).then((d2) => {
-        if (d2.length == 0) {
-            return 0;
-        } else {
-            console.log(d2.length)
-            for (let i = 0; i < d2.length; i++) {
-                d2[i].OpenEvent_Status = open_status2
-
-                d2[i].save().then((success) => {
-                    console.log('!! Update OPEN EVENT Status to OFFLINE Success')
-                }, (e) => {
-                    res.status(400).send(e)
-                }, (err) => {
-                    res.status(400).send(err)
-                })
-            }
-        }
-    }) */
+    /* OpenEvent.find({ OpenEvent_StartDate: ymd, OpenEvent_StartTime: time }).then((d1) => {
+         //console.log(d)
+         if (d1.length == 0) {
+             return 0;
+         } else {
+             console.log(d1.length)
+             for (let i = 0; i < d1.length; i++) {
+                 d1[i].OpenEvent_Status = open_status
+ 
+                 d1[i].save().then((success) => {
+                     console.log('!! Update OPEN EVENT Status to ONLINE Success')
+                 }, (e) => {
+                     res.status(400).send(e)
+                 }, (err) => {
+                     res.status(400).send(err)
+                 })
+             }
+ 
+         }
+     })
+ 
+     OpenEvent.find({ OpenEvent_EndDate: ymd, OpenEvent_EndTime: time }).then((d2) => {
+         if (d2.length == 0) {
+             return 0;
+         } else {
+             console.log(d2.length)
+             for (let i = 0; i < d2.length; i++) {
+                 d2[i].OpenEvent_Status = open_status2
+ 
+                 d2[i].save().then((success) => {
+                     console.log('!! Update OPEN EVENT Status to OFFLINE Success')
+                 }, (e) => {
+                     res.status(400).send(e)
+                 }, (err) => {
+                     res.status(400).send(err)
+                 })
+             }
+         }
+     }) */
 
 
     Year.find({ Year_StartDate: ymd }).then((d3) => {
@@ -1138,7 +1201,7 @@ app.get('/UpcomingEvent', (req, res) => {
         let data = {}
         let open = "Open_Event"
         data.name = name
-        OpenEvent.find({OpenEvent_Status:open}, (err, data) => {
+        OpenEvent.find({ OpenEvent_Status: open }, (err, data) => {
             if (err) console.log(err)
         }).then((dataEvent) => {
             data.openevent = dataEvent
@@ -1156,8 +1219,8 @@ app.get('/ClosedEvent', (req, res) => {
     if (req.session.displayName) {
         let name = req.session.displayName
         let data = {}
-        
-        OpenEvent.find({OpenEvent_Status : "Close_Event"}, (err, dataEvent) => {
+
+        OpenEvent.find({ OpenEvent_Status: "Close_Event" }, (err, dataEvent) => {
             if (err) console.log(err)
         }).then((dataEvent) => {
             data.name = name
@@ -1172,7 +1235,7 @@ app.get('/ClosedEvent', (req, res) => {
 })
 
 // สิ้นสุดกิจกรรม
-app.post('/CloseEvent', (req,res)=>{
+app.post('/CloseEvent', (req, res) => {
     console.log(req.body.id)
     console.log('Close Event')
 
@@ -1182,53 +1245,53 @@ app.post('/CloseEvent', (req,res)=>{
             return 0;
         } else {
             console.log(d1.length)
-            
-                d1.OpenEvent_Status = "Close_Event"
 
-                d1.save().then((success) => {
-                    console.log('!! Update OPEN EVENT Status to CLOSE EVENT Success')
-                }, (e) => {
-                    res.status(400).send(e)
-                }, (err) => {
-                    res.status(400).send(err)
-                })
+            d1.OpenEvent_Status = "Close_Event"
+
+            d1.save().then((success) => {
+                console.log('!! Update OPEN EVENT Status to CLOSE EVENT Success')
+            }, (e) => {
+                res.status(400).send(e)
+            }, (err) => {
+                res.status(400).send(err)
+            })
         }
     })
 })
 
 // แสดงรายชื่อผู้เข้าร่วม 
-app.post('/EventMemberList/:id', function (req,res){
+app.post('/EventMemberList/:id', function (req, res) {
     let id = req.params.id
     console.log(req.params.id)
-    if(req.session.displayName){
+    if (req.session.displayName) {
         let name = req.session.displayName
         let data = {}
 
         data.name = name
 
-        OpenEvent.find({OpenEvent_ID : req.params.id },(err,data)=>{
-            if(err) console.log(err)
-        }).then((dataOpenEvent)=>{
+        OpenEvent.find({ OpenEvent_ID: req.params.id }, (err, data) => {
+            if (err) console.log(err)
+        }).then((dataOpenEvent) => {
             data.openevent = dataOpenEvent
 
-            JoinEvent.find({OpenEvent_ID:req.params.id},(err,data)=>{
-                if(err) console.log(err)
-            }).then((dataJoinEvent)=>{
+            JoinEvent.find({ OpenEvent_ID: req.params.id }, (err, data) => {
+                if (err) console.log(err)
+            }).then((dataJoinEvent) => {
                 data.joinevent = dataJoinEvent
-                
-                    Member.find({},(err,data)=>{
-                        if (err) console.log(err)
-                    }).then((dataMember)=>{
-                        data.member = dataMember
-                        
-                        res.render('admin_EventMemberList.hbs',{
-                            data:encodeURI(JSON.stringify(data))
-                        })
-                    })       
-            })       
+
+                Member.find({}, (err, data) => {
+                    if (err) console.log(err)
+                }).then((dataMember) => {
+                    data.member = dataMember
+
+                    res.render('admin_EventMemberList.hbs', {
+                        data: encodeURI(JSON.stringify(data))
+                    })
+                })
+            })
         })
-     
-    }else{
+
+    } else {
         res.redirect('/login')
     }
 })
@@ -1382,7 +1445,7 @@ app.get('/displayOpenEvnt/:id', function (req, res) {
         let id = req.params.id
         let data = {}
         //console.log(id)
-        OpenEvent.find({ OpenEvent_ID: id}, (err, dataEvent) => {
+        OpenEvent.find({ OpenEvent_ID: id }, (err, dataEvent) => {
             if (err) console.log(err)
         }).then((data1) => {
             data.event = data1
@@ -1418,7 +1481,7 @@ app.get('/displayOpenEvnt/:id', function (req, res) {
 })
 
 //แก้ไขข้อมูล กินกรรมที่เปิดแล้ว
-app.post('/editOpenEvent' ,(req,res)=>{
+app.post('/editOpenEvent', (req, res) => {
     console.log('แก้ไขข้อมูลกิจกรรมที่เปิดแล้ว')
 })
 
@@ -1528,12 +1591,15 @@ app.post('/saveEditBehavior', (req, res) => {
 //31 admin_RewardAll.hbs
 app.get('/editReward', (req, res) => {
     let name = req.session.displayName
+    let data ={}
     if (req.session.displayName) {
         Reward.find({}, (err, dataReaward) => {
+            data.name = name
             if (err) console.log(err)
         }).then((dataReward) => {
+            data.reward = dataReward
             res.render('admin_RewardAll.hbs', {
-                dataReward: encodeURI(JSON.stringify(dataReward))
+                data: encodeURI(JSON.stringify(data))
             })
         }, (err) => {
             res.status(400).send(err)
@@ -1546,8 +1612,12 @@ app.get('/editReward', (req, res) => {
 //32 admin_RewardContent.hbs
 app.get('/rewardContent', (req, res) => {
     let name = req.session.displayName
+    let data ={}
     if (req.session.displayName) {
-        res.render('admin_RewardContent.hbs', {})
+        data.name = name
+        res.render('admin_RewardContent.hbs', {
+            data : encodeURI(JSON.stringify(data))
+        })
     } else {
         res.redirect('/login')
     }
@@ -1568,8 +1638,7 @@ app.post('/saveReward', upload.single('photos'), function (req, res) {
             })
             newReward.save().then((doc) => {
                 console.log('@@@@ save REWARD data success @@@@')
-                res.render('admin_RewardContent.hbs', {})
-            }, (err) => {
+                //res.render('admin_RewardContent.hbs', {})
                 res.send(`
             <!DOCTYPE html>
             <html>
@@ -1603,6 +1672,54 @@ app.post('/saveReward', upload.single('photos'), function (req, res) {
                     <div class="row mt-5 ">
             
                         <div class="alert alert-success" role="alert">
+                            <h3 class="alert-heading">Error !</h3>
+                            <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลของรางวัลสำเร็จ </p>
+                            <hr>
+                            <p class="d-flex justify-content-end">
+                                    <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/rewardContent" role="button">ตกลง</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="line"></div>
+            </body>
+            
+            </html>
+            `)
+            }, (err) => {
+                res.send(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            
+                <title>Success</title>
+            
+                <!-- Bootstrap CSS CDN -->
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                    crossorigin="anonymous">
+                <style>
+                    @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                    h4 {
+                        color: crimson;
+                    }
+            
+                    p {
+                        font-family: 'Poppins', sans-serif;
+                        font-size: 1.1em;
+                        font-weight: 300;
+                        line-height: 1.7em;
+                        color: #999;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container d-flex justify-content-center align-items-center">
+                    <div class="row mt-5 ">
+            
+                        <div class="alert alert-danger" role="alert">
                             <h3 class="alert-heading">Error !</h3>
                             <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">ไม่สามารถบันทึกข้อมูลได้ กรุณากรอกข้อมูลให้ครบถ้วน </p>
                             <hr>
@@ -1691,15 +1808,20 @@ app.post('/saveReward', upload.single('photos'), function (req, res) {
     }
 })
 
+///dsss
 app.post('/rewardedit/:id', (req, res) => {
     if (req.session.displayName) {
+        let data ={}
         let id = req.params.id
+        let name = req.session.displayName
         console.log(id)
         Reward.find({ Reward_ID: req.params.id }, (err, dataReaward) => {
             if (err) console.log(err)
         }).then((dataReward) => {
+            data.name = name
+            data.reward = dataReward
             res.render('admin_RewardEdit.hbs', {
-                dataReward: encodeURI(JSON.stringify(dataReward))
+                data: encodeURI(JSON.stringify(data))
             })
         })
     } else {
@@ -1720,7 +1842,54 @@ app.post('/saveEditReward', upload.single('photos'), function (req, res) {
 
                 data.save().then((success) => {
                     console.log('!! UPDATE data on REWARD success !!')
-                    res.redirect('/editReward')
+                    //res.redirect('/editReward')
+                    res.send(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            
+                <title>Success</title>
+            
+                <!-- Bootstrap CSS CDN -->
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                    crossorigin="anonymous">
+                <style>
+                    @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                    h4 {
+                        color: crimson;
+                    }
+            
+                    p {
+                        font-family: 'Poppins', sans-serif;
+                        font-size: 1.1em;
+                        font-weight: 300;
+                        line-height: 1.7em;
+                        color: #999;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container d-flex justify-content-center align-items-center">
+                    <div class="row mt-5 ">
+            
+                        <div class="alert alert-success" role="alert">
+                            <h3 class="alert-heading">Error !</h3>
+                            <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">แก้ไขข้อมูลของรางวัลสำเร็จ </p>
+                            <hr>
+                            <p class="d-flex justify-content-end">
+                                    <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/editReward" role="button">ตกลง</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="line"></div>
+            </body>
+            
+            </html>
+            `)
                 }, (e) => {
                     res.status(400).send(e)
                 }, (err) => {
@@ -1738,7 +1907,54 @@ app.post('/saveEditReward', upload.single('photos'), function (req, res) {
 
                 data.save().then((success) => {
                     console.log('!! UPDATE data on REWARD success !!')
-                    res.redirect('/editReward')
+                    //res.redirect('/editReward')
+                    res.send(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            
+                <title>Success</title>
+            
+                <!-- Bootstrap CSS CDN -->
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                    crossorigin="anonymous">
+                <style>
+                    @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                    h4 {
+                        color: crimson;
+                    }
+            
+                    p {
+                        font-family: 'Poppins', sans-serif;
+                        font-size: 1.1em;
+                        font-weight: 300;
+                        line-height: 1.7em;
+                        color: #999;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container d-flex justify-content-center align-items-center">
+                    <div class="row mt-5 ">
+            
+                        <div class="alert alert-success" role="alert">
+                            <h3 class="alert-heading">Error !</h3>
+                            <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">แก้ไขข้อมูลของรางวัลสำเร็จ </p>
+                            <hr>
+                            <p class="d-flex justify-content-end">
+                                    <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/editReward" role="button">ตกลง</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="line"></div>
+            </body>
+            
+            </html>
+            `)
                 }, (e) => {
                     res.status(400).send(e)
                 }, (err) => {
@@ -1755,12 +1971,16 @@ app.post('/saveEditReward', upload.single('photos'), function (req, res) {
 app.get('/displayReward/:id', function (req, res) {
     if (req.session.displayName) {
         let id = req.params.id
+        let data ={}
+        let name = req.session.displayName
 
         Reward.find({ Reward_ID: id }, (err, dataReaward) => {
             if (err) console.log(err)
         }).then((dataReward) => {
+            data.name = name
+            data.reward = dataReward
             res.render('admin_RewardEdit.hbs', {
-                dataReward: encodeURI(JSON.stringify(dataReward))
+                data: encodeURI(JSON.stringify(data))
             })
         })
 
@@ -1807,7 +2027,55 @@ app.post('/saveRedeemReward', function (req, res) {
 
                         newRedeemReward.save().then((doc) => {
                             console.log('@@@@@@ Save data to REDEEM REWARD table Success')
-                            res.redirect('/RedeemRewards')
+                            //res.redirect('/RedeemRewards')
+                            res.send(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            
+                <title>Success</title>
+            
+                <!-- Bootstrap CSS CDN -->
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                    crossorigin="anonymous">
+                <style>
+                    @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                    h4 {
+                        color: crimson;
+                    }
+            
+                    p {
+                        font-family: 'Poppins', sans-serif;
+                        font-size: 1.1em;
+                        font-weight: 300;
+                        line-height: 1.7em;
+                        color: #999;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container d-flex justify-content-center align-items-center">
+                    <div class="row mt-5 ">
+            
+                        <div class="alert alert-success" role="alert">
+                            <h3 class="alert-heading">Error !</h3>
+                            <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลการแลกของรางวัลสำเร็จ </p>
+                            <hr>
+                            <p class="d-flex justify-content-end">
+                                    <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/RedeemRewards" role="button">ตกลง</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="line"></div>
+            </body>
+            
+            </html>
+            `)
+
                         }, (err) => {
                             //res.render('admin_error.hbs',{})
                             res.status(400).send(err)
@@ -1837,11 +2105,12 @@ app.get('/RedeemRewards', (req, res) => {
     if (req.session.displayName) {
         let stock = "in stock"
         let data = {}
+        let name = req.session.displayName
         Reward.find({ Reward_Status: stock }, (err, data) => {
             if (err) console.log(err)
         }).then((dataReward) => {
             data.reward = dataReward
-
+            data.name = name
             Member.find({}, (err, data) => {
                 if (err) console.log(err)
             }).then((dataMember) => {
@@ -1858,15 +2127,18 @@ app.get('/RedeemRewards', (req, res) => {
 })
 //================== Point ===================
 
-// 26 admin_Point_Dec.hbs ลบคะแนนตามพฤติกรรม
+//แสดงผลหน้า admin_Point_Dec.hbs ลบคะแนนตามพฤติกรรม
 app.get('/DecreasePoint', (req, res) => {
     let name = req.session.displayName
+    let data = {}
     if (req.session.displayName) {
         Behavior.find({}, (err, dataBehavior) => {
             if (err) console.log(err)
         }).then((dataBehavior) => {
+            data.name = name
+            data.behavior = dataBehavior
             res.render('admin_Point_Dec.hbs', {
-                dataBehavior: encodeURI(JSON.stringify(dataBehavior))
+                data: encodeURI(JSON.stringify(data))
             })
         }, (err) => {
             res.status(400).send(err)
@@ -1876,16 +2148,19 @@ app.get('/DecreasePoint', (req, res) => {
     }
 })
 
-//27 admin_Point_Inc.hbs เพิ่มคะแนนตามกิจกรรม
+//แสดงผลหน้า admin_Point_Inc.hbs เพิ่มคะแนนตามกิจกรรม
 app.get('/IncreasePoint', (req, res) => {
     let name = req.session.displayName
     let open = "Open_Event"
+    let data = {}
     if (req.session.displayName) {
-        OpenEvent.find({OpenEvent_Status:open}, (err, dataOpenEvent) => {
+        OpenEvent.find({ OpenEvent_Status: open }, (err, dataOpenEvent) => {
             if (err) console.log(err)
         }).then((dataOpenEvent) => {
+            data.name = name
+            data.openevent = dataOpenEvent
             res.render('admin_Point_Inc.hbs', {
-                dataOpenEvent: encodeURI(JSON.stringify(dataOpenEvent))
+                data: encodeURI(JSON.stringify(data))
             })
         }, (err) => {
             res.status(400).send(err)
@@ -1894,17 +2169,24 @@ app.get('/IncreasePoint', (req, res) => {
         res.redirect('/login')
     }
 })
-// เพิ่มคะแนนแบบไม่อิงกิจกรรมหรือพฤติกรรม
-app.get('/IncreasePointMember',(req,res)=>{
-    if(req.session.displayName){
-        let name = req.session.displayName
-        let data ={}
-            data.name = name
 
-            res.render('admin_Point_Inc_Normal.hbs',{
-                data:encodeURI(JSON.stringify(data))
+// แสดงผลหน้า เพิ่มคะแนนแบบไม่อิงกิจกรรมหรือพฤติกรรม
+app.get('/IncreasePointMember', (req, res) => {
+    if (req.session.displayName) {
+        let name = req.session.displayName
+        let data = {}
+        data.name = name
+        Member.find({}, (err, data) => {
+            if (err) console.log(err)
+        }).then((dataMember) => {
+            data.member = dataMember
+            res.render('admin_Point_Inc_Normal.hbs', {
+                data: encodeURI(JSON.stringify(data))
             })
-    }else{
+
+        })
+
+    } else {
         res.redirect('/login')
     }
 })
@@ -1916,7 +2198,7 @@ app.post('/IncPointHouse/:id', (req, res) => {
         let name = req.session.displayName
         let id = req.params.id
         let open = "Open_Event"
-        OpenEvent.find({ OpenEvent_ID: id ,OpenEvent_Status : open}, (err, dataOpenEvent) => {
+        OpenEvent.find({ OpenEvent_ID: id, OpenEvent_Status: open }, (err, dataOpenEvent) => {
             if (err) console.log(err)
         }).then((dataOpenEvent) => {
             data.name = name
@@ -1945,11 +2227,12 @@ app.post('/IncPointGroup/:id', (req, res) => {
         let data = {}
         let id = req.params.id
         let open = "Open_Event"
-        OpenEvent.find({ OpenEvent_ID: id ,OpenEvent_Status : open}, (err, dataOpenEvent) => {
+        let name = req.session.displayName
+        OpenEvent.find({ OpenEvent_ID: id, OpenEvent_Status: open }, (err, dataOpenEvent) => {
             if (err) console.log(err)
         }).then((dataOpenEvent) => {
             data.OpenEvent = dataOpenEvent
-
+            data.name = name
             Member.find({}, (err, data) => {
                 if (err) console.log(err)
             }).then((Member) => {
@@ -2000,11 +2283,12 @@ app.post('/DecPointGroup/:id', (req, res) => {
     if (req.session.displayName) {
         let data = {}
         let id = req.params.id
+        let name = req.session.displayName
         Behavior.find({ Behavior_ID: id }, (err, dataBehavior) => {
             if (err) console.log(err)
         }).then((dataBehavior) => {
             data.Behavior = dataBehavior
-
+            data.name = name
             Member.find({}, (err, data) => {
                 if (err) console.log(err)
             }).then((Member) => {
@@ -2023,105 +2307,101 @@ app.post('/DecPointGroup/:id', (req, res) => {
 })
 
 // save เพิ่มคะแนนรายบ้าน
-app.post('/saveIncEventByHouse', function (req, res){
+app.post('/savePoint', function (req, res) {
     if (req.session.displayName) {
         //console.log('hello')
         let date_save = moment().format('DD-MM-YYYY');
         let name = req.session.displayName
-        let event_point = req.body.point_event
-       
-        let newJoinEvent2 = new JoinEvent({
-            Member_ID: req.body.id,
-            OpenEvent_ID: req.body.id_event,
-            OpenEvent_Point: req.body.point_event,
-            OpenEvent_Name: req.body.event_name,
-            JoinEvent_Date: date_save,
-            JoinEvent_Admin: req.session.displayName,
-            JoinEvent_Year: academic_year
+
+        let newOtherEvent = new OtherEvent({
+            OtherEvent_Name: req.body.Event_Name,
+            OtherEvent_Point: req.body.Event_Point,
+            OtherEvent_Admin: name
         })
 
+        newOtherEvent.save().then((doc) => {
+            console.log('@@@@@@ save data to OTHEREVENT table @@@@@@')
+            console.log(doc.OtherEvent_ID)
 
-        newJoinEvent2.save().then((doc) => {
-            console.log('@@@@ save DATA in JOIN EVENT @@@@')
-
-            Member.findOne({ Member_ID: id }).then((d2) => {
-                let total = parseFloat(d2.Member_Total)
-                let available = parseFloat(d2.Member_Available)
-                let eventpoint = parseFloat(req.body.point_event)
-                console.log(d2.Member_Total)
-                d2.Member_Total = total + eventpoint,
-                    d2.Member_Available = available + eventpoint,
-                    d2.save().then((success) => {
-                        console.log(d2.Member_Total)
-                        console.log(' **** Success to save Member_Point ****')
-
-
-                        House.findOne({ House_MemberID: id }).then((house) => {
-                            let house_member_point = parseFloat(house.House_MemberPoint)
-                            let point = parseFloat(req.body.point_event)
-                            house.House_MemberPoint = house_member_point + point;
-
-                            house.save().then((success) => {
-                                console.log('@@@@ Update POINT in House table @@@@')
-                                res.redirect('/IncreasePoint')
-                            })
-                        }, (e) => {
-                            res.status(400).send(e)
-                        }, (err) => {
-                            res.status(400).send(err)
-                        })
-                    })
+            let newJoinEvent = new JoinEvent({
+                Member_ID: req.body.Member_ID,
+                OpenEvent_ID: doc.OtherEvent_ID,
+                OpenEvent_Name: req.body.Event_Name,
+                OpenEvent_Point: req.body.Event_Point,
+                JoinEvent_Date: date_save,
+                JoinEvent_Admin: name,
+                JoinEvent_Year: academic_year
             })
-        }, (err) => {
-            res.status(400).send(err)
-        })
-    } else {
-        res.redirect('/login')
-    }
 
+            newJoinEvent.save().then((doc) => {
+                console.log('@@@@@@ save data to JoinEvent @@@@@@@@')
 
-})
+                // find Member
+                Member.findOne({ Member_ID: req.body.Member_ID }).then((d) => {
+                    let m_total = parseFloat(d.Member_Total)
+                    let m_available = parseFloat(d.Member_Available)
+                    let event_point = parseFloat(req.body.Event_Point)
+              
+                    d.Member_Total = m_total + event_point;
+                    d.Member_Available = m_available + event_point;
+                 
+                    d.save().then((success) => {
+                        console.log('@@@@@@ save Point @@@@@@@')
 
-// ลบคะแนนรายบุุคล
-app.post('/DecBehaviorHouse', (req, res) => {
-    if (req.session.displayName) {
-        let date_save = moment().format('DD-MM-YYYY');
-        let newJoinBehavior = new JoinBehavior({
-
-            Member_ID: req.body.Member_ID,
-            Behavior_ID: req.body.Behavior_ID,
-            Behavior_Point: req.body.Behavior_Point,
-            JoinBehavior_Date: date_save,
-            Behavior_Name: req.body.Behavior_Name,
-            JoinBehavior_Admin: req.session.displayName,
-            JoinBehavior_Year: academic_year
-
-        })
-
-        newJoinBehavior.save().then((doc) => {
-            console.log('!!! JOIN BEHAVIOR save success !!!')
-
-            let id = req.body.Member_ID
-            //console.log(id)
-            Member.findOne({ Member_ID: id }).then((d2) => {
-                let total = parseFloat(d2.Member_Total)
-                let available = parseFloat(d2.Member_Available)
-                let eventpoint = parseFloat(req.body.Behavior_Point)
-
-                console.log(d2.Member_Total)
-                d2.Member_Total = total - eventpoint,
-                    d2.Member_Available = available - eventpoint,
-                    d2.save().then((success) => {
-                        console.log(' **** Success to edit Member_Point ****')
-
-                        House.findOne({ House_MemberID: id }).then((house) => {
+                        House.findOne({ House_MemberID: req.body.Member_ID }).then((house) => {
                             let house_member_point = parseFloat(house.House_MemberPoint)
                             let point = parseFloat(req.body.Behavior_Point)
-                            house.House_MemberPoint = house_member_point - point;
+                            house.House_MemberPoint = house_member_point + event_point;
 
                             house.save().then((success) => {
                                 console.log('@@@@ Update POINT in House table @@@@')
-                                res.redirect('/DecreasePoint')
+                                res.send(`
+                                <!DOCTYPE html>
+                                <html>
+                                <head>
+                                    <meta charset="utf-8">
+                                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                                
+                                    <title>Success</title>
+                                
+                                    <!-- Bootstrap CSS CDN -->
+                                    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                                        crossorigin="anonymous">
+                                    <style>
+                                        @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                                        h4 {
+                                            color: crimson;
+                                        }
+                                
+                                        p {
+                                            font-family: 'Poppins', sans-serif;
+                                            font-size: 1.1em;
+                                            font-weight: 300;
+                                            line-height: 1.7em;
+                                            color: #999;
+                                        }
+                                    </style>
+                                </head>
+                                <body>
+                                    <div class="container d-flex justify-content-center align-items-center">
+                                        <div class="row mt-5 ">
+                                
+                                            <div class="alert alert-success" role="alert">
+                                                <h3 class="alert-heading">Succes !</h3>
+                                                <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลคะแนนลงฐานข้อมูลสำเร็จ </p>
+                                                <hr>
+                                                <p class="d-flex justify-content-end">
+                                                        <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/IncreasePointMember" role="button">ตกลง</a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="line"></div>
+                                </body>
+                                
+                                </html>
+                                `)
 
                             })
                         }, (e) => {
@@ -2130,14 +2410,26 @@ app.post('/DecBehaviorHouse', (req, res) => {
                             res.status(400).send(err)
                         })
 
+                    }, (e) => {
+                        res.status(400).send(e)
+                    }, (err) => {
+                        res.status.send(err)
                     })
-            })
+                })
+
+            }), (err) => {
+                res.status(400).send(err)
+            }
+
         }, (err) => {
             res.status(400).send(err)
         })
+
     } else {
         res.redirect('/login')
     }
+
+
 })
 
 // เพิ่มคะแนนรายกลุ่ม และรายบ้าน
@@ -2181,7 +2473,54 @@ app.post('/savePointByGroup', function (req, res) {
 
                             house.save().then((success) => {
                                 console.log('@@@@ Update POINT in House table @@@@')
-                                res.redirect('/IncreasePoint')
+                               // res.redirect('/IncreasePoint')
+                                res.send(`
+                                <!DOCTYPE html>
+                                <html>
+                                <head>
+                                    <meta charset="utf-8">
+                                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                                
+                                    <title>Success</title>
+                                
+                                    <!-- Bootstrap CSS CDN -->
+                                    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                                        crossorigin="anonymous">
+                                    <style>
+                                        @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                                        h4 {
+                                            color: crimson;
+                                        }
+                                
+                                        p {
+                                            font-family: 'Poppins', sans-serif;
+                                            font-size: 1.1em;
+                                            font-weight: 300;
+                                            line-height: 1.7em;
+                                            color: #999;
+                                        }
+                                    </style>
+                                </head>
+                                <body>
+                                    <div class="container d-flex justify-content-center align-items-center">
+                                        <div class="row mt-5 ">
+                                
+                                            <div class="alert alert-success" role="alert">
+                                                <h3 class="alert-heading">Succes !</h3>
+                                                <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลคะแนนลงฐานข้อมูลสำเร็จ </p>
+                                                <hr>
+                                                <p class="d-flex justify-content-end">
+                                                        <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/IncreasePoint" role="button">ตกลง</a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="line"></div>
+                                </body>
+                                
+                                </html>
+                                `)
                             })
                         }, (e) => {
                             res.status(400).send(e)
@@ -2221,7 +2560,7 @@ app.post('/saveDecPointGroup', function (req, res) {
 
             //console.log(id)
             Member.findOne({ Member_ID: id }).then((d2) => {
-                
+
                 let total = parseFloat(d2.Member_Total)
                 let available = parseFloat(d2.Member_Available)
                 let eventpoint = parseFloat(req.body.point_behavior)
@@ -2239,8 +2578,54 @@ app.post('/saveDecPointGroup', function (req, res) {
 
                             house.save().then((success) => {
                                 console.log('@@@@ Update POINT in House table @@@@')
-                                res.redirect('/DecreasePoint')
-
+                             //   res.redirect('/DecreasePoint')
+                                res.send(`
+                                <!DOCTYPE html>
+                                <html>
+                                <head>
+                                    <meta charset="utf-8">
+                                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                                
+                                    <title>Success</title>
+                                
+                                    <!-- Bootstrap CSS CDN -->
+                                    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                                        crossorigin="anonymous">
+                                    <style>
+                                        @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                                        h4 {
+                                            color: crimson;
+                                        }
+                                
+                                        p {
+                                            font-family: 'Poppins', sans-serif;
+                                            font-size: 1.1em;
+                                            font-weight: 300;
+                                            line-height: 1.7em;
+                                            color: #999;
+                                        }
+                                    </style>
+                                </head>
+                                <body>
+                                    <div class="container d-flex justify-content-center align-items-center">
+                                        <div class="row mt-5 ">
+                                
+                                            <div class="alert alert-success" role="alert">
+                                                <h3 class="alert-heading">Succes !</h3>
+                                                <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลการลบคะแนนลงฐานข้อมูลสำเร็จ </p>
+                                                <hr>
+                                                <p class="d-flex justify-content-end">
+                                                        <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/DecreasePoint" role="button">ตกลง</a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="line"></div>
+                                </body>
+                                
+                                </html>
+                                `)
                             })
                         }, (e) => {
                             res.status(400).send(e)
@@ -2271,7 +2656,55 @@ app.post('/saveYear', function (req, res) {
 
         newYear.save().then((doc) => {
             console.log('@@@@ save YEAR data success @@@@')
-            res.redirect('/getYear')
+            //res.redirect('/getYear')
+            res.send(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            
+                <title>Success</title>
+            
+                <!-- Bootstrap CSS CDN -->
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                    crossorigin="anonymous">
+                <style>
+                    @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                    h4 {
+                        color: crimson;
+                    }
+            
+                    p {
+                        font-family: 'Poppins', sans-serif;
+                        font-size: 1.1em;
+                        font-weight: 300;
+                        line-height: 1.7em;
+                        color: #999;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container d-flex justify-content-center align-items-center">
+                    <div class="row mt-5 ">
+            
+                        <div class="alert alert-success" role="alert">
+                            <h3 class="alert-heading">Error !</h3>
+                            <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลสำเร็จ </p>
+                            <hr>
+                            <p class="d-flex justify-content-end">
+                                    <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/getYear" role="button">ตกลง</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="line"></div>
+            </body>
+            
+            </html>
+            `)
+
         }, (err) => {
             res.status(400).send(err)
         })
@@ -2284,8 +2717,12 @@ app.post('/saveYear', function (req, res) {
 // admin_Year.hbs
 app.get('/getYear', (req, res) => {
     let name = req.session.displayName
+    let data = {}
     if (req.session.displayName) {
-        res.render('admin_Year.hbs', {})
+        data.name = name
+        res.render('admin_Year.hbs', {
+            data : encodeURI(JSON.stringify(data))
+        })
     } else {
         res.redirect('/login')
     }
@@ -2295,8 +2732,12 @@ app.get('/getYear', (req, res) => {
 // admin_Report.hbs
 app.get('/getReport', (req, res) => {
     let name = req.session.displayName
+    let data = {}
     if (req.session.displayName) {
-        res.render('admin_Report.hbs', {})
+        data.name = name
+        res.render('admin_Report.hbs', {
+            data : encodeURI(JSON.stringify(data))
+        })
     } else {
         res.redirect('/login')
     }
@@ -2306,7 +2747,7 @@ app.get('/getReport', (req, res) => {
 // Admin_admin.hbs
 app.get('/forAdmin', (req, res) => {
     if (req.session.displayName) {
-        let data ={}
+        let data = {}
         let name = req.session.displayName
         data.name = name
         res.render('admin_Admin.hbs', {
@@ -2623,7 +3064,7 @@ app.get('/send_Member', function (req, res, next) {
 // ข้อมูลกิจกรรมที่เปิด
 app.get('/send_OpenEvent', function (req, res, next) {
     let open = "Open_Event"
-    OpenEvent.find({OpenEvent_Status:open}).exec(function (error, openevent) {
+    OpenEvent.find({ OpenEvent_Status: open }).exec(function (error, openevent) {
         if (error) {
             res.send(error);
         } else {
@@ -2697,31 +3138,33 @@ app.get('/send_BehaviorHistory', function (req, res, next) {
 
 // API check login for mobile
 app.post('/login/member', (req, res, next) => {
-    let username = req.body.id
-    let password = req.body.password
 
-    Member.find({ Member_ID: req.body.id })
+    Member.find({ Member_ID: req.body.Username })
         .exec()
         .then(member => {
+          //  console.log(member)
             if (member.length < 1) {
+                console.log('Error to find data')
                 return res.status(200).json({
                     message: 'Error to find data'
                 })
+
             } else {
-                bcrypt.compare(req.body.password, member[0].Member_Password, function (err, result) {
+            
+                bcrypt.compare(req.body.Password, member[0].Member_Password, function (err, result) {
 
                     if (result) {
                         const token = jwt.sign({
+                            Member_ID: member[0].Member_ID,
                             Member_Name: member[0].Member_Name,
-                            Member_Lastname: member[0].Member_Lastname,
-                            Member_House: member[0].Member_House,
-                            Member_ID: member[0].Member_ID
+                            Member_Lastname:member[0].Member_Lastname,
+                            Member_House:member[0].Member_House
                         },
                             'secret',
                             {
                                 expiresIn: "1h"
                             }
-                        );
+                         );
                         console.log('login success')
                         return res.status(200).json({
                             message: 'Succesful',

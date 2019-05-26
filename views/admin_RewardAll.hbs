@@ -224,13 +224,13 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-        document.getElementById("username").innerHTML = "User : "+ name
         var current_page = 1;
         var records_per_page = 10;
         
-        var data = "{{dataReward}}"
-        var dataReward = JSON.parse(decodeURI(data))
+        var data2 = "{{data}}"
+        var data = JSON.parse(decodeURI(data2))
         var Reward = [];
+        document.getElementById("username").innerHTML = "User : "+ data.name
 
         // ==============Display data================
         function prevPage() {
@@ -260,8 +260,8 @@
 
             document.getElementById("table_reward").innerHTML = ""; // แสดงผลข้อมูลตารางให้ว่าง
 
-            for (var i = (page - 1) * records_per_page; i < (page * records_per_page) && i < dataReward.length; i++) {
-                display_Reward += "<tbody><tr><td>" + (i + 1) + "</td><td>" + dataReward[i].Reward_Name + "</td><td>" + dataReward[i].Reward_Point + "</td><td>" + dataReward[i].Reward_Quantity + "</td><td>" + dataReward[i].Reward_Status + "</td><td><form action='http://localhost:3000/rewardedit/" + dataReward[i].Reward_ID + "' method='POST'><p><button class='btn btn-info btn-xs'><i class='fas fa-edit'></i> edit</button></p></form></td></tr></tbody>"
+            for (var i = (page - 1) * records_per_page; i < (page * records_per_page) && i < data.reward.length; i++) {
+                display_Reward += "<tbody><tr><td>" + (i + 1) + "</td><td>" + data.reward[i].Reward_Name + "</td><td>" + data.reward[i].Reward_Point + "</td><td>" + data.reward[i].Reward_Quantity + "</td><td>" + data.reward[i].Reward_Status + "</td><td><form action='http://localhost:3000/rewardedit/" + data.reward[i].Reward_ID + "' method='POST'><p><button class='btn btn-info btn-xs'><i class='fas fa-edit'></i> edit</button></p></form></td></tr></tbody>"
                 document.getElementById("table_reward").innerHTML = display_Reward
             }
             page_span.innerHTML = "Page " + page; // แสดงผลหน้า
@@ -280,7 +280,7 @@
         }
 
         function numPages() {
-            return Math.ceil(dataReward.length / records_per_page);
+            return Math.ceil(data.reward.length / records_per_page);
         }
 
         window.onload = function () {
@@ -288,12 +288,12 @@
         };
 
         // ========= push amd sort data ============
-        for (let i = 0; i < dataReward.length; i++) {
-            Reward.push(dataReward[i])
+        for (let i = 0; i < data.reward.length; i++) {
+            Reward.push(data.reward[i])
             myFunction()
         }
         function myFunction() {
-            dataReward.sort(function (a, b) { return b.Member_Total - a.Member_Total });
+            data.reward.sort(function (a, b) { return b.Member_Total - a.Member_Total });
             //console.log(Member)
         }
 

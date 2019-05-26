@@ -222,15 +222,15 @@
             });
         });
 
-        document.getElementById("username").innerHTML = "User : "+ name
         var current_page = 1;
         var records_per_page = 20;
 
-        var dataHouse = "{{dataHouse}}"
-        var data_Mark = JSON.parse(decodeURI(dataHouse))
+        var dataHouse = "{{data}}"
+        var data = JSON.parse(decodeURI(dataHouse))
         var House_Mark = [];
+        document.getElementById("username").innerHTML = "User : "+ data.name
 
-        if(data_Mark.length == 0){
+        if(data.house.length == 0){
             document.getElementById("btn_prev").hidden = true
             document.getElementById("btn_next").hidden = true
     
@@ -262,8 +262,8 @@
 
             document.getElementById("member_mark").innerHTML = ""; // แสดงผลข้อมูลตารางให้ว่าง
 
-            for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < data_Mark.length; i++) {
-                display_MemberAll += "<tbody><tr><td>" + (i + 1) + "</td><td>" + data_Mark[i].Member_ID + "</td><td>" + data_Mark[i].Member_Name + "</td><td>" + data_Mark[i].Member_Lastname + "</td><td>" + data_Mark[i].Member_Total + "</td><td>" + data_Mark[i].Member_Available + "</td></tr></tbody>"
+            for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < data.house.length; i++) {
+                display_MemberAll += "<tbody><tr><td>" + (i + 1) + "</td><td>" + data.house[i].Member_ID + "</td><td>" + data.house[i].Member_Name + "</td><td>" + data.house[i].Member_Lastname + "</td><td>" + data.house[i].Member_Total + "</td><td>" + data.house[i].Member_Available + "</td></tr></tbody>"
                 document.getElementById("member_mark").innerHTML = display_MemberAll
             }
             page_span.innerHTML = "Page " + page; // แสดงผลหน้า
@@ -282,7 +282,7 @@
         }
 
         function numPages(){
-            return Math.ceil(data_Mark.length / records_per_page);
+            return Math.ceil(data.house.length / records_per_page);
         }
 
         window.onload = function() {
@@ -293,14 +293,14 @@
          
         
     
-        document.getElementById("total").innerHTML = "Member Total = " + data_Mark.length
+        document.getElementById("total").innerHTML = "Member Total = " + data.house.length
         // ==================== Sorting ==========
-        for (let i = 0; i < data_Mark.length; i++) {
-            House_Mark.push(data_Mark[i])
+        for (let i = 0; i < data.house.length; i++) {
+            House_Mark.push(data.house[i])
             myFunction()  
         }
         function myFunction() {
-            data_Mark.sort(function (a, b) { return b.Member_Total - a.Member_Total });
+            data.house.sort(function (a, b) { return b.Member_Total - a.Member_Total });
             //console.log(Member)
         }
         // =========== Search============= 

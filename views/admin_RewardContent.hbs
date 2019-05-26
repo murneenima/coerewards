@@ -245,7 +245,10 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-        document.getElementById("username").innerHTML = "User : " + name
+        var data2 = "{{data}}"
+        var data = JSON.parse(decodeURI(data2))
+
+        document.getElementById("username").innerHTML = "User : " + data.name
         var imageURL = ""
         function previewFile() {
             var preview = document.querySelector('img');

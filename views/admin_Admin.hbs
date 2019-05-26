@@ -244,8 +244,10 @@
                 $('#sidebar').toggleClass('active');
             });
         });
+        var data2 = "{{data}}"
+        var data = JSON.parse(decodeURI(data2))
 
-        document.getElementById("username").innerHTML = "User : " + name
+        document.getElementById("username").innerHTML = "User : " + data.name
 
     </script>
 </body>

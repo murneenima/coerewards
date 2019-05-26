@@ -574,14 +574,14 @@
                 });
             });
 
-            document.getElementById("username").innerHTML = "User : " + name
 
             var data = "{{data}}"
             var data_All = JSON.parse(decodeURI(data))
             var Member = [];
 
 
-            //console.log(data_All)
+            //console.log(data_All.name)
+            document.getElementById("username").innerHTML = "User : " + data_All.name
             // ======================== Member Information ==========================
             for (let j = 0; j < data_All.member.length; j++) {
                 Member.push(data_All.member[j])
@@ -642,7 +642,7 @@
                     contentType: 'application/json',
                     type: 'POST',
                 })
-                location.reload();
+               location.reload();
             }
             function ShowModal(index) {
                 $('#delete').data('curid', index); // curid = index
@@ -786,7 +786,7 @@
                     contentType: 'application/json',
                     type: 'POST',
                 })
-                location.href = 'http://localhost:3000/MemberAll';
+               location.href = 'http://localhost:3000/MemberAll';
             }
             function ShowModalAlumni(index) {
                 $('#Alumni').data('curid', index); // curid = index

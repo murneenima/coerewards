@@ -256,6 +256,9 @@
             });
         });
 
+        var data2 = "{{data}}"
+        var data = JSON.parse(decodeURI(data2))
+
          var today = new Date().toISOString().split('T')[0];
 
         document.getElementsByName("Year_StartDate")[0].setAttribute('min', today);
@@ -272,7 +275,7 @@
             console.log(end_date)
             document.getElementsByName("Year_StartDate")[0].setAttribute('max', end_date);
         });
-        document.getElementById("username").innerHTML = "User : "+ name
+        document.getElementById("username").innerHTML = "User : "+ data.name
 
 
     </script>

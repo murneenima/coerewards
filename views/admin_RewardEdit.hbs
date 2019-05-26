@@ -24,7 +24,7 @@
 
     <style>
         p {
-            font-size: 30px;
+            font-size: 20px;
             color: black
         }
 
@@ -310,12 +310,12 @@
             });
         });
 
-        document.getElementById("username").innerHTML = "User : "+ name
-        var data = "{{dataReward}}"
-        var dataReward = JSON.parse(decodeURI(data))
+        var data2 = "{{data}}"
+        var data = JSON.parse(decodeURI(data2))
         var Reward = [];
-        for (let i = 0; i < dataReward.length; i++) {
-            Reward.push(dataReward[i])
+        document.getElementById("username").innerHTML = "User : "+ data.name
+        for (let i = 0; i < data.reward.length; i++) {
+            Reward.push(data.reward[i])
         }
         //console.log(Reward)
         var image2 = "<img id='img1' src='" + Reward[0].Reward_Photo + "' style='width: 80%;height: auto;margin: 20px;'>"

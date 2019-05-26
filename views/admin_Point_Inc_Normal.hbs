@@ -21,180 +21,172 @@
         crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-</head>
-<style>
-    h4{
-        color: red;
-        
-    }
-</style>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> 
+    {{!-- Select 2 --}}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
 
-<body>
-    <div class="wrapper">
-        <!-- Sidebar  -->
-        <nav id="sidebar">
-            <div class="sidebar-header">
-                <h3>COE REWARD</h3>
-            </div>
+    <style>
+        h4 {
+            color: red;
 
-            <ul class="list-unstyled components">
-                <p>All Functions</p>
-                <li>
-                    <a href="http://localhost:3000/Main">Main</a>
-                </li>
-                <li>
-                    <a href="#MemberSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Member</a>
-                    <ul class="collapse list-unstyled" id="MemberSubmenu">
-                        <li>
-                            <a href="http://localhost:3000/MemberInsert">Add Member</a>
-                        </li>
-                        <li>
-                            <a href="http://localhost:3000/MemberAll">All Members</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#HouseSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">House</a>
-                    <ul class="collapse list-unstyled" id="HouseSubmenu">
-                        <li>
-                            <a href="http://localhost:3000/Bill">Bill Gates</a>
-                        </li>
-                        <li>
-                            <a href="http://localhost:3000/Larry">Larry Page</a>
-                        </li>
-                        <li>
-                            <a href="http://localhost:3000/Elon">Elon Musk</a>
-                        </li>
-                        <li>
-                            <a href="http://localhost:3000/Mark">Mark Zuckerberg</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#EventSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Event</a>
-                    <ul class="collapse list-unstyled" id="EventSubmenu">
-                        <li>
-                            <a href="http://localhost:3000/EventContent">New Event</a>
-                        </li>
-                        <li>
-                            <a href="http://localhost:3000/AllEvent">กิจกรรมที่มี</a>
-                        </li>
-                        <li>
-                            <a href="http://localhost:3000/EventTypeDisplay">ประเภทกิจกรรม</a>
-                        </li>
-                        <li>
-                            <a href="http://localhost:3000/CreatedByDisplay">ผู้จัดกิจกรรม</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#BehaviorSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Behavior</a>
-                    <ul class="collapse list-unstyled" id="BehaviorSubmenu">
-                        <li>
-                            <a href="http://localhost:3000/BehaviorContent">เพิ่มข่อมูลพฤติกรรม</a>
-                        </li>
-                        <li>
-                            <a href="http://localhost:3000/EditBehavior">ข้อมูลพฤติกรรมทั้งหมด</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#PointSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Point</a>
-                    <ul class="collapse list-unstyled" id="PointSubmenu">
-                        <li>
-                            <a href="http://localhost:3000/IncreasePointMember">เพิ่มคะแนน</a>
-                        </li>
-                        <li>
-                            <a href="http://localhost:3000/IncreasePoint">จัดการคะแนนตามกิจกรรม</a>
-                        </li>
-                        <li>
-                            <a href="http://localhost:3000/DecreasePoint">จัดการคะแนนตามพฤติกรรม</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#RewardSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Rewards</a>
-                    <ul class="collapse list-unstyled" id="RewardSubmenu">
-                        <li>
-                            <a href="http://localhost:3000/rewardContent">เพิ่มข้อมูลของรางวัล</a>
-                        </li>
-                        <li>
-                            <a href="http://localhost:3000/editReward">ข้อมูลของรางวัลทั้งหมด</a>
-                        </li>
-                        <li>
-                            <a href="http://localhost:3000/RedeemRewards">Redeem Rewards</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="http://localhost:3000/getYear">ปฏิทินการศึกษา</a>
-                </li>
-                <li>
-                    <a href="http://localhost:3000/forAdmin">Admin</a>
-                </li>
-                <li>
-                    <a href="http://localhost:3000/getReport">Report</a>
-                </li>
+        }
+    </style>
 
-            </ul>
+    <body>
+        <div class="wrapper">
+            <!-- Sidebar  -->
+            <nav id="sidebar">
+                <div class="sidebar-header">
+                    <h3>COE REWARD</h3>
+                </div>
 
-            <ul class="list-unstyled CTAs">
-                <li>
-                    <a href="http://localhost:3000/Alumni">Alumni</a>
-                </li>
-            </ul>
-        </nav>
-
-
-        <!-- Page Content  -->
-        <div id="content">
-            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>  
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
-
-                    <button type="button" id="sidebarCollapse" class="btn btn-info">
-                        <i class="fas fa-align-left"></i>
-                        <span>Menu</span>
-                    </button>
-                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fas fa-align-justify"></i>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="nav navbar-nav ml-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="http://localhost:3000/logout">Log Out</a>
+                <ul class="list-unstyled components">
+                    <p>All Functions</p>
+                    <li>
+                        <a href="http://localhost:3000/Main">Main</a>
+                    </li>
+                    <li>
+                        <a href="#MemberSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Member</a>
+                        <ul class="collapse list-unstyled" id="MemberSubmenu">
+                            <li>
+                                <a href="http://localhost:3000/MemberInsert">Add Member</a>
+                            </li>
+                            <li>
+                                <a href="http://localhost:3000/MemberAll">All Members</a>
                             </li>
                         </ul>
-                    </div>
-                </div>
+                    </li>
+                    <li>
+                        <a href="#HouseSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">House</a>
+                        <ul class="collapse list-unstyled" id="HouseSubmenu">
+                            <li>
+                                <a href="http://localhost:3000/Bill">Bill Gates</a>
+                            </li>
+                            <li>
+                                <a href="http://localhost:3000/Larry">Larry Page</a>
+                            </li>
+                            <li>
+                                <a href="http://localhost:3000/Elon">Elon Musk</a>
+                            </li>
+                            <li>
+                                <a href="http://localhost:3000/Mark">Mark Zuckerberg</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#EventSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Event</a>
+                        <ul class="collapse list-unstyled" id="EventSubmenu">
+                            <li>
+                                <a href="http://localhost:3000/EventContent">New Event</a>
+                            </li>
+                            <li>
+                                <a href="http://localhost:3000/AllEvent">กิจกรรมที่มี</a>
+                            </li>
+                            <li>
+                                <a href="http://localhost:3000/EventTypeDisplay">ประเภทกิจกรรม</a>
+                            </li>
+                            <li>
+                                <a href="http://localhost:3000/CreatedByDisplay">ผู้จัดกิจกรรม</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#BehaviorSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Behavior</a>
+                        <ul class="collapse list-unstyled" id="BehaviorSubmenu">
+                            <li>
+                                <a href="http://localhost:3000/BehaviorContent">เพิ่มข่อมูลพฤติกรรม</a>
+                            </li>
+                            <li>
+                                <a href="http://localhost:3000/EditBehavior">ข้อมูลพฤติกรรมทั้งหมด</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#PointSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Point</a>
+                        <ul class="collapse list-unstyled" id="PointSubmenu">
+                            <li>
+                                <a href="http://localhost:3000/IncreasePointMember">เพิ่มคะแนน</a>
+                            </li>
+                            <li>
+                                <a href="http://localhost:3000/IncreasePoint">จัดการคะแนนตามกิจกรรม</a>
+                            </li>
+                            <li>
+                                <a href="http://localhost:3000/DecreasePoint">จัดการคะแนนตามพฤติกรรม</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#RewardSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Rewards</a>
+                        <ul class="collapse list-unstyled" id="RewardSubmenu">
+                            <li>
+                                <a href="http://localhost:3000/rewardContent">เพิ่มข้อมูลของรางวัล</a>
+                            </li>
+                            <li>
+                                <a href="http://localhost:3000/editReward">ข้อมูลของรางวัลทั้งหมด</a>
+                            </li>
+                            <li>
+                                <a href="http://localhost:3000/RedeemRewards">Redeem Rewards</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="http://localhost:3000/getYear">ปฏิทินการศึกษา</a>
+                    </li>
+                    <li>
+                        <a href="http://localhost:3000/forAdmin">Admin</a>
+                    </li>
+                    <li>
+                        <a href="http://localhost:3000/getReport">Report</a>
+                    </li>
+
+                </ul>
+
+                <ul class="list-unstyled CTAs">
+                    <li>
+                        <a href="http://localhost:3000/Alumni">Alumni</a>
+                    </li>
+                </ul>
             </nav>
 
-            <h2 class="m-2 p-3 mb-2 bg-info text-white">เพิ่มคะแนน</h2>
-            <form action="http://localhost:3000/saveEvent" method="POST" enctype="multipart/form-data">
+
+            <!-- Page Content  -->
+            <div id="content">
+                <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+
+                        <button type="button" id="sidebarCollapse" class="btn btn-info">
+                            <i class="fas fa-align-left"></i>
+                            <span>Menu</span>
+                        </button>
+                        <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <i class="fas fa-align-justify"></i>
+                        </button>
+
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="nav navbar-nav ml-auto">
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="http://localhost:3000/logout">Log Out</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+
+                <h2 class="m-2 p-3 mb-2 bg-info text-white">เพิ่มคะแนน</h2>
+                <form action="http://localhost:3000/savePoint" method="POST">
                     <br>
                     <div class="row m-4">
                         <h2 style="font-weight: bold;">ข้อมูลกิจกรรม</h2>
                     </div>
                     <div class="row m-4 ">
                         <div class="col-2">
-                            <label for="Event_Name" class="col-form-label">รหัสกิจกรรม</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="text" class="form-control" id="Event_ID" name="Event_ID" placeholder="รหัสกิจกรรม" required>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                    </div>
-                    <div class="row m-4 ">
-                        <div class="col-2">
                             <label for="Event_Name" class="col-form-label">ชื่อกิจกรรม</label>
                         </div>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="Event_Name" name="Event_Name" placeholder="ชื่อกิจกรรม" required>
+                            <input type="text" class="form-control" id="Event_Name2" name="Event_Name" placeholder="ชื่อกิจกรรม" required>
                         </div>
                         <div class="col-1">
                             <h4>*</h4>
@@ -205,7 +197,7 @@
                             <label for="Event_Point" class="col-form-label">Point</label>
                         </div>
                         <div class="col-3">
-                            <input type="number" min="1" class="form-control" id="Event_Point" name="Event_Point" placeholder="คะแนน" required>
+                            <input type="number" min="-99999" class="form-control" id="Event_Point2" name="Event_Point" placeholder="คะแนน" required>
                         </div>
                         <div class="col-1">
                             <h4>*</h4>
@@ -221,40 +213,8 @@
                             <label for="StudentID">รหัสนักศึกษา</label>
                         </div>
                         <div class="col-3">
-                            <input type="tel" class="form-control" placeholder="58XXXXXX" pattern="[0-9]{8}" maxlength="8" id="Member_ID" name="Member_ID"
-                                placeholder="Student ID" required>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                    </div>
-                    <div class="row m-4">
-                        <div class="col-2">
-                            <label for="FirstName">ชื่่อ</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="text" class="form-control" id="Member_Name" name="Member_Name" placeholder="First Name" required>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                        <div class="col-2">
-                            <label for="LastName">นามสกุล</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="text" class="form-control" id="Member_Lastname" name="Member_Lastname" placeholder="Last Name" required>
-                        </div>
-                        <div class="col-1">
-                            <h4>*</h4>
-                        </div>
-                    </div> 
-                    <div class="row m-4">
-                        <div class="col-2">
-                            <label for="House">House</label>
-                        </div>
-                        <div class="col-3">
-                            <select class="form-control" id="Member_House" name="Member_House" required>
-                               
+                            <select class="js-example-basic-single form-control" id="Member_ID" name="Member_ID" required>
+
                             </select>
                         </div>
                         <div class="col-1">
@@ -263,44 +223,109 @@
                     </div>
                     <div class="row m-4">
                         <div class="col-2">
-                            <label for="Point">คะแนน</label>
+                            <label for="FirstName">ชื่อ</label>
                         </div>
                         <div class="col-3">
-                            <input type="number" class="form-control" id="Member_Point" name="Member_Point" placeholder="Point">
+                            <input type="text" class="form-control" id="Member_Name" name="Member_Name" placeholder="ชื่อ" required readonly>
+                        </div>
+                        <div class="col-1">
+                            <h4>*</h4>
+                        </div>
+                        <div class="col-2">
+                            <label for="LastName">นามสกุล</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="text" class="form-control" id="Member_Lastname" name="Member_Lastname" placeholder="นามสกุล" required readonly>
+                        </div>
+                        <div class="col-1">
+                            <h4>*</h4>
                         </div>
                     </div>
-                   
-                    
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="House">House</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="text" class="form-control" id="Member_House" name="Member_House" placeholder="บ้าน" required readonly>
+                        </div>
+                        <div class="col-1">
+                            <h4>*</h4>
+                        </div>
+                    </div>
+                    <div class="row m-4">
+                        <div class="col-2">
+                            <label for="Point">คะแนนรวม</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="number" class="form-control" id="Member_Point" name="Member_Point" placeholder="Point" readonly>
+                        </div>
+                        <div class="col-1">
+                            <h4>*</h4>
+                        </div>
+                    </div>
+
+
                     <div class="row-4 mr-2 d-flex justify-content-end">
                         <div class="col-2">
                             <button type="submit" class="btn btn-primary btn-lg btn-block">บันทึกคะแนน</button>
                         </div>
                     </div>
                 </form>
+            </div>
         </div>
-    </div>
-    <!-- Popper.JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
-        crossorigin="anonymous"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
-        crossorigin="anonymous"></script>
+        <!-- Popper.JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+            crossorigin="anonymous"></script>
+        <!-- Bootstrap JS -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+            crossorigin="anonymous"></script>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar').toggleClass('active');
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#sidebarCollapse').on('click', function () {
+                    $('#sidebar').toggleClass('active');
+                });
             });
-        });
 
-    
-        var data2 = "{{data}}"
-        var data = JSON.parse(decodeURI(data2))
 
-        document.getElementById("username").innerHTML = "User : "+ data.name
-        console.log(data)
+            var data2 = "{{data}}"
+            var data = JSON.parse(decodeURI(data2))
+            var option_id = ' <option value="" disabled selected>Please Select</option>'
+            var Member = []
+            document.getElementById("username").innerHTML = "User : " + data.name
+            //console.log(data)
 
-    </script>
-</body>
+            for (let i = 0; i < data.member.length; i++) {
+                option_id += ' <option value="' + data.member[i].Member_ID + '" >' + data.member[i].Member_ID + '</option>'
+            }
+            document.getElementById("Member_ID").innerHTML = option_id
+
+            $(document).ready(function () {
+                $('.js-example-basic-single').select2();
+
+
+            });
+
+            $(document).ready(function () {
+                $('#Member_ID').on('change', function () {
+                    let id = document.getElementById("Member_ID").value
+                    //console.log(id)
+                    for (let i = 0; i < data.member.length; i++) {
+                        if (data.member[i].Member_ID == id) {
+                            Member.push(data.member[i])
+                        }
+                    }
+                    //console.log(Member)
+                    document.getElementById("Member_Name").value = Member[0].Member_Name
+                    document.getElementById("Member_Lastname").value = Member[0].Member_Lastname
+                    document.getElementById("Member_House").value = Member[0].Member_House
+                    document.getElementById("Member_Point").value = Member[0].Member_Total
+
+                })
+            })
+
+
+        </script>
+    </body>
 
 </html>

@@ -283,7 +283,6 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-        document.getElementById("username").innerHTML = "User : " + name
 
         var current_page = 1;
         var records_per_page = 10;
@@ -307,6 +306,7 @@
         { name: "Elon Musk", point: 0, img: '<img height=80  src="https://www.img.in.th/images/2b459284d57f9a33e0c384ed1b4b78f7.png" alt="2b459284d57f9a33e0c384ed1b4b78f7.png" border="0">' },
         { name: "Mark Zuckerberg", point: 0, img: '<img height=80 src="https://www.img.in.th/images/475c4ffba686c48d6e0b86bad1a84f7d.png" alt="475c4ffba686c48d6e0b86bad1a84f7d.png" border="0">' },]
 
+        document.getElementById("username").innerHTML = "User : " + data.name
         // =====================================
 
         if (data.member.length == 0) {

@@ -431,7 +431,6 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-        //document.getElementById("username").innerHTML = "User : " + name
         var data2 = "{{data}}"
         var data = JSON.parse(decodeURI(data2))
         let Reward = [];
@@ -441,6 +440,7 @@
         let Option_Reward = '<option  selected disabled>Please select</option>'
         let Option_Quantity = '<option  selected disabled>0</option>'
 
+        document.getElementById("username").innerHTML = "User : " + data.name
 
         for (let i = 0; i < data.reward.length; i++) {
             Reward.push(data.reward[i])

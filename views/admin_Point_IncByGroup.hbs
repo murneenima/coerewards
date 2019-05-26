@@ -20,8 +20,9 @@
         crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> {{!-- Select 2 --}}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
 
     <style>
         p {
@@ -295,12 +296,9 @@
                     </div>
                     <div class="col d-flex justify-content-end">
                         <div class="input-group">
-                            <input class="form-control border-info py-2" type="text" pattern="[0-9]{8}" maxlength="8" placeholder="Search By Id" id="SearchData">
-                            <div class="input-group-append">
-                                <button onclick="search_id()" class="btn btn-outline-secondary" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
+                            <select class="js-example-basic-single form-control" id="Member_ID" name="Member_ID" required>
+
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -390,47 +388,6 @@
         <!-- /.modal-dialog -->
     </div>
 
-    {{!-- ################### Modal ######################### --}}
-    <div class="modal" id="myModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Please enter the correct ID.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-     {{!-- ########### No ID ############# --}}
-            <div class="modal" id="error_data" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title"></h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p style="color: rgb(0, 0, 0);">Can't find data from ID, Please inter the correct ID.</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Okay</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
 
     {{!-- ############################################################################################################# --}}
 
@@ -448,21 +405,19 @@
             });
         });
 
-        document.getElementById("username").innerHTML = "User : " + name
         var data2 = "{{data}}"
         var data = JSON.parse(decodeURI(data2))
         var Event = []
-        
-        let count = 0;
+        var option = ' <option value="" disabled selected>Please Select</option>'
+
+        document.getElementById("username").innerHTML = "User : " + data.name
 
         for (let i = 0; i < data.OpenEvent.length; i++) {
             Event.push(data.OpenEvent[i])
         }
-       /* for (let i = 0; i < data.Member.length; i++) {
-            Member.push(data.Member[i])
-        }*/
+
         document.getElementById("sendServer").disabled = true
-    
+
         for (let i = 0; i < Event.length; i++) {
 
             document.getElementById("OpenEvent_Name").innerHTML = Event[0].OpenEvent_Name
@@ -475,38 +430,6 @@
             document.getElementById("OpenEvent_Year").innerHTML = Event[0].OpenEvent_Year
             document.getElementById("OpenEvent_Location").innerHTML = Event[0].OpenEvent_Location
         }
-
-        // ========================================================================
-        function search_id() {
-            let id = document.getElementById("SearchData").value
-            //console.log(id)
-            let Member = [];
-            for (let i = 0; i < data.Member.length; i++) {
-                if (data.Member[i].Member_ID == id) {
-                    //console.log(Member[i].Member_ID)
-                    Member.push(data.Member[i])
-                    
-                }
-            }
-            if(Member.length == 1){
-                $('#dataMember').modal('show');
-                document.getElementById("sendServer").disabled = false
-                    document.getElementById("Member_ID").value = Member[0].Member_ID
-                    document.getElementById("Member_Name").value = Member[0].Member_Name
-                    document.getElementById("Member_Lastname").value = Member[0].Member_Lastname
-                    document.getElementById("Member_House").value = Member[0].Member_House
-
-                    return 0;
-            }else if (Member.length == 0){
-                $('#error_data').modal({}); 
-                    document.getElementById("Member_ID").value = ''
-                    document.getElementById("Member_Name").value = ''
-                    document.getElementById("Member_Lastname").value = ''
-                    document.getElementById("Member_House").value = ''
-            }
-        }
-
-        //let display_MemberAll = "<thead><th><input type='checkbox' id='master'></th><th>No</th><th>Member ID</th><th>Name</th><th>Last Name</th><th>House</th><th class='pull-right'>Delete</th></thead>";
 
         function Add_Row() {
             let table_data = document.getElementById("table_data"),
@@ -540,6 +463,41 @@
             }
         }
 
+        option_id()
+        function option_id() {
+            for (let i = 0; i < data.Member.length; i++) {
+                option += '<option value="' + data.Member[i].Member_ID + '" >' + data.Member[i].Member_ID + '</option>'
+            }
+            document.getElementById("Member_ID").innerHTML = option
+        }
+
+
+        $(document).ready(function () {
+            $('.js-example-basic-single').select2();
+        });
+
+
+        $(document).ready(function () {
+            $('#Member_ID').on('change', function () {
+                let id = document.getElementById("Member_ID").value
+                let Member = []
+                //console.log(id)
+                for (let i = 0; i < data.Member.length; i++) {
+                    if (data.Member[i].Member_ID == id) {
+                        //console.log(Member[i].Member_ID)
+                        Member.push(data.Member[i])
+                    }
+                }
+
+                $('#dataMember').modal('show');
+                document.getElementById("sendServer").disabled = false
+                document.getElementById("Member_ID").value = Member[0].Member_ID
+                document.getElementById("Member_Name").value = Member[0].Member_Name
+                document.getElementById("Member_Lastname").value = Member[0].Member_Lastname
+                document.getElementById("Member_House").value = Member[0].Member_House
+
+            })
+        })
 
         $('#sendServer').click(function () {
             var dataArr = [];
@@ -556,7 +514,7 @@
                 if (i % 5 == 0) {
                     let id = dataArr[i]
                     $.ajax('http://localhost:3000/savePointByGroup', {
-                        data: JSON.stringify({ id, id_event, point_event,event_name }),
+                        data: JSON.stringify({ id, id_event, point_event, event_name }),
                         contentType: "application/json", // this
                         dataType: "json",
                         type: "POST",

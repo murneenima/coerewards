@@ -224,15 +224,15 @@
             });
             
         });
-        document.getElementById("username").innerHTML = "User : "+ name
         var current_page = 1;
         var records_per_page = 20;
 
-        var dataHouse = "{{dataHouse}}"
-        var data_Bill = JSON.parse(decodeURI(dataHouse))
+        var dataHouse = "{{data}}"
+        var data = JSON.parse(decodeURI(dataHouse))
         var House_Bill = [];
+        document.getElementById("username").innerHTML = "User : "+ data.name
         
-        if(data_Bill.length == 0){
+        if(data.house.length == 0){
             document.getElementById("btn_prev").hidden = true
             document.getElementById("btn_next").hidden = true
     
@@ -264,9 +264,9 @@
 
             document.getElementById("member_bill").innerHTML = ""; // แสดงผลข้อมูลตารางให้ว่าง
         
-            for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < data_Bill.length; i++) {
-            console.log(data_Bill[i].Member_ID)
-                display_MemberAll += "<tbody><tr><td>" + (i + 1) + "</td><td>" + data_Bill[i].Member_ID + "</td><td>" + data_Bill[i].Member_Name + "</td><td>" + data_Bill[i].Member_Lastname + "</td><td>" + data_Bill[i].Member_Total + "</td><td>" + data_Bill[i].Member_Available + "</td></tr></tbody>"
+            for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < data.house.length; i++) {
+            //console.log(data.house[i].Member_ID)
+                display_MemberAll += "<tbody><tr><td>" + (i + 1) + "</td><td>" + data.house[i].Member_ID + "</td><td>" + data.house[i].Member_Name + "</td><td>" + data.house[i].Member_Lastname + "</td><td>" + data.house[i].Member_Total + "</td><td>" + data.house[i].Member_Available + "</td></tr></tbody>"
                 document.getElementById("member_bill").innerHTML = display_MemberAll
             }
             page_span.innerHTML = "Page " + page; // แสดงผลหน้า
@@ -285,7 +285,7 @@
         }
 
         function numPages(){
-            return Math.ceil(data_Bill.length / records_per_page);
+            return Math.ceil(data.house.length / records_per_page);
         }
 
         window.onload = function() {
@@ -297,15 +297,15 @@
     
         // =========================Total member===============================
        
-        document.getElementById("total").innerHTML = "Member Total = " + data_Bill.length
+        document.getElementById("total").innerHTML = "Member Total = " + data.house.length
 
         // ====================== Sorting data ==========================
-         for (let i = 0; i < data_Bill.length; i++) {
-            House_Bill.push(data_Bill[i])
+         for (let i = 0; i < data.house.length; i++) {
+            House_Bill.push(data.house[i])
             myFunction()
         }
         function myFunction() {
-            data_Bill.sort(function (a, b) { return b.Member_Total - a.Member_Total });
+            data.house.sort(function (a, b) { return b.Member_Total - a.Member_Total });
             //console.log(Member)
         }
         // ==================== Searching data ====================

@@ -234,15 +234,15 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-        document.getElementById("username").innerHTML = "User : "+ name
         var current_page = 1;
         var records_per_page = 20;
 
-        var dataHouse = "{{dataHouse}}"
-        var data_Elon = JSON.parse(decodeURI(dataHouse))
+        var dataHouse = "{{data}}"
+        var data = JSON.parse(decodeURI(dataHouse))
         var House_Elon = [];
+        document.getElementById("username").innerHTML = "User : "+ data.name
 
-        if(data_Elon.length == 0){
+        if(data.house.length == 0){
             document.getElementById("btn_prev").hidden = true
             document.getElementById("btn_next").hidden = true
     
@@ -274,8 +274,8 @@
 
             document.getElementById("member_elon").innerHTML = ""; // แสดงผลข้อมูลตารางให้ว่าง
 
-            for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < data_Elon.length; i++) {
-                display_MemberAll += "<tbody><tr><td>" + (i + 1) + "</td><td>" + data_Elon[i].Member_ID + "</td><td>" + data_Elon[i].Member_Name + "</td><td>" + data_Elon[i].Member_Lastname + "</td><td>" + data_Elon[i].Member_Total + "</td><td>" + data_Elon[i].Member_Available + "</td></tr></tbody>"
+            for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < data.house.length; i++) {
+                display_MemberAll += "<tbody><tr><td>" + (i + 1) + "</td><td>" + data.house[i].Member_ID + "</td><td>" + data.house[i].Member_Name + "</td><td>" + data.house[i].Member_Lastname + "</td><td>" + data.house[i].Member_Total + "</td><td>" + data.house[i].Member_Available + "</td></tr></tbody>"
                 document.getElementById("member_elon").innerHTML = display_MemberAll
             }
             page_span.innerHTML = "Page " + page; // แสดงผลหน้า
@@ -294,7 +294,7 @@
         }
 
         function numPages(){
-            return Math.ceil(data_Elon.length / records_per_page);
+            return Math.ceil(data.house.length / records_per_page);
         }
 
         window.onload = function() {
@@ -306,16 +306,16 @@
         
         // =========================Total member===============================
        
-        document.getElementById("total").innerHTML = "Member Total = " + data_Elon.length
+        document.getElementById("total").innerHTML = "Member Total = " + data.house.length
 
         // ========== Sorting data =================== 
-        for (let i = 0; i < data_Elon.length; i++) {
-            House_Elon.push(data_Elon[i])
+        for (let i = 0; i < data.house.length; i++) {
+            House_Elon.push(data.house[i])
             myFunction()
             //display_MemberAll += "<tbody><tr><td>" + (i + 1) + "</td><td>" + Member[i].Member_ID + "</td><td>" + Member[i].Member_Name + "</td><td>" + Member[i].Member_Lastname + "</td><td>" + Member[i].Member_House + "</td></td><td><p data-placement='top' data-toggle='tooltip' title='Edit'><button class='btn btn-primary btn-xs'  onclick='ShowModal_Edit(" + i + ")' data-title='Edit' data-toggle='modal' data-target='#edit' ><i class='fas fa-edit'></i></button></p></td><td><p data-placement='top' data-toggle='tooltip' title='Delete'><button onclick='ShowModal_delete(" + i + ")' class='btn btn-danger btn-xs' data-title='Delete' data-toggle='modal'><i class='fas fa-trash-alt'></i></button></p></td></tr></tbody>"
         }
         function myFunction() {
-            data_Elon.sort(function (a, b) { return b.Member_Total - a.Member_Total });
+            data.house.sort(function (a, b) { return b.Member_Total - a.Member_Total });
             //console.log(Member)
         }
 
