@@ -9,7 +9,7 @@ const moment = require('moment');
 const session = require('express-session')
 const image2base64 = require('image-to-base64');
 autoIncrement = require('mongoose-auto-increment');
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 var academic_year = 2563;
