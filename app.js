@@ -3167,7 +3167,7 @@ app.post('/login/member', (req, res, next) => {
                          );
                         console.log('login success')
                         return res.status(200).json({
-                            message: 'Succesful',
+                            message: 'Successful',
                             token: token
                         })
                     }
