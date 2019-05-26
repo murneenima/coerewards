@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Event</title>
+    <title>Admin Profile</title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
@@ -19,16 +19,19 @@
         crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
         crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
+    
+    <style>
+        h4 {
+            color: crimson;
+        }
+    </style>
 </head>
 
 <body>
     <div class="wrapper">
         <!-- Sidebar  -->
-        <nav id="sidebar">
+        <nav  id="sidebar">
             <div class="sidebar-header">
                 <h3>COE REWARD</h3>
             </div>
@@ -160,7 +163,7 @@
 
         <!-- Page Content  -->
         <div id="content">
-            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>  
+            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 
@@ -182,38 +185,17 @@
                     </div>
                 </div>
             </nav>
-            <h2 class="m-2 p-3 mb-2 bg-info text-white">กิจกรรมที่มี</h2>
-            <div class="container">
-                <div class="d-flex flex-row-reverse">
-                    <div class="p-2">
-                        <a class="btn btn-outline-info btn-lg " href="http://localhost:3000/ClosedEvent" role="button">กิจกรรมที่สิ้นสุดแล้ว</a>
-                    </div>
-                    <div class="p-2">
-                        <a class="btn btn-outline-info btn-lg " href="http://localhost:3000/UpcomingEvent" role="button">กิจกรรมที่เปิดแล้ว</a>
-                    </div>
-                   
-                </div>
-            
-                <div class="row mt-2">
-                    <div class="container">
-                        <div class="table-responsive mt-3">
-                            <table id="event" class="table justify-content-center text-center ">
-                            </table>
-                        </div>
-                        <div class="row m-3 d-flex justify-content-between">
-                            <button type="button" onclick="prevPage()"  class="btn btn-outline-info btn-lg" id="btn_prev">Prev</button>
-                            <span style="font-weight: bold;" id="page"></span>
-                            <button type="button" onclick="nextPage()"  class="btn btn-outline-info btn-lg" id="btn_next">Next</button>
-                    </div>
-                    </div>
-                </div>
-            </div>
+
+            <h2 class="m-2 p-3 mb-2 bg-info text-white">Admin Profile</h2>
+        
+            <div class="line"></div>
+
         </div>
     </div>
+
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
-
     <!-- Popper.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
         crossorigin="anonymous"></script>
@@ -227,84 +209,10 @@
                 $('#sidebar').toggleClass('active');
             });
         });
+        var data2 = "{{data}}"
+        var data = JSON.parse(decodeURI(data2))
 
-        document.getElementById("username").innerHTML = "User : "+ name
-        var current_page = 1;
-        var records_per_page = 10;
-
-        var data = "{{data}}"
-        var dataAll = JSON.parse(decodeURI(data))
-        var AllEvent = [];
-        var CreatedBy = [];
-        // ==============Display data================
-        if(dataAll.event.length == 0){
-            document.getElementById("btn_prev").hidden = true
-            document.getElementById("btn_next").hidden = true
-        }else{
-            window.onload = function() {
-            changePage(1);
-            };
-        }
-        function prevPage(){  
-            if (current_page > 1) {
-                current_page--;
-                changePage(current_page);
-            }
-        }
-
-        function nextPage(){
-            if (current_page < numPages()) {
-                current_page++;
-                changePage(current_page);
-            }
-        }
-
-        function changePage(page){
-            var btn_next = document.getElementById("btn_next");
-            var btn_prev = document.getElementById("btn_prev");
-            let display_Event = "<thead class='table-secondary'><th>No</th><th>ชื่อกิจกรรม</th><th>คะแนน</th><th>จัดกิจกรรมโดย</th><th>สถานที่</th><th>กำหนดการจัดกิจกรรม</th><th>แก้ไขข้อมูล</th></thead>";
-            var page_span = document.getElementById("page");
-
-            // Validate page
-            if (page < 1) page = 1;
-            if (page > numPages()) page = numPages();
-
-            document.getElementById("event").innerHTML = ""; // แสดงผลข้อมูลตารางให้ว่าง
-
-            for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < dataAll.event.length; i++) {
-                display_Event += "<tbody><tr><td>" + (i + 1) + "</td><td>" + dataAll.event[i].AllEvent_Name + "</td><td>" + dataAll.event[i].AllEvent_Point + "</td><td>" + dataAll.event[i].CreatedBy_ID + "</td><td>" + dataAll.event[i].AllEvent_Location + "</td></td><td><form action='http://localhost:3000/event/" + dataAll.event[i].AllEvent_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'>จัดการกิจกรรม</button></p></form></td><td><form action='http://localhost:3000/event/edit/" + dataAll.event[i].AllEvent_ID + "' method='POST'><p><button class='btn btn-info btn-xs'><i class='fas fa-edit'></i> แก้ไข</button></p></form></td></tr></tbody>"
-                document.getElementById("event").innerHTML = display_Event
-            }
-            page_span.innerHTML = "Page " + page; // แสดงผลหน้า
-
-            if (page == 1) {
-                btn_prev.style.visibility = "hidden";
-            } else {
-                btn_prev.style.visibility = "visible";
-            }
-
-            if (page == numPages()) {
-                btn_next.style.visibility = "hidden";
-            } else {
-                btn_next.style.visibility = "visible";
-            }
-        }
-
-        function numPages(){
-            return Math.ceil(dataAll.event.length / records_per_page);
-        }
-        
-    
-        //document.getElementById("total").innerHTML = "Member Total = " + data_Mark.length
-
-        // =======================================================
-        for (let i = 0; i < dataAll.event.length; i++) {
-            AllEvent.push(dataAll.event[i])
-        }
-        for (let i = 0; i < dataAll.createdby.length; i++) {
-            CreatedBy.push(dataAll.createdby[i])
-        }
-        
+        document.getElementById("username").innerHTML = "User : " + data.name
 
     </script>
 </body>

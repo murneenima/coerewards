@@ -2728,6 +2728,26 @@ app.get('/getYear', (req, res) => {
     }
 })
 
+app.get('/displayYear',(req,res)=>{
+    if(req.session.displayName){
+        let name = req.session.displayName
+        let data = {}
+
+        Year.find({},(err,data)=>{
+            if(err) console.log(err)
+        }).then((dataYear)=>{
+            data.name = name
+            data.year = dataYear
+            res.render('admin_YearDisplay.hbs',{
+                data : encodeURI(JSON.stringify(data))
+            })
+        })
+
+    }else{
+        res.redirect('/login')
+    }
+})
+
 // ============== Report =============
 // admin_Report.hbs
 app.get('/getReport', (req, res) => {
@@ -2902,6 +2922,23 @@ app.post('/admin/register', function (req, res) {
     })
 
 
+})
+
+app.get('/adminProfile',(req,res)=>{
+    if(req.session.displayName){
+        let data ={}
+        Admin.findOne({Admin_Username:req.session.displayName},(err,data)=>{
+            if(err) console.log(err)
+        }).then((dataAdmin)=>{
+            data.name = req.session.displayName
+            data.admin = dataAdmin
+            res.render('admin_AdminProfile.hbs',{
+                data : encodeURI(JSON.stringify(data))
+            })
+        })
+    }else{
+        res.redirect('/login')
+    }
 })
 
 // ======================= alumni ===============

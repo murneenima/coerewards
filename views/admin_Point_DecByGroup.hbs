@@ -137,11 +137,28 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="http://localhost:3000/getYear">ปฏิทินการศึกษา</a>
+                    <a href="#AdminSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Admin</a>
+                    <ul class="collapse list-unstyled" id="AdminSubmenu">
+                         <li>
+                            <a href="http://localhost:3000/forAdmin">Add Admin</a>
+                        </li>
+                         <li>
+                            <a href="http://localhost:3000/adminProfile">Admin Profile</a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
-                    <a href="http://localhost:3000/forAdmin">Admin</a>
+                    <a href="#CalendarSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Calendar</a>
+                    <ul class="collapse list-unstyled" id="CalendarSubmenu">
+                        <li>
+                            <a href="http://localhost:3000/getYear">กำหนดปีการศึกษา</a>
+                        </li>
+                         <li>
+                            <a href="http://localhost:3000/displayYear">ปฏิทินการศึกษา</a>
+                        </li>
+                    </ul>
                 </li>
+                
                 <li>
                     <a href="http://localhost:3000/getReport">Report</a>
                 </li>
