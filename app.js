@@ -12,7 +12,7 @@ autoIncrement = require('mongoose-auto-increment');
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
-var academic_year = 2563;
+var academic_year = 2561;
 
 // =========== image===========
 const storage = multer.diskStorage({
@@ -56,7 +56,7 @@ var Admin = require('./Model/AdminModel')
 var RedeemReward = require('./Model/RedeemRewardModel')
 var Alumni = require('./Model/AlumniModel')
 var OtherEvent = require('./Model/OtherEventModel')
-
+var HouseHistory = require('./Model/HouseHistoryModel')
 //=========================================
 mongoose.connect('mongodb://localhost:27017/DBcoe').then((doc) => {
     console.log('@@@@ Success to connect with Database @@@')
@@ -151,13 +151,13 @@ app.get('/Main', (req, res) => {
 })
 
 app.get('/SeeMoreReward', (req, res) => {
-    let data ={}
+    let data = {}
     let name = req.session.displayName
     if (req.session.displayName) {
         Reward.find({}, (err, dataEvent) => {
             if (err) console.log(err)
         }).then((dataReward) => {
-            data.name = name 
+            data.name = name
             data.reward = dataReward
             res.render('admin_RewardCard.hbs', {
                 data: encodeURI(JSON.stringify(data))
@@ -178,7 +178,7 @@ app.get('/SeeMoreEvent', (req, res) => {
         OpenEvent.find({ OpenEvent_Status: open }, (err, dataEvent) => {
             if (err) console.log(err)
         }).then((dataEV) => {
-            data.name = name 
+            data.name = name
             data.openevent = dataEV
             res.render('admin_EventCard.hbs', {
                 data: encodeURI(JSON.stringify(data))
@@ -189,7 +189,6 @@ app.get('/SeeMoreEvent', (req, res) => {
     }
 })
 
-// ====================== API Post ==========================
 // ====================== Member ============================
 // admin_MemberInsert.hbs เพิ่มข้อมูล
 app.get('/MemberInsert', (req, res) => {
@@ -263,7 +262,8 @@ app.post('/save', upload.single('photos'), function (req, res) {
                                     Member_Tel: req.body.Member_Tel,
                                     Member_Total: point,
                                     Member_Available: point,
-                                    Member_Admin: req.session.displayName
+                                    Member_Admin: req.session.displayName,
+                                    Member_Year: academic_year
                                 })
 
                                 newMember.save().then((doc1) => {
@@ -351,7 +351,8 @@ app.post('/save', upload.single('photos'), function (req, res) {
                                         Member_Tel: req.body.Member_Tel,
                                         Member_Total: point,
                                         Member_Available: point,
-                                        Member_Admin: req.session.displayName
+                                        Member_Admin: req.session.displayName,
+                                        Member_Year: academic_year
                                     })
 
                                     newMember.save().then((doc1) => {
@@ -522,7 +523,7 @@ app.post('/resetPassword', (req, res) => {
 
                     d.save().then((success) => {
                         console.log(' **** Success to reset password ****')
-                       // res.redirect('/MemberAll')
+                        // res.redirect('/MemberAll')
                     }, (e) => {
                         res.status(400).send(e)
                     }, (err) => {
@@ -568,7 +569,7 @@ app.post('/member/:edit', (req, res, next) => {
                             if (err) console.log(err)
                         }).then((dataYear) => {
                             data.year = dataYear
-                            
+
 
                             res.render('admin_MemberEdit.hbs', {
                                 data: encodeURI(JSON.stringify(data))
@@ -636,7 +637,7 @@ app.post('/moveMember', (req, res) => {
 
                     d2.save().then((success) => {
                         console.log(' **** Success to edit HOUSE name ****')
-                       
+
                     }, (e) => {
                         res.status(400).send(e)
                     }, (err) => {
@@ -717,12 +718,118 @@ app.get('/MemberAll', (req, res) => {
         res.redirect('/login')
     }
 })
+
+// set Point Member
+app.post('/setPoint', (req, res) => {
+    if (req.session.displayName) {
+        House.find({}, (err, data) => {
+            if (err) console.log(err)
+        }).then((d) => {
+
+            for (let i = 0; i < d.length; i++) {
+                let newHouseHistory = new HouseHistory({
+                    House_name: d[i].House_name,
+                    House_MemberID: d[i].House_MemberID,
+                    House_MemberPoint: d[i].House_MemberPoint,
+                    House_Year: academic_year,
+                    House_Admin:req.session.displayName
+                })
+                newHouseHistory.save().then((suceess) => {
+                    console.log('@@@@@@@ Backup House data success @@@@@@@')
+
+                    d[i].House_MemberPoint = 0;
+
+                    d[i].save().then((success) => {
+                        console.log('@@@@@@@ reset House point success @@@@@@@')
+
+                        Member.find({}, (err, data) => {
+                            if (err) console.log(err)
+                        }).then((d2) => {
+                            for (let i = 0; i < d2.length; i++) {
+                                d2[i].Member_Total = 0;
+                                d2[i].Member_Available = 0;
+                                d2[i].Member_Year = 2562
+
+                                d2[i].save().then((success) => {
+                                    console.log('@@@@@@@ reset MEMBER point success @@@@@@@')
+                                    res.send(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="utf-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                
+                    <title>Success</title>
+                
+                    <!-- Bootstrap CSS CDN -->
+                    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                        crossorigin="anonymous">
+                    <style>
+                        @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                        h4 {
+                            color: crimson;
+                        }
+                
+                        p {
+                            font-family: 'Poppins', sans-serif;
+                            font-size: 1.1em;
+                            font-weight: 300;
+                            line-height: 1.7em;
+                            color: #999;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="container d-flex justify-content-center align-items-center">
+                        <div class="row mt-5 ">
+                
+                            <div class="alert alert-success" role="alert" style="height:100%; width:500px;">
+                                <h3 class="alert-heading">Succes !</h3>
+                                <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">Reset คะแนนนักศึกษาสำเร็จ</p>
+                                <hr>
+                                <p class="d-flex justify-content-end">
+                                        <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/displayYear" role="button">ตกลง</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="line"></div>
+                </body>
+                
+                </html>
+                `)
+                                }, (e) => {
+                                    res.status(400).send(e)
+                                }, (err) => {
+                                    res.status(400).send(err)
+                                })
+
+                            }
+                        })
+                    }, (e) => {
+                        res.status(400).send(e)
+                    }, (err) => {
+                        res.status(400).send(err)
+                    })
+                }, (err) => {
+                    res.status(400).send(err)
+                })
+
+            }
+        })
+    }else{
+        res.redirect('/login')
+    }
+
+})
+
 // ============== House ===================
 //17 admin_HouseBill.hbs
 app.get('/Bill', (req, res) => {
     let bill = 'Bill Gates'
     let name = req.session.displayName
-    let data ={}
+    let data = {}
     if (req.session.displayName) {
         Member.find({ Member_House: bill }, (err, dataHouse) => {
             if (err) console.log(err)
@@ -742,7 +849,7 @@ app.get('/Bill', (req, res) => {
 app.get('/Larry', (req, res) => {
     let larry = 'Larry Page'
     let name = req.session.displayName
-    let data ={}
+    let data = {}
     if (req.session.displayName) {
         Member.find({ Member_House: larry }, (err, dataHouse) => {
             if (err) console.log(err)
@@ -762,7 +869,7 @@ app.get('/Larry', (req, res) => {
 app.get('/Elon', (req, res) => {
     let elon = 'Elon Musk'
     let name = req.session.displayName
-    let data ={}
+    let data = {}
     if (req.session.displayName) {
         Member.find({ Member_House: elon }, (err, dataHouse) => {
             if (err) console.log(err)
@@ -782,7 +889,7 @@ app.get('/Elon', (req, res) => {
 app.get('/Mark', (req, res) => {
     let mark = 'Mark Zuckerberg'
     let name = req.session.displayName
-    let data ={}
+    let data = {}
     if (req.session.displayName) {
         Member.find({ Member_House: mark }, (err, dataHouse) => {
             if (err) console.log(err)
@@ -1092,6 +1199,8 @@ app.post('/editEventContent', upload.single('photos'), function (req, res) {
 
         } else {
             console.log('==== Have picture file =====')
+            console.log(req.file.mimetype)
+            console.log(req.file.path)
             image2base64(req.file.path).then((response) => {
                 img_base64 = "data:" + req.file.mimetype + ";base64," + response
 
@@ -1591,7 +1700,7 @@ app.post('/saveEditBehavior', (req, res) => {
 //31 admin_RewardAll.hbs
 app.get('/editReward', (req, res) => {
     let name = req.session.displayName
-    let data ={}
+    let data = {}
     if (req.session.displayName) {
         Reward.find({}, (err, dataReaward) => {
             data.name = name
@@ -1612,11 +1721,11 @@ app.get('/editReward', (req, res) => {
 //32 admin_RewardContent.hbs
 app.get('/rewardContent', (req, res) => {
     let name = req.session.displayName
-    let data ={}
+    let data = {}
     if (req.session.displayName) {
         data.name = name
         res.render('admin_RewardContent.hbs', {
-            data : encodeURI(JSON.stringify(data))
+            data: encodeURI(JSON.stringify(data))
         })
     } else {
         res.redirect('/login')
@@ -1811,7 +1920,7 @@ app.post('/saveReward', upload.single('photos'), function (req, res) {
 ///dsss
 app.post('/rewardedit/:id', (req, res) => {
     if (req.session.displayName) {
-        let data ={}
+        let data = {}
         let id = req.params.id
         let name = req.session.displayName
         console.log(id)
@@ -1971,7 +2080,7 @@ app.post('/saveEditReward', upload.single('photos'), function (req, res) {
 app.get('/displayReward/:id', function (req, res) {
     if (req.session.displayName) {
         let id = req.params.id
-        let data ={}
+        let data = {}
         let name = req.session.displayName
 
         Reward.find({ Reward_ID: id }, (err, dataReaward) => {
@@ -2341,10 +2450,10 @@ app.post('/savePoint', function (req, res) {
                     let m_total = parseFloat(d.Member_Total)
                     let m_available = parseFloat(d.Member_Available)
                     let event_point = parseFloat(req.body.Event_Point)
-              
+
                     d.Member_Total = m_total + event_point;
                     d.Member_Available = m_available + event_point;
-                 
+
                     d.save().then((success) => {
                         console.log('@@@@@@ save Point @@@@@@@')
 
@@ -2473,7 +2582,7 @@ app.post('/savePointByGroup', function (req, res) {
 
                             house.save().then((success) => {
                                 console.log('@@@@ Update POINT in House table @@@@')
-                               // res.redirect('/IncreasePoint')
+                                // res.redirect('/IncreasePoint')
                                 res.send(`
                                 <!DOCTYPE html>
                                 <html>
@@ -2578,7 +2687,7 @@ app.post('/saveDecPointGroup', function (req, res) {
 
                             house.save().then((success) => {
                                 console.log('@@@@ Update POINT in House table @@@@')
-                             //   res.redirect('/DecreasePoint')
+                                //   res.redirect('/DecreasePoint')
                                 res.send(`
                                 <!DOCTYPE html>
                                 <html>
@@ -2650,8 +2759,8 @@ app.post('/saveYear', function (req, res) {
             Year_Year: req.body.Year_Year,
             Year_StartDate: req.body.Year_StartDate,
             Year_EndDate: req.body.Year_EndDate,
-            Year_StartTime: req.body.Year_StartTime,
-            Year_EndTime: req.body.Year_EndTime,
+            // Year_StartTime: req.body.Year_StartTime,
+            // Year_EndTime: req.body.Year_EndTime,
         })
 
         newYear.save().then((doc) => {
@@ -2690,7 +2799,7 @@ app.post('/saveYear', function (req, res) {
                     <div class="row mt-5 ">
             
                         <div class="alert alert-success" role="alert">
-                            <h3 class="alert-heading">Error !</h3>
+                            <h3 class="alert-heading">Success !</h3>
                             <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลสำเร็จ </p>
                             <hr>
                             <p class="d-flex justify-content-end">
@@ -2721,29 +2830,37 @@ app.get('/getYear', (req, res) => {
     if (req.session.displayName) {
         data.name = name
         res.render('admin_Year.hbs', {
-            data : encodeURI(JSON.stringify(data))
+            data: encodeURI(JSON.stringify(data))
         })
     } else {
         res.redirect('/login')
     }
 })
 
-app.get('/displayYear',(req,res)=>{
-    if(req.session.displayName){
+app.get('/displayYear', (req, res) => {
+    if (req.session.displayName) {
         let name = req.session.displayName
         let data = {}
+        let open_event = "Open_Event"
 
-        Year.find({},(err,data)=>{
-            if(err) console.log(err)
-        }).then((dataYear)=>{
+        Year.find({}, (err, data) => {
+            if (err) console.log(err)
+        }).then((dataYear) => {
             data.name = name
             data.year = dataYear
-            res.render('admin_YearDisplay.hbs',{
-                data : encodeURI(JSON.stringify(data))
+
+            OpenEvent.find({ OpenEvent_Status: open_event }, (err, data) => {
+                if (err) console.log(err)
+            }).then((dataOpenEvent) => {
+                data.openevent = dataOpenEvent
+
+                res.render('admin_YearDisplay.hbs', {
+                    data: encodeURI(JSON.stringify(data))
+                })
             })
         })
 
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
@@ -2756,7 +2873,7 @@ app.get('/getReport', (req, res) => {
     if (req.session.displayName) {
         data.name = name
         res.render('admin_Report.hbs', {
-            data : encodeURI(JSON.stringify(data))
+            data: encodeURI(JSON.stringify(data))
         })
     } else {
         res.redirect('/login')
@@ -2815,7 +2932,7 @@ app.post('/admin/save', function (req, res) {
                     Admin_Surname: req.body.Admin_Surname,
                     Admin_Username: req.body.Admin_Username,
                     Admin_Password: hash,
-                    Admin_Profile : member_profile
+                    Admin_Profile: member_profile
                 })
                 newAdmin.save().then((doc) => {
                     res.send(`
@@ -2895,7 +3012,7 @@ app.post('/admin/register', function (req, res) {
                 Admin_Surname: req.body.Admin_Surname,
                 Admin_Username: req.body.Admin_Username,
                 Admin_Password: hash,
-                Admin_Profile : member_profile
+                Admin_Profile: member_profile
             })
             newAdmin.save().then((doc) => {
                 res.send(`
@@ -2955,51 +3072,51 @@ app.post('/admin/register', function (req, res) {
 
 })
 
-app.get('/adminProfile',(req,res)=>{
-    if(req.session.displayName){
-        let data ={}
+app.get('/adminProfile', (req, res) => {
+    if (req.session.displayName) {
+        let data = {}
         let name = req.session.displayName
-        Admin.findOne({Admin_Username:name},(err,data)=>{
-            if(err) console.log(err)
-        }).then((dataAdmin)=>{
+        Admin.findOne({ Admin_Username: name }, (err, data) => {
+            if (err) console.log(err)
+        }).then((dataAdmin) => {
             data.name = req.session.displayName
             data.admin = dataAdmin
-            res.render('admin_AdminProfile.hbs',{
-                data : encodeURI(JSON.stringify(data))
+            res.render('admin_AdminProfile.hbs', {
+                data: encodeURI(JSON.stringify(data))
             })
         })
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
 
-app.post('/changeProfile',upload.single('photos'),function (req,res){
-    if(req.session.displayName){
-        Admin.findOne({Admin_Username:req.body.username}).then((data)=>{
-                    console.log(data)
-                  data.Admin_Profile = req.body.imageURL
-                    data.save().then((success)=>{
-                        console.log('!! UPDATE Profile success !!')
-                    },(e)=>{
-                        res.status(400).send(e)
-                    },(err)=>{
-                        res.status(400).send(error)
-                    })
+app.post('/changeProfile', upload.single('photos'), function (req, res) {
+    if (req.session.displayName) {
+        Admin.findOne({ Admin_Username: req.body.username }).then((data) => {
+            console.log(data)
+            data.Admin_Profile = req.body.imageURL
+            data.save().then((success) => {
+                console.log('!! UPDATE Profile success !!')
+            }, (e) => {
+                res.status(400).send(e)
+            }, (err) => {
+                res.status(400).send(error)
+            })
         })
-        
-    }else{
+
+    } else {
         res.redirect('/login')
     }
 })
 
-app.post('/changePassword',(req,res)=>{
+app.post('/changePassword', (req, res) => {
     console.log('Change password')
-    if(req.session.displayName){
+    if (req.session.displayName) {
         bcrypt.hash(req.body.Admin_NewPassword, 10, (err, hash) => {
-            Admin.findOne({Admin_Username:req.body.Admin_Username2}).then((data)=>{
+            Admin.findOne({ Admin_Username: req.body.Admin_Username2 }).then((data) => {
                 //console.log(data)
-              data.Admin_Password = hash
-                data.save().then((success)=>{
+                data.Admin_Password = hash
+                data.save().then((success) => {
                     console.log('!! UPDATE Profile success !!')
                     res.send(`
                     <!DOCTYPE html>
@@ -3048,14 +3165,14 @@ app.post('/changePassword',(req,res)=>{
                         
                         </html>
                     `)
-                },(e)=>{
+                }, (e) => {
                     res.status(400).send(e)
-                },(err)=>{
+                }, (err) => {
                     res.status(400).send(error)
                 })
             })
         })
-    }else{
+    } else {
         res.redirect('/login')
     }
 })
@@ -3131,9 +3248,9 @@ app.post('/login/admin', (req, res, next) => {
                 res.send(admin_error)
             } else {
                 bcrypt.compare(req.body.Password, user[0].Admin_Password, function (err, result) {
-                    if(result == 0){
+                    if (result == 0) {
                         res.send(admin_error)
-                        }
+                    }
                     if (result) {
                         // const token = jwt.sign({
                         //     Admin_Username: user[0].Admin_Username
@@ -3278,36 +3395,37 @@ app.get('/send_BehaviorHistory', function (req, res, next) {
 
 // API check login for mobile
 app.post('/login/member', (req, res, next) => {
+    console.log(req.body.Username)
+    console.log(req.body.Password)
 
     Member.find({ Member_ID: req.body.Username })
         .exec()
         .then(member => {
-          //  console.log(member)
+            //  console.log(member)
             if (member.length < 1) {
                 console.log('Error to find data')
-                return res.status(200).json({
+                return res.status(402).json({
                     message: 'Error to find data // No ID '
                 })
 
             } else {
-            
+
                 bcrypt.compare(req.body.Password, member[0].Member_Password, function (err, result) {
 
                     if (result) {
                         const token = jwt.sign({
                             Member_ID: member[0].Member_ID,
                             Member_Name: member[0].Member_Name,
-                            Member_Lastname:member[0].Member_Lastname,
-                            Member_House:member[0].Member_House
+                            Member_Lastname: member[0].Member_Lastname,
+                            Member_House: member[0].Member_House
                         },
                             'secret',
                             {
                                 expiresIn: "1h"
                             }
-                         );
+                        );
                         console.log('login success')
                         return res.status(200).json({
-                            message: 'Successful',
                             token: token
                         })
                     }
@@ -3316,11 +3434,13 @@ app.post('/login/member', (req, res, next) => {
                             message: 'Auth failed1'
                         });
                     }
+                    if (result == 0) {
+                        return res.status(401).json({
+                            message: 'Wrong Password'
+                        });
+                    }
                 })
 
-                return res.status(400).json({
-                    message: 'Wrong Password'
-                });
             }
         }).catch(err => {
             console.log(err);
@@ -3330,6 +3450,46 @@ app.post('/login/member', (req, res, next) => {
         })
 })
 
+//API for change password
+app.post('/MemberChangePassword', (req, res) => {
+    bcrypt.hash(req.body.Password, 10, (err, hash) => {
+        Member.findOne({ Member_ID: req.body.Member_ID }).then((data) => {
+            //console.log(data)
+            data.Member_Password = hash
+            data.save().then((success) => {
+                console.log('!! member UPDATE Password success !!')
+                return res.status(200).json({
+                    message: 'Successful'
+                });
+            }, (e) => {
+                res.status(400).send(e)
+            }, (err) => {
+                res.status(400).send(error)
+            })
+        })
+    })
+})
+
+//API for change password
+app.post('/MemberChangeProfile', (req, res) => {
+    console.log('Change Profile')
+    console.log(req.body.Member_Profile)
+    console.log(req.body.Member_ID)
+    Member.findOne({ Member_ID: req.body.Member_ID }).then((data) => {
+        //console.log(data)
+        data.Member_Profile = req.body.Member_Profile
+        data.save().then((success) => {
+            console.log('!! member UPDATE PROFILE success !!')
+            return res.status(200).json({
+                message: 'Successful'
+            });
+        }, (e) => {
+            res.status(400).send(e)
+        }, (err) => {
+            res.status(400).send(error)
+        })
+    })
+})
 
 //================== Port ========================
 app.listen(3000, () => {

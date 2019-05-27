@@ -20,10 +20,20 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
         crossorigin="anonymous"></script>
 
-    
+    <link href='https://fullcalendar.io/js/fullcalendar-scheduler-1.7.1/lib/fullcalendar.min.css' rel='stylesheet' />
+    <link href='https://fullcalendar.io/js/fullcalendar-scheduler-1.7.1/lib/fullcalendar.print.min.css' rel='stylesheet' media='print'
+    />
+    <link href='https://fullcalendar.io/js/fullcalendar-scheduler-1.7.1/scheduler.min.css' rel='stylesheet' />
+
+    <script src='https://fullcalendar.io/js/fullcalendar-scheduler-1.7.1/lib/moment.min.js'></script>
+    <script src='https://fullcalendar.io/js/fullcalendar-scheduler-1.7.1/lib/jquery.min.js'></script>
+    <script src='https://fullcalendar.io/js/fullcalendar-scheduler-1.7.1/lib/fullcalendar.min.js'></script>
+    <script src='https://fullcalendar.io/js/fullcalendar-scheduler-1.7.1/scheduler.min.js'></script>
+
     <style>
         h4 {
             color: crimson;
+
         }
     </style>
 </head>
@@ -128,10 +138,10 @@
                 <li>
                     <a href="#AdminSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Admin</a>
                     <ul class="collapse list-unstyled" id="AdminSubmenu">
-                         <li>
+                        <li>
                             <a href="http://localhost:3000/forAdmin">Add Admin</a>
                         </li>
-                         <li>
+                        <li>
                             <a href="http://localhost:3000/adminProfile">Admin Profile</a>
                         </li>
                     </ul>
@@ -142,12 +152,12 @@
                         <li>
                             <a href="http://localhost:3000/getYear">กำหนดปีการศึกษา</a>
                         </li>
-                         <li>
+                        <li>
                             <a href="http://localhost:3000/displayYear">ปฏิทินการศึกษา</a>
                         </li>
                     </ul>
                 </li>
-                
+
                 <li>
                     <a href="http://localhost:3000/getReport">Report</a>
                 </li>
@@ -163,19 +173,19 @@
 
         <!-- Page Content  -->
         <div id="content">
-            <p class="mx-1 d-flex justify-content-end" style="color:black;font-weight: bold;" id="username">Welcome</p>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
-
                     <button type="button" id="sidebarCollapse" class="btn btn-info">
                         <i class="fas fa-align-left"></i>
                         <span>Menu</span>
                     </button>
-                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fas fa-align-justify"></i>
-                    </button>
-
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item active d-flex  align-items-center">
+                                <p class="mx-1 " style="color:black;font-weight: bold;" id="username">Welcome</p>
+                            </li>
+                        </ul>
+                    </div>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item active">
@@ -187,21 +197,66 @@
             </nav>
 
             <h2 class="m-2 p-3 mb-2 bg-info text-white">ปฏิทินการศึกษา</h2>
-        
+            <div class="container">
+                <div class="row m-4">
+                    {{!--
+                    <div class="col-2 align-self-center">
+                        <h5 for="Event_Name">Reset Point</h5>
+                    </div> --}}
+                    <div class="col-8  align-self-center">
+                        <button type="button" class="btn btn-outline-danger btn-lg" data-toggle="modal" data-target="#resetModal">Reset Point</button>
+                    </div>
+                    <div class="col-2  align-self-center">
+                        <h3 for="Event_Name">Year :</h3>
+                    </div>
+                    <div class="col-2  align-self-center">
+                        <select name="year" id="year" class="form-control">
+
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div id='calendar'></div>
+                </div>
+
+
+            </div>
             <div class="line"></div>
 
         </div>
     </div>
 
-    <!-- jQuery CDN - Slim version (=without AJAX) -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+    <!-- Modal -->
+    <div class="modal fade" id="resetModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form action="http://localhost:3000/setPoint" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel" style="font-size:30px;color:rgb(0, 0, 0);font-weight: bold;">Reset Point</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="font-size:30px;color:red;font-weight: bold;">
+                        DO YOU WANT TO RESET ALL MEMBERS POINT ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger btn-lg">ยืนยัน</button>
+                        <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal">ยกเลิก</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Popper.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
         crossorigin="anonymous"></script>
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
         crossorigin="anonymous"></script>
+
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -213,7 +268,77 @@
         var data = JSON.parse(decodeURI(data2))
 
         document.getElementById("username").innerHTML = "User : " + data.name
+        console.log(data.openevent)
 
+        // ======== Year ======================
+        option_year()
+        function option_year() {
+            let option = '<option value="" disabled selected>-Please Select-</option>'
+
+            for (let i = 0; i < data.year.length; i++) {
+                option += '<option value="' + data.year[i].Year_Year + '">' + data.year[i].Year_Year + '</option>'
+            }
+            document.getElementById("year").innerHTML = option
+        }
+
+        // ====== Calendar =================== 
+
+        $(function () {
+            $('#year').on('change', function () {
+                let year = $(this).val()
+                //console.log(year)
+                let Year = [];
+                for (let i = 0; i < data.year.length; i++) {
+                    if (year == data.year[i].Year_Year) {
+                        Year.push(data.year[i])
+                    }
+                }
+                //console.log(Year)
+
+                var event2 = [];
+                for (let i = 0; i < data.openevent.length; i++) {
+                    var myElement = {
+                        id: '' + data.openevent[i].OpenEvent_ID,
+                        title: '' + data.openevent[i].OpenEvent_Name,
+                        start: '' + data.openevent[i].OpenEvent_StartDate + 'T' + data.openevent[i].OpenEvent_StartTime,
+                        end: '' + data.openevent[i].OpenEvent_EndDate + 'T' + data.openevent[i].OpenEvent_EndTime,
+
+                    }
+                    event2[i] = myElement;
+                }
+                //console.log(event2)
+
+                var startdate = $.fullCalendar.moment(Year[0].Year_StartDate);
+                var enddate = $.fullCalendar.moment(Year[0].Year_EndDate);
+                // =========================================================
+                $('#calendar').fullCalendar({
+
+                    schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',//ระบุ license ว่าเราใช้งาน license ประเภทใด
+                    editable: true, // enable draggable events
+                    aspectRatio: 2.0,
+                    scrollTime: '00:00', // undo default 6am scrollTime
+                    header: {
+                        left: 'today prev,next',
+                        center: 'title',
+                        right: 'timelineDay,agendaWeek,month'
+                    },
+                    defaultView: 'timelineDay',
+                    validRange: function () {
+                        return {
+                            start: startdate,
+                            end: enddate
+                        };
+                    },
+                    defaultView: 'month',
+                    events: event2,
+                    eventColor: '#378006',
+                });
+
+
+            });
+
+
+        });
     </script>
 </body>
 

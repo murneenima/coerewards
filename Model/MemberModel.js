@@ -3,15 +3,15 @@ var Schema = mongoose.Schema
 
 //==========================
 var MemberSchema = new Schema({
-    Member_Profile:{
-        type:String,
-        required:true
-    },
     Member_ID:{
         type:String,
         unique:true,
         required:true,
         minlength:8
+    },
+    Member_Profile:{
+        type:String,
+        required:true
     },
     Member_Password:{
         type:String,
@@ -48,6 +48,10 @@ var MemberSchema = new Schema({
         unique:true
     },
     Member_Admin:{
+        type:String,
+        required:true
+    },
+    Member_Year:{
         type:String 
     }   
 })

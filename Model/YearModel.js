@@ -18,14 +18,14 @@ var YearSchema = new Schema({
         type:String,
         required:true
     },
-    Year_StartTime:{
-        type:String,
-        required:true
-    },
-    Year_EndTime:{
-        type:String,
-        required:true
-    }
+    // Year_StartTime:{
+    //     type:String,
+    //     required:true
+    // },
+    // Year_EndTime:{
+    //     type:String,
+    //     required:true
+    // }
 })
 YearSchema.plugin(autoIncrement.plugin, {
     model: 'Year',
