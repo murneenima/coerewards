@@ -19,8 +19,11 @@
         crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
         crossorigin="anonymous"></script>
-    <style>
-    </style>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> {{!-- Select 2 --}}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
 
 
 </head>
@@ -125,10 +128,10 @@
                 <li>
                     <a href="#AdminSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Admin</a>
                     <ul class="collapse list-unstyled" id="AdminSubmenu">
-                         <li>
+                        <li>
                             <a href="http://localhost:3000/forAdmin">Add Admin</a>
                         </li>
-                         <li>
+                        <li>
                             <a href="http://localhost:3000/adminProfile">Admin Profile</a>
                         </li>
                     </ul>
@@ -139,12 +142,12 @@
                         <li>
                             <a href="http://localhost:3000/getYear">กำหนดปีการศึกษา</a>
                         </li>
-                         <li>
+                        <li>
                             <a href="http://localhost:3000/displayYear">ปฏิทินการศึกษา</a>
                         </li>
                     </ul>
                 </li>
-                
+
                 <li>
                     <a href="http://localhost:3000/getReport">Report</a>
                 </li>
@@ -190,18 +193,15 @@
             <h2 class="m-2 p-3 mb-2 bg-info text-white">Upcoming Event</h2>
             <div class="row m-3 d-flex justify-content-end">
                 <div class="col-1/2 d-flex align-items-center">
-                    <h6>Sorting By :</h6>
+                    <h6>Select Day :</h6>
                 </div>
                 <div class="col-2">
-                    <select class="form-control">
-                        <option>เร็วๆนี้</option>
-                        <option>นานมาแล้ว</option>
-                        <option>Large select</option>
-                        <option>Large select</option>
+                    <select id="day" class="js-example-basic-single form-control">
+
                     </select>
                 </div>
                 <div class="col-1">
-                    <button type="button" class="btn btn-outline-info">Search</button>
+                    <button type="button" id="search" class="btn btn-outline-info">Search</button>
                 </div>
             </div>
 
@@ -210,17 +210,14 @@
                 </div>
             </div>
 
-          <div class="row m-3 d-flex justify-content-between">
-                            <button type="button" onclick="prevPage()"  class="btn btn-outline-info btn-lg" id="btn_prev">Prev</button>
-                            <span style="font-weight: bold;" id="page"></span>
-                            <button type="button" onclick="nextPage()"  class="btn btn-outline-info btn-lg" id="btn_next">Next</button>
-                    </div>
+            <div class="row m-3 d-flex justify-content-between">
+                <button type="button" onclick="prevPage()" class="btn btn-outline-info btn-lg" id="btn_prev">Prev</button>
+                <span style="font-weight: bold;" id="page"></span>
+                <button type="button" onclick="nextPage()" class="btn btn-outline-info btn-lg" id="btn_next">Next</button>
+            </div>
 
         </div>
     </div>
-    <!-- jQuery CDN - Slim version (=without AJAX) -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
 
     <!-- Popper.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
@@ -238,42 +235,44 @@
 
         var data2 = "{{data}}"
         var data = JSON.parse(decodeURI(data2))
-        var Event = [];
         var username = data2.name
         var current_page = 1;
         var records_per_page = 9;
+        var option = ' <option value="" disabled selected>Please Select</option><option value="All Event" >All Event</option>'
+        let event_card = ""
 
-        document.getElementById("username").innerHTML = "User : "+ data.name
+
+
+        document.getElementById("username").innerHTML = "User : " + data.name
 
         for (let i = 0; i < data.openevent.length; i++) {
-            Event.push(data.openevent[i])
+            option += ' <option value="' + data.openevent[i].OpenEvent_StartDate + '" >' + data.openevent[i].OpenEvent_StartDate + '</option>'
         }
-        console.log(Event)
+        document.getElementById("day").innerHTML = option
 
         function sort_date() {
-            Event.sort(function (a, b) { return a.OpenEvent_StartDate - b.OpenEvent_StartDate });
+            data.openevent.sort(function (a, b) { return a.OpenEvent_StartDate - b.OpenEvent_StartDate });
             //console.log(Member)
         }
 
         // ==========================Display data==================================
-        function prevPage(){  
+        function prevPage() {
             if (current_page > 1) {
                 current_page--;
                 changePage(current_page);
             }
         }
 
-        function nextPage(){
+        function nextPage() {
             if (current_page < numPages()) {
                 current_page++;
                 changePage(current_page);
             }
         }
 
-        function changePage(page){
+        function changePage(page) {
             var btn_next = document.getElementById("btn_next");
             var btn_prev = document.getElementById("btn_prev");
-            let event_card = ""     
             var page_span = document.getElementById("page");
 
             // Validate page
@@ -282,22 +281,22 @@
 
             document.getElementById("event_card").innerHTML = ""; // แสดงผลข้อมูลตารางให้ว่าง
 
-            for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < Event.length; i++) {
-            
+            for (var i = (page - 1) * records_per_page; i < (page * records_per_page) && i < data.openevent.length; i++) {
+
                 sort_date()
-                if(i%3 == 0){
-                    event_card += '<div class="card-deck m-3"><div class="card  " style="max-width: 30%;"><img class="card-img-top rounded mx-auto d-block" height="180" src="' + Event[i].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/' + Event[i].OpenEvent_ID + '">' + Event[i].OpenEvent_Name + '</a><p class="card-text">จำนวนคะแนน : ' + Event[i].OpenEvent_Point + '<br>วันเริ่มกิจกรรม : ' + Event[i].OpenEvent_StartDate +  '</p></div></div>'
+                if (i % 3 == 0) {
+                    event_card += '<div class="card-deck m-3"><div class="card  " style="max-width: 30%;"><img class="card-img-top rounded mx-auto d-block" height="180" src="' + data.openevent[i].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/' + data.openevent[i].OpenEvent_ID + '">' + data.openevent[i].OpenEvent_Name + '</a><p class="card-text">จำนวนคะแนน : ' + data.openevent[i].OpenEvent_Point + '<br>วันเริ่มกิจกรรม : ' + data.openevent[i].OpenEvent_StartDate + '</p></div></div>'
 
-                }else if(i%3 == 2){
-                    event_card += '<div class="card  " style="max-width: 30%;"><img class="card-img-top rounded mx-auto d-block" height="180"  src="' + Event[i].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/' + Event[i].OpenEvent_ID + '">' + Event[i].OpenEvent_Name + '</a><p class="card-text">จำนวนคะแนน : ' + Event[i].OpenEvent_Point + '<br>วันเริ่มกิจกรรม : ' + Event[i].OpenEvent_StartDate +'</p></div></div></div>'
+                } else if (i % 3 == 2) {
+                    event_card += '<div class="card  " style="max-width: 30%;"><img class="card-img-top rounded mx-auto d-block" height="180"  src="' + data.openevent[i].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/' + data.openevent[i].OpenEvent_ID + '">' + data.openevent[i].OpenEvent_Name + '</a><p class="card-text">จำนวนคะแนน : ' + data.openevent[i].OpenEvent_Point + '<br>วันเริ่มกิจกรรม : ' + data.openevent[i].OpenEvent_StartDate + '</p></div></div></div>'
 
-                }else {
-                    event_card += '<div class="card  " style="max-width: 30%;"><img class="card-img-top rounded mx-auto d-block" height="180"  src="' + Event[i].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/' + Event[i].OpenEvent_ID + '">' + Event[i].OpenEvent_Name + '</a><p class="card-text">จำนวนคะแนน : ' + Event[i].OpenEvent_Point + '<br>วันเริ่มกิจกรรม : ' + Event[i].OpenEvent_StartDate +  '</p></div></div>'
+                } else {
+                    event_card += '<div class="card  " style="max-width: 30%;"><img class="card-img-top rounded mx-auto d-block" height="180"  src="' + data.openevent[i].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/' + data.openevent[i].OpenEvent_ID + '">' + data.openevent[i].OpenEvent_Name + '</a><p class="card-text">จำนวนคะแนน : ' + data.openevent[i].OpenEvent_Point + '<br>วันเริ่มกิจกรรม : ' + data.openevent[i].OpenEvent_StartDate + '</p></div></div>'
 
-                } 
+                }
                 document.getElementById("event_card").innerHTML = event_card
 
-           
+
             }
             page_span.innerHTML = "Page " + page; // แสดงผลหน้า
 
@@ -314,13 +313,41 @@
             }
         }
 
-        function numPages(){
-            return Math.ceil(Event.length / records_per_page);
+        function numPages() {
+            return Math.ceil(data.openevent.length / records_per_page);
         }
 
-        window.onload = function() {
-            changePage(1);
-        };
+         window.onload = function () {
+                        changePage(1);
+                    };
+
+        // =================================
+        $(document).ready(function () {
+            $('.js-example-basic-single').select2();
+
+            $('#day').on('change', function () {
+                let Event = [];
+                let card = ''
+                let id = document.getElementById("day").value
+                console.log(id)
+                if(id == 'All Event'){
+                    location.reload();
+                }else{
+                    for (let i = 0; i < data.openevent.length; i++) {
+                        if (data.openevent[i].OpenEvent_StartDate == id) {
+                            //console.log(Member[i].Member_ID)
+                            Event.push(data.openevent[i])
+                        }
+                    }
+                    card += '<div class="card-deck m-3"><div class="card  " style="max-width: 30%;"><img class="card-img-top rounded mx-auto d-block" height="180" src="' + Event[0].OpenEvent_Picture + '" alt="Card image cap"><div class="card-body"><a href="http://localhost:3000/displayOpenEvnt/' + Event[0].OpenEvent_ID + '">' + Event[0].OpenEvent_Name + '</a><p class="card-text">จำนวนคะแนน : ' + Event[0].OpenEvent_Point + '<br>วันเริ่มกิจกรรม : ' + Event[0].OpenEvent_StartDate + '</p></div></div>'
+                    document.getElementById("event_card").innerHTML = card
+                }
+                
+                
+            })
+        });
+
+
     </script>
 </body>
 

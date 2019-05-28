@@ -247,7 +247,7 @@
                                     <label for="Event_Point" class="col-form-label">Point</label>
                                 </div>
                                 <div class="col-5">
-                                    <input type="number" class="form-control" id="Event_Point" name="Event_Point" placeholder="คะแนน" required>
+                                    <input type="number" min="1" class="form-control" id="Event_Point" name="Event_Point" placeholder="คะแนน" required>
                                 </div>
                                 <div class="col-1">
                                     <h4>*</h4>
@@ -454,6 +454,7 @@
         document.getElementById("Event_Point").value = dataEvent[0].AllEvent_Point
         document.getElementById("Event_Location").value = dataEvent[0].AllEvent_Location
         document.getElementById("Event_Description").value = dataEvent[0].AllEvent_Descrip
+        document.getElementById("Event_Semester").value = dataEvent[0].AllEvent_Semeter
 
 
         for (let i = 0; i < EventType.length; i++) {
@@ -468,8 +469,11 @@
         document.getElementById("Event_Type").innerHTML = display_et
         document.getElementById("Event_CreatedBy").innerHTML = display_cb
         document.getElementById("img1").innerHTML = image2
-
         document.getElementById("Event_Year").innerHTML = display_year
+
+        document.getElementById("Event_Type").value = dataEvent[0].EventType_ID
+        document.getElementById("Event_CreatedBy").value = dataEvent[0].CreatedBy_ID
+      
 
         var imageURL = ""
         function previewFile() {

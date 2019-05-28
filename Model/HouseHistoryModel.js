@@ -11,6 +11,12 @@ var HouseHistorySchema = new Schema({
         type:String,
         required:true
     },
+    MemberName:{
+        type:String,
+    },
+    MemberLastname:{
+        type:String,
+    },
     House_MemberPoint:{
         type:Number,
         required:true

@@ -230,7 +230,7 @@
     <!-- Modal -->
     <div class="modal fade" id="resetModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <form action="http://localhost:3000/setPoint" method="get">
+            <form action="http://localhost:3000/setPoint" method="post">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel" style="font-size:30px;color:rgb(0, 0, 0);font-weight: bold;">Reset Point</h5>
@@ -240,6 +240,20 @@
                     </div>
                     <div class="modal-body" style="font-size:30px;color:red;font-weight: bold;">
                         DO YOU WANT TO RESET ALL MEMBERS POINT ?
+                    </div>
+                    <div class="row m-4">
+                        <div class="col">
+                            <label for="aa">กรุณากรอกปีการศึกษา</label>
+                        </div>
+                        <div class="col">
+                            <input class="form-control" name="year" id="year" required>
+                                
+                                {{!-- <option value="Bill Gates">Bill Gates</option>
+                                <option value="Larry Page">Larry Page</option>
+                                <option value="Elon Musk">Elon Musk</option>
+                                <option value="Mark Zuckerberg">Mark Zuckerberg</option> --}}
+                            </input>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-danger btn-lg">ยืนยัน</button>
@@ -331,7 +345,7 @@
                     },
                     defaultView: 'month',
                     events: event2,
-                    eventColor: '#378006',
+                    eventColor: '#52D2BC',
                 });
 
 

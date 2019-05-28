@@ -272,6 +272,8 @@ app.post('/save', upload.single('photos'), function (req, res) {
                                     let newHouse = new House({
                                         House_name: req.body.Member_House,
                                         House_MemberID: req.body.Member_ID,
+                                        House_MemberName:req.body.Member_Name,
+                                        House_MemberLastname:req.body.Member_Lastname,
                                         House_MemberPoint: point
                                     })
 
@@ -311,7 +313,7 @@ app.post('/save', upload.single('photos'), function (req, res) {
                             <div class="row mt-5 ">
                     
                                 <div class="alert alert-success" role="alert" style="height:100%; width:500px;">
-                                    <h3 class="alert-heading">Succes !</h3>
+                                    <h3 class="alert-heading">Success !</h3>
                                     <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลนักศึกษาลงฐานข้อมูลสำเร็จ !</p>
                                     <hr>
                                     <p class="d-flex justify-content-end">
@@ -361,6 +363,8 @@ app.post('/save', upload.single('photos'), function (req, res) {
                                         let newHouse = new House({
                                             House_name: req.body.Member_House,
                                             House_MemberID: req.body.Member_ID,
+                                            House_MemberName:req.body.Member_Name,
+                                            House_MemberLastname:req.body.Member_Lastname,
                                             House_MemberPoint: point
                                         })
 
@@ -483,7 +487,7 @@ app.post('/editMember', (req, res) => {
                         <div class="row mt-5 ">
                 
                             <div class="alert alert-success" role="alert" style="height:100%; width:500px;">
-                                <h3 class="alert-heading">Succes !</h3>
+                                <h3 class="alert-heading">Success !</h3>
                                 <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">แก้ไขข้อมูลนักศึกษาลงฐานข้อมูลสำเร็จ !</p>
                                 <hr>
                                 <p class="d-flex justify-content-end">
@@ -721,7 +725,7 @@ app.get('/MemberAll', (req, res) => {
 })
 
 // set Point Member
-app.get('/setPoint', (req, res) => {
+app.post('/setPoint', (req, res) => {
     if (req.session.displayName) {
         let responde = `
         <!DOCTYPE html>
@@ -756,7 +760,7 @@ app.get('/setPoint', (req, res) => {
                 <div class="row mt-5 ">
         
                     <div class="alert alert-success" role="alert" style="height:100%; width:500px;">
-                        <h3 class="alert-heading">Succes !</h3>
+                        <h3 class="alert-heading">Success !</h3>
                         <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">Reset คะแนนนักศึกษาสำเร็จ</p>
                         <hr>
                         <p class="d-flex justify-content-end">
@@ -777,8 +781,10 @@ app.get('/setPoint', (req, res) => {
                 let newHouseHistory = new HouseHistory({
                     House_name: d[i].House_name,
                     House_MemberID: d[i].House_MemberID,
+                    MemberName:d[i].House_MemberName,
+                    MemberLastname:d[i].House_MemberLastname,
                     House_MemberPoint: d[i].House_MemberPoint,
-                    House_Year: academic_year,
+                    House_Year: req.body.year,
                     House_Admin: req.session.displayName
                 })
                 newHouseHistory.save().then((suceess) => {
@@ -943,7 +949,54 @@ app.post('/saveEventType', (req, res) => {
             EventType_Name: req.body.EventType_Name,
         })
         newEventType.save().then((doc) => {
-            res.redirect('/EventTypeInsert')
+            res.send(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            
+                <title>Success</title>
+            
+                <!-- Bootstrap CSS CDN -->
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                    crossorigin="anonymous">
+                <style>
+                    @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                    h4 {
+                        color: crimson;
+                    }
+            
+                    p {
+                        font-family: 'Poppins', sans-serif;
+                        font-size: 1.1em;
+                        font-weight: 300;
+                        line-height: 1.7em;
+                        color: #999;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container d-flex justify-content-center align-items-center">
+                    <div class="row mt-5 ">
+            
+                        <div class="alert alert-success" role="alert">
+                            <h3 class="alert-heading">Success !</h3>
+                            <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลประเภทกิจกรรมสำเร็จ </p>
+                            <hr>
+                            <p class="d-flex justify-content-end">
+                                    <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/EventTypeInsert" role="button">ตกลง</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="line"></div>
+            </body>
+            
+            </html>
+            `)
+            //res.redirect('/EventTypeInsert')
         }, (err) => {
             res.status(400).send(err)
         })
@@ -1000,7 +1053,54 @@ app.post('/saveCreatedBy', (req, res) => {
         })
         newCreatedBy.save().then((doc) => {
             console.log(doc)
-            res.redirect('/CreatedByInsert')
+            //res.redirect('/CreatedByInsert')
+            res.send(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            
+                <title>Success</title>
+            
+                <!-- Bootstrap CSS CDN -->
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                    crossorigin="anonymous">
+                <style>
+                    @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                    h4 {
+                        color: crimson;
+                    }
+            
+                    p {
+                        font-family: 'Poppins', sans-serif;
+                        font-size: 1.1em;
+                        font-weight: 300;
+                        line-height: 1.7em;
+                        color: #999;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container d-flex justify-content-center align-items-center">
+                    <div class="row mt-5 ">
+            
+                        <div class="alert alert-success" role="alert">
+                            <h3 class="alert-heading">Success !</h3>
+                            <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลผู้จัดกิจกรรม </p>
+                            <hr>
+                            <p class="d-flex justify-content-end">
+                                    <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/CreatedByInsert" role="button">ตกลง</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="line"></div>
+            </body>
+            
+            </html>
+            `)
         }, (err) => {
             res.status(400).send(err)
         })
@@ -1083,6 +1183,53 @@ app.get('/EventContent', (req, res) => {
 // บันทึกข้อมูลกิจกรรมที่มี (all Event)
 app.post('/saveEvent', upload.single('photos'), function (req, res) {
     if (req.session.displayName) {
+        let responde = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
+            <title>Success</title>
+        
+            <!-- Bootstrap CSS CDN -->
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                crossorigin="anonymous">
+            <style>
+                @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                h4 {
+                    color: crimson;
+                }
+        
+                p {
+                    font-family: 'Poppins', sans-serif;
+                    font-size: 1.1em;
+                    font-weight: 300;
+                    line-height: 1.7em;
+                    color: #999;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container d-flex justify-content-center align-items-center">
+                <div class="row mt-5 ">
+        
+                    <div class="alert alert-success" role="alert">
+                        <h3 class="alert-heading">Success !</h3>
+                        <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลกิจกรรมสำเร็จ </p>
+                        <hr>
+                        <p class="d-flex justify-content-end">
+                                <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/EventContent" role="button">ตกลง</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="line"></div>
+        </body>
+        
+        </html>
+        `
         let img_event = "http://togetherasonefoundation.org/wp-content/uploads/2019/01/EVENTS.png"
         let img_base64 = ""
         if (req.file == undefined) {
@@ -1099,7 +1246,8 @@ app.post('/saveEvent', upload.single('photos'), function (req, res) {
             })
             newAllEvent.save().then((doc) => {
                 console.log('Succes to save data on ALL EVENT and OPEN EVENT')
-                res.redirect('/EventContent')
+                //res.redirect('/EventContent')
+                res.write(responde)
 
 
             }, (err) => {
@@ -1124,7 +1272,8 @@ app.post('/saveEvent', upload.single('photos'), function (req, res) {
                 })
                 newAllEvent.save().then((doc) => {
                     console.log('Succes to save data on ALL EVENT and OPEN EVENT')
-                    res.redirect('/EventContent')
+                    //res.redirect('/EventContent')
+                    res.write(responde)
                 }, (err) => {
                     //res.render('admin_error.hbs',{})
                     res.status(400).send(err)
@@ -1453,6 +1602,53 @@ app.post('/event/:id', (req, res) => {
 //บันทึกข้อมูล กิจกรรมที่เปิดแล้ว
 app.post('/saveOpenEvent', upload.single('photos'), function (req, res) {
     if (req.session.displayName) {
+        let responde = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
+            <title>Success</title>
+        
+            <!-- Bootstrap CSS CDN -->
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                crossorigin="anonymous">
+            <style>
+                @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                h4 {
+                    color: crimson;
+                }
+        
+                p {
+                    font-family: 'Poppins', sans-serif;
+                    font-size: 1.1em;
+                    font-weight: 300;
+                    line-height: 1.7em;
+                    color: #999;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container d-flex justify-content-center align-items-center">
+                <div class="row mt-5 ">
+        
+                    <div class="alert alert-success" role="alert">
+                        <h3 class="alert-heading">Success !</h3>
+                        <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">เปิดกิจกรรมและบันทึกข้อมูลกิจกรรมสำเร็จ </p>
+                        <hr>
+                        <p class="d-flex justify-content-end">
+                                <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/UpcomingEvent" role="button">ตกลง</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="line"></div>
+        </body>
+        
+        </html>
+        `
         let img_event = "http://togetherasonefoundation.org/wp-content/uploads/2019/01/EVENTS.png"
         let img_base64 = ""
         if (req.file == undefined) {
@@ -1492,7 +1688,8 @@ app.post('/saveOpenEvent', upload.single('photos'), function (req, res) {
                             console.log(err);
                         }
                     });
-                    res.redirect('/AllEvent')
+                   // res.redirect('/AllEvent')
+                   res.write(responde)
                 }, (err) => {
                     //res.render('admin_error.hbs',{})
                     res.status(400).send(err)
@@ -1539,7 +1736,9 @@ app.post('/saveOpenEvent', upload.single('photos'), function (req, res) {
                                 console.log(err);
                             }
                         });
-                        res.redirect('/AllEvent')
+                       // res.redirect('/AllEvent')
+                        res.write(responde)
+
                     }, (err) => {
                         //res.render('admin_error.hbs',{})
                         res.status(400).send(err)
@@ -1661,7 +1860,54 @@ app.post('/saveBehavior', (req, res) => {
 
         newBehavior.save().then((doc) => {
             console.log('!! Success to save BEHAVIOR data !!')
-            res.redirect('/BehaviorContent')
+           // res.redirect('/BehaviorContent')
+           res.write(`
+           <!DOCTYPE html>
+           <html>
+           <head>
+               <meta charset="utf-8">
+               <meta name="viewport" content="width=device-width, initial-scale=1.0">
+               <meta http-equiv="X-UA-Compatible" content="IE=edge">
+           
+               <title>Success</title>
+           
+               <!-- Bootstrap CSS CDN -->
+               <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                   crossorigin="anonymous">
+               <style>
+                   @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                   h4 {
+                       color: crimson;
+                   }
+           
+                   p {
+                       font-family: 'Poppins', sans-serif;
+                       font-size: 1.1em;
+                       font-weight: 300;
+                       line-height: 1.7em;
+                       color: #999;
+                   }
+               </style>
+           </head>
+           <body>
+               <div class="container d-flex justify-content-center align-items-center">
+                   <div class="row mt-5 ">
+           
+                       <div class="alert alert-success" role="alert">
+                           <h3 class="alert-heading">Success !</h3>
+                           <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลความประพฤติสำเร็จ </p>
+                           <hr>
+                           <p class="d-flex justify-content-end">
+                                   <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/BehaviorContent" role="button">ตกลง</a>
+                           </p>
+                       </div>
+                   </div>
+               </div>
+               <div class="line"></div>
+           </body>
+           
+           </html>
+           `)
         }, (err) => {
             res.status(400).send(err)
         })
@@ -1683,7 +1929,54 @@ app.post('/saveEditBehavior', (req, res) => {
 
             d.save().then((success) => {
                 console.log('!! UPDATE data on BEHAVIOR success !!')
-
+                
+                res.write(`
+           <!DOCTYPE html>
+           <html>
+           <head>
+               <meta charset="utf-8">
+               <meta name="viewport" content="width=device-width, initial-scale=1.0">
+               <meta http-equiv="X-UA-Compatible" content="IE=edge">
+           
+               <title>Success</title>
+           
+               <!-- Bootstrap CSS CDN -->
+               <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                   crossorigin="anonymous">
+               <style>
+                   @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                   h4 {
+                       color: crimson;
+                   }
+           
+                   p {
+                       font-family: 'Poppins', sans-serif;
+                       font-size: 1.1em;
+                       font-weight: 300;
+                       line-height: 1.7em;
+                       color: #999;
+                   }
+               </style>
+           </head>
+           <body>
+               <div class="container d-flex justify-content-center align-items-center">
+                   <div class="row mt-5 ">
+           
+                       <div class="alert alert-success" role="alert">
+                           <h3 class="alert-heading">Success !</h3>
+                           <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลความประพฤติสำเร็จ </p>
+                           <hr>
+                           <p class="d-flex justify-content-end">
+                                   <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/EditBehavior" role="button">ตกลง</a>
+                           </p>
+                       </div>
+                   </div>
+               </div>
+               <div class="line"></div>
+           </body>
+           
+           </html>
+           `)
                 Behavior.find({}, (err, dataBehavior) => {
                     if (err) console.log(err)
                 }).then((dataBehavior) => {
@@ -1741,6 +2034,53 @@ app.get('/rewardContent', (req, res) => {
 
 app.post('/saveReward', upload.single('photos'), function (req, res) {
     if (req.session.displayName) {
+        let errorsend = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
+            <title>Success</title>
+        
+            <!-- Bootstrap CSS CDN -->
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                crossorigin="anonymous">
+            <style>
+                @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                h4 {
+                    color: crimson;
+                }
+        
+                p {
+                    font-family: 'Poppins', sans-serif;
+                    font-size: 1.1em;
+                    font-weight: 300;
+                    line-height: 1.7em;
+                    color: #999;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container d-flex justify-content-center align-items-center">
+                <div class="row mt-5 ">
+        
+                    <div class="alert alert-danger" role="alert">
+                        <h3 class="alert-heading">Error !</h3>
+                        <p style="font-size: 25px;color: #C00D1E;font-family: 'Poppins', sans-serif;">ไม่สามารถบันทึกข้อมูลได้ กรุณากรอกข้อมูลให้ครบถ้วน </p>
+                        <hr>
+                        <p class="d-flex justify-content-end">
+                                <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/rewardContent" role="button">ตกลง</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="line"></div>
+        </body>
+        
+        </html>
+        `
         let img_re = "data:image/png;base64,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"
         let img_base64 = ""
         if (req.file == undefined) {
@@ -1787,7 +2127,7 @@ app.post('/saveReward', upload.single('photos'), function (req, res) {
                     <div class="row mt-5 ">
             
                         <div class="alert alert-success" role="alert">
-                            <h3 class="alert-heading">Error !</h3>
+                            <h3 class="alert-heading">Success !</h3>
                             <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลของรางวัลสำเร็จ </p>
                             <hr>
                             <p class="d-flex justify-content-end">
@@ -1802,53 +2142,7 @@ app.post('/saveReward', upload.single('photos'), function (req, res) {
             </html>
             `)
             }, (err) => {
-                res.send(`
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset="utf-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            
-                <title>Success</title>
-            
-                <!-- Bootstrap CSS CDN -->
-                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
-                    crossorigin="anonymous">
-                <style>
-                    @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-                    h4 {
-                        color: crimson;
-                    }
-            
-                    p {
-                        font-family: 'Poppins', sans-serif;
-                        font-size: 1.1em;
-                        font-weight: 300;
-                        line-height: 1.7em;
-                        color: #999;
-                    }
-                </style>
-            </head>
-            <body>
-                <div class="container d-flex justify-content-center align-items-center">
-                    <div class="row mt-5 ">
-            
-                        <div class="alert alert-danger" role="alert">
-                            <h3 class="alert-heading">Error !</h3>
-                            <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">ไม่สามารถบันทึกข้อมูลได้ กรุณากรอกข้อมูลให้ครบถ้วน </p>
-                            <hr>
-                            <p class="d-flex justify-content-end">
-                                    <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/rewardContent" role="button">ตกลง</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="line"></div>
-            </body>
-            
-            </html>
-            `)
+                res.write(errorsend)
             })
         } else {
             console.log('Have file')
@@ -1864,59 +2158,11 @@ app.post('/saveReward', upload.single('photos'), function (req, res) {
                     console.log('@@@@ save REWARD data success @@@@')
                     res.render('admin_RewardContent.hbs', {})
                 }, (err) => {
-                    res.send(`
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset="utf-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            
-                <title>Success</title>
-            
-                <!-- Bootstrap CSS CDN -->
-                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
-                    crossorigin="anonymous">
-                <style>
-                    @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-                    h4 {
-                        color: crimson;
-                    }
-            
-                    p {
-                        font-family: 'Poppins', sans-serif;
-                        font-size: 1.1em;
-                        font-weight: 300;
-                        line-height: 1.7em;
-                        color: #999;
-                    }
-                </style>
-            </head>
-            <body>
-                <div class="container d-flex justify-content-center align-items-center">
-                    <div class="row mt-5 ">
-            
-                        <div class="alert alert-success" role="alert">
-                            <h3 class="alert-heading">Error !</h3>
-                            <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">ไม่สามารถบันทึกข้อมูลได้ กรุณากรอกข้อมูลให้ครบถ้วน </p>
-                            <hr>
-                            <p class="d-flex justify-content-end">
-                                    <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/forAdmin" role="button">ตกลง</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="line"></div>
-            </body>
-            
-            </html>
-            `)
+                    res.write(errorsend)
                 })
             }).catch((error) => {
                 console.log(error); //Exepection error....
             })
-
-
         }
     } else {
         res.redirect('/login')
@@ -1991,7 +2237,7 @@ app.post('/saveEditReward', upload.single('photos'), function (req, res) {
                     <div class="row mt-5 ">
             
                         <div class="alert alert-success" role="alert">
-                            <h3 class="alert-heading">Error !</h3>
+                            <h3 class="alert-heading">Success !</h3>
                             <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">แก้ไขข้อมูลของรางวัลสำเร็จ </p>
                             <hr>
                             <p class="d-flex justify-content-end">
@@ -2056,7 +2302,7 @@ app.post('/saveEditReward', upload.single('photos'), function (req, res) {
                     <div class="row mt-5 ">
             
                         <div class="alert alert-success" role="alert">
-                            <h3 class="alert-heading">Error !</h3>
+                            <h3 class="alert-heading">Success !</h3>
                             <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">แก้ไขข้อมูลของรางวัลสำเร็จ </p>
                             <hr>
                             <p class="d-flex justify-content-end">
@@ -2134,6 +2380,8 @@ app.post('/saveRedeemReward', function (req, res) {
                             Reward_Name: req.body.Reward_Name,
                             Reward_Point: req.body.Reward_Point,
                             Member_ID: req.body.Member_ID,
+                            Member_Name:member.Member_Name,
+                            Member_Lastname:member.Member_Lastname,
                             RedeemReward_Quantity: req.body.Member_RewardQuantity,
                             RedeemReward_Date: date_save,
                             RedeemReward_Admin: req.session.displayName,
@@ -2176,7 +2424,7 @@ app.post('/saveRedeemReward', function (req, res) {
                     <div class="row mt-5 ">
             
                         <div class="alert alert-success" role="alert">
-                            <h3 class="alert-heading">Error !</h3>
+                            <h3 class="alert-heading">Success !</h3>
                             <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลการแลกของรางวัลสำเร็จ </p>
                             <hr>
                             <p class="d-flex justify-content-end">
@@ -2427,124 +2675,245 @@ app.post('/savePoint', function (req, res) {
         //console.log('hello')
         let date_save = moment().format('DD-MM-YYYY');
         let name = req.session.displayName
-
-        Member.findOne({ Member_ID: req.body.Member_ID }, (err, data) => {
-            if (err) console.log(err)
-        }).then((member) => {
-            let newOtherEvent = new OtherEvent({
-                OtherEvent_Name: req.body.Event_Name,
-                OtherEvent_Point: req.body.Event_Point,
-                OtherEvent_Admin: name
-            })
-
-            newOtherEvent.save().then((doc) => {
-                console.log('@@@@@@ save data to OTHEREVENT table @@@@@@')
-                console.log(doc.OtherEvent_ID)
-
-                let newJoinEvent = new JoinEvent({
-                    Member_ID: req.body.Member_ID,
-                    Member_Name: member.Member_Name,
-                    Member_Lastname: member.Member_Lastname,
-                    OpenEvent_ID: doc.OtherEvent_ID,
-                    OpenEvent_Name: req.body.Event_Name,
-                    OpenEvent_Point: req.body.Event_Point,
-                    JoinEvent_Date: date_save,
-                    JoinEvent_Admin: name,
-                    JoinEvent_Year: academic_year
+        let event_point = parseFloat(req.body.Event_Point)
+        if(event_point>0){
+            console.log(event_point)
+            Member.findOne({ Member_ID: req.body.Member_ID }, (err, data) => {
+                if (err) console.log(err)
+            }).then((member) => {
+                let newOtherEvent = new OtherEvent({
+                    OtherEvent_Name: req.body.Event_Name,
+                    OtherEvent_Point: req.body.Event_Point,
+                    OtherEvent_Admin: name
                 })
-
-                newJoinEvent.save().then((doc) => {
-                    console.log('@@@@@@ save data to JoinEvent @@@@@@@@')
-
-                    // find Member
-                    Member.findOne({ Member_ID: req.body.Member_ID }).then((d) => {
-                        let m_total = parseFloat(d.Member_Total)
-                        let m_available = parseFloat(d.Member_Available)
-                        let event_point = parseFloat(req.body.Event_Point)
-
-                        d.Member_Total = m_total + event_point;
-                        d.Member_Available = m_available + event_point;
-
-                        d.save().then((success) => {
-                            console.log('@@@@@@ save Point @@@@@@@')
-
-                            House.findOne({ House_MemberID: req.body.Member_ID }).then((house) => {
-                                let house_member_point = parseFloat(house.House_MemberPoint)
-                                let point = parseFloat(req.body.Behavior_Point)
-                                house.House_MemberPoint = house_member_point + event_point;
-
-                                house.save().then((success) => {
-                                    console.log('@@@@ Update POINT in House table @@@@')
-                                    res.send(`
-                                    <!DOCTYPE html>
-                                    <html>
-                                    <head>
-                                        <meta charset="utf-8">
-                                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                                        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                                    
-                                        <title>Success</title>
-                                    
-                                        <!-- Bootstrap CSS CDN -->
-                                        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
-                                            crossorigin="anonymous">
-                                        <style>
-                                            @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-                                            h4 {
-                                                color: crimson;
-                                            }
-                                    
-                                            p {
-                                                font-family: 'Poppins', sans-serif;
-                                                font-size: 1.1em;
-                                                font-weight: 300;
-                                                line-height: 1.7em;
-                                                color: #999;
-                                            }
-                                        </style>
-                                    </head>
-                                    <body>
-                                        <div class="container d-flex justify-content-center align-items-center">
-                                            <div class="row mt-5 ">
-                                    
-                                                <div class="alert alert-success" role="alert">
-                                                    <h3 class="alert-heading">Succes !</h3>
-                                                    <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลคะแนนลงฐานข้อมูลสำเร็จ </p>
-                                                    <hr>
-                                                    <p class="d-flex justify-content-end">
-                                                            <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/IncreasePointMember" role="button">ตกลง</a>
-                                                    </p>
+    
+                newOtherEvent.save().then((doc) => {
+                    console.log('@@@@@@ save data to OTHEREVENT table @@@@@@')
+                    console.log(doc.OtherEvent_ID)
+    
+                    let newJoinEvent = new JoinEvent({
+                        Member_ID: req.body.Member_ID,
+                        Member_Name: member.Member_Name,
+                        Member_Lastname: member.Member_Lastname,
+                        OpenEvent_ID: doc.OtherEvent_ID,
+                        OpenEvent_Name: req.body.Event_Name,
+                        OpenEvent_Point: req.body.Event_Point,
+                        JoinEvent_Date: date_save,
+                        JoinEvent_Admin: name,
+                        JoinEvent_Year: academic_year
+                    })
+    
+                    newJoinEvent.save().then((doc) => {
+                        console.log('@@@@@@ save data to JoinEvent @@@@@@@@')
+    
+                        // find Member
+                        Member.findOne({ Member_ID: req.body.Member_ID }).then((d) => {
+                            let m_total = parseFloat(d.Member_Total)
+                            let m_available = parseFloat(d.Member_Available)
+    
+                            d.Member_Total = m_total + event_point;
+                            d.Member_Available = m_available + event_point;
+    
+                            d.save().then((success) => {
+                                console.log('@@@@@@ save Point @@@@@@@')
+    
+                                House.findOne({ House_MemberID: req.body.Member_ID }).then((house) => {
+                                    let house_member_point = parseFloat(house.House_MemberPoint)
+                                    let point = parseFloat(req.body.Behavior_Point)
+                                    house.House_MemberPoint = house_member_point + event_point;
+    
+                                    house.save().then((success) => {
+                                        console.log('@@@@ Update POINT in House table @@@@')
+                                        res.send(`
+                                        <!DOCTYPE html>
+                                        <html>
+                                        <head>
+                                            <meta charset="utf-8">
+                                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                                        
+                                            <title>Success</title>
+                                        
+                                            <!-- Bootstrap CSS CDN -->
+                                            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                                                crossorigin="anonymous">
+                                            <style>
+                                                @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                                                h4 {
+                                                    color: crimson;
+                                                }
+                                        
+                                                p {
+                                                    font-family: 'Poppins', sans-serif;
+                                                    font-size: 1.1em;
+                                                    font-weight: 300;
+                                                    line-height: 1.7em;
+                                                    color: #999;
+                                                }
+                                            </style>
+                                        </head>
+                                        <body>
+                                            <div class="container d-flex justify-content-center align-items-center">
+                                                <div class="row mt-5 ">
+                                        
+                                                    <div class="alert alert-success" role="alert">
+                                                        <h3 class="alert-heading">Success !</h3>
+                                                        <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลคะแนนลงฐานข้อมูลสำเร็จ </p>
+                                                        <hr>
+                                                        <p class="d-flex justify-content-end">
+                                                                <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/IncreasePointMember" role="button">ตกลง</a>
+                                                        </p>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="line"></div>
-                                    </body>
-                                    
-                                    </html>
-                                    `)
-
+                                            <div class="line"></div>
+                                        </body>
+                                        
+                                        </html>
+                                        `)
+    
+                                    })
+                                }, (e) => {
+                                    res.status(400).send(e)
+                                }, (err) => {
+                                    res.status(400).send(err)
                                 })
+    
                             }, (e) => {
                                 res.status(400).send(e)
                             }, (err) => {
-                                res.status(400).send(err)
+                                res.status.send(err)
                             })
-
-                        }, (e) => {
-                            res.status(400).send(e)
-                        }, (err) => {
-                            res.status.send(err)
                         })
-                    })
-
-                }), (err) => {
+    
+                    }), (err) => {
+                        res.status(400).send(err)
+                    }
+    
+                }, (err) => {
                     res.status(400).send(err)
-                }
-
-            }, (err) => {
-                res.status(400).send(err)
+                })
             })
-        })
+        }else if(event_point < 0){
+            console.log(event_point)
+            Member.findOne({ Member_ID: req.body.Member_ID }, (err, data) => {
+                if (err) console.log(err)
+            }).then((member) => {
+                let newOtherEvent = new OtherEvent({
+                    OtherEvent_Name: req.body.Event_Name,
+                    OtherEvent_Point: req.body.Event_Point,
+                    OtherEvent_Admin: name
+                })
+    
+                newOtherEvent.save().then((doc) => {
+                    console.log('@@@@@@ save data to OTHEREVENT table @@@@@@')
+                    console.log(doc.OtherEvent_ID)
+    
+                    let newJoinBehavior = new JoinBehavior({
+                        Member_ID: req.body.Member_ID,
+                        Member_Name: member.Member_Name,
+                        Member_Lastname: member.Member_Lastname,
+                        Behavior_ID: doc.OtherEvent_ID,
+                        Behavior_Name: req.body.Event_Name,
+                        Behavior_Point: req.body.Event_Point,
+                        JoinBehavior_Date: date_save,
+                        JoinBehavior_Admin: name,
+                        JoinBehavior_Year: academic_year
+                    })
+    
+                    newJoinBehavior.save().then((doc) => {
+                        console.log('@@@@@@ save data to JoinBehavior @@@@@@@@')
+    
+                        // find Member
+                        Member.findOne({ Member_ID: req.body.Member_ID }).then((d) => {
+                            let m_total = parseFloat(d.Member_Total)
+                            let m_available = parseFloat(d.Member_Available)
+    
+                            d.Member_Total = m_total + event_point;
+                            d.Member_Available = m_available + event_point;
+    
+                            d.save().then((success) => {
+                                console.log('@@@@@@ save Point @@@@@@@')
+    
+                                House.findOne({ House_MemberID: req.body.Member_ID }).then((house) => {
+                                    let house_member_point = parseFloat(house.House_MemberPoint)
+                                    let point = parseFloat(req.body.Behavior_Point)
+                                    house.House_MemberPoint = house_member_point + event_point;
+    
+                                    house.save().then((success) => {
+                                        console.log('@@@@ Update POINT in House table @@@@')
+                                        res.send(`
+                                        <!DOCTYPE html>
+                                        <html>
+                                        <head>
+                                            <meta charset="utf-8">
+                                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                                        
+                                            <title>Success</title>
+                                        
+                                            <!-- Bootstrap CSS CDN -->
+                                            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                                                crossorigin="anonymous">
+                                            <style>
+                                                @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                                                h4 {
+                                                    color: crimson;
+                                                }
+                                        
+                                                p {
+                                                    font-family: 'Poppins', sans-serif;
+                                                    font-size: 1.1em;
+                                                    font-weight: 300;
+                                                    line-height: 1.7em;
+                                                    color: #999;
+                                                }
+                                            </style>
+                                        </head>
+                                        <body>
+                                            <div class="container d-flex justify-content-center align-items-center">
+                                                <div class="row mt-5 ">
+                                        
+                                                    <div class="alert alert-success" role="alert">
+                                                        <h3 class="alert-heading">Success !</h3>
+                                                        <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลคะแนนลงฐานข้อมูลสำเร็จ </p>
+                                                        <hr>
+                                                        <p class="d-flex justify-content-end">
+                                                                <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/IncreasePointMember" role="button">ตกลง</a>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="line"></div>
+                                        </body>
+                                        
+                                        </html>
+                                        `)
+    
+                                    })
+                                }, (e) => {
+                                    res.status(400).send(e)
+                                }, (err) => {
+                                    res.status(400).send(err)
+                                })
+    
+                            }, (e) => {
+                                res.status(400).send(e)
+                            }, (err) => {
+                                res.status.send(err)
+                            })
+                        })
+    
+                    }), (err) => {
+                        res.status(400).send(err)
+                    }
+    
+                }, (err) => {
+                    res.status(400).send(err)
+                })
+            })
+        }
+
 
 
     } else {
@@ -2799,17 +3168,20 @@ app.get('/displayYear', (req, res) => {
     }
 })
 
-
-
 // ============== Report =============
 // admin_Report.hbs
 app.get('/getReport', (req, res) => {
     let name = req.session.displayName
     let data = {}
     if (req.session.displayName) {
-        data.name = name
-        res.render('admin_Report.hbs', {
-            data: encodeURI(JSON.stringify(data))
+        Year.find({},(err,data)=>{
+            if(err) console.log(err)
+        }).then((year)=>{
+            data.year = year
+            data.name = name
+            res.render('admin_Report.hbs', {
+                data: encodeURI(JSON.stringify(data))
+            })
         })
     } else {
         res.redirect('/login')
@@ -2854,6 +3226,296 @@ app.post('/exportOpentList/:id', (req, res) => {
             res.status(400).send(err)
         })
     } else {
+        res.redirect('/login')
+    }
+})
+
+app.post('/reportHouse',(req,res)=>{
+    if(req.session.displayName){
+        let wb = new xl.Workbook();
+        let ws = wb.addWorksheet('Sheet 1');
+
+        let numStyle = wb.createStyle({
+            font: {
+                color: '#000000',
+                size: 12
+            },
+            numberFormat: '$#,##0.00; ($#,##0.00); -'
+        });
+
+        Member.find({Member_House:req.body.house},(err,data)=>{
+            if(err) console.log(err)
+        }).then((member)=>{
+            let row = 2;
+            for (let i = 0; i < member.length; i++) {
+                ws.cell(1, 1).string("รหัสนักศึกษา").style(numStyle);
+                ws.cell(1, 2).string("ชื่อ สกุล").style(numStyle);
+                ws.cell(1, 3).string("เบอร์โทรศัพท์").style(numStyle);
+                ws.cell(1, 4).string("จำนวนคะแนนทั้งหมด").style(numStyle);
+                ws.cell(1, 5).string("จำนวนคะแนนที่แลกของรางวัลได้").style(numStyle);
+
+                ws.cell(row, 1).string("" + member[i].Member_ID);
+                ws.cell(row, 2).string('' + member[i].Member_Name + '   ' + member[i].Member_Lastname);
+                ws.cell(row, 3).string("" + member[i].Member_Tel);
+                ws.cell(row, 4).string("" + member[i].Member_Total);
+                ws.cell(row, 5).string("" + member[i].Member_Available);
+
+
+                row++
+            }
+
+            wb.write('รายชื่อสมาชิก.xlsx', res);
+        })
+    }else{
+        res.redirect('/login')
+    }
+})
+
+app.post('/reportRedeemreward',(req,res)=>{
+    if(req.session.displayName){
+        let wb = new xl.Workbook();
+        let ws = wb.addWorksheet('Sheet 1');
+    
+        let numStyle = wb.createStyle({
+            font: {
+                color: '#000000',
+                size: 12
+            },
+            numberFormat: '$#,##0.00; ($#,##0.00); -'
+        });
+    
+        RedeemReward.find({RedeemReward_Year:req.body.year2},(err,data)=>{
+            if(err) console.log(err)
+        }).then((reward)=>{
+            let row = 2;
+            for (let i = 0; i < reward.length; i++) {
+                ws.cell(1, 1).string("วันที่แลก").style(numStyle);
+                ws.cell(1, 2).string("รหัสนักศึกษา").style(numStyle);
+                ws.cell(1, 3).string("ชื่อ สกุล").style(numStyle);
+                ws.cell(1, 4).string("ของรางวัล").style(numStyle);
+                ws.cell(1, 5).string("คะแนนที่ใช้แลก").style(numStyle);
+                ws.cell(1, 6).string("จำนวนของรางวัลที่แลก").style(numStyle);
+                ws.cell(1, 7).string("รวมคะแนน").style(numStyle);
+                ws.cell(1, 8).string("ผู้บันทึก").style(numStyle);
+    
+                ws.cell(row, 1).string("" + reward[i].RedeemReward_Date);
+                ws.cell(row, 2).string("" + reward[i].Member_ID);
+                ws.cell(row, 3).string('' + reward[i].Member_Name + '   ' + reward[i].Member_Lastname);
+                ws.cell(row, 4).string("" + reward[i].Reward_Name);
+                ws.cell(row, 5).string("" + reward[i].Reward_Point);
+                ws.cell(row, 6).string("" + reward[i].RedeemReward_Quantity);
+                ws.cell(row, 7).formula('E'+row+'*F'+row);
+                ws.cell(row, 8).string("" + reward[i].RedeemReward_Admin);
+    
+    
+                row++
+            }
+    
+            wb.write('รายงานการแลกของรางวัลแต่ละปี.xlsx', res);
+        })
+    }else{
+        res.redirect('/login')
+    }
+})
+
+app.post('/reportBehavior',(req,res)=>{
+    if(req.session.displayName){
+        let wb = new xl.Workbook();
+        let ws = wb.addWorksheet('Sheet 1');
+    
+        let numStyle = wb.createStyle({
+            font: {
+                color: '#000000',
+                size: 12
+            },
+            numberFormat: '$#,##0.00; ($#,##0.00); -'
+        });
+    
+        JoinBehavior.find({JoinBehavior_Year:req.body.year1},(err,data)=>{
+            if(err) console.log(err)
+        }).then((b)=>{
+            let row = 2;
+            for (let i = 0; i < b.length; i++) {
+                ws.cell(1, 1).string("วันที่บันทึกข้อมูล").style(numStyle);
+                ws.cell(1, 2).string("รหัสนักศึกษา").style(numStyle);
+                ws.cell(1, 3).string("ชื่อ สกุล").style(numStyle);
+                ws.cell(1, 4).string("ความประพฤติ").style(numStyle);
+                ws.cell(1, 5).string("คะแนน").style(numStyle);
+                ws.cell(1, 6).string("ผู้บันทึก").style(numStyle);
+    
+                ws.cell(row, 1).string("" + b[i].JoinBehavior_Date);
+                ws.cell(row, 2).string("" + b[i].Member_ID);
+                ws.cell(row, 3).string('' + b[i].Member_Name + '   ' + b[i].Member_Lastname);
+                ws.cell(row, 4).string("" + b[i].Behavior_Name);
+                ws.cell(row, 5).string("" + b[i].Behavior_Point);
+                ws.cell(row, 6).string("" + b[i].JoinBehavior_Admin);
+    
+    
+                row++
+            }
+    
+            wb.write('รายงานคะแนนพฤติกรรม.xlsx', res);
+        })
+    }else{
+        res.redirect('/login')
+    }
+})
+
+app.post('/reportPoint',(req,res)=>{
+    if(req.session.displayName){
+        let wb = new xl.Workbook();
+        let ws_bill = wb.addWorksheet('Bill Gates');
+        let ws_larry = wb.addWorksheet('Larry Page');
+        let ws_elon = wb.addWorksheet('Elon Musk');
+        let ws_mark = wb.addWorksheet('Mark Zuckerberg');
+    
+        let numStyle = wb.createStyle({
+            font: {
+                color: '#000000',
+                size: 12
+            },
+            numberFormat: '$#,##0.00; ($#,##0.00); -'
+        });
+    
+        if(req.body.year3 == academic_year){
+            Member.find({},(err,data)=>{
+                if(err) console.log(err)
+            }).then((member)=>{
+                let row_bill = 2;
+                let row_larry = 2;
+                let row_elon = 2;
+                let row_mark = 2;
+                for (let i = 0; i < member.length; i++) {
+                    
+                    if(member[i].Member_House == "Bill Gates"){
+                        ws_bill.cell(1, 1).string("รหัสนักศึกษา").style(numStyle);
+                        ws_bill.cell(1, 2).string("ชื่อ สกุล").style(numStyle);
+                        ws_bill.cell(1, 3).string("เบอร์โทรศัพท์").style(numStyle);
+                        ws_bill.cell(1, 4).string("Total Point").style(numStyle);
+                        ws_bill.cell(1, 5).string("Available Point").style(numStyle);
+                        ws_bill.cell(row_bill, 1).string("" + member[i].Member_ID);
+                        ws_bill.cell(row_bill, 2).string('' + member[i].Member_Name + '   ' + member[i].Member_Lastname);
+                        ws_bill.cell(row_bill, 3).string("" + member[i].Member_Tel);
+                        ws_bill.cell(row_bill, 4).string("" + member[i].Member_Total);
+                        ws_bill.cell(row_bill, 5).string("" + member[i].Member_Available);
+
+                        row_bill++
+                    }
+                    if(member[i].Member_House == "Larry Page"){
+                        ws_larry.cell(1, 1).string("รหัสนักศึกษา").style(numStyle);
+                        ws_larry.cell(1, 2).string("ชื่อ สกุล").style(numStyle);
+                        ws_larry.cell(1, 3).string("เบอร์โทรศัพท์").style(numStyle);
+                        ws_larry.cell(1, 4).string("จำนวนคะแนนทั้งหมด").style(numStyle);
+                        ws_larry.cell(1, 5).string("จำนวนคะแนนที่แลกของรางวัลได้").style(numStyle);
+                        ws_larry.cell(row_larry, 1).string("" + member[i].Member_ID);
+                        ws_larry.cell(row_larry, 2).string('' + member[i].Member_Name + '   ' + member[i].Member_Lastname);
+                        ws_larry.cell(row_larry, 3).string("" + member[i].Member_Tel);
+                        ws_larry.cell(row_larry, 4).string("" + member[i].Member_Total);
+                        ws_larry.cell(row_larry, 5).string("" + member[i].Member_Available);
+
+                        row_larry++
+                    }
+                    if(member[i].Member_House == "Elon Musk"){
+                        ws_elon.cell(1, 1).string("รหัสนักศึกษา").style(numStyle);
+                        ws_elon.cell(1, 2).string("ชื่อ สกุล").style(numStyle);
+                        ws_elon.cell(1, 3).string("เบอร์โทรศัพท์").style(numStyle);
+                        ws_elon.cell(1, 4).string("จำนวนคะแนนทั้งหมด").style(numStyle);
+                        ws_elon.cell(1, 5).string("จำนวนคะแนนที่แลกของรางวัลได้").style(numStyle);
+                        ws_elon.cell(row_elon, 1).string("" + member[i].Member_ID);
+                        ws_elon.cell(row_elon, 2).string('' + member[i].Member_Name + '   ' + member[i].Member_Lastname);
+                        ws_elon.cell(row_elon, 3).string("" + member[i].Member_Tel);
+                        ws_elon.cell(row_elon, 4).string("" + member[i].Member_Total);
+                        ws_elon.cell(row_elon, 5).string("" + member[i].Member_Available);
+
+                        row_elon++
+                    }
+                    if(member[i].Member_House == "Mark Zuckerberg"){
+                        ws_mark.cell(1, 1).string("รหัสนักศึกษา").style(numStyle);
+                        ws_mark.cell(1, 2).string("ชื่อ สกุล").style(numStyle);
+                        ws_mark.cell(1, 3).string("เบอร์โทรศัพท์").style(numStyle);
+                        ws_mark.cell(1, 4).string("จำนวนคะแนนทั้งหมด").style(numStyle);
+                        ws_mark.cell(1, 5).string("จำนวนคะแนนที่แลกของรางวัลได้").style(numStyle);
+                        ws_mark.cell(row_mark, 1).string("" + member[i].Member_ID);
+                        ws_mark.cell(row_mark, 2).string('' + member[i].Member_Name + '   ' + member[i].Member_Lastname);
+                        ws_mark.cell(row_mark, 3).string("" + member[i].Member_Tel);
+                        ws_mark.cell(row_mark, 4).string("" + member[i].Member_Total);
+                        ws_mark.cell(row_mark, 5).string("" + member[i].Member_Available);
+
+                        row_mark++
+                    }
+    
+                }
+                wb.write('รายงานคะแนนปัจจุบัน.xlsx', res);
+            })
+        }else{
+            HouseHistory.find({House_Year:req.body.year3},(err,data)=>{
+                if(err) console.log(err)
+            }).then((member)=>{
+                let row_bill = 2;
+                let row_larry = 2;
+                let row_elon = 2;
+                let row_mark = 2;
+                for (let i = 0; i < member.length; i++) {
+                    
+                    if(member[i].House_name == "Bill Gates"){
+                        ws_bill.cell(1, 1).string("รหัสนักศึกษา").style(numStyle);
+                        ws_bill.cell(1, 2).string("ชื่อ สกุล").style(numStyle);
+                        ws_bill.cell(1, 3).string("คะแนนตลอดปีการศึกษา").style(numStyle);
+                        ws_bill.cell(1, 4).string("ปีการศึกษา").style(numStyle);
+                        ws_bill.cell(row_bill, 1).string("" + member[i].House_MemberID);
+                        ws_bill.cell(row_bill, 2).string('' + member[i].MemberName + '   ' + member[i].MemberLastname);
+                        ws_bill.cell(row_bill, 3).string("" + member[i].House_MemberPoint);
+                        ws_bill.cell(row_bill, 4).string("" + member[i].House_Year);
+
+                        row_bill++
+                    }
+                    if(member[i].House_name == "Larry Page"){
+                        ws_larry.cell(1, 1).string("รหัสนักศึกษา").style(numStyle);
+                        ws_larry.cell(1, 2).string("ชื่อ สกุล").style(numStyle);
+                        ws_larry.cell(1, 3).string("คะแนนตลอดปีการศึกษา").style(numStyle);
+                        ws_larry.cell(1, 4).string("ปีการศึกษา").style(numStyle);
+                       ;
+                        ws_larry.cell(row_larry, 1).string("" + member[i].House_MemberID);
+                        ws_larry.cell(row_larry, 2).string('' + member[i].MemberName + '   ' + member[i].MemberLastname);
+                        ws_larry.cell(row_larry, 3).string("" + member[i].House_MemberPoint);
+                        ws_larry.cell(row_larry, 4).string("" + member[i].House_Year);
+                        
+                        row_larry++
+                    }
+                    if(member[i].House_name == "Elon Musk"){
+                        ws_elon.cell(1, 1).string("รหัสนักศึกษา").style(numStyle);
+                        ws_elon.cell(1, 2).string("ชื่อ สกุล").style(numStyle);
+                        ws_elon.cell(1, 3).string("คะแนนตลอดปีการศึกษา").style(numStyle);
+                        ws_elon.cell(1, 4).string("ปีการศึกษา").style(numStyle);
+                 
+                        ws_elon.cell(row_elon, 1).string("" + member[i].House_MemberID);
+                        ws_elon.cell(row_elon, 2).string('' + member[i].MemberName + '   ' + member[i].MemberLastname);
+                        ws_elon.cell(row_elon, 3).string("" + member[i].House_MemberPoint);
+                        ws_elon.cell(row_elon, 4).string("" + member[i].House_Year);
+                     
+
+                        row_elon++
+                    }
+                    if(member[i].House_name == "Mark Zuckerberg"){
+                        ws_mark.cell(1, 1).string("รหัสนักศึกษา").style(numStyle);
+                        ws_mark.cell(1, 2).string("ชื่อ สกุล").style(numStyle);
+                        ws_mark.cell(1, 3).string("คะแนนตลอดปีการศึกษา").style(numStyle);
+                        ws_mark.cell(1, 4).string("ปีการศึกษา").style(numStyle);
+                        
+                        ws_mark.cell(row_mark, 1).string("" + member[i].House_MemberID);
+                        ws_mark.cell(row_mark, 2).string('' + member[i].MemberName + '   ' + member[i].MemberLastname);
+                        ws_mark.cell(row_mark, 3).string("" + member[i].House_MemberPoint);
+                        ws_mark.cell(row_mark, 4).string("" + member[i].House_Year);
+                      
+
+                        row_mark++
+                    }
+    
+                }
+                wb.write('รายงานคะแนนรายบ้านประจำปี.xlsx', res);
+            })
+        }
+    }else{
         res.redirect('/login')
     }
 })

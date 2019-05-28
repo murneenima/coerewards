@@ -282,7 +282,7 @@
             document.getElementById("table_data").innerHTML = ""; // แสดงผลข้อมูลตารางให้ว่าง
 
             for (var i = (page - 1) * records_per_page; i < (page * records_per_page) && i < data.behavior.length; i++) {
-                display_data += "<th>" + (i + 1) + "</th><td>" + data.behavior[i].Behavior_Name + "</td><td>" + "-" + data.behavior[i].Behavior_Point + "</td><td>" + data.behavior[i].Behavior_Description + "<td><form action='http://localhost:3000/DecPointHouse/" + data.behavior[i].Behavior_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-home'></button></p></form></td><td><form action='http://localhost:3000/DecPointGroup/" + data.behavior[i].Behavior_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-users'></i></button></p></form></td></tr>"
+                display_data += "<th>" + (i + 1) + "</th><td>" + data.behavior[i].Behavior_Name + "</td><td>" + data.behavior[i].Behavior_Point + "</td><td>" + data.behavior[i].Behavior_Description + "<td><form action='http://localhost:3000/DecPointHouse/" + data.behavior[i].Behavior_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-home'></button></p></form></td><td><form action='http://localhost:3000/DecPointGroup/" + data.behavior[i].Behavior_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-primary btn-xs'  ><i class='fas fa-users'></i></button></p></form></td></tr>"
                 document.getElementById("table_data").innerHTML = display_data
             }
             page_span.innerHTML = "Page " + page; // แสดงผลหน้า

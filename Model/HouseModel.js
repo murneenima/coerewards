@@ -12,6 +12,14 @@ var HouseSchema = new Schema({
         unique:true,
         required:true
     },
+    House_MemberName:{
+        type:String,
+        required:true
+    },
+    House_MemberLastname:{
+        type:String,
+        required:true
+    },
     House_MemberPoint:{
         type:Number,
         required:true

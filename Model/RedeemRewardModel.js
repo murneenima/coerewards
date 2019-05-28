@@ -22,6 +22,14 @@ var RedeemRewardSchema = new Schema({
         type:Number,
         required:true
     },
+    Member_Name:{
+        type:String,
+        required:true
+    },
+    Member_Lastname:{
+        type:String,
+        required:true
+    },
     RedeemReward_Quantity:{
         type:Number,
         required:true
