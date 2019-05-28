@@ -11,6 +11,7 @@ const image2base64 = require('image-to-base64');
 autoIncrement = require('mongoose-auto-increment');
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const xl = require('excel4node');
 
 var academic_year = 2561;
 
@@ -791,7 +792,7 @@ app.get('/setPoint', (req, res) => {
                         Member.find({}, (err, data) => {
                             if (err) console.log(err)
                         }).then((d2) => {
-                                
+
                             for (let i = 0; i < d2.length; i++) {
                                 d2[i].Member_Total = 0;
                                 d2[i].Member_Available = 0;
@@ -799,7 +800,7 @@ app.get('/setPoint', (req, res) => {
 
                                 d2[i].save().then((success) => {
                                     console.log('@@@@@@@ reset MEMBER point success @@@@@@@')
-                    
+
                                 }, (e) => {
                                     res.status(400).send(e)
                                 }, (err) => {
@@ -1239,6 +1240,7 @@ app.post('/editEventContent', upload.single('photos'), function (req, res) {
     }
 })
 
+// check status กิจกรรม กับเปลี่ยนปีการศึกษา
 var j = schedule.scheduleJob('* * * * *', function () {
     var day_format = moment().format('dddd');
     // console.log(day_format)
@@ -2426,117 +2428,124 @@ app.post('/savePoint', function (req, res) {
         let date_save = moment().format('DD-MM-YYYY');
         let name = req.session.displayName
 
-        let newOtherEvent = new OtherEvent({
-            OtherEvent_Name: req.body.Event_Name,
-            OtherEvent_Point: req.body.Event_Point,
-            OtherEvent_Admin: name
-        })
-
-        newOtherEvent.save().then((doc) => {
-            console.log('@@@@@@ save data to OTHEREVENT table @@@@@@')
-            console.log(doc.OtherEvent_ID)
-
-            let newJoinEvent = new JoinEvent({
-                Member_ID: req.body.Member_ID,
-                OpenEvent_ID: doc.OtherEvent_ID,
-                OpenEvent_Name: req.body.Event_Name,
-                OpenEvent_Point: req.body.Event_Point,
-                JoinEvent_Date: date_save,
-                JoinEvent_Admin: name,
-                JoinEvent_Year: academic_year
+        Member.findOne({ Member_ID: req.body.Member_ID }, (err, data) => {
+            if (err) console.log(err)
+        }).then((member) => {
+            let newOtherEvent = new OtherEvent({
+                OtherEvent_Name: req.body.Event_Name,
+                OtherEvent_Point: req.body.Event_Point,
+                OtherEvent_Admin: name
             })
 
-            newJoinEvent.save().then((doc) => {
-                console.log('@@@@@@ save data to JoinEvent @@@@@@@@')
+            newOtherEvent.save().then((doc) => {
+                console.log('@@@@@@ save data to OTHEREVENT table @@@@@@')
+                console.log(doc.OtherEvent_ID)
 
-                // find Member
-                Member.findOne({ Member_ID: req.body.Member_ID }).then((d) => {
-                    let m_total = parseFloat(d.Member_Total)
-                    let m_available = parseFloat(d.Member_Available)
-                    let event_point = parseFloat(req.body.Event_Point)
+                let newJoinEvent = new JoinEvent({
+                    Member_ID: req.body.Member_ID,
+                    Member_Name: member.Member_Name,
+                    Member_Lastname: member.Member_Lastname,
+                    OpenEvent_ID: doc.OtherEvent_ID,
+                    OpenEvent_Name: req.body.Event_Name,
+                    OpenEvent_Point: req.body.Event_Point,
+                    JoinEvent_Date: date_save,
+                    JoinEvent_Admin: name,
+                    JoinEvent_Year: academic_year
+                })
 
-                    d.Member_Total = m_total + event_point;
-                    d.Member_Available = m_available + event_point;
+                newJoinEvent.save().then((doc) => {
+                    console.log('@@@@@@ save data to JoinEvent @@@@@@@@')
 
-                    d.save().then((success) => {
-                        console.log('@@@@@@ save Point @@@@@@@')
+                    // find Member
+                    Member.findOne({ Member_ID: req.body.Member_ID }).then((d) => {
+                        let m_total = parseFloat(d.Member_Total)
+                        let m_available = parseFloat(d.Member_Available)
+                        let event_point = parseFloat(req.body.Event_Point)
 
-                        House.findOne({ House_MemberID: req.body.Member_ID }).then((house) => {
-                            let house_member_point = parseFloat(house.House_MemberPoint)
-                            let point = parseFloat(req.body.Behavior_Point)
-                            house.House_MemberPoint = house_member_point + event_point;
+                        d.Member_Total = m_total + event_point;
+                        d.Member_Available = m_available + event_point;
 
-                            house.save().then((success) => {
-                                console.log('@@@@ Update POINT in House table @@@@')
-                                res.send(`
-                                <!DOCTYPE html>
-                                <html>
-                                <head>
-                                    <meta charset="utf-8">
-                                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                                
-                                    <title>Success</title>
-                                
-                                    <!-- Bootstrap CSS CDN -->
-                                    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
-                                        crossorigin="anonymous">
-                                    <style>
-                                        @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-                                        h4 {
-                                            color: crimson;
-                                        }
-                                
-                                        p {
-                                            font-family: 'Poppins', sans-serif;
-                                            font-size: 1.1em;
-                                            font-weight: 300;
-                                            line-height: 1.7em;
-                                            color: #999;
-                                        }
-                                    </style>
-                                </head>
-                                <body>
-                                    <div class="container d-flex justify-content-center align-items-center">
-                                        <div class="row mt-5 ">
-                                
-                                            <div class="alert alert-success" role="alert">
-                                                <h3 class="alert-heading">Succes !</h3>
-                                                <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลคะแนนลงฐานข้อมูลสำเร็จ </p>
-                                                <hr>
-                                                <p class="d-flex justify-content-end">
-                                                        <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/IncreasePointMember" role="button">ตกลง</a>
-                                                </p>
+                        d.save().then((success) => {
+                            console.log('@@@@@@ save Point @@@@@@@')
+
+                            House.findOne({ House_MemberID: req.body.Member_ID }).then((house) => {
+                                let house_member_point = parseFloat(house.House_MemberPoint)
+                                let point = parseFloat(req.body.Behavior_Point)
+                                house.House_MemberPoint = house_member_point + event_point;
+
+                                house.save().then((success) => {
+                                    console.log('@@@@ Update POINT in House table @@@@')
+                                    res.send(`
+                                    <!DOCTYPE html>
+                                    <html>
+                                    <head>
+                                        <meta charset="utf-8">
+                                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                                    
+                                        <title>Success</title>
+                                    
+                                        <!-- Bootstrap CSS CDN -->
+                                        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                                            crossorigin="anonymous">
+                                        <style>
+                                            @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                                            h4 {
+                                                color: crimson;
+                                            }
+                                    
+                                            p {
+                                                font-family: 'Poppins', sans-serif;
+                                                font-size: 1.1em;
+                                                font-weight: 300;
+                                                line-height: 1.7em;
+                                                color: #999;
+                                            }
+                                        </style>
+                                    </head>
+                                    <body>
+                                        <div class="container d-flex justify-content-center align-items-center">
+                                            <div class="row mt-5 ">
+                                    
+                                                <div class="alert alert-success" role="alert">
+                                                    <h3 class="alert-heading">Succes !</h3>
+                                                    <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลคะแนนลงฐานข้อมูลสำเร็จ </p>
+                                                    <hr>
+                                                    <p class="d-flex justify-content-end">
+                                                            <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/IncreasePointMember" role="button">ตกลง</a>
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="line"></div>
-                                </body>
-                                
-                                </html>
-                                `)
+                                        <div class="line"></div>
+                                    </body>
+                                    
+                                    </html>
+                                    `)
 
+                                })
+                            }, (e) => {
+                                res.status(400).send(e)
+                            }, (err) => {
+                                res.status(400).send(err)
                             })
+
                         }, (e) => {
                             res.status(400).send(e)
                         }, (err) => {
-                            res.status(400).send(err)
+                            res.status.send(err)
                         })
-
-                    }, (e) => {
-                        res.status(400).send(e)
-                    }, (err) => {
-                        res.status.send(err)
                     })
-                })
 
-            }), (err) => {
+                }), (err) => {
+                    res.status(400).send(err)
+                }
+
+            }, (err) => {
                 res.status(400).send(err)
-            }
-
-        }, (err) => {
-            res.status(400).send(err)
+            })
         })
+
 
     } else {
         res.redirect('/login')
@@ -2552,99 +2561,60 @@ app.post('/savePointByGroup', function (req, res) {
     let id = req.body.id
     //console.log(id)
     if (req.session.displayName) {
+        Member.findOne({ Member_ID: id }, (err, data) => {
+            if (err) console.log(err)
+        }).then((member) => {
 
-        let newJoinEvent2 = new JoinEvent({
-            Member_ID: req.body.id,
-            OpenEvent_ID: req.body.id_event,
-            OpenEvent_Point: req.body.point_event,
-            OpenEvent_Name: req.body.event_name,
-            JoinEvent_Date: date_save,
-            JoinEvent_Admin: req.session.displayName,
-            JoinEvent_Year: academic_year
-        })
-
-
-        newJoinEvent2.save().then((doc) => {
-            console.log('@@@@ save DATA in JOIN EVENT @@@@')
-
-            Member.findOne({ Member_ID: id }).then((d2) => {
-                let total = parseFloat(d2.Member_Total)
-                let available = parseFloat(d2.Member_Available)
-                let eventpoint = parseFloat(req.body.point_event)
-                console.log(d2.Member_Total)
-                d2.Member_Total = total + eventpoint,
-                    d2.Member_Available = available + eventpoint,
-                    d2.save().then((success) => {
-                        console.log(d2.Member_Total)
-                        console.log(' **** Success to save Member_Point ****')
-
-
-                        House.findOne({ House_MemberID: id }).then((house) => {
-                            let house_member_point = parseFloat(house.House_MemberPoint)
-                            let point = parseFloat(req.body.point_event)
-                            house.House_MemberPoint = house_member_point + point;
-
-                            house.save().then((success) => {
-                                console.log('@@@@ Update POINT in House table @@@@')
-                                // res.redirect('/IncreasePoint')
-                                res.send(`
-                                <!DOCTYPE html>
-                                <html>
-                                <head>
-                                    <meta charset="utf-8">
-                                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                                
-                                    <title>Success</title>
-                                
-                                    <!-- Bootstrap CSS CDN -->
-                                    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
-                                        crossorigin="anonymous">
-                                    <style>
-                                        @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-                                        h4 {
-                                            color: crimson;
-                                        }
-                                
-                                        p {
-                                            font-family: 'Poppins', sans-serif;
-                                            font-size: 1.1em;
-                                            font-weight: 300;
-                                            line-height: 1.7em;
-                                            color: #999;
-                                        }
-                                    </style>
-                                </head>
-                                <body>
-                                    <div class="container d-flex justify-content-center align-items-center">
-                                        <div class="row mt-5 ">
-                                
-                                            <div class="alert alert-success" role="alert">
-                                                <h3 class="alert-heading">Succes !</h3>
-                                                <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลคะแนนลงฐานข้อมูลสำเร็จ </p>
-                                                <hr>
-                                                <p class="d-flex justify-content-end">
-                                                        <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/IncreasePoint" role="button">ตกลง</a>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="line"></div>
-                                </body>
-                                
-                                </html>
-                                `)
-                            })
-                        }, (e) => {
-                            res.status(400).send(e)
-                        }, (err) => {
-                            res.status(400).send(err)
-                        })
-                    })
+            let newJoinEvent2 = new JoinEvent({
+                Member_ID: req.body.id,
+                Member_Name: member.Member_Name,
+                Member_Lastname: member.Member_Lastname,
+                OpenEvent_ID: req.body.id_event,
+                OpenEvent_Point: req.body.point_event,
+                OpenEvent_Name: req.body.event_name,
+                JoinEvent_Date: date_save,
+                JoinEvent_Admin: req.session.displayName,
+                JoinEvent_Year: academic_year
             })
-        }, (err) => {
-            res.status(400).send(err)
+
+
+            newJoinEvent2.save().then((doc) => {
+                console.log('@@@@ save DATA in JOIN EVENT @@@@')
+
+                Member.findOne({ Member_ID: id }).then((d2) => {
+                    let total = parseFloat(d2.Member_Total)
+                    let available = parseFloat(d2.Member_Available)
+                    let eventpoint = parseFloat(req.body.point_event)
+                    console.log(d2.Member_Total)
+                    d2.Member_Total = total + eventpoint,
+                        d2.Member_Available = available + eventpoint,
+                        d2.save().then((success) => {
+                            console.log(d2.Member_Total)
+                            console.log(' **** Success to save Member_Point ****')
+
+
+                            House.findOne({ House_MemberID: id }).then((house) => {
+                                let house_member_point = parseFloat(house.House_MemberPoint)
+                                let point = parseFloat(req.body.point_event)
+                                house.House_MemberPoint = house_member_point + point;
+
+                                house.save().then((success) => {
+                                    console.log('@@@@ Update POINT in House table @@@@')
+                                    // res.redirect('/IncreasePoint')
+
+                                })
+                            }, (e) => {
+                                res.status(400).send(e)
+                            }, (err) => {
+                                res.status(400).send(err)
+                            })
+                        })
+                })
+            }, (err) => {
+                res.status(400).send(err)
+            })
         })
+
     } else {
         res.redirect('/login')
     }
@@ -2656,100 +2626,60 @@ app.post('/saveDecPointGroup', function (req, res) {
     let id = req.body.id
     //console.log(id)
     if (req.session.displayName) {
-        let date_save = moment().format('DD-MM-YYYY');
-        let newJoinBehavior = new JoinBehavior({
-            Member_ID: id,
-            Behavior_ID: req.body.id_behavior,
-            Behavior_Point: req.body.point_behavior,
-            JoinBehavior_Date: date_save,
-            Behavior_Name: req.body.behavior_name,
-            JoinBehavior_Admin: req.session.displayName,
-            JoinBehavior_Year: academic_year
 
-        })
+        Member.findOne({ Member_ID: id }, (err, data) => {
+            if (err) console.log(err)
+        }).then((member) => {
+            let newJoinBehavior = new JoinBehavior({
+                Member_ID: id,
+                Member_Name: member.Member_Name,
+                Member_Lastname: member.Member_Lastname,
+                Behavior_ID: req.body.id_behavior,
+                Behavior_Point: req.body.point_behavior,
+                JoinBehavior_Date: date_save,
+                Behavior_Name: req.body.behavior_name,
+                JoinBehavior_Admin: req.session.displayName,
+                JoinBehavior_Year: academic_year
 
-        newJoinBehavior.save().then((doc) => {
-            console.log('!!! JOIN BEHAVIOR save success !!!')
-
-            //console.log(id)
-            Member.findOne({ Member_ID: id }).then((d2) => {
-
-                let total = parseFloat(d2.Member_Total)
-                let available = parseFloat(d2.Member_Available)
-                let eventpoint = parseFloat(req.body.point_behavior)
-
-                console.log(d2.Member_Total)
-                d2.Member_Total = total - eventpoint,
-                    d2.Member_Available = available - eventpoint,
-                    d2.save().then((success) => {
-                        console.log(' **** Success to ลบ Member_Point ****')
-
-                        House.findOne({ House_MemberID: id }).then((house) => {
-                            let house_member_point = parseFloat(house.House_MemberPoint)
-                            let point = parseFloat(req.body.point_behavior)
-                            house.House_MemberPoint = house_member_point - point;
-
-                            house.save().then((success) => {
-                                console.log('@@@@ Update POINT in House table @@@@')
-                                //   res.redirect('/DecreasePoint')
-                                res.send(`
-                                <!DOCTYPE html>
-                                <html>
-                                <head>
-                                    <meta charset="utf-8">
-                                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                                
-                                    <title>Success</title>
-                                
-                                    <!-- Bootstrap CSS CDN -->
-                                    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
-                                        crossorigin="anonymous">
-                                    <style>
-                                        @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-                                        h4 {
-                                            color: crimson;
-                                        }
-                                
-                                        p {
-                                            font-family: 'Poppins', sans-serif;
-                                            font-size: 1.1em;
-                                            font-weight: 300;
-                                            line-height: 1.7em;
-                                            color: #999;
-                                        }
-                                    </style>
-                                </head>
-                                <body>
-                                    <div class="container d-flex justify-content-center align-items-center">
-                                        <div class="row mt-5 ">
-                                
-                                            <div class="alert alert-success" role="alert">
-                                                <h3 class="alert-heading">Succes !</h3>
-                                                <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลการลบคะแนนลงฐานข้อมูลสำเร็จ </p>
-                                                <hr>
-                                                <p class="d-flex justify-content-end">
-                                                        <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/DecreasePoint" role="button">ตกลง</a>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="line"></div>
-                                </body>
-                                
-                                </html>
-                                `)
-                            })
-                        }, (e) => {
-                            res.status(400).send(e)
-                        }, (err) => {
-                            res.status(400).send(err)
-                        })
-                    })
             })
-        }, (err) => {
-            res.status(400).send(err)
+
+            newJoinBehavior.save().then((doc) => {
+                console.log('!!! JOIN BEHAVIOR save success !!!')
+
+                //console.log(id)
+                Member.findOne({ Member_ID: id }).then((d2) => {
+
+                    let total = parseFloat(d2.Member_Total)
+                    let available = parseFloat(d2.Member_Available)
+                    let eventpoint = parseFloat(req.body.point_behavior)
+
+                    console.log(d2.Member_Total)
+                    d2.Member_Total = total - eventpoint,
+                        d2.Member_Available = available - eventpoint,
+                        d2.save().then((success) => {
+                            console.log(' **** Success to ลบ Member_Point ****')
+
+                            House.findOne({ House_MemberID: id }).then((house) => {
+                                let house_member_point = parseFloat(house.House_MemberPoint)
+                                let point = parseFloat(req.body.point_behavior)
+                                house.House_MemberPoint = house_member_point - point;
+
+                                house.save().then((success) => {
+                                    console.log('@@@@ Update POINT in House table @@@@')
+                                    //   res.redirect('/DecreasePoint')
+                                })
+                            }, (e) => {
+                                res.status(400).send(e)
+                            }, (err) => {
+                                res.status(400).send(err)
+                            })
+                        })
+                })
+            }, (err) => {
+                res.status(400).send(err)
+            })
         })
+
 
     } else {
         res.redirect('/login')
@@ -2869,6 +2799,8 @@ app.get('/displayYear', (req, res) => {
     }
 })
 
+
+
 // ============== Report =============
 // admin_Report.hbs
 app.get('/getReport', (req, res) => {
@@ -2878,6 +2810,48 @@ app.get('/getReport', (req, res) => {
         data.name = name
         res.render('admin_Report.hbs', {
             data: encodeURI(JSON.stringify(data))
+        })
+    } else {
+        res.redirect('/login')
+    }
+})
+
+app.post('/exportOpentList/:id', (req, res) => {
+    if (req.session.displayName) {
+
+        let wb = new xl.Workbook();
+        let ws = wb.addWorksheet('Sheet 1');
+
+        let numStyle = wb.createStyle({
+            font: {
+                color: '#000000',
+                size: 12
+            },
+            numberFormat: '$#,##0.00; ($#,##0.00); -'
+        });
+
+        JoinEvent.find({ OpenEvent_ID: req.params.id }, function (err, dataJoin) {
+            let row = 2;
+            for (let i = 0; i < dataJoin.length; i++) {
+                ws.cell(1, 1).string("รหัสนักศึกษา").style(numStyle);
+                ws.cell(1, 2).string("ชื่อ สกุล").style(numStyle);
+                ws.cell(1, 3).string("คะแนนที่ได้รับ").style(numStyle);
+                ws.cell(1, 4).string("วันที่บันทึก").style(numStyle);
+                ws.cell(1, 5).string("ผู้บันทึก").style(numStyle);
+
+                ws.cell(row, 1).string("" + dataJoin[i].Member_ID);
+                ws.cell(row, 2).string('' + dataJoin[i].Member_Name + '   ' + dataJoin[i].Member_Lastname);
+                ws.cell(row, 3).string("" + dataJoin[i].OpenEvent_Point);
+                ws.cell(row, 4).string("" + dataJoin[i].JoinEvent_Date);
+                ws.cell(row, 5).string("" + dataJoin[i].JoinEvent_Admin);
+
+
+                row++
+            }
+
+            wb.write('MemberList.xlsx', res);
+        }, (err) => {
+            res.status(400).send(err)
         })
     } else {
         res.redirect('/login')
@@ -2904,7 +2878,6 @@ app.get('/Alumni', (req, res) => {
         res.redirect('/login')
     }
 })
-
 
 // ======================= Admin =========================
 // Admin_admin.hbs
@@ -3474,7 +3447,7 @@ app.post('/MemberChangePassword', (req, res) => {
     })
 })
 
-//API for change password
+//API for change profile
 app.post('/MemberChangeProfile', (req, res) => {
     console.log('Change Profile')
     console.log(req.body.Member_Profile)
@@ -3484,6 +3457,24 @@ app.post('/MemberChangeProfile', (req, res) => {
         data.Member_Profile = req.body.Member_Profile
         data.save().then((success) => {
             console.log('!! member UPDATE PROFILE success !!')
+            return res.status(200).json({
+                message: 'Successful'
+            });
+        }, (e) => {
+            res.status(400).send(e)
+        }, (err) => {
+            res.status(400).send(error)
+        })
+    })
+})
+
+//API for change mobile phone
+app.post('/MemberChangetel', (req, res) => {
+    Member.findOne({ Member_ID: req.body.Member_ID }).then((data) => {
+        //console.log(data)
+        data.Member_Tel = req.body.Member_Tel
+        data.save().then((success) => {
+            console.log('!! member UPDATE MOBILE PHONE success !!')
             return res.status(200).json({
                 message: 'Successful'
             });

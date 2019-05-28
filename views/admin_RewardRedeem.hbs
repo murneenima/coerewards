@@ -19,6 +19,13 @@
         crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
         crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> 
+    {{!-- Select 2 --}}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
+
     <style>
         h4 {
             color: crimson;
@@ -287,13 +294,16 @@
                                     <h3>:</h3>
                                 </div>
                                 <div class="col-4">
-                                    <input type="number" class="form-control" placeholder="58XXXXXX" pattern="[0-9]{8}" maxlength="8" id="Member_ID" name="Member_ID"
-                                        placeholder="Student ID" required>
+                                   <div class="input-group">
+                            <select class="js-example-basic-single form-control" id="Member_ID" name="Member_ID" required>
+
+                            </select>
+                        </div>
                                 </div>
                                 <div class="col-1">
-                                    <button type="button" id="search" class="btn btn-outline-dark">
+                                    <p >
                                         <i class="fas fa-search"></i>
-                                    </button>
+                                    </p>
                                 </div>
                                 <div class="col-1">
                                     <h4>*</h4>
@@ -432,15 +442,13 @@
         </div>
     </div>
 
-    <!-- jQuery CDN - Slim version (=without AJAX) -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
     <!-- Popper.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
         crossorigin="anonymous"></script>
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
         crossorigin="anonymous"></script>
+
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -456,6 +464,7 @@
         let avai_point =0
         let Option_Reward = '<option  selected disabled>Please select</option>'
         let Option_Quantity = '<option  selected disabled>0</option>'
+        var option = ' <option value="" disabled selected>Please Select</option>'
 
         document.getElementById("username").innerHTML = "User : " + data.name
 
@@ -469,7 +478,15 @@
         document.getElementById("Reward_Name").innerHTML = Option_Reward
         document.getElementById("save_data").disabled = true
 
+        option_id()
 
+        function option_id() {
+            for (let i = 0; i < data.member.length; i++) {
+                option += '<option value="' + data.member[i].Member_ID + '" >' + data.member[i].Member_ID + '</option>'
+            }
+            document.getElementById("Member_ID").innerHTML = option
+
+        }
 
         $(document).ready(function () {
 
@@ -510,37 +527,6 @@
             });
 
 
-
-            $('#search').on('click', function () {
-                document.getElementById("save_data").disabled = false
-                var id = document.getElementById("Member_ID").value;
-                let Member = [];
-            
-                for (let i = 0; i < data.member.length; i++) {
-                    if (data.member[i].Member_ID == id) {
-                        Member.push(data.member[i])
-                    }
-                }
-
-
-                if (Member.length == 1) {
-                    let name = Member[0].Member_Name + " " + Member[0].Member_Lastname
-                    avai_point = Member[0].Member_Available
-                    let pic = Member[0].Member_Profile
-
-                    document.getElementById("Member_Name").value = name
-                    document.getElementById("Member_Available").value = avai_point
-                    document.getElementById("img_member").innerHTML = '  <img src="' + pic + '" class="rounded mx-auto d-block"  height="200" alt="" style="border-radius: 25px;border: 1px solid #DCDCDC;">'
-
-                } else if (Member.length == 0) {
-                    $('#error_data').modal({}); 
-                    document.getElementById("Member_Name").value = ''
-                    document.getElementById("Member_Available").value = ''
-                    document.getElementById("img_member").innerHTML = ' '
-                }
-
-            });
-
             $('#Member_RewardQuantity').on('change', function () {
                 use_point = document.getElementById("Member_RewardQuantity").value * document.getElementById("Reward_Point1").value
                 //console.log(use_point)
@@ -553,6 +539,35 @@
                 }else{
                     document.getElementById("Member_Remain").value = avai_point- use_point 
                     return 0 
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            $('.js-example-basic-single').select2();
+
+            $('#Member_ID').on('change', function () {
+                document.getElementById("save_data").disabled = false
+                var id = document.getElementById("Member_ID").value;
+                let Member = [];
+            
+                for (let i = 0; i < data.member.length; i++) {
+                    if (data.member[i].Member_ID == id) {
+                        Member.push(data.member[i])
+                    }
+                }
+                if (Member.length == 1) {
+                    let name = Member[0].Member_Name + " " + Member[0].Member_Lastname
+                    avai_point = Member[0].Member_Available
+                    let pic = Member[0].Member_Profile
+                    document.getElementById("Member_Name").value = name
+                    document.getElementById("Member_Available").value = avai_point
+                    document.getElementById("img_member").innerHTML = '  <img src="' + pic + '" class="rounded mx-auto d-block"  height="200" alt="" style="border-radius: 25px;border: 1px solid #DCDCDC;">'
+                } else if (Member.length == 0) {
+                    $('#error_data').modal({}); 
+                    document.getElementById("Member_Name").value = ''
+                    document.getElementById("Member_Available").value = ''
+                    document.getElementById("img_member").innerHTML = ' '
                 }
             });
         });

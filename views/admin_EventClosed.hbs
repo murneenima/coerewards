@@ -19,6 +19,9 @@
         crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
         crossorigin="anonymous"></script>
+
+    <script src="https://code.iconify.design/1/1.0.2/iconify.min.js"></script>
+        
     <style>
         h4 {
             color: crimson;
@@ -248,7 +251,7 @@
         function changePage(page) {
             var btn_next = document.getElementById("btn_next");
             var btn_prev = document.getElementById("btn_prev");
-            let display_Event = "<thead class='table-secondary'><th>No</th><th>ชื่อกิจกรรม</th><th>คะแนน</th><th>จัดกิจกรรมโดย</th><th>สถานที่</th><th>รายชื่อผู้เข้าร่วม</th></thead>";
+            let display_Event = "<thead class='table-secondary'><th>No</th><th>ชื่อกิจกรรม</th><th>คะแนน</th><th>จัดกิจกรรมโดย</th><th>สถานที่</th><th>รายชื่อผู้เข้าร่วม</th><th>Export to excel</th></thead>";
             var page_span = document.getElementById("page");
 
             // Validate page
@@ -258,7 +261,7 @@
             document.getElementById("event").innerHTML = ""; // แสดงผลข้อมูลตารางให้ว่าง
 
             for (var i = (page - 1) * records_per_page; i < (page * records_per_page) && i < data.openevent.length; i++) {
-                display_Event += "<tbody><tr><td>" + (i + 1) + "</td><td>" + data.openevent[i].OpenEvent_Name + "</td><td>" + data.openevent[i].OpenEvent_Point + "</td><td>" + data.openevent[i].CreatedBy_ID + "</td><td>" + data.openevent[i].OpenEvent_Location + "</td><td><form action='http://localhost:3000/EventMemberList/" + data.openevent[i].OpenEvent_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-info btn-xs'><i class='fas fa-user-check'></i></button></p></form></td></tr></tbody>"
+                display_Event += "<tbody><tr><td>" + (i + 1) + "</td><td>" + data.openevent[i].OpenEvent_Name + "</td><td>" + data.openevent[i].OpenEvent_Point + "</td><td>" + data.openevent[i].CreatedBy_ID + "</td><td>" + data.openevent[i].OpenEvent_Location + "</td><td><form action='http://localhost:3000/EventMemberList/" + data.openevent[i].OpenEvent_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-info btn-xs'><i class='fas fa-user-check'></i></button></p></form></td><td><form action='http://localhost:3000/exportOpentList/" + data.openevent[i].OpenEvent_ID + "' method='POST' enctype='multipart/form-data'><p><button class='btn btn-warning btn-xs'><span class='iconify' data-icon='simple-icons:microsoftexcel' data-inline='false'></span></button></p></form></td></tr></tbody>"
                 document.getElementById("event").innerHTML = display_Event
             }
             page_span.innerHTML = "Page " + page; // แสดงผลหน้า

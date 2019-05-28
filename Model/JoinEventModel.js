@@ -10,6 +10,14 @@ var JoinEventSchema = new Schema({
         type:String,
         required:true
     },
+    Member_Name:{
+        type:String,
+        required:true
+    },
+    Member_Lastname:{
+        type:String,
+        required:true
+    },
     OpenEvent_ID:{
         type:String,
         required:true
