@@ -720,8 +720,54 @@ app.get('/MemberAll', (req, res) => {
 })
 
 // set Point Member
-app.post('/setPoint', (req, res) => {
+app.get('/setPoint', (req, res) => {
     if (req.session.displayName) {
+        let responde = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
+            <title>Success</title>
+        
+            <!-- Bootstrap CSS CDN -->
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                crossorigin="anonymous">
+            <style>
+                @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+                h4 {
+                    color: crimson;
+                }
+        
+                p {
+                    font-family: 'Poppins', sans-serif;
+                    font-size: 1.1em;
+                    font-weight: 300;
+                    line-height: 1.7em;
+                    color: #999;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container d-flex justify-content-center align-items-center">
+                <div class="row mt-5 ">
+        
+                    <div class="alert alert-success" role="alert" style="height:100%; width:500px;">
+                        <h3 class="alert-heading">Succes !</h3>
+                        <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">Reset คะแนนนักศึกษาสำเร็จ</p>
+                        <hr>
+                        <p class="d-flex justify-content-end">
+                                <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/displayYear" role="button">ตกลง</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="line"></div>
+        </body>
+        
+        </html>`
         House.find({}, (err, data) => {
             if (err) console.log(err)
         }).then((d) => {
@@ -732,7 +778,7 @@ app.post('/setPoint', (req, res) => {
                     House_MemberID: d[i].House_MemberID,
                     House_MemberPoint: d[i].House_MemberPoint,
                     House_Year: academic_year,
-                    House_Admin:req.session.displayName
+                    House_Admin: req.session.displayName
                 })
                 newHouseHistory.save().then((suceess) => {
                     console.log('@@@@@@@ Backup House data success @@@@@@@')
@@ -745,6 +791,7 @@ app.post('/setPoint', (req, res) => {
                         Member.find({}, (err, data) => {
                             if (err) console.log(err)
                         }).then((d2) => {
+                                
                             for (let i = 0; i < d2.length; i++) {
                                 d2[i].Member_Total = 0;
                                 d2[i].Member_Available = 0;
@@ -752,53 +799,7 @@ app.post('/setPoint', (req, res) => {
 
                                 d2[i].save().then((success) => {
                                     console.log('@@@@@@@ reset MEMBER point success @@@@@@@')
-                                    res.send(`
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <meta charset="utf-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                
-                    <title>Success</title>
-                
-                    <!-- Bootstrap CSS CDN -->
-                    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
-                        crossorigin="anonymous">
-                    <style>
-                        @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-                        h4 {
-                            color: crimson;
-                        }
-                
-                        p {
-                            font-family: 'Poppins', sans-serif;
-                            font-size: 1.1em;
-                            font-weight: 300;
-                            line-height: 1.7em;
-                            color: #999;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div class="container d-flex justify-content-center align-items-center">
-                        <div class="row mt-5 ">
-                
-                            <div class="alert alert-success" role="alert" style="height:100%; width:500px;">
-                                <h3 class="alert-heading">Succes !</h3>
-                                <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">Reset คะแนนนักศึกษาสำเร็จ</p>
-                                <hr>
-                                <p class="d-flex justify-content-end">
-                                        <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/displayYear" role="button">ตกลง</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="line"></div>
-                </body>
-                
-                </html>
-                `)
+                    
                                 }, (e) => {
                                     res.status(400).send(e)
                                 }, (err) => {
@@ -806,6 +807,7 @@ app.post('/setPoint', (req, res) => {
                                 })
 
                             }
+
                         })
                     }, (e) => {
                         res.status(400).send(e)
@@ -817,8 +819,10 @@ app.post('/setPoint', (req, res) => {
                 })
 
             }
+            res.write(responde)
+
         })
-    }else{
+    } else {
         res.redirect('/login')
     }
 
