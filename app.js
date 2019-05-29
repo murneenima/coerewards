@@ -317,7 +317,7 @@ app.post('/save', upload.single('photos'), function (req, res) {
                                     <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลนักศึกษาลงฐานข้อมูลสำเร็จ !</p>
                                     <hr>
                                     <p class="d-flex justify-content-end">
-                                            <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/MemberInsert" role="button">ตกลง</a>
+                                            <a class="btn btn-lg btn-outline-success" href="https://coereward.herokuapp.com/MemberInsert" role="button">ตกลง</a>
                                     </p>
                                 </div>
                             </div>
@@ -408,7 +408,7 @@ app.post('/save', upload.single('photos'), function (req, res) {
                                                         <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลนักศึกษาลงฐานข้อมูลสำเร็จ !</p>
                                                         <hr>
                                                         <p class="d-flex justify-content-end">
-                                                                <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/MemberInsert" role="button">ตกลง</a>
+                                                                <a class="btn btn-lg btn-outline-success" href="https://coereward.herokuapp.com/MemberInsert" role="button">ตกลง</a>
                                                         </p>
                                                     </div>
                                                 </div>
@@ -491,7 +491,7 @@ app.post('/editMember', (req, res) => {
                                 <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">แก้ไขข้อมูลนักศึกษาลงฐานข้อมูลสำเร็จ !</p>
                                 <hr>
                                 <p class="d-flex justify-content-end">
-                                        <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/MemberAll" role="button">ตกลง</a>
+                                        <a class="btn btn-lg btn-outline-success" href="https://coereward.herokuapp.com/MemberAll" role="button">ตกลง</a>
                                 </p>
                             </div>
                         </div>
@@ -764,7 +764,7 @@ app.post('/setPoint', (req, res) => {
                         <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">Reset คะแนนนักศึกษาสำเร็จ</p>
                         <hr>
                         <p class="d-flex justify-content-end">
-                                <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/displayYear" role="button">ตกลง</a>
+                                <a class="btn btn-lg btn-outline-success" href="https://coereward.herokuapp.com/displayYear" role="button">ตกลง</a>
                         </p>
                     </div>
                 </div>
@@ -986,7 +986,7 @@ app.post('/saveEventType', (req, res) => {
                             <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลประเภทกิจกรรมสำเร็จ </p>
                             <hr>
                             <p class="d-flex justify-content-end">
-                                    <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/EventTypeInsert" role="button">ตกลง</a>
+                                    <a class="btn btn-lg btn-outline-success" href="https://coereward.herokuapp.com/EventTypeInsert" role="button">ตกลง</a>
                             </p>
                         </div>
                     </div>
@@ -1091,7 +1091,7 @@ app.post('/saveCreatedBy', (req, res) => {
                             <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลผู้จัดกิจกรรม </p>
                             <hr>
                             <p class="d-flex justify-content-end">
-                                    <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/CreatedByInsert" role="button">ตกลง</a>
+                                    <a class="btn btn-lg btn-outline-success" href="https://coereward.herokuapp.com/CreatedByInsert" role="button">ตกลง</a>
                             </p>
                         </div>
                     </div>
@@ -1220,7 +1220,7 @@ app.post('/saveEvent', upload.single('photos'), function (req, res) {
                         <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลกิจกรรมสำเร็จ </p>
                         <hr>
                         <p class="d-flex justify-content-end">
-                                <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/EventContent" role="button">ตกลง</a>
+                                <a class="btn btn-lg btn-outline-success" href="https://coereward.herokuapp.com/EventContent" role="button">ตกลง</a>
                         </p>
                     </div>
                 </div>
@@ -1639,7 +1639,7 @@ app.post('/saveOpenEvent', upload.single('photos'), function (req, res) {
                         <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">เปิดกิจกรรมและบันทึกข้อมูลกิจกรรมสำเร็จ </p>
                         <hr>
                         <p class="d-flex justify-content-end">
-                                <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/UpcomingEvent" role="button">ตกลง</a>
+                                <a class="btn btn-lg btn-outline-success" href="https://coereward.herokuapp.com/UpcomingEvent" role="button">ตกลง</a>
                         </p>
                     </div>
                 </div>
@@ -1898,7 +1898,7 @@ app.post('/saveBehavior', (req, res) => {
                            <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลความประพฤติสำเร็จ </p>
                            <hr>
                            <p class="d-flex justify-content-end">
-                                   <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/BehaviorContent" role="button">ตกลง</a>
+                                   <a class="btn btn-lg btn-outline-success" href="https://coereward.herokuapp.com/BehaviorContent" role="button">ตกลง</a>
                            </p>
                        </div>
                    </div>
@@ -1966,8 +1966,8 @@ app.post('/saveEditBehavior', (req, res) => {
                            <h3 class="alert-heading">Success !</h3>
                            <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลความประพฤติสำเร็จ </p>
                            <hr>
-                           <p class="d-flex justify-content-end">
-                                   <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/EditBehavior" role="button">ตกลง</a>
+                           <p class="d-flex justify-content-end"></p>
+                                   <a class="btn btn-lg btn-outline-success" href="https://coereward.herokuapp.com/EditBehavior" role="button">ตกลง</a>
                            </p>
                        </div>
                    </div>
@@ -2071,7 +2071,7 @@ app.post('/saveReward', upload.single('photos'), function (req, res) {
                         <p style="font-size: 25px;color: #C00D1E;font-family: 'Poppins', sans-serif;">ไม่สามารถบันทึกข้อมูลได้ กรุณากรอกข้อมูลให้ครบถ้วน </p>
                         <hr>
                         <p class="d-flex justify-content-end">
-                                <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/rewardContent" role="button">ตกลง</a>
+                                <a class="btn btn-lg btn-outline-success" href="https://coereward.herokuapp.com/rewardContent" role="button">ตกลง</a>
                         </p>
                     </div>
                 </div>
@@ -2131,7 +2131,7 @@ app.post('/saveReward', upload.single('photos'), function (req, res) {
                             <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลของรางวัลสำเร็จ </p>
                             <hr>
                             <p class="d-flex justify-content-end">
-                                    <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/rewardContent" role="button">ตกลง</a>
+                                    <a class="btn btn-lg btn-outline-success" href="https://coereward.herokuapp.com/rewardContent" role="button">ตกลง</a>
                             </p>
                         </div>
                     </div>
@@ -2241,7 +2241,7 @@ app.post('/saveEditReward', upload.single('photos'), function (req, res) {
                             <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">แก้ไขข้อมูลของรางวัลสำเร็จ </p>
                             <hr>
                             <p class="d-flex justify-content-end">
-                                    <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/editReward" role="button">ตกลง</a>
+                                    <a class="btn btn-lg btn-outline-success" href="https://coereward.herokuapp.com/editReward" role="button">ตกลง</a>
                             </p>
                         </div>
                     </div>
@@ -2306,7 +2306,7 @@ app.post('/saveEditReward', upload.single('photos'), function (req, res) {
                             <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">แก้ไขข้อมูลของรางวัลสำเร็จ </p>
                             <hr>
                             <p class="d-flex justify-content-end">
-                                    <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/editReward" role="button">ตกลง</a>
+                                    <a class="btn btn-lg btn-outline-success" href="https://coereward.herokuapp.com/editReward" role="button">ตกลง</a>
                             </p>
                         </div>
                     </div>
@@ -2428,7 +2428,7 @@ app.post('/saveRedeemReward', function (req, res) {
                             <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลการแลกของรางวัลสำเร็จ </p>
                             <hr>
                             <p class="d-flex justify-content-end">
-                                    <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/RedeemRewards" role="button">ตกลง</a>
+                                    <a class="btn btn-lg btn-outline-success" href="https://coereward.herokuapp.com/RedeemRewards" role="button">ตกลง</a>
                             </p>
                         </div>
                     </div>
@@ -2761,7 +2761,7 @@ app.post('/savePoint', function (req, res) {
                                                         <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลคะแนนลงฐานข้อมูลสำเร็จ </p>
                                                         <hr>
                                                         <p class="d-flex justify-content-end">
-                                                                <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/IncreasePointMember" role="button">ตกลง</a>
+                                                                <a class="btn btn-lg btn-outline-success" href="https://coereward.herokuapp.com/IncreasePointMember" role="button">ตกลง</a>
                                                         </p>
                                                     </div>
                                                 </div>
@@ -2879,7 +2879,7 @@ app.post('/savePoint', function (req, res) {
                                                         <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลคะแนนลงฐานข้อมูลสำเร็จ </p>
                                                         <hr>
                                                         <p class="d-flex justify-content-end">
-                                                                <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/IncreasePointMember" role="button">ตกลง</a>
+                                                                <a class="btn btn-lg btn-outline-success" href="https://coereward.herokuapp.com/IncreasePointMember" role="button">ตกลง</a>
                                                         </p>
                                                     </div>
                                                 </div>
@@ -3106,7 +3106,7 @@ app.post('/saveYear', function (req, res) {
                             <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูลสำเร็จ </p>
                             <hr>
                             <p class="d-flex justify-content-end">
-                                    <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/getYear" role="button">ตกลง</a>
+                                    <a class="btn btn-lg btn-outline-success" href="https://coereward.herokuapp.com/getYear" role="button">ตกลง</a>
                             </p>
                         </div>
                     </div>
@@ -3611,7 +3611,7 @@ app.post('/admin/save', function (req, res) {
                                         <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูล Admin ลงฐานข้อมูลสำเร็จ </p>
                                         <hr>
                                         <p class="d-flex justify-content-end">
-                                                <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/forAdmin" role="button">ตกลง</a>
+                                                <a class="btn btn-lg btn-outline-success" href="https://coereward.herokuapp.com/forAdmin" role="button">ตกลง</a>
                                         </p>
                                     </div>
                                 </div>
@@ -3691,7 +3691,7 @@ app.post('/admin/register', function (req, res) {
                                     <p style="font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">บันทึกข้อมูล Admin ลงฐานข้อมูลสำเร็จ </p>
                                     <hr>
                                     <p class="d-flex justify-content-end">
-                                            <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/login" role="button">ตกลง</a>
+                                            <a class="btn btn-lg btn-outline-success" href="https://coereward.herokuapp.com/login" role="button">ตกลง</a>
                                     </p>
                                 </div>
                             </div>
@@ -3794,7 +3794,7 @@ app.post('/changePassword', (req, res) => {
                                         <p style="wight:50%;font-size: 25px;color: rgb(114, 121, 121);font-family: 'Poppins', sans-serif;">แก้ไขรหัสผ่านเรียบร้อย </p>
                                         <hr>
                                         <p class="d-flex justify-content-end">
-                                                <a class="btn btn-lg btn-outline-success" href="http://localhost:3000/adminProfile" role="button">ตกลง</a>
+                                                <a class="btn btn-lg btn-outline-success" href="https://coereward.herokuapp.com/adminProfile" role="button">ตกลง</a>
                                         </p>
                                     </div>
                                 </div>
@@ -3861,7 +3861,7 @@ app.post('/login/admin', (req, res, next) => {
                     <div class="card bg-info text-white text-center ">
                         <div class="card-body">
                             <h3 class="pb-1">Please Login Again !!</h3>
-                            <form action="http://localhost:3000/login/admin" method="POST">
+                            <form action="https://coereward.herokuapp.com/login/admin" method="POST">
                                 <div class="form-group">
                                     <input name="Username" type="text" class="input-font py-4 form-control" id="Username" aria-describedby="emailHelp" placeholder="Username">
                                 </div>
