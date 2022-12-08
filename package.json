@@ -10,9 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "body-parser": "^1.18.3",
+    "body-parser": "^1.20.1",
     "excel4node": "^1.7.2",
-    "express": "^4.16.4",
+    "express": "^4.18.2",
     "express-session": "^1.16.1",
     "hbs": "^4.0.3",
     "image-to-base64": "^2.0.1",
